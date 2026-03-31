@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rónison Ricardo — Business Intelligence</title>
+    <meta name="description" content="Analista de BI | Física — USP. Dashboards automatizados, ETL com Python/Pandas, Power BI e visualização de dados.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://roniricardo.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Rónison Ricardo — Business Intelligence">
+    <meta property="og:description" content="Analista de BI | Física — USP. Dashboards automatizados, ETL com Python, Power BI e visualização de dados.">
+    <meta property="og:url" content="https://roniricardo.com/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Rónison Ricardo — Business Intelligence">
+    <meta name="twitter:description" content="Analista de BI | Física — USP. Dashboards automatizados, ETL com Python, Power BI e visualização de dados.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* --- Portfolio-specific --- */
+        #nodeGraph {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.15rem;
+        }
+        .profile-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: 0.02em;
+        }
+        .profile-role {
+            font-size: 0.95rem;
+            color: #fbbf24;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.78rem;
+        }
+        .profile-formation {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .profile-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        .stack-tag {
+            padding: 0.3rem 0.85rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 2rem;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+        .project-section {
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        .project-block {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 2rem 1.5rem;
+            margin-bottom: 2rem;
+            transition: border-color 0.3s ease;
+        }
+        .project-block:hover {
+            border-color: #fbbf24;
+        }
+        .project-label {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #fbbf24;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .project-block h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.75rem;
+        }
+        .project-block p {
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-size: 0.92rem;
+            margin-bottom: 1rem;
+        }
+        .project-features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.25rem;
+        }
+        .project-features li {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            padding: 0.25rem 0 0.25rem 1.3rem;
+            position: relative;
+        }
+        .project-features li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #fbbf24;
+        }
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+            margin-bottom: 1.25rem;
+        }
+        .tech-tag {
+            padding: 0.2rem 0.7rem;
+            background: rgba(251, 191, 36, 0.08);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            color: #fbbf24;
+            font-weight: 500;
+        }
+        .project-links {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.45rem 1.1rem;
+            border: 1px solid var(--border);
+            border-radius: 2rem;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .project-link:hover {
+            border-color: #fbbf24;
+            color: #fbbf24;
+        }
+        .project-link-primary {
+            background: #fbbf24;
+            border-color: #fbbf24;
+            color: #000;
+            font-weight: 600;
+        }
+        .project-link-primary:hover {
+            background: #f59e0b;
+            border-color: #f59e0b;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="landing">
+        <canvas id="nodeGraph" aria-hidden="true"></canvas>
+
+        <!-- Perfil -->
+        <section class="landing-hero">
+            <img src="assinatura.gif" alt="Róni Ricardo" class="landing-logo">
+            <div class="profile-info">
+                <span class="profile-name">Rónison Ricardo</span>
+                <span class="profile-role">Analista de Business Intelligence</span>
+                <span class="profile-formation">Bacharel em Física — Universidade de São Paulo (USP)</span>
+            </div>
+            <div class="profile-stack">
+                <span class="stack-tag">Python</span>
+                <span class="stack-tag">Pandas</span>
+                <span class="stack-tag">SQL</span>
+                <span class="stack-tag">Power BI</span>
+                <span class="stack-tag">DAX</span>
+                <span class="stack-tag">ETL</span>
+                <span class="stack-tag">JavaScript</span>
+                <span class="stack-tag">Chart.js</span>
+                <span class="stack-tag">HTML</span>
+                <span class="stack-tag">CSS</span>
+            </div>
+        </section>
+
+        <!-- Projetos -->
+        <div class="project-section">
+
+            <!-- SaaS Dashboard -->
+            <article class="project-block scroll-fade">
+                <div class="project-label">Projeto Principal</div>
+                <h2>Dashboard Automatizado para Pequenos Negócios</h2>
+                <p>
+                    Sistema web de BI que automatiza a entrega de dashboards para microempresas —
+                    sem depender de ferramentas pagas. O cliente envia seus dados (CSV),
+                    eu trato no Power Query e Python/Pandas, e o pipeline gera um dashboard interativo
+                    com gráficos, KPIs e insights automáticos, acessível pelo navegador.
+                </p>
+                <ul class="project-features">
+                    <li>Pipeline ETL completo: CSV → Python/Pandas → JSON → Dashboard web</li>
+                    <li>Multi-tenant: cada cliente acessa seu painel por URL própria</li>
+                    <li>Gráficos dinâmicos configurados via JSON (bar, line, doughnut, radar)</li>
+                    <li>Insights automáticos gerados por regras de negócio por segmento</li>
+                    <li>Seletor de mês com variação percentual sobre período anterior</li>
+                    <li>Landing page com SEO, domínio próprio, robots.txt e sitemap</li>
+                </ul>
+                <div class="project-tech">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Pandas</span>
+                    <span class="tech-tag">JavaScript</span>
+                    <span class="tech-tag">Chart.js</span>
+                    <span class="tech-tag">HTML / CSS</span>
+                    <span class="tech-tag">JSON</span>
+                    <span class="tech-tag">GitHub Pages</span>
+                </div>
+                <div class="project-links">
+                    <a href="dashboard.html?c=1" class="project-link project-link-primary">📊 Ver Dashboard (demo)</a>
+                    <a href="https://github.com/rfrfrff3/roniricardo" target="_blank" class="project-link">📂 Código no GitHub</a>
+                </div>
+            </article>
+
+            <!-- Power BI -->
+            <article class="project-block scroll-fade">
+                <div class="project-label">Visualização de Dados</div>
+                <h2>Dashboard Power BI — Análise de Vendas</h2>
+                <p>
+                    Dashboard analítico construído no Power BI com dados de vendas.
+                    Inclui modelagem de dados, medidas DAX, filtros interativos e layout
+                    voltado para apresentação executiva.
+                </p>
+                <ul class="project-features">
+                    <li>Modelagem relacional com relacionamentos entre tabelas</li>
+                    <li>Medidas DAX para KPIs calculados (faturamento, ticket médio, variação)</li>
+                    <li>Filtros e segmentações interativas</li>
+                    <li>Layout limpo para tomada de decisão gerencial</li>
+                </ul>
+                <div class="project-tech">
+                    <span class="tech-tag">Power BI</span>
+                    <span class="tech-tag">DAX</span>
+                    <span class="tech-tag">Modelagem de Dados</span>
+                </div>
+                <div class="project-links">
+                    <!-- Substituir pelo link público quando publicar -->
+                    <span class="project-link" style="opacity:0.5; cursor:default;">📈 Em breve: link público</span>
+                </div>
+            </article>
+
+        </div>
+
+        <!-- Contato -->
+        <section class="landing-cta">
+            <p style="font-size:0.8rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.75rem;">Contato</p>
+            <div style="display:flex; gap:0.75rem; justify-content:center; flex-wrap:wrap;">
+                <a href="https://linkedin.com/in/roniricardo" target="_blank" class="landing-btn landing-btn-gold">🔗 LinkedIn</a>
+                <a href="https://github.com/rfrfrff3/roniricardo" target="_blank" class="landing-btn">📂 GitHub</a>
+                <a href="mailto:roni@roniricardo.com" class="landing-btn">📧 E-mail</a>
+                <a href="https://wa.me/5511943322013" target="_blank" class="landing-btn" style="background:#25D366; border-color:#25D366; color:#fff; font-weight:600;">💬 WhatsApp</a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="landing-footer">
+            <p>&copy; 2026 Rónison Ricardo</p>
+        </footer>
+
+    </div>
+
+    <!-- Scroll fade + Node graph -->
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.scroll-fade').forEach(el => observer.observe(el));
+
+        // Animated node graph background
+        (function() {
+            const canvas = document.getElementById('nodeGraph');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let w, h, nodes = [];
+            const NODE_COUNT = 120;
+            const MAX_DIST = 180;
+            const NODE_RADIUS = 3;
+
+            function resize() {
+                w = canvas.width = canvas.offsetWidth;
+                h = canvas.height = canvas.offsetHeight;
+            }
+
+            function initNodes() {
+                nodes = [];
+                // Side margin zone (lateral bands where nodes accumulate)
+                const margin = w * 0.18;
+                for (let i = 0; i < NODE_COUNT; i++) {
+                    let x;
+                    // 60% of nodes spawn in left/right margins, 40% spread across full width
+                    if (i < NODE_COUNT * 0.6) {
+                        if (i % 2 === 0) {
+                            x = Math.random() * margin;            // left band
+                        } else {
+                            x = w - Math.random() * margin;        // right band
+                        }
+                    } else {
+                        x = Math.random() * w;
+                    }
+                    nodes.push({
+                        x: x,
+                        y: Math.random() * h,
+                        vx: (Math.random() - 0.5) * 0.35,
+                        vy: (Math.random() - 0.5) * 0.35
+                    });
+                }
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, w, h);
+
+                // Draw edges
+                for (let i = 0; i < nodes.length; i++) {
+                    for (let j = i + 1; j < nodes.length; j++) {
+                        const dx = nodes[i].x - nodes[j].x;
+                        const dy = nodes[i].y - nodes[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < MAX_DIST) {
+                            const alpha = (1 - dist / MAX_DIST) * 0.6;
+                            ctx.strokeStyle = `rgba(160,160,160,${alpha})`;
+                            ctx.lineWidth = 1;
+                            ctx.beginPath();
+                            ctx.moveTo(nodes[i].x, nodes[i].y);
+                            ctx.lineTo(nodes[j].x, nodes[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+
+                // Draw nodes
+                for (const n of nodes) {
+                    ctx.fillStyle = 'rgba(160,160,160,0.66)';
+                    ctx.beginPath();
+                    ctx.arc(n.x, n.y, NODE_RADIUS, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                // Move nodes
+                for (const n of nodes) {
+                    n.x += n.vx;
+                    n.y += n.vy;
+                    if (n.x < 0 || n.x > w) n.vx *= -1;
+                    if (n.y < 0 || n.y > h) n.vy *= -1;
+                }
+
+                requestAnimationFrame(draw);
+            }
+
+            window.addEventListener('resize', () => { resize(); initNodes(); });
+            resize();
+            initNodes();
+            draw();
+        })();
+    </script>
+</body>
+</html>

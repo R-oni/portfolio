@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currículo — Rónison Ricardo</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --text: #1a1a1a;
+            --text-secondary: #444;
+            --text-muted: #666;
+            --accent: #2563eb;
+            --border: #d4d4d4;
+            --bg: #f5f5f5;
+            --paper: #fff;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            font-size: 14px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Download bar */
+        .download-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #1a1a1a;
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            z-index: 100;
+        }
+        .download-bar span {
+            color: #999;
+            font-size: 0.82rem;
+        }
+        .download-btn {
+            padding: 0.5rem 1.5rem;
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .download-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* Paper */
+        .page {
+            max-width: 800px;
+            margin: 4.5rem auto 2rem;
+            background: var(--paper);
+            padding: 2.5rem 3rem;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+            border-radius: 2px;
+        }
+
+        /* Header */
+        .cv-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding-bottom: 1.25rem;
+            border-bottom: 2px solid var(--text);
+            margin-bottom: 1.5rem;
+        }
+        .cv-header-left {
+            display: flex;
+            gap: 1.25rem;
+            align-items: flex-start;
+        }
+        .cv-photo {
+            width: 117px;
+            height: 117px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border);
+            flex-shrink: 0;
+        }
+        .cv-photo-placeholder {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 2px dashed var(--border);
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            text-align: center;
+            flex-shrink: 0;
+            cursor: default;
+            line-height: 1.3;
+        }
+        .cv-header-text {}
+        .cv-header-left h1 {
+            font-size: 1.65rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+        .cv-header-left .subtitle {
+            font-size: 0.95rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-top: 0.2rem;
+        }
+        .cv-header-right {
+            text-align: right;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        .cv-header-right a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .cv-header-right a:hover {
+            text-decoration: underline;
+        }
+
+        /* Sections */
+        .cv-section {
+            margin-bottom: 1.4rem;
+        }
+        .cv-section-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.3rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Sobre */
+        .cv-about {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Skills */
+        .cv-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.65rem 1.5rem;
+        }
+        .cv-skill-group {
+            font-size: 0.85rem;
+        }
+        .cv-skill-group strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+        .cv-skill-group span {
+            color: var(--text-secondary);
+        }
+
+        /* Project entry */
+        .cv-entry {
+            margin-bottom: 1rem;
+        }
+        .cv-entry:last-child {
+            margin-bottom: 0;
+        }
+        .cv-entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.15rem;
+        }
+        .cv-entry-title {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .cv-entry-meta {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+        .cv-entry-stack {
+            font-size: 0.78rem;
+            color: var(--accent);
+            margin-bottom: 0.25rem;
+        }
+        .cv-entry-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .cv-entry-desc ul {
+            margin: 0.2rem 0 0 1.2rem;
+            padding: 0;
+        }
+        .cv-entry-desc li {
+            margin-bottom: 0.1rem;
+        }
+
+        /* Formation */
+        .cv-formation-title {
+            font-size: 0.92rem;
+            font-weight: 600;
+        }
+        .cv-formation-detail {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Complementar */
+        .cv-complementar li {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.15rem;
+            list-style: none;
+            padding-left: 1rem;
+            position: relative;
+        }
+        .cv-complementar li::before {
+            content: '–';
+            position: absolute;
+            left: 0;
+            color: var(--text-muted);
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: #fff;
+                font-size: 13px;
+            }
+            .download-bar {
+                display: none !important;
+            }
+            .page {
+                margin: 0;
+                padding: 1.5cm 2cm;
+                box-shadow: none;
+                max-width: none;
+                border-radius: 0;
+            }
+            .cv-header {
+                border-bottom-width: 2px;
+            }
+            .cv-header-right a {
+                color: var(--text-secondary);
+            }
+            .cv-section {
+                break-inside: avoid;
+            }
+            @page {
+                size: A4;
+                margin: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .page {
+                padding: 1.5rem 1.25rem;
+                margin: 4rem 0.5rem 1rem;
+            }
+            .cv-header {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            .cv-header-right {
+                text-align: left;
+            }
+            .cv-entry-header {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Barra de download (não aparece no PDF) -->
+    <div class="download-bar">
+        <span>Visualização do currículo</span>
+        <button class="download-btn" onclick="window.print()">⬇ Baixar PDF</button>
+    </div>
+
+    <div class="page">
+
+        <!-- Cabeçalho -->
+        <header class="cv-header">
+            <div class="cv-header-left">
+                <img src="ronironi.png" alt="Rónison Ricardo" class="cv-photo">
+                <div class="cv-header-text">
+                    <h1>Rónison Ap. Ricardo</h1>
+                    <div class="subtitle">Analista de Dados e BI</div>
+                </div>
+            </div>
+            <div class="cv-header-right">
+                Olímpia, SP<br>
+                <a href="mailto:ronison.a.ricardo@gmail.com">ronison.a.ricardo@gmail.com</a><br>
+                <a href="https://www.linkedin.com/in/rónison-ricardo/" target="_blank">linkedin.com/in/rónison-ricardo</a><br>
+                <a href="https://roniricardo.com" target="_blank">roniricardo.com</a><br>
+                <a href="https://github.com/r-oni" target="_blank">github.com/r-oni</a><br>
+                <a href="https://wa.me/5511943322013" target="_blank">+55 11 94332-2013</a>
+            </div>
+        </header>
+
+        <!-- Sobre -->
+        <section class="cv-section">
+            <h2 class="cv-section-title">Sobre</h2>
+            <p class="cv-about">
+                Bacharel em Física pela USP com foco em análise de dados e Business Intelligence.
+                Experiência prática em projetos pessoais de ponta a ponta — da coleta e transformação de dados (ETL)
+                à construção de dashboards interativos, geração de sistemas automatizados com integração de IA em aplicações.
+                Busco uma posição como Analista de BI onde possa aplicar minha base analítica
+                e habilidades técnicas em um ambiente orientado a dados.
+            </p>
+        </section>
+
+        <!-- Habilidades -->
+        <section class="cv-section">
+            <h2 class="cv-section-title">Habilidades Técnicas</h2>
+            <div class="cv-skills">
+                <div class="cv-skill-group"><strong>BI & Visualização:</strong> <span>Power BI, DAX, Chart.js</span></div>
+                <div class="cv-skill-group"><strong>Linguagens:</strong> <span>Python, SQL, JavaScript, C e C#</span></div>
+                <div class="cv-skill-group"><strong>Dados & ETL:</strong> <span>Pandas, Power Query, JSON, CSV</span></div>
+                <div class="cv-skill-group"><strong>Banco de Dados:</strong> <span>SQLite, modelagem relacional</span></div>
+                <div class="cv-skill-group"><strong>Web:</strong> <span>HTML, CSS, GitHub Pages</span></div>
+                <div class="cv-skill-group"><strong>IA:</strong> <span>Integração de LLMs (Groq API, Github Copilot etc), streaming SSE, análise de prompts.</span></div>
+            </div>
+        </section>
+
+        <!-- Projetos -->
+        <section class="cv-section">
+            <h2 class="cv-section-title">Projetos</h2>
+
+            <div class="cv-entry">
+                <div class="cv-entry-header">
+                    <span class="cv-entry-title">Dashboard Automatizado para Pequenos Negócios</span>
+                    <span class="cv-entry-meta">roniricardo.com</span>
+                </div>
+                <div class="cv-entry-stack">Python · Pandas · JavaScript · Chart.js · HTML/CSS · GitHub Pages</div>
+                <div class="cv-entry-desc">
+                    <ul>
+                        <li>Pipeline ETL completo: ingestão de CSV, limpeza e transformação com Python/Pandas, saída em JSON</li>
+                        <li>Dashboard web multi-tenant — cada cliente acessa seu painel por URL própria</li>
+                        <li>7+ gráficos dinâmicos configuráveis com Chart.js</li>
+                        <li>Insights automáticos gerados por regras de negócio customizadas por segmento</li>
+                        <li>Seletor de período com cálculo de variação percentual sobre mês anterior</li>
+                    </ul>
+                </div>
+            </div>
+
+
+        </section>
+
+        <!-- Formação -->
+        <section class="cv-section">
+            <h2 class="cv-section-title">Formação Acadêmica</h2>
+            <div class="cv-entry">
+                <div class="cv-entry-header">
+                    <span class="cv-formation-title">Bacharel em Física</span>
+                    <span class="cv-entry-meta">Concluído em 2025</span>
+                </div>
+                <div class="cv-formation-detail">Universidade de São Paulo (USP) — Instituto de Física (IFUSP)</div>
+            </div>
+            <div class="cv-entry">
+                <div class="cv-entry-header">
+                    <span class="cv-formation-title">Técnico em Informática</span>
+                    <span class="cv-entry-meta">Concluído em 2016</span>
+                </div>
+                <div class="cv-formation-detail">ETEC de Olímpia</div>
+            </div>
+        </section>
+
+        <!-- Informações complementares -->
+        <section class="cv-section">
+            <h2 class="cv-section-title">Informações Complementares</h2>
+            <ul class="cv-complementar">
+                <li>Base sólida em raciocínio lógico, estatística e modelagem quantitativa (formação em Física)</li>
+                <li>Experiência em projetos autodidatas de dados de ponta a ponta</li>
+                <li>Integração de IA em aplicações e sistemas automatizados</li>
+                <li>Disponibilidade para trabalho remoto ou presencial</li>
+                <li>Comunicação de conceitos complexos de forma clara e objetiva</li>
+            </ul>
+        </section>
+
+    </div>
+
+</body>
+</html>
