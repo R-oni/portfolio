@@ -1,0 +1,46 @@
+data,tipo,canal,tipo_quarto,valor,noites,hospedes
+01/04/2026,hospedagem,Direto,Standard,915,3,2
+02/04/2026,hospedagem,CVC,Superior,2125,5,4
+03/04/2026,hospedagem,Booking,Luxo,2380,4,2
+04/04/2026,hospedagem,Direto,Standard,1220,4,2
+05/04/2026,hospedagem,Expedia,Standard,610,2,2
+06/04/2026,hospedagem,Booking,Superior,1275,3,2
+07/04/2026,hospedagem,CVC,Standard,1525,5,3
+08/04/2026,hospedagem,Direto,Suíte Master,4875,5,2
+09/04/2026,hospedagem,Agência,Standard,915,3,2
+10/04/2026,hospedagem,Booking,Standard,1830,6,4
+11/04/2026,hospedagem,Direto,Luxo,1190,2,2
+12/04/2026,hospedagem,CVC,Superior,1700,4,2
+13/04/2026,hospedagem,Direto,Standard,610,2,2
+14/04/2026,hospedagem,Booking,Standard,1220,4,2
+15/04/2026,hospedagem,Expedia,Superior,850,2,2
+16/04/2026,hospedagem,Direto,Suíte Master,6825,7,2
+17/04/2026,hospedagem,Agência,Standard,1525,5,2
+18/04/2026,hospedagem,CVC,Luxo,1785,3,2
+19/04/2026,hospedagem,Booking,Standard,915,3,2
+20/04/2026,hospedagem,Direto,Superior,2550,6,2
+21/04/2026,hospedagem,Booking,Standard,610,2,2
+22/04/2026,hospedagem,Expedia,Standard,1220,4,3
+23/04/2026,hospedagem,Direto,Standard,1830,6,4
+24/04/2026,hospedagem,CVC,Superior,850,2,2
+25/04/2026,hospedagem,Direto,Luxo,2975,5,2
+26/04/2026,hospedagem,Booking,Standard,915,3,2
+27/04/2026,hospedagem,Agência,Superior,1275,3,2
+28/04/2026,hospedagem,Direto,Standard,610,2,2
+29/04/2026,hospedagem,CVC,Standard,1220,4,2
+30/04/2026,hospedagem,Booking,Suíte Master,2925,3,2
+05/04/2026,ab,Direto,,,13200,,
+10/04/2026,ab,Direto,,,14850,,
+15/04/2026,ab,Direto,,,12600,,
+20/04/2026,ab,Direto,,,11400,,
+25/04/2026,ab,Direto,,,10950,,
+30/04/2026,ab,Direto,,,9800,,
+08/04/2026,spa,Direto,,,4250,,
+18/04/2026,spa,Direto,,,3850,,
+28/04/2026,spa,Direto,,,3400,,
+12/04/2026,eventos,Direto,,,7500,,
+20/04/2026,eventos,Direto,,,6200,,
+27/04/2026,eventos,Direto,,,4800,,
+07/04/2026,loja,Direto,,,1950,,
+15/04/2026,loja,Direto,,,1620,,
+23/04/2026,loja,Direto,,,1430,,

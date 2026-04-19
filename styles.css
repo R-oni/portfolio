@@ -109,8 +109,8 @@ body {
 }
 
 .client-logo {
-    max-width: 317px;
-    max-height: 116px;
+    max-width: 634px;
+    max-height: 232px;
     width: auto;
     height: auto;
     object-fit: contain;
@@ -248,7 +248,7 @@ body {
     margin-bottom: 2rem;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 800px) and (pointer: fine) {
     .charts-grid {
         grid-template-columns: repeat(3, 1fr);
     }

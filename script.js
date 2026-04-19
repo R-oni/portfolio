@@ -44,8 +44,16 @@ function freezeSignatureGif() {
     }, 3000);
 }
 
+// Layout tablet: ativado por ?tablet=1 na URL (ex: dashboard.html?c=3&tablet=1)
+function applyTabletLayout() {
+    const params = new URLSearchParams(window.location.search);
+    const isTablet = params.get('tablet') === '1';
+    document.body.classList.toggle('tablet-2k', isTablet);
+}
+
 // Inicializar
 document.addEventListener('DOMContentLoaded', async () => {
+    applyTabletLayout();
     freezeSignatureGif();
     await carregarDadosClientes();
     loadClient();
@@ -110,16 +118,33 @@ function loadClient() {
         comentariosEl.textContent = currentClient.comentarios || '';
     }
 
-    // Atualizar labels dos KPIs conforme configuração do cliente
-    const defaultKpiLabels = { faturamento: 'Faturamento', lucro: 'Lucro', ticket: 'Ticket Médio', clientes: 'Clientes' };
-    const kpiLabels = { ...defaultKpiLabels, ...(currentClient.kpi_labels || {}) };
-    Object.entries(kpiLabels).forEach(([key, label]) => {
-        const kpiEl = document.getElementById(`kpi-${key}`);
-        if (kpiEl) {
-            const labelEl = kpiEl.closest('.kpi-mini')?.querySelector('.kpi-mini-label');
-            if (labelEl) labelEl.textContent = label;
-        }
-    });
+    // Dynamic KPIs (para clientes com kpis customizado no meta.json)
+    const kpiGrid = document.getElementById('kpi-grid');
+    if (currentClient.kpis && currentClient.kpis.length > 0 && kpiGrid) {
+        kpiGrid.innerHTML = '';
+        currentClient.kpis.forEach((kpi, i) => {
+            const div = document.createElement('div');
+            div.className = 'kpi-mini fade-in';
+            div.style.animationDelay = `${i * 0.1}s`;
+            div.innerHTML = `
+                <div class="kpi-mini-label">${kpi.label}</div>
+                <div class="kpi-mini-value" id="kpi-${kpi.id}">-</div>
+                <div class="kpi-mini-change" id="change-${kpi.id}">0%</div>
+            `;
+            kpiGrid.appendChild(div);
+        });
+    } else {
+        // Atualizar labels dos KPIs conforme configuração do cliente
+        const defaultKpiLabels = { faturamento: 'Faturamento', lucro: 'Lucro', ticket: 'Ticket Médio', clientes: 'Clientes' };
+        const kpiLabels = { ...defaultKpiLabels, ...(currentClient.kpi_labels || {}) };
+        Object.entries(kpiLabels).forEach(([key, label]) => {
+            const kpiEl = document.getElementById(`kpi-${key}`);
+            if (kpiEl) {
+                const labelEl = kpiEl.closest('.kpi-mini')?.querySelector('.kpi-mini-label');
+                if (labelEl) labelEl.textContent = label;
+            }
+        });
+    }
 
     // Renderizar containers de gráficos
     renderChartContainers();
@@ -138,16 +163,29 @@ function setupEventListeners() {
 function updateDashboard(month) {
     const data = currentClient.data[month];
     
-    document.getElementById('kpi-faturamento').textContent = formatCurrency(data.faturamento);
-    const lucro = data.faturamento - (data.total_despesas || 0);
-    document.getElementById('kpi-lucro').textContent = formatCurrency(lucro);
-    document.getElementById('kpi-ticket').textContent = formatCurrency(data.faturamento / data.vendas);
-    document.getElementById('kpi-clientes').textContent = data.clientes.toLocaleString('pt-BR');
-    
-    updateChangeIndicator('change-faturamento', data.changeFaturamento);
-    updateChangeIndicator('change-lucro', data.changeLucro || 0);
-    updateChangeIndicator('change-ticket', data.changeTicket);
-    updateChangeIndicator('change-clientes', data.changeClientes);
+    if (currentClient.kpis && currentClient.kpis.length > 0) {
+        currentClient.kpis.forEach(kpi => {
+            const el = document.getElementById(`kpi-${kpi.id}`);
+            if (!el) return;
+            const val = data[kpi.field];
+            if (kpi.format === 'currency') el.textContent = formatCurrency(val);
+            else if (kpi.format === 'percent') el.textContent = val.toFixed(1) + '%';
+            else el.textContent = val.toLocaleString('pt-BR');
+            if (kpi.changeField) {
+                updateChangeIndicator(`change-${kpi.id}`, data[kpi.changeField] || 0);
+            }
+        });
+    } else {
+        document.getElementById('kpi-faturamento').textContent = formatCurrency(data.faturamento);
+        const lucro = data.faturamento - (data.total_despesas || 0);
+        document.getElementById('kpi-lucro').textContent = formatCurrency(lucro);
+        document.getElementById('kpi-ticket').textContent = formatCurrency(data.faturamento / data.vendas);
+        document.getElementById('kpi-clientes').textContent = data.clientes.toLocaleString('pt-BR');
+        updateChangeIndicator('change-faturamento', data.changeFaturamento);
+        updateChangeIndicator('change-lucro', data.changeLucro || 0);
+        updateChangeIndicator('change-ticket', data.changeTicket);
+        updateChangeIndicator('change-clientes', data.changeClientes);
+    }
     
     renderCustomCharts();
 }
@@ -385,7 +423,7 @@ function getDataForChart(dataSource) {
         case 'resultado_mensal':
             if (!dataAtual.total_despesas) return null;
             return {
-                labels: ['Receita', 'Despesas', 'Lucro'],
+                labels: ['Receita', 'Despesas', currentClient.type === 'hotel_resort' ? 'GOP' : 'Lucro'],
                 data: [dataAtual.faturamento, dataAtual.total_despesas, dataAtual.faturamento - dataAtual.total_despesas]
             };
 
@@ -401,6 +439,48 @@ function getDataForChart(dataSource) {
             return {
                 labels: dataAtual.top_pedidos.map(p => p.nome),
                 data: dataAtual.top_pedidos.map(p => p.pedidos)
+            };
+
+        case 'receita_por_fonte':
+            if (!dataAtual.receita_por_fonte) return null;
+            return {
+                labels: dataAtual.receita_por_fonte.map(r => r.nome),
+                data: dataAtual.receita_por_fonte.map(r => r.valor)
+            };
+
+        case 'canais_reserva':
+            if (!dataAtual.canais_reserva) return null;
+            return {
+                labels: dataAtual.canais_reserva.map(c => c.nome),
+                data: dataAtual.canais_reserva.map(c => c.valor)
+            };
+
+        case 'ocupacao_semana':
+            if (!dataAtual.ocupacao_semana) return null;
+            return {
+                labels: dataAtual.ocupacao_semana.map(o => o.nome),
+                data: dataAtual.ocupacao_semana.map(o => o.ocupacao)
+            };
+
+        case 'tipo_quarto_adr':
+            if (!dataAtual.tipo_quarto_adr) return null;
+            return {
+                labels: dataAtual.tipo_quarto_adr.map(t => t.nome),
+                data: dataAtual.tipo_quarto_adr.map(t => t.adr)
+            };
+
+        case 'evolucao_revpar': {
+            const mesesRevpar = Object.keys(currentClient.data);
+            return {
+                labels: mesesRevpar.map(m => m.charAt(0).toUpperCase() + m.slice(1)),
+                data: mesesRevpar.map(m => currentClient.data[m].revpar)
+            };
+        }
+
+        case 'revpar_vs_budget':
+            return {
+                labels: ['Meta', 'Real'],
+                data: [dataAtual.revpar_budget || 0, dataAtual.revpar || 0]
             };
 
         default:
@@ -552,6 +632,48 @@ function generateInsight(chartConfig, chartData, dataSource) {
             const topCount = chartData.data[0];
             const segundo = chartData.labels[1] || null;
             return [`💡 ${topItem} é o item mais pedido (${topCount} vezes).${segundo ? ` Em segundo: ${segundo}.` : ''}`];
+        },
+        'receita_por_fonte': () => {
+            const top = chartData.labels[0];
+            const topVal = chartData.data[0];
+            const totalRev = chartData.data.reduce((a, b) => a + b, 0);
+            const pct = Math.round((topVal / totalRev) * 100);
+            return [`💡 ${top} representa ${pct}% da receita total.`];
+        },
+        'canais_reserva': () => {
+            const top = chartData.labels[0];
+            const topVal = chartData.data[0];
+            const totalRev = chartData.data.reduce((a, b) => a + b, 0);
+            const pct = Math.round((topVal / totalRev) * 100);
+            return [`💡 ${top} é o canal líder com ${pct}% da receita de hospedagem.`];
+        },
+        'ocupacao_semana': () => {
+            const maxIdx = chartData.data.indexOf(Math.max(...chartData.data));
+            const minIdx = chartData.data.indexOf(Math.min(...chartData.data));
+            return [`💡 ${chartData.labels[maxIdx]} tem a maior ocupação (${chartData.data[maxIdx]}%). ${chartData.labels[minIdx]} é o dia mais fraco (${chartData.data[minIdx]}%).`];
+        },
+        'tipo_quarto_adr': () => {
+            const top = chartData.labels[chartData.labels.length - 1];
+            const topVal = chartData.data[chartData.data.length - 1];
+            const bottom = chartData.labels[0];
+            const bottomVal = chartData.data[0];
+            const ratio = (topVal / bottomVal).toFixed(1);
+            return [`💡 ${top} tem ADR ${ratio}x maior que ${bottom} (R$ ${topVal} vs R$ ${bottomVal}).`];
+        },
+        'evolucao_revpar': () => {
+            const vals = chartData.data;
+            const max = Math.max(...vals);
+            const min = Math.min(...vals);
+            const idxMax = vals.indexOf(max);
+            return [`💡 Melhor RevPAR: R$ ${max.toFixed(0)} em ${chartData.labels[idxMax]}. Pior: R$ ${min.toFixed(0)}.`];
+        },
+        'revpar_vs_budget': () => {
+            const meta = chartData.data[0];
+            const real = chartData.data[1];
+            const diff = real - meta;
+            const pct = meta > 0 ? ((diff / meta) * 100).toFixed(1) : '0.0';
+            if (diff >= 0) return [`💡 RevPAR superou a meta em ${pct}% (R$ ${real.toFixed(0)} vs R$ ${meta.toFixed(0)}).`];
+            return [`💡 RevPAR ficou ${Math.abs(parseFloat(pct))}% abaixo da meta (R$ ${real.toFixed(0)} vs R$ ${meta.toFixed(0)}).`];
         }
     };
 
@@ -603,6 +725,12 @@ function createChartConfig(chartConfig, chartData) {
             configBase.data.datasets[0].borderColor = ['#16a34a', '#dc2626', '#2563eb'];
             configBase.data.datasets[0].borderWidth = 1;
         }
+        // RevPAR vs Budget: cores diferentes por barra (cinza=meta, tema=real)
+        if (chartConfig.dataSource === 'revpar_vs_budget') {
+            configBase.data.datasets[0].backgroundColor = ['#94a3b8', corPrincipal];
+            configBase.data.datasets[0].borderColor = ['#64748b', corPrincipalSolida];
+            configBase.data.datasets[0].borderWidth = 1;
+        }
         const isHorizontal = chartConfig.posicao === 'esquerda';
         configBase.options.indexAxis = isHorizontal ? 'y' : 'x';
         configBase.options.scales = {
@@ -644,6 +772,11 @@ function createChartConfig(chartConfig, chartData) {
                 }
             }];
         }
+        // Barras verticais com formato percentual
+        if (chartConfig.label_format === 'percent' && !isHorizontal) {
+            configBase.options.scales.y.ticks.callback = (val) => val + '%';
+            configBase.options.scales.y.max = 100;
+        }
         configBase.options.plugins.legend.display = false;
     } else if (chartConfig.tipo === 'doughnut') {
         // Mapear cores específicas para formas de pagamento: Dinheiro->amarelo, Crédito->ciano, PIX->vermelho
@@ -670,9 +803,28 @@ function createChartConfig(chartConfig, chartData) {
             'contador': '#6366f1',
             'manutenção': '#94a3b8'
         };
+        const hotelMap = {
+            'hospedagem': '#f97316',
+            'a&b': '#22c55e',
+            'eventos': '#3b82f6',
+            'spa': '#ec4899',
+            'loja': '#8b5cf6',
+            'direto': '#22c55e',
+            'booking': '#3b82f6',
+            'cvc': '#f97316',
+            'expedia': '#fbbf24',
+            'agências': '#94a3b8',
+            'folha de pagamento': '#ef4444',
+            'insumos a&b': '#f97316',
+            'energia/água': '#fbbf24',
+            'comissões ota': '#8b5cf6',
+            'lavanderia': '#06b6d4',
+            'amenities': '#ec4899',
+            'seguros/taxas': '#6366f1'
+        };
         const cores = chartData.labels.map((lbl, i) => {
             const key = String(lbl).toLowerCase();
-            return paymentMap[key] || despesaMap[key] || fallback[i % fallback.length];
+            return paymentMap[key] || despesaMap[key] || hotelMap[key] || fallback[i % fallback.length];
         });
         configBase.data.datasets[0].backgroundColor = cores;
         // Tooltip: para formas_pagamento do cliente 1, exibir moeda (R$) ao invés do número cru
@@ -725,7 +877,7 @@ function createChartConfig(chartConfig, chartData) {
     try {
         const params = new URLSearchParams(window.location.search);
         const clientId = params.get('c') || '1';
-        const currencyDatasources = new Set(['formas_pagamento', 'comparativo_faturamento', 'faturamento_mes', 'atividade_semana', 'resultado_mensal', 'despesas_categoria']);
+        const currencyDatasources = new Set(['formas_pagamento', 'comparativo_faturamento', 'faturamento_mes', 'atividade_semana', 'resultado_mensal', 'despesas_categoria', 'receita_por_fonte', 'canais_reserva', 'tipo_quarto_adr', 'evolucao_revpar', 'revpar_vs_budget']);
 
         const existingTooltip = (configBase.options && configBase.options.plugins && configBase.options.plugins.tooltip) || {};
         configBase.options.plugins.tooltip = {
@@ -735,7 +887,7 @@ function createChartConfig(chartConfig, chartData) {
                 label: function(context) {
                     const raw = context.raw !== undefined ? context.raw : (context.parsed !== undefined ? context.parsed : 0);
                     const val = Array.isArray(raw) ? raw[0] : raw;
-                    if (clientId === '1' && currencyDatasources.has(chartConfig.dataSource)) {
+                    if (currencyDatasources.has(chartConfig.dataSource)) {
                         return 'R$ ' + Number(val).toLocaleString('pt-BR');
                     }
                     if (existingTooltip.callbacks && typeof existingTooltip.callbacks.label === 'function') {

@@ -1,0 +1,2406 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preparação — Especialista BI Enjoy Hotéis & Resorts</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0f1a;
+            --bg2: #111827;
+            --bg3: #1e293b;
+            --bg4: #0f172a;
+            --border: #334155;
+            --text: #e2e8f0;
+            --text2: #94a3b8;
+            --accent: #3b82f6;
+            --accent2: #60a5fa;
+            --green: #34d399;
+            --yellow: #fbbf24;
+            --orange: #fb923c;
+            --red: #f87171;
+            --purple: #a78bfa;
+            --pink: #f472b6;
+            --cyan: #22d3ee;
+            --radius: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        /* ===== NAV ===== */
+        .topnav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(10, 15, 26, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            z-index: 999;
+            padding: 0 2rem;
+        }
+        .topnav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 56px;
+        }
+        .topnav .logo {
+            font-weight: 800; font-size: 1rem;
+            background: linear-gradient(135deg, var(--orange), var(--red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+        .topnav-links {
+            display: flex; gap: 0.25rem;
+            overflow-x: auto; scrollbar-width: none;
+        }
+        .topnav-links::-webkit-scrollbar { display: none; }
+        .topnav-links a {
+            color: var(--text2); text-decoration: none;
+            font-size: 0.75rem; padding: 0.4rem 0.65rem;
+            border-radius: 6px; white-space: nowrap; transition: all 0.2s;
+        }
+        .topnav-links a:hover, .topnav-links a.active {
+            color: var(--orange); background: rgba(251, 146, 60, 0.1);
+        }
+
+        /* ===== LAYOUT ===== */
+        .container { max-width: 1200px; margin: 0 auto; padding: 80px 2rem 4rem; }
+        section { margin-bottom: 4rem; scroll-margin-top: 70px; }
+
+        h1 { font-size: 2.2rem; font-weight: 800; }
+        h2 {
+            font-size: 1.6rem; font-weight: 700; margin-bottom: 1.5rem;
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        h2 .tag {
+            font-size: 0.65rem; background: var(--orange); color: white;
+            padding: 0.15rem 0.5rem; border-radius: 4px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.04em;
+        }
+        h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text); }
+        h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--accent2); }
+        p { color: var(--text2); margin-bottom: 1rem; }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--bg2); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1.5rem;
+        }
+        .card-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.25rem; margin-bottom: 1.5rem;
+        }
+        .card-sm {
+            background: var(--bg2); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 1.25rem;
+        }
+
+        /* ===== HERO ===== */
+        .hero { text-align: center; padding: 3rem 0 2rem; }
+        .hero h1 {
+            background: linear-gradient(135deg, var(--orange), var(--red), var(--pink));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 0.75rem; font-size: 2.5rem;
+        }
+        .hero p { font-size: 1.05rem; max-width: 700px; margin: 0 auto 1.5rem; }
+        .hero-stats { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; }
+        .hero-stat { text-align: center; }
+        .hero-stat .num { font-size: 2rem; font-weight: 800; color: var(--orange); }
+        .hero-stat .label { font-size: 0.8rem; color: var(--text2); }
+
+        /* ===== BADGES ===== */
+        .badge {
+            display: inline-block; padding: 0.2rem 0.6rem;
+            border-radius: 4px; font-size: 0.72rem; font-weight: 600;
+        }
+        .badge-blue { background: rgba(59,130,246,0.15); color: var(--accent2); }
+        .badge-green { background: rgba(52,211,153,0.15); color: var(--green); }
+        .badge-yellow { background: rgba(251,191,36,0.15); color: var(--yellow); }
+        .badge-red { background: rgba(248,113,113,0.15); color: var(--red); }
+        .badge-purple { background: rgba(167,139,250,0.15); color: var(--purple); }
+        .badge-orange { background: rgba(251,146,60,0.15); color: var(--orange); }
+
+        /* ===== SPECIAL BOXES ===== */
+        .roni-comment {
+            background: rgba(59, 130, 246, 0.06);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 8px 8px 0; padding: 1rem 1.25rem; margin: 1rem 0;
+        }
+        .roni-comment::before {
+            content: '💡 Nota para a entrevista'; display: block;
+            font-size: 0.75rem; font-weight: 700; color: var(--accent2);
+            text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.4rem;
+        }
+        .roni-comment p { color: var(--text); font-size: 0.9rem; }
+        .roni-comment p:last-child { margin-bottom: 0; }
+
+        .tip-box {
+            background: rgba(52, 211, 153, 0.06);
+            border-left: 3px solid var(--green);
+            border-radius: 0 8px 8px 0; padding: 1rem 1.25rem; margin: 1rem 0;
+        }
+        .tip-box::before {
+            content: '✅ Dica prática'; display: block;
+            font-size: 0.75rem; font-weight: 700; color: var(--green);
+            text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.4rem;
+        }
+        .tip-box p { color: var(--text); font-size: 0.9rem; }
+        .tip-box p:last-child { margin-bottom: 0; }
+
+        .warn-box {
+            background: rgba(251, 191, 36, 0.06);
+            border-left: 3px solid var(--yellow);
+            border-radius: 0 8px 8px 0; padding: 1rem 1.25rem; margin: 1rem 0;
+        }
+        .warn-box::before {
+            content: '⚠️ Atenção'; display: block;
+            font-size: 0.75rem; font-weight: 700; color: var(--yellow);
+            text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.4rem;
+        }
+        .warn-box p { color: var(--text); font-size: 0.9rem; }
+        .warn-box p:last-child { margin-bottom: 0; }
+
+        .hotel-box {
+            background: rgba(251, 146, 60, 0.06);
+            border-left: 3px solid var(--orange);
+            border-radius: 0 8px 8px 0; padding: 1rem 1.25rem; margin: 1rem 0;
+        }
+        .hotel-box::before {
+            content: '🏨 Contexto hotelaria'; display: block;
+            font-size: 0.75rem; font-weight: 700; color: var(--orange);
+            text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.4rem;
+        }
+        .hotel-box p { color: var(--text); font-size: 0.9rem; }
+        .hotel-box p:last-child { margin-bottom: 0; }
+
+        /* ===== TABLE ===== */
+        .info-table {
+            width: 100%; border-collapse: collapse;
+            font-size: 0.85rem; margin: 1rem 0;
+        }
+        .info-table th {
+            background: var(--bg3); color: var(--accent2); text-align: left;
+            padding: 0.75rem 1rem; font-weight: 600; border-bottom: 2px solid var(--border);
+        }
+        .info-table td {
+            padding: 0.65rem 1rem; border-bottom: 1px solid rgba(51,65,85,0.5); color: var(--text2);
+        }
+        .info-table tr:hover td { background: rgba(59,130,246,0.04); }
+
+        /* ===== CODE ===== */
+        .code-block {
+            background: var(--bg4); border: 1px solid var(--border); border-radius: 8px;
+            padding: 1rem; font-family: 'Fira Code', monospace; font-size: 0.82rem;
+            line-height: 1.7; overflow-x: auto; margin: 0.75rem 0; color: var(--text);
+            white-space: pre;
+        }
+        code {
+            font-family: 'Fira Code', monospace; background: var(--bg3);
+            padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.82rem;
+        }
+        .kw { color: var(--purple); font-weight: 500; }
+        .fn { color: var(--cyan); }
+        .str { color: var(--green); }
+        .num { color: var(--orange); }
+        .cm { color: #64748b; font-style: italic; }
+
+        /* ===== LISTS ===== */
+        ul, ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+        li { color: var(--text2); margin-bottom: 0.4rem; font-size: 0.9rem; }
+        li strong { color: var(--text); }
+
+        /* ===== CHECKLIST ===== */
+        .checklist { list-style: none; padding: 0; }
+        .checklist li {
+            padding: 0.5rem 0.75rem; border-radius: 6px;
+            margin-bottom: 0.3rem; font-size: 0.88rem;
+            background: var(--bg2); border: 1px solid var(--border);
+        }
+        .checklist li::before { content: '☐ '; color: var(--orange); font-weight: 700; }
+
+        /* ===== ACCORDION ===== */
+        details { margin-bottom: 0.75rem; }
+        summary {
+            cursor: pointer; font-weight: 600; font-size: 0.95rem;
+            padding: 0.75rem 1rem; background: var(--bg2); border: 1px solid var(--border);
+            border-radius: 8px; color: var(--text); list-style: none;
+        }
+        summary::-webkit-details-marker { display: none; }
+        summary::before { content: '▸ '; color: var(--orange); }
+        details[open] summary::before { content: '▾ '; }
+        details[open] summary { border-radius: 8px 8px 0 0; border-bottom-color: transparent; }
+        .details-content {
+            padding: 1rem 1.25rem; background: var(--bg2);
+            border: 1px solid var(--border); border-top: none;
+            border-radius: 0 0 8px 8px;
+        }
+
+        /* ===== KPI CARDS ===== */
+        .kpi-row {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem; margin: 1rem 0;
+        }
+        .kpi-card {
+            background: var(--bg2); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 1.25rem; text-align: center;
+        }
+        .kpi-card .kpi-title {
+            font-size: 0.75rem; color: var(--text2); text-transform: uppercase;
+            letter-spacing: 0.04em; margin-bottom: 0.3rem;
+        }
+        .kpi-card .kpi-val {
+            font-size: 1.8rem; font-weight: 800; color: var(--orange);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .container { padding: 70px 1rem 3rem; }
+            h1 { font-size: 1.6rem; }
+            h2 { font-size: 1.3rem; }
+            .hero h1 { font-size: 1.8rem; }
+            .card-grid { grid-template-columns: 1fr; }
+            .kpi-row { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="topnav">
+    <div class="topnav-inner">
+        <a href="index.html" class="logo">← Módulos</a>
+        <div class="topnav-links">
+            <a href="#entrevista">Entrevista</a>
+            <a href="#empresa">A Enjoy</a>
+            <a href="#etl">ETL & DW</a>
+            <a href="#sql">SQL Hotel</a>
+            <a href="#tableau">Tableau</a>
+            <a href="#qlik">Qlik Sense</a>
+            <a href="#kpis">KPIs Hotel</a>
+            <a href="#modelo">Modelo Dados</a>
+            <a href="#dia1">Dia 1</a>
+            <a href="#perguntas">Perguntas</a>
+            <a href="#kpis-deep">KPIs Deep Dive</a>
+            <a href="#dialeto">Dialeto Controller</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="card" id="personal-tasks" style="margin-bottom: 1rem; border-left: 3px solid var(--accent); background: rgba(59,130,246,0.04);">
+        <h3>🔔 Lembretes rápidos</h3>
+        <ul>
+            <li>Fazer dashboard para meu canal usando Chart.js (c=3)</li>
+            <li>Fazer banco de dados hoteleiro com todos os indicadores (DW)</li>
+            <li>Criar dashboard final no Tableau usando esses dados</li>
+        </ul>
+    </div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- HERO -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="hero">
+    <h1>Preparação Enjoy Hotéis</h1>
+    <p>Especialista de BI — Foco em ETL, Data Warehouse, Modelagem de Dados e Dashboards Estratégicos. Tudo para mandar bem na entrevista e dominar as primeiras semanas.</p>
+    <div class="hero-stats">
+        <div class="hero-stat"><div class="num">12</div><div class="label">Seções</div></div>
+        <div class="hero-stat"><div class="num">40+</div><div class="label">Queries SQL</div></div>
+        <div class="hero-stat"><div class="num">2</div><div class="label">Ferramentas BI</div></div>
+        <div class="hero-stat"><div class="num">30+</div><div class="label">KPIs Hotelaria</div></div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 1. ENTREVISTA — O QUE ESPERAR -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section id="entrevista">
+    <h2>🎯 1. Preparação para a Entrevista <span class="tag">Prioridade máxima</span></h2>
+
+    <div class="card">
+        <h3>Resumo da Vaga</h3>
+        <table class="info-table">
+            <tr><th>Item</th><th>Detalhe</th></tr>
+            <tr><td>Cargo</td><td><strong>Especialista de BI</strong></td></tr>
+            <tr><td>Empresa</td><td>Enjoy Hotéis & Resorts</td></tr>
+            <tr><td>Local</td><td>Olímpia/SP — Presencial</td></tr>
+            <tr><td>Contrato</td><td>CLT — Tempo integral</td></tr>
+            <tr><td>Horário</td><td>Seg-Sex, horário comercial</td></tr>
+            <tr><td>Requisitos-chave</td><td>Análise de dados, ETL, Data Warehouse, Modelagem de Dados, SQL</td></tr>
+            <tr><td>Diferenciais</td><td>Formação em TI / Ciência de Dados, ferramentas de BI</td></tr>
+            <tr><td>Responsabilidades</td><td>Análise de dados, DW, ETL, modelos estratégicos, identificar tendências</td></tr>
+        </table>
+
+        <div class="roni-comment">
+            <p><strong>Mudança importante:</strong> a vaga agora é <strong>Especialista de BI</strong>, não Analista. Isso significa nível mais sênior — esperam que você desenvolva e mantenha data warehouses, crie pipelines ETL e construa modelos de dados estratégicos, não apenas consuma dados prontos. Posicione-se como alguém que constrói a infraestrutura de dados, não só dashboards.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>🗣️ Seu Pitch (30 segundos)</h3>
+        <p>Decore e adapte. Quando perguntarem "me fale sobre você":</p>
+        <div class="code-block">"Sou bacharel em Física pela USP e tenho formação técnica em TI.
+Meu foco é Business Intelligence e engenharia de dados — trabalho
+com SQL, Python/Pandas, Power BI e tenho experiência construindo
+pipelines ETL completos, desde extração até modelagem dimensional
+para dashboards estratégicos. Recentemente criei um sistema de
+dashboard automatizado com pipeline de dados de ponta a ponta,
+incluindo ETL, transformação e visualização. Estou animado com
+essa oportunidade na Enjoy porque o cargo combina exatamente o
+que eu mais gosto — construir a infraestrutura de dados que
+suporta decisões estratégicas — num setor que acho fascinante."</div>
+    </div>
+
+    <div class="card">
+        <h3>🎯 O que a Controladoria faz num hotel</h3>
+        <p>A Controladoria é o "cérebro financeiro" do hotel. Você precisa entender isso porque é onde vai atuar:</p>
+        <ul>
+            <li><strong>Controle de receitas</strong> — acompanhamento de receita de hospedagem, A&B (alimentos & bebidas), eventos, spa, loja</li>
+            <li><strong>Controle de custos</strong> — CMV (custo da mercadoria vendida), custo de mão-de-obra, suprimentos, energia</li>
+            <li><strong>Budget vs. Realizado</strong> — comparação do orçamento planejado contra o que realmente aconteceu</li>
+            <li><strong>Forecast (previsão)</strong> — projeção de receitas e custos para os próximos meses</li>
+            <li><strong>Relatórios para diretoria</strong> — dashboards e reports para tomada de decisão</li>
+            <li><strong>Auditoria interna</strong> — verificação de consistência dos dados financeiros</li>
+        </ul>
+        <div class="hotel-box">
+            <p>Na Enjoy, com 912 suítes só no Olímpia Park Resort + Solar das Águas, o volume de dados é alto. A controladoria precisa de dados de: PMS (sistema de gestão hoteleira), PDV (ponto de venda dos restaurantes/bares), folha de pagamento, compras e financeiro.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>✅ Checklist pré-entrevista</h3>
+        <ul class="checklist">
+            <li>Pesquisar preço médio das diárias na Enjoy (Booking/Google)</li>
+            <li>Olhar reviews no Google/TripAdvisor — entender pontos fortes e fracos</li>
+            <li>Seguir @enjoyolimpiaparkresort no Instagram</li>
+            <li>Anotar 3 perguntas inteligentes para fazer ao entrevistador</li>
+            <li>Testar Tableau Public (criar conta grátis + fazer 1 viz)</li>
+            <li>Abrir Qlik Sense Cloud (trial grátis) e explorar a interface</li>
+            <li>Revisar SQL básico: SELECT, JOIN, GROUP BY, HAVING, subqueries</li>
+            <li>Revisar conceitos de ETL: Extract, Transform, Load + ferramentas</li>
+            <li>Saber explicar Star Schema, tabela fato vs. dimensão, SCD</li>
+            <li>Preparar 2-3 exemplos de projetos de dados/ETL para contar</li>
+            <li>Saber o que é RevPAR, ADR, Taxa de Ocupação</li>
+            <li>Levar currículo impresso + portfólio no celular/tablet</li>
+            <li>Pesquisar "economia compartilhada na hotelaria" e "joy of use"</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 2. CONHEÇA A ENJOY -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section id="empresa">
+    <h2>🏨 2. Conheça a Enjoy Hotéis & Resorts <span class="tag">Contexto</span></h2>
+
+    <div class="card">
+        <h3>A empresa</h3>
+        <p>Administradora hoteleira em Olímpia/SP, com equipe experiente e profundo conhecimento no setor. Conceito <strong>"joy of use"</strong> — compromisso em proporcionar experiências harmoniosas, funcionais e inspiradas nos interesses dos clientes.</p>
+
+        <h4>Modelo de Negócio — Economia Compartilhada</h4>
+        <ul>
+            <li><strong>Proprietários</strong> — investidores que compram suítes e colocam no pool de locação</li>
+            <li><strong>Hóspedes</strong> — famílias, especialmente com crianças (público-alvo principal)</li>
+            <li><strong>Administradora (Enjoy)</strong> — gestão operacional, comercialização, manutenção</li>
+        </ul>
+        <p>A Enjoy se posiciona como empresa jovem, de alta qualidade, focada em momentos memoráveis para famílias. Gestão inovadora de hotéis e condomínios de lazer.</p>
+
+        <div class="roni-comment">
+            <p>Na entrevista, mencione o conceito: "Entendo que a Enjoy trabalha com economia compartilhada na hotelaria — isso gera uma complexidade de dados interessante, com relatórios tanto para a operação quanto para os proprietários das unidades. É o tipo de desafio que me motiva como Especialista de BI."</p>
+        </div>
+
+        <h4>Propriedades</h4>
+        <table class="info-table">
+            <tr><th>Resort</th><th>Suítes</th><th>Destaque</th></tr>
+            <tr><td>Enjoy Olímpia Park Resort</td><td>912</td><td>Colado no Thermas dos Laranjais, Shopping Villa Mall anexo</td></tr>
+            <tr><td>Enjoy Solar das Águas Park Resort</td><td>~500</td><td>Mais familiar, piscinas termais</td></tr>
+        </table>
+
+        <h4>Ecossistema turístico em Olímpia</h4>
+        <ul>
+            <li><strong>Thermas dos Laranjais</strong> — 4° parque aquático mais visitado do MUNDO, 1° do Brasil</li>
+            <li><strong>Hot Beach</strong> — segundo parque aquático da cidade</li>
+            <li><strong>Vale dos Dinossauros</strong> — 38 dinossauros animatrônicos</li>
+            <li><strong>Museu de Cera</strong> — 70+ personagens</li>
+            <li><strong>Shopping Villa Mall</strong> — ~3.000 m², anexo ao resort</li>
+        </ul>
+    </div>
+
+    <div class="roni-comment">
+        <p>Na entrevista, demonstre que conhece a empresa. Diga algo como: "Vi que a Enjoy administra mais de 1.400 suítes entre os dois resorts, colados no Thermas dos Laranjais que é o parque aquático mais visitado da América Latina. Com o foco em famílias com crianças e o modelo de economia compartilhada, imagino que o volume e a complexidade dos dados — ocupação, receita de A&B, satisfação do hóspede, relatórios de proprietários — sejam enormes. É exatamente esse tipo de desafio de infraestrutura de dados que me motiva."</p>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 3. ETL & DATA WAREHOUSE -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section id="etl">
+    <h2>🔄 3. ETL & Data Warehouse — Coração do Cargo <span class="tag">Essencial</span></h2>
+
+    <p>A vaga destaca ETL e Data Warehouse como responsabilidades centrais. Esse conhecimento é o que diferencia um Especialista de um Analista de BI.</p>
+
+    <div class="card">
+        <h3>3.1 O que é ETL</h3>
+        <p><strong>ETL = Extract, Transform, Load</strong> — o processo de mover dados de sistemas-fonte para o data warehouse.</p>
+
+        <table class="info-table">
+            <tr><th>Etapa</th><th>O que faz</th><th>Exemplo no hotel</th></tr>
+            <tr><td><strong>Extract (Extrair)</strong></td><td>Puxa dados dos sistemas-fonte</td><td>Ler reservas do PMS, vendas do PDV, dados do ERP financeiro</td></tr>
+            <tr><td><strong>Transform (Transformar)</strong></td><td>Limpa, padroniza, enriquece, valida</td><td>Padronizar nomes de canais, calcular noites, converter moedas, tratar NULLs</td></tr>
+            <tr><td><strong>Load (Carregar)</strong></td><td>Insere no destino (DW/data mart)</td><td>Carregar fato_reservas e dimensões no data warehouse</td></tr>
+        </table>
+
+        <h4>ELT vs. ETL</h4>
+        <ul>
+            <li><strong>ETL</strong> — transforma ANTES de carregar (tradicional). Ferramentas: SSIS, Pentaho, Talend</li>
+            <li><strong>ELT</strong> — carrega bruto, transforma NO destino (moderno). Ferramentas: dbt, SQL dentro do DW</li>
+        </ul>
+
+        <div class="tip-box">
+            <p>Na prática, muitas empresas usam uma mistura. O importante é saber: de onde vêm os dados, o que precisa ser limpo/transformado, e onde eles são armazenados para consumo.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>3.2 Pipeline ETL na prática — Hotel</h3>
+        <p>Como seria o fluxo de dados num hotel como a Enjoy:</p>
+
+        <div class="code-block"><span class="cm">FONTES                    TRANSFORMAÇÃO                  DESTINO
+───────                   ─────────────                  ───────
+┌─────────┐               ┌──────────────┐              ┌──────────────┐
+│   PMS   │──extrair──►   │  Limpeza     │              │  dim_tempo   │
+│(reservas│               │  Padronizar  │──carregar──► │  dim_hospede │
+│ quartos)│               │  Validar     │              │  dim_quarto  │
+├─────────┤               │  Enriquecer  │              │  dim_canal   │
+│   PDV   │──extrair──►   │  Calcular    │              │  fato_reserva│
+│(vendas  │               │  Deduplicar  │──carregar──► │  fato_receita│
+│ A&B)    │               │              │              │  fato_despesa│
+├─────────┤               └──────────────┘              └──────────────┘
+│   ERP   │──extrair──►                                        │
+│(financ.)│                                                    ▼
+├─────────┤                                             ┌──────────────┐
+│  CRM    │──extrair──►                                 │  Dashboards  │
+│(hóspede)│                                             │  Relatórios  │
+└─────────┘                                             └──────────────┘</span></div>
+    </div>
+
+    <div class="card">
+        <h3>3.3 Transformações comuns em dados hoteleiros</h3>
+        <table class="info-table">
+            <tr><th>Transformação</th><th>Problema</th><th>Solução</th></tr>
+            <tr><td>Padronização de canais</td><td>"Booking", "BOOKING.COM", "booking.com"</td><td>Mapear todos para "Booking"</td></tr>
+            <tr><td>Cálculo de noites</td><td>Checkout - Checkin pode dar errado com day-use</td><td>GREATEST(checkout - checkin, 1)</td></tr>
+            <tr><td>Tratamento de NULLs</td><td>Canal vazio = reserva direta?</td><td>COALESCE(canal, 'Direto')</td></tr>
+            <tr><td>Deduplicação</td><td>Reserva duplicada por reprocessamento</td><td>ROW_NUMBER() PARTITION BY reserva_id</td></tr>
+            <tr><td>Validação de valores</td><td>Diária de R$ 0 ou R$ 999.999</td><td>Regras de range + alertas de anomalia</td></tr>
+            <tr><td>Cálculo de KPIs</td><td>ADR, RevPAR precisam ser calculados</td><td>Campos derivados na camada de transformação</td></tr>
+            <tr><td>SCD (Slowly Changing Dim.)</td><td>Hóspede mudou de cidade</td><td>Tipo 2: nova linha com data de vigência</td></tr>
+        </table>
+
+        <h4>Exemplo Python/Pandas — ETL simplificado</h4>
+        <div class="code-block"><span class="kw">import</span> pandas <span class="kw">as</span> pd
+<span class="kw">from</span> sqlalchemy <span class="kw">import</span> create_engine
+
+<span class="cm"># ── EXTRACT ──</span>
+engine_pms = create_engine(<span class="str">'postgresql://user:pass@pms-server/hotel_db'</span>)
+df_reservas = pd.read_sql(<span class="str">'SELECT * FROM reservas WHERE checkin >= %s'</span>, engine_pms,
+                          params=[<span class="str">'2026-01-01'</span>])
+
+<span class="cm"># ── TRANSFORM ──</span>
+df_reservas[<span class="str">'noites'</span>] = (df_reservas[<span class="str">'checkout'</span>] - df_reservas[<span class="str">'checkin'</span>]).dt.days
+df_reservas[<span class="str">'noites'</span>] = df_reservas[<span class="str">'noites'</span>].clip(lower=<span class="num">1</span>)
+df_reservas[<span class="str">'diaria_media'</span>] = df_reservas[<span class="str">'valor_total'</span>] / df_reservas[<span class="str">'noites'</span>]
+df_reservas[<span class="str">'canal'</span>] = df_reservas[<span class="str">'canal'</span>].str.strip().str.title().fillna(<span class="str">'Direto'</span>)
+df_reservas = df_reservas.drop_duplicates(subset=[<span class="str">'reserva_id'</span>])
+
+<span class="cm"># Validação</span>
+anomalias = df_reservas[df_reservas[<span class="str">'diaria_media'</span>] > <span class="num">5000</span>]
+<span class="kw">if</span> len(anomalias) > <span class="num">0</span>:
+    print(<span class="str">f'⚠️ {len(anomalias)} reservas com diária acima de R$5000'</span>)
+
+<span class="cm"># ── LOAD ──</span>
+engine_dw = create_engine(<span class="str">'postgresql://user:pass@dw-server/data_warehouse'</span>)
+df_reservas.to_sql(<span class="str">'fato_reservas'</span>, engine_dw, if_exists=<span class="str">'append'</span>, index=<span class="kw">False</span>)</div>
+    </div>
+
+    <div class="card">
+        <h3>3.4 Data Warehouse — Conceitos Fundamentais</h3>
+        <p>Um <strong>Data Warehouse (DW)</strong> é um repositório central de dados organizados para análise e relatórios. Diferente de um banco transacional (OLTP).</p>
+
+        <table class="info-table">
+            <tr><th>Aspecto</th><th>OLTP (PMS, ERP)</th><th>OLAP (Data Warehouse)</th></tr>
+            <tr><td>Propósito</td><td>Operação do dia-a-dia</td><td>Análise e relatórios</td></tr>
+            <tr><td>Queries</td><td>INSERT, UPDATE rápidos</td><td>SELECT complexos, agregações</td></tr>
+            <tr><td>Modelo</td><td>Normalizado (3NF)</td><td>Dimensional (Star/Snowflake)</td></tr>
+            <tr><td>Usuários</td><td>Recepcionistas, caixa</td><td>Gestores, controladoria, BI</td></tr>
+            <tr><td>Dados</td><td>Atuais (últimas transações)</td><td>Históricos (anos de dados)</td></tr>
+            <tr><td>Performance</td><td>Otimizado para escritas</td><td>Otimizado para leituras</td></tr>
+        </table>
+
+        <h4>Camadas do Data Warehouse</h4>
+        <div class="code-block"><span class="cm">┌─────────────────────────────────────────────────────┐
+│                    CONSUMO                          │
+│         Dashboards, Relatórios, Ad-hoc              │
+├─────────────────────────────────────────────────────┤
+│              CAMADA GOLD / CURATED                  │
+│    Tabelas fato + dimensões (Star Schema)           │
+│    KPIs calculados, prontos para consumo            │
+├─────────────────────────────────────────────────────┤
+│              CAMADA SILVER / CLEANED                │
+│    Dados limpos, padronizados, validados            │
+│    Transformações de negócio aplicadas              │
+├─────────────────────────────────────────────────────┤
+│              CAMADA BRONZE / RAW                    │
+│    Dados brutos, como vieram da fonte               │
+│    Histórico completo, sem alteração                │
+├─────────────────────────────────────────────────────┤
+│              FONTES (PMS, PDV, ERP, CRM)            │
+└─────────────────────────────────────────────────────┘</span></div>
+
+        <div class="roni-comment">
+            <p><strong>Na entrevista:</strong> "Minha abordagem para construir um DW é usar camadas — bronze para dados brutos, silver para dados limpos e transformados, e gold para o modelo dimensional pronto para consumo. Isso facilita a rastreabilidade e o debugging quando algo não bate."</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>3.5 Slowly Changing Dimensions (SCD)</h3>
+        <p>Quando dados de dimensões mudam ao longo do tempo (ex: hóspede muda de cidade, quarto muda de categoria):</p>
+
+        <table class="info-table">
+            <tr><th>Tipo</th><th>O que faz</th><th>Quando usar</th></tr>
+            <tr><td><strong>SCD Tipo 1</strong></td><td>Sobrescreve o valor antigo</td><td>Quando histórico não importa (ex: corrigir typo no nome)</td></tr>
+            <tr><td><strong>SCD Tipo 2</strong></td><td>Cria nova linha com data de vigência</td><td>Quando precisa do histórico (ex: mudança de tarifa do quarto)</td></tr>
+            <tr><td><strong>SCD Tipo 3</strong></td><td>Adiciona coluna para valor anterior</td><td>Quando só precisa do valor atual e último anterior</td></tr>
+        </table>
+
+        <h4>Exemplo SCD Tipo 2 — Tarifa do quarto mudou</h4>
+        <div class="code-block"><span class="cm">-- dim_quarto com SCD Tipo 2</span>
+<span class="kw">CREATE TABLE</span> dim_quarto (
+    sk_quarto      <span class="kw">SERIAL PRIMARY KEY</span>,  <span class="cm">-- surrogate key</span>
+    nk_quarto      <span class="kw">INT</span>,                  <span class="cm">-- natural key (id original)</span>
+    numero         <span class="kw">VARCHAR</span>(<span class="num">10</span>),
+    tipo           <span class="kw">VARCHAR</span>(<span class="num">50</span>),
+    diaria_rack    <span class="kw">DECIMAL</span>(<span class="num">10</span>,<span class="num">2</span>),
+    data_inicio    <span class="kw">DATE</span>,
+    data_fim       <span class="kw">DATE</span>,                 <span class="cm">-- NULL = registro atual</span>
+    flag_atual     <span class="kw">BOOLEAN DEFAULT TRUE</span>
+);</div>
+    </div>
+
+    <div class="card">
+        <h3>3.6 Ferramentas de ETL que você pode mencionar</h3>
+        <table class="info-table">
+            <tr><th>Ferramenta</th><th>Tipo</th><th>Quando mencionar</th></tr>
+            <tr><td><strong>Python + Pandas</strong></td><td>Código</td><td>"Uso Python para ETL personalizado — extração de APIs, transformações complexas"</td></tr>
+            <tr><td><strong>SQL (Procedures/Views)</strong></td><td>Código</td><td>"Para transformações dentro do banco, uso stored procedures e views materializadas"</td></tr>
+            <tr><td><strong>SSIS</strong></td><td>Ferramenta Microsoft</td><td>Se usarem SQL Server — ferramenta ETL visual da Microsoft</td></tr>
+            <tr><td><strong>Pentaho (PDI)</strong></td><td>Open Source</td><td>Ferramenta visual de ETL gratuita e robusta</td></tr>
+            <tr><td><strong>dbt</strong></td><td>Transformação (ELT)</td><td>"Para transformações no DW, dbt é excelente — SQL versionado com Git"</td></tr>
+            <tr><td><strong>Apache Airflow</strong></td><td>Orquestrador</td><td>"Para agendar e monitorar pipelines ETL"</td></tr>
+            <tr><td><strong>Power Query (M)</strong></td><td>Power BI</td><td>"O Power Query já é uma ferramenta de ETL embutida no Power BI"</td></tr>
+            <tr><td><strong>Qlik Load Script</strong></td><td>Qlik Sense</td><td>"O Qlik tem seu próprio ETL via script de carga"</td></tr>
+        </table>
+
+        <div class="hotel-box">
+            <p><strong>Na Enjoy:</strong> provavelmente usam alguma combinação de SQL Server/PostgreSQL + ferramenta de ETL (pode ser SSIS se for stack Microsoft, ou scripts SQL/Python). Pergunte na entrevista: "Qual stack de dados vocês usam hoje? SQL Server? Já tem pipeline ETL estruturado ou é manual?"</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>3.7 Qualidade de dados — O que a vaga pede</h3>
+        <p>A vaga menciona "assegurando que os dados sejam precisos e consistentes". Isso é data quality:</p>
+
+        <h4>Dimensões de qualidade de dados</h4>
+        <ul>
+            <li><strong>Completude</strong> — há NULLs onde não deveria? (ex: reserva sem valor)</li>
+            <li><strong>Unicidade</strong> — há duplicatas? (ex: mesma reserva registrada 2x)</li>
+            <li><strong>Consistência</strong> — dados batem entre sistemas? (receita no PMS = receita no financeiro?)</li>
+            <li><strong>Validade</strong> — valores fazem sentido? (diária de R$ -50? checkout antes do checkin?)</li>
+            <li><strong>Atualidade</strong> — dados estão atualizados? (ETL rodou hoje?)</li>
+        </ul>
+
+        <h4>Checks de validação em SQL</h4>
+        <div class="code-block"><span class="cm">-- Verificar reservas sem valor</span>
+<span class="kw">SELECT</span> <span class="fn">COUNT</span>(*) <span class="kw">AS</span> reservas_sem_valor
+<span class="kw">FROM</span> fato_reservas <span class="kw">WHERE</span> valor_total <span class="kw">IS NULL OR</span> valor_total = <span class="num">0</span>;
+
+<span class="cm">-- Verificar duplicatas</span>
+<span class="kw">SELECT</span> reserva_id, <span class="fn">COUNT</span>(*) <span class="kw">AS</span> duplicatas
+<span class="kw">FROM</span> fato_reservas
+<span class="kw">GROUP BY</span> reserva_id <span class="kw">HAVING</span> <span class="fn">COUNT</span>(*) > <span class="num">1</span>;
+
+<span class="cm">-- Verificar checkout antes do checkin</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> fato_reservas <span class="kw">WHERE</span> checkout &lt;= checkin;
+
+<span class="cm">-- Comparar totais entre fonte e DW</span>
+<span class="kw">SELECT</span>
+    (<span class="kw">SELECT</span> <span class="fn">SUM</span>(valor_total) <span class="kw">FROM</span> pms.reservas <span class="kw">WHERE</span> checkin >= <span class="str">'2026-04-01'</span>) <span class="kw">AS</span> total_fonte,
+    (<span class="kw">SELECT</span> <span class="fn">SUM</span>(valor_total) <span class="kw">FROM</span> dw.fato_reservas <span class="kw">WHERE</span> checkin >= <span class="str">'2026-04-01'</span>) <span class="kw">AS</span> total_dw;</div>
+
+        <div class="warn-box">
+            <p><strong>Regra de ouro:</strong> nunca publique um dashboard sem antes validar os totais contra a fonte. Na controladoria, um número errado pode gerar decisões erradas. Sempre tenha queries de validação rodando automaticamente.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 4. SQL PARA HOTELARIA — 80/20 -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section id="sql">
+    <h2>🗃️ 4. SQL para Hotelaria — 80/20 <span class="tag">Essencial</span></h2>
+
+    <p>As queries que um Analista de BI numa rede de hotéis realmente usa no dia a dia. Organizadas do mais básico ao mais avançado.</p>
+
+    <!-- 3.1 ESTRUTURA DE DADOS DE HOTEL -->
+    <div class="card">
+        <h3>4.1 Entenda o modelo de dados de um hotel</h3>
+        <p>Antes de qualquer query, entenda as tabelas que existem num sistema hoteleiro (PMS):</p>
+        <table class="info-table">
+            <tr><th>Tabela</th><th>O que guarda</th><th>Colunas principais</th></tr>
+            <tr><td><code>reservas</code></td><td>Cada reserva feita</td><td>id, hospede_id, quarto_id, checkin, checkout, status, canal, valor_total</td></tr>
+            <tr><td><code>hospedes</code></td><td>Dados dos hóspedes</td><td>id, nome, email, telefone, cidade, estado, pais, data_nascimento</td></tr>
+            <tr><td><code>quartos</code></td><td>Inventário de quartos</td><td>id, numero, tipo, andar, capacidade, status, diaria_rack</td></tr>
+            <tr><td><code>tipos_quarto</code></td><td>Categorias</td><td>id, nome (Luxo I, Família), capacidade_max, diaria_base</td></tr>
+            <tr><td><code>receitas</code></td><td>Todas as receitas</td><td>id, reserva_id, data, categoria (hospedagem, A&B, spa, loja), valor</td></tr>
+            <tr><td><code>despesas</code></td><td>Custos operacionais</td><td>id, data, categoria, departamento, valor, fornecedor</td></tr>
+            <tr><td><code>avaliacoes</code></td><td>Reviews dos hóspedes</td><td>id, reserva_id, nota, comentario, plataforma, data</td></tr>
+            <tr><td><code>canais</code></td><td>Canais de venda</td><td>id, nome (Booking, Direct, Agência), comissao_pct</td></tr>
+            <tr><td><code>colaboradores</code></td><td>Equipe do hotel</td><td>id, nome, departamento, cargo, salario, data_admissao</td></tr>
+        </table>
+    </div>
+
+    <!-- 3.2 SELECTS BÁSICOS -->
+    <div class="card">
+        <h3>4.2 SELECTs Básicos — O Dia a Dia</h3>
+
+        <h4>Listar reservas do mês atual</h4>
+        <div class="code-block"><span class="kw">SELECT</span>
+    r.id,
+    h.nome <span class="kw">AS</span> hospede,
+    r.checkin,
+    r.checkout,
+    r.valor_total,
+    r.status
+<span class="kw">FROM</span> reservas r
+<span class="kw">JOIN</span> hospedes h <span class="kw">ON</span> h.id = r.hospede_id
+<span class="kw">WHERE</span> r.checkin <span class="kw">BETWEEN</span> <span class="str">'2026-04-01'</span> <span class="kw">AND</span> <span class="str">'2026-04-30'</span>
+<span class="kw">ORDER BY</span> r.checkin;</div>
+
+        <h4>Quartos disponíveis para uma data</h4>
+        <div class="code-block"><span class="kw">SELECT</span> q.numero, q.tipo, q.andar
+<span class="kw">FROM</span> quartos q
+<span class="kw">WHERE</span> q.id <span class="kw">NOT IN</span> (
+    <span class="kw">SELECT</span> r.quarto_id 
+    <span class="kw">FROM</span> reservas r
+    <span class="kw">WHERE</span> r.status = <span class="str">'confirmada'</span>
+      <span class="kw">AND</span> r.checkin &lt;= <span class="str">'2026-04-15'</span>
+      <span class="kw">AND</span> r.checkout &gt; <span class="str">'2026-04-15'</span>
+)
+<span class="kw">ORDER BY</span> q.tipo, q.numero;</div>
+
+        <h4>Hóspedes que mais vieram (frequência)</h4>
+        <div class="code-block"><span class="kw">SELECT</span>
+    h.nome,
+    h.email,
+    <span class="fn">COUNT</span>(r.id) <span class="kw">AS</span> total_reservas,
+    <span class="fn">SUM</span>(r.valor_total) <span class="kw">AS</span> receita_total,
+    <span class="fn">MAX</span>(r.checkout) <span class="kw">AS</span> ultima_estadia
+<span class="kw">FROM</span> hospedes h
+<span class="kw">JOIN</span> reservas r <span class="kw">ON</span> r.hospede_id = h.id
+<span class="kw">WHERE</span> r.status = <span class="str">'finalizada'</span>
+<span class="kw">GROUP BY</span> h.id, h.nome, h.email
+<span class="kw">HAVING</span> <span class="fn">COUNT</span>(r.id) &gt;= <span class="num">3</span>
+<span class="kw">ORDER BY</span> total_reservas <span class="kw">DESC</span>;</div>
+    </div>
+
+    <!-- 3.3 KPIs HOTELEIROS EM SQL -->
+    <div class="card">
+        <h3>4.3 KPIs Hoteleiros em SQL — O que vão te perguntar</h3>
+
+        <h4>Taxa de Ocupação (%)</h4>
+        <p><strong>Fórmula:</strong> (Quartos Vendidos / Quartos Disponíveis) × 100</p>
+        <div class="code-block"><span class="cm">-- Taxa de ocupação diária</span>
+<span class="kw">SELECT</span>
+    d.data,
+    <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> r.quarto_id) <span class="kw">AS</span> quartos_ocupados,
+    (<span class="kw">SELECT</span> <span class="fn">COUNT</span>(*) <span class="kw">FROM</span> quartos <span class="kw">WHERE</span> status = <span class="str">'ativo'</span>) <span class="kw">AS</span> total_quartos,
+    <span class="fn">ROUND</span>(
+        <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> r.quarto_id) * <span class="num">100.0</span> 
+        / (<span class="kw">SELECT</span> <span class="fn">COUNT</span>(*) <span class="kw">FROM</span> quartos <span class="kw">WHERE</span> status = <span class="str">'ativo'</span>), <span class="num">1</span>
+    ) <span class="kw">AS</span> taxa_ocupacao
+<span class="kw">FROM</span> calendario d
+<span class="kw">LEFT JOIN</span> reservas r 
+    <span class="kw">ON</span> d.data <span class="kw">BETWEEN</span> r.checkin <span class="kw">AND</span> r.checkout - <span class="kw">INTERVAL</span> <span class="str">'1 day'</span>
+    <span class="kw">AND</span> r.status <span class="kw">IN</span> (<span class="str">'confirmada'</span>, <span class="str">'finalizada'</span>)
+<span class="kw">WHERE</span> d.data <span class="kw">BETWEEN</span> <span class="str">'2026-04-01'</span> <span class="kw">AND</span> <span class="str">'2026-04-30'</span>
+<span class="kw">GROUP BY</span> d.data
+<span class="kw">ORDER BY</span> d.data;</div>
+
+        <h4>ADR — Average Daily Rate (Diária Média)</h4>
+        <p><strong>Fórmula:</strong> Receita de Hospedagem / Quartos Vendidos</p>
+        <div class="code-block"><span class="cm">-- ADR mensal</span>
+<span class="kw">SELECT</span>
+    <span class="fn">DATE_TRUNC</span>(<span class="str">'month'</span>, r.checkin) <span class="kw">AS</span> mes,
+    <span class="fn">ROUND</span>(<span class="fn">SUM</span>(r.valor_total) / <span class="fn">SUM</span>(
+        <span class="fn">DATE_PART</span>(<span class="str">'day'</span>, r.checkout - r.checkin)
+    ), <span class="num">2</span>) <span class="kw">AS</span> adr
+<span class="kw">FROM</span> reservas r
+<span class="kw">WHERE</span> r.status = <span class="str">'finalizada'</span>
+    <span class="kw">AND</span> r.checkin &gt;= <span class="str">'2026-01-01'</span>
+<span class="kw">GROUP BY</span> <span class="fn">DATE_TRUNC</span>(<span class="str">'month'</span>, r.checkin)
+<span class="kw">ORDER BY</span> mes;</div>
+
+        <h4>RevPAR — Revenue Per Available Room</h4>
+        <p><strong>Fórmula:</strong> Receita Total de Quartos / Total de Quartos Disponíveis. Ou: ADR × Taxa de Ocupação</p>
+        <div class="code-block"><span class="cm">-- RevPAR mensal</span>
+<span class="kw">WITH</span> receita_mensal <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        <span class="fn">DATE_TRUNC</span>(<span class="str">'month'</span>, r.checkin) <span class="kw">AS</span> mes,
+        <span class="fn">SUM</span>(r.valor_total) <span class="kw">AS</span> receita_hospedagem
+    <span class="kw">FROM</span> reservas r
+    <span class="kw">WHERE</span> r.status = <span class="str">'finalizada'</span>
+    <span class="kw">GROUP BY</span> <span class="num">1</span>
+),
+quartos_disp <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        <span class="fn">COUNT</span>(*) * <span class="num">30</span> <span class="kw">AS</span> quartos_noite_disponiveis <span class="cm">-- simplificado</span>
+    <span class="kw">FROM</span> quartos
+    <span class="kw">WHERE</span> status = <span class="str">'ativo'</span>
+)
+<span class="kw">SELECT</span>
+    rm.mes,
+    rm.receita_hospedagem,
+    <span class="fn">ROUND</span>(rm.receita_hospedagem / qd.quartos_noite_disponiveis, <span class="num">2</span>) <span class="kw">AS</span> revpar
+<span class="kw">FROM</span> receita_mensal rm, quartos_disp qd
+<span class="kw">ORDER BY</span> rm.mes;</div>
+
+        <h4>TRevPAR — Total Revenue Per Available Room</h4>
+        <p>Como o RevPAR, mas inclui TODA receita (A&B, spa, loja, etc). Indicador mais completo.</p>
+        <div class="code-block"><span class="kw">SELECT</span>
+    <span class="fn">DATE_TRUNC</span>(<span class="str">'month'</span>, rec.data) <span class="kw">AS</span> mes,
+    <span class="fn">ROUND</span>(<span class="fn">SUM</span>(rec.valor) / (<span class="kw">SELECT</span> <span class="fn">COUNT</span>(*) * <span class="num">30</span> <span class="kw">FROM</span> quartos <span class="kw">WHERE</span> status = <span class="str">'ativo'</span>), <span class="num">2</span>) <span class="kw">AS</span> trevpar
+<span class="kw">FROM</span> receitas rec
+<span class="kw">GROUP BY</span> <span class="num">1</span>
+<span class="kw">ORDER BY</span> mes;</div>
+
+        <div class="roni-comment">
+            <p>Se te perguntarem a diferença entre RevPAR e TRevPAR: "RevPAR mede só receita de quartos por quarto disponível. TRevPAR inclui TODA a receita — é mais útil em resorts como a Enjoy que tem restaurante, spa, loja e bar, onde a receita vai muito além da diária."</p>
+        </div>
+    </div>
+
+    <!-- 3.4 ANÁLISES QUE A CONTROLADORIA PEDE -->
+    <div class="card">
+        <h3>4.4 Análises que a Controladoria pede</h3>
+
+        <h4>Receita por canal de venda</h4>
+        <div class="code-block"><span class="kw">SELECT</span>
+    c.nome <span class="kw">AS</span> canal,
+    <span class="fn">COUNT</span>(r.id) <span class="kw">AS</span> qtd_reservas,
+    <span class="fn">SUM</span>(r.valor_total) <span class="kw">AS</span> receita_bruta,
+    <span class="fn">SUM</span>(r.valor_total * c.comissao_pct / <span class="num">100</span>) <span class="kw">AS</span> comissao,
+    <span class="fn">SUM</span>(r.valor_total * (<span class="num">1</span> - c.comissao_pct / <span class="num">100</span>)) <span class="kw">AS</span> receita_liquida,
+    <span class="fn">ROUND</span>(<span class="fn">AVG</span>(r.valor_total), <span class="num">2</span>) <span class="kw">AS</span> ticket_medio
+<span class="kw">FROM</span> reservas r
+<span class="kw">JOIN</span> canais c <span class="kw">ON</span> c.id = r.canal_id
+<span class="kw">WHERE</span> r.status = <span class="str">'finalizada'</span>
+    <span class="kw">AND</span> r.checkin &gt;= <span class="str">'2026-01-01'</span>
+<span class="kw">GROUP BY</span> c.nome
+<span class="kw">ORDER BY</span> receita_liquida <span class="kw">DESC</span>;</div>
+        <div class="hotel-box">
+            <p><strong>Por que isso importa:</strong> Booking cobra ~15-20% de comissão. Reserva direta = 0%. A controladoria quer AUMENTAR venda direta e reduzir dependência de OTAs (Online Travel Agencies). Esse é um dos relatórios mais pedidos.</p>
+        </div>
+
+        <h4>Budget vs. Realizado</h4>
+        <div class="code-block"><span class="kw">SELECT</span>
+    b.departamento,
+    b.mes,
+    b.valor_orcado,
+    <span class="fn">COALESCE</span>(<span class="fn">SUM</span>(d.valor), <span class="num">0</span>) <span class="kw">AS</span> valor_realizado,
+    b.valor_orcado - <span class="fn">COALESCE</span>(<span class="fn">SUM</span>(d.valor), <span class="num">0</span>) <span class="kw">AS</span> variacao,
+    <span class="fn">ROUND</span>(
+        (<span class="fn">COALESCE</span>(<span class="fn">SUM</span>(d.valor), <span class="num">0</span>) - b.valor_orcado) * <span class="num">100.0</span> / b.valor_orcado, <span class="num">1</span>
+    ) <span class="kw">AS</span> variacao_pct
+<span class="kw">FROM</span> budget b
+<span class="kw">LEFT JOIN</span> despesas d 
+    <span class="kw">ON</span> d.departamento = b.departamento
+    <span class="kw">AND</span> <span class="fn">DATE_TRUNC</span>(<span class="str">'month'</span>, d.data) = b.mes
+<span class="kw">GROUP BY</span> b.departamento, b.mes, b.valor_orcado
+<span class="kw">ORDER BY</span> b.mes, b.departamento;</div>
+
+        <h4>Análise de sazonalidade</h4>
+        <div class="code-block"><span class="kw">SELECT</span>
+    <span class="fn">EXTRACT</span>(<span class="str">MONTH</span> <span class="kw">FROM</span> r.checkin) <span class="kw">AS</span> mes,
+    <span class="fn">TO_CHAR</span>(r.checkin, <span class="str">'Month'</span>) <span class="kw">AS</span> nome_mes,
+    <span class="fn">COUNT</span>(*) <span class="kw">AS</span> reservas,
+    <span class="fn">ROUND</span>(<span class="fn">AVG</span>(r.valor_total), <span class="num">2</span>) <span class="kw">AS</span> ticket_medio,
+    <span class="fn">ROUND</span>(<span class="fn">AVG</span>(<span class="fn">DATE_PART</span>(<span class="str">'day'</span>, r.checkout - r.checkin)), <span class="num">1</span>) <span class="kw">AS</span> estadia_media_dias
+<span class="kw">FROM</span> reservas r
+<span class="kw">WHERE</span> r.status = <span class="str">'finalizada'</span>
+<span class="kw">GROUP BY</span> <span class="num">1</span>, <span class="num">2</span>
+<span class="kw">ORDER BY</span> <span class="num">1</span>;</div>
+        <div class="hotel-box">
+            <p><strong>Olímpia:</strong> Alta temporada = férias escolares (Jan, Jul, Dez) + feriados prolongados. Festa do Peão de Barretos (agosto) também traz bastante movimento. Baixa temporada = março, maio, agosto (fora Barretos). Entender essa sazonalidade é crucial.</p>
+        </div>
+
+        <h4>Receita por departamento (P&L simplificado)</h4>
+        <div class="code-block"><span class="kw">SELECT</span>
+    rec.categoria,
+    <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> <span class="fn">EXTRACT</span>(<span class="str">MONTH</span> <span class="kw">FROM</span> rec.data) = <span class="num">1</span> <span class="kw">THEN</span> rec.valor <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> jan,
+    <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> <span class="fn">EXTRACT</span>(<span class="str">MONTH</span> <span class="kw">FROM</span> rec.data) = <span class="num">2</span> <span class="kw">THEN</span> rec.valor <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> fev,
+    <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> <span class="fn">EXTRACT</span>(<span class="str">MONTH</span> <span class="kw">FROM</span> rec.data) = <span class="num">3</span> <span class="kw">THEN</span> rec.valor <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> mar,
+    <span class="cm">-- ... até dezembro</span>
+    <span class="fn">SUM</span>(rec.valor) <span class="kw">AS</span> total_ano
+<span class="kw">FROM</span> receitas rec
+<span class="kw">WHERE</span> <span class="fn">EXTRACT</span>(<span class="str">YEAR</span> <span class="kw">FROM</span> rec.data) = <span class="num">2026</span>
+<span class="kw">GROUP BY</span> rec.categoria
+<span class="kw">ORDER BY</span> total_ano <span class="kw">DESC</span>;</div>
+    </div>
+
+    <!-- 3.5 JOINs e SUBQUERIES DO DIA-A-DIA -->
+    <div class="card">
+        <h3>4.5 JOINs e Subqueries mais usados</h3>
+
+        <h4>Reservas com diária abaixo da média (desconto excessivo?)</h4>
+        <div class="code-block"><span class="kw">SELECT</span>
+    r.id,
+    h.nome,
+    r.valor_total,
+    <span class="fn">DATE_PART</span>(<span class="str">'day'</span>, r.checkout - r.checkin) <span class="kw">AS</span> noites,
+    <span class="fn">ROUND</span>(r.valor_total / <span class="fn">DATE_PART</span>(<span class="str">'day'</span>, r.checkout - r.checkin), <span class="num">2</span>) <span class="kw">AS</span> diaria_paga,
+    tq.diaria_base <span class="kw">AS</span> diaria_tabela,
+    <span class="fn">ROUND</span>(
+        (tq.diaria_base - r.valor_total / <span class="fn">DATE_PART</span>(<span class="str">'day'</span>, r.checkout - r.checkin)) 
+        * <span class="num">100.0</span> / tq.diaria_base, <span class="num">1</span>
+    ) <span class="kw">AS</span> desconto_pct
+<span class="kw">FROM</span> reservas r
+<span class="kw">JOIN</span> hospedes h <span class="kw">ON</span> h.id = r.hospede_id
+<span class="kw">JOIN</span> quartos q <span class="kw">ON</span> q.id = r.quarto_id
+<span class="kw">JOIN</span> tipos_quarto tq <span class="kw">ON</span> tq.id = q.tipo_id
+<span class="kw">WHERE</span> r.valor_total / <span class="fn">DATE_PART</span>(<span class="str">'day'</span>, r.checkout - r.checkin) &lt; tq.diaria_base * <span class="num">0.7</span>
+<span class="kw">ORDER BY</span> desconto_pct <span class="kw">DESC</span>;</div>
+
+        <h4>Ranking de tipos de quarto por receita (Window Function)</h4>
+        <div class="code-block"><span class="kw">SELECT</span>
+    tq.nome <span class="kw">AS</span> tipo_quarto,
+    <span class="fn">COUNT</span>(r.id) <span class="kw">AS</span> reservas,
+    <span class="fn">SUM</span>(r.valor_total) <span class="kw">AS</span> receita,
+    <span class="fn">ROUND</span>(<span class="fn">AVG</span>(r.valor_total), <span class="num">2</span>) <span class="kw">AS</span> ticket_medio,
+    <span class="fn">RANK</span>() <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> <span class="fn">SUM</span>(r.valor_total) <span class="kw">DESC</span>) <span class="kw">AS</span> ranking
+<span class="kw">FROM</span> reservas r
+<span class="kw">JOIN</span> quartos q <span class="kw">ON</span> q.id = r.quarto_id
+<span class="kw">JOIN</span> tipos_quarto tq <span class="kw">ON</span> tq.id = q.tipo_id
+<span class="kw">WHERE</span> r.status = <span class="str">'finalizada'</span>
+<span class="kw">GROUP BY</span> tq.nome;</div>
+
+        <h4>Comparação mês atual vs. mês anterior (LAG)</h4>
+        <div class="code-block"><span class="kw">WITH</span> receita_mensal <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        <span class="fn">DATE_TRUNC</span>(<span class="str">'month'</span>, data) <span class="kw">AS</span> mes,
+        <span class="fn">SUM</span>(valor) <span class="kw">AS</span> receita
+    <span class="kw">FROM</span> receitas
+    <span class="kw">GROUP BY</span> <span class="num">1</span>
+)
+<span class="kw">SELECT</span>
+    mes,
+    receita,
+    <span class="fn">LAG</span>(receita) <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> mes) <span class="kw">AS</span> receita_anterior,
+    <span class="fn">ROUND</span>(
+        (receita - <span class="fn">LAG</span>(receita) <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> mes)) * <span class="num">100.0</span>
+        / <span class="fn">LAG</span>(receita) <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> mes), <span class="num">1</span>
+    ) <span class="kw">AS</span> variacao_pct
+<span class="kw">FROM</span> receita_mensal
+<span class="kw">ORDER BY</span> mes;</div>
+
+        <h4>Análise de cancelamentos</h4>
+        <div class="code-block"><span class="kw">SELECT</span>
+    c.nome <span class="kw">AS</span> canal,
+    <span class="fn">COUNT</span>(*) <span class="kw">FILTER</span> (<span class="kw">WHERE</span> r.status = <span class="str">'cancelada'</span>) <span class="kw">AS</span> canceladas,
+    <span class="fn">COUNT</span>(*) <span class="kw">AS</span> total,
+    <span class="fn">ROUND</span>(
+        <span class="fn">COUNT</span>(*) <span class="kw">FILTER</span> (<span class="kw">WHERE</span> r.status = <span class="str">'cancelada'</span>) * <span class="num">100.0</span> / <span class="fn">COUNT</span>(*), <span class="num">1</span>
+    ) <span class="kw">AS</span> taxa_cancelamento
+<span class="kw">FROM</span> reservas r
+<span class="kw">JOIN</span> canais c <span class="kw">ON</span> c.id = r.canal_id
+<span class="kw">GROUP BY</span> c.nome
+<span class="kw">ORDER BY</span> taxa_cancelamento <span class="kw">DESC</span>;</div>
+
+        <h4>CMV — Custo da Mercadoria Vendida (A&B)</h4>
+        <div class="code-block"><span class="cm">-- CMV do restaurante/bar por mês</span>
+<span class="kw">SELECT</span>
+    <span class="fn">DATE_TRUNC</span>(<span class="str">'month'</span>, data) <span class="kw">AS</span> mes,
+    <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> tipo = <span class="str">'receita'</span> <span class="kw">AND</span> categoria = <span class="str">'A&B'</span> <span class="kw">THEN</span> valor <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> receita_ab,
+    <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> tipo = <span class="str">'custo'</span> <span class="kw">AND</span> categoria = <span class="str">'A&B'</span> <span class="kw">THEN</span> valor <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> custo_ab,
+    <span class="fn">ROUND</span>(
+        <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> tipo = <span class="str">'custo'</span> <span class="kw">AND</span> categoria = <span class="str">'A&B'</span> <span class="kw">THEN</span> valor <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) * <span class="num">100.0</span>
+        / <span class="fn">NULLIF</span>(<span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> tipo = <span class="str">'receita'</span> <span class="kw">AND</span> categoria = <span class="str">'A&B'</span> <span class="kw">THEN</span> valor <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>), <span class="num">0</span>),
+    <span class="num">1</span>) <span class="kw">AS</span> cmv_pct
+<span class="kw">FROM</span> lancamentos_financeiros
+<span class="kw">GROUP BY</span> <span class="num">1</span>
+<span class="kw">ORDER BY</span> mes;</div>
+    </div>
+
+    <!-- 3.6 QUICK REFERENCE -->
+    <div class="card">
+        <h3>4.6 Quick Reference — Comandos que você PRECISA saber de cabeça</h3>
+        <table class="info-table">
+            <tr><th>Comando</th><th>O que faz</th><th>Exemplo</th></tr>
+            <tr><td><code>SELECT ... FROM</code></td><td>Consulta dados</td><td><code>SELECT nome FROM hospedes</code></td></tr>
+            <tr><td><code>WHERE</code></td><td>Filtra linhas</td><td><code>WHERE status = 'ativo'</code></td></tr>
+            <tr><td><code>JOIN</code></td><td>Combina tabelas</td><td><code>JOIN quartos ON quartos.id = r.quarto_id</code></td></tr>
+            <tr><td><code>LEFT JOIN</code></td><td>Combina, mantendo todas do lado esquerdo</td><td><code>LEFT JOIN avaliacoes ON ...</code></td></tr>
+            <tr><td><code>GROUP BY</code></td><td>Agrupa para usar funções de agregação</td><td><code>GROUP BY canal</code></td></tr>
+            <tr><td><code>HAVING</code></td><td>Filtra DEPOIS do GROUP BY</td><td><code>HAVING COUNT(*) > 5</code></td></tr>
+            <tr><td><code>ORDER BY</code></td><td>Ordena resultado</td><td><code>ORDER BY receita DESC</code></td></tr>
+            <tr><td><code>COUNT / SUM / AVG</code></td><td>Contagem, soma, média</td><td><code>SUM(valor) AS total</code></td></tr>
+            <tr><td><code>CASE WHEN</code></td><td>Condicional (if/else)</td><td><code>CASE WHEN nota >= 8 THEN 'Bom' END</code></td></tr>
+            <tr><td><code>CTE (WITH)</code></td><td>Subconsulta nomeada</td><td><code>WITH cte AS (SELECT ...) SELECT * FROM cte</code></td></tr>
+            <tr><td><code>WINDOW (OVER)</code></td><td>Cálculos sobre partições</td><td><code>SUM(v) OVER (PARTITION BY canal)</code></td></tr>
+            <tr><td><code>COALESCE</code></td><td>Substitui NULL por valor</td><td><code>COALESCE(desconto, 0)</code></td></tr>
+            <tr><td><code>DATE_TRUNC</code></td><td>Trunca data para mês/ano</td><td><code>DATE_TRUNC('month', data)</code></td></tr>
+            <tr><td><code>EXTRACT</code></td><td>Extrai parte da data</td><td><code>EXTRACT(YEAR FROM data)</code></td></tr>
+        </table>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 5. TABLEAU -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section id="tableau">
+    <h2>📊 5. Tableau — O Essencial <span class="tag">Ferramenta BI</span></h2>
+
+    <div class="card">
+        <h3>5.1 O que é Tableau e por que hotéis usam</h3>
+        <p>Tableau é uma ferramenta de visualização de dados da Salesforce. É uma das mais usadas no mercado junto com Power BI. Diferença principal:</p>
+        <table class="info-table">
+            <tr><th>Aspecto</th><th>Tableau</th><th>Power BI</th></tr>
+            <tr><td>Força</td><td>Visualizações avançadas, exploração ad-hoc</td><td>Integração Microsoft, custo menor</td></tr>
+            <tr><td>Linguagem de fórmula</td><td>Calculated Fields (própria)</td><td>DAX + M (Power Query)</td></tr>
+            <tr><td>Preço</td><td>~USD 70/mês/usuário (Creator)</td><td>~USD 10/mês/usuário (Pro)</td></tr>
+            <tr><td>Versão grátis</td><td>Tableau Public (dashboards públicos)</td><td>Power BI Desktop (local)</td></tr>
+            <tr><td>Deploy</td><td>Tableau Server / Cloud</td><td>Power BI Service (web)</td></tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h3>5.2 Conceitos-chave do Tableau</h3>
+
+        <h4>Dimensions vs. Measures</h4>
+        <ul>
+            <li><strong>Dimensions</strong> (azul) — campos categóricos: nome, canal, tipo_quarto, mês. Usados para agrupar.</li>
+            <li><strong>Measures</strong> (verde) — campos numéricos: valor, quantidade, taxa. Usados para calcular (SUM, AVG, etc).</li>
+        </ul>
+
+        <h4>Shelves (prateleiras)</h4>
+        <ul>
+            <li><strong>Columns</strong> — eixo X (horizontal)</li>
+            <li><strong>Rows</strong> — eixo Y (vertical)</li>
+            <li><strong>Filters</strong> — filtra os dados exibidos</li>
+            <li><strong>Marks</strong> — controla tipo visual (cor, tamanho, forma, label, tooltip)</li>
+            <li><strong>Pages</strong> — animação/navegação por valores</li>
+        </ul>
+
+        <h4>Tipos de visualização mais usados em hotelaria</h4>
+        <table class="info-table">
+            <tr><th>Tipo</th><th>Quando usar</th><th>Exemplo hotel</th></tr>
+            <tr><td>Linha</td><td>Tendência ao longo do tempo</td><td>RevPAR últimos 12 meses</td></tr>
+            <tr><td>Barra</td><td>Comparação entre categorias</td><td>Receita por canal de venda</td></tr>
+            <tr><td>Heatmap/Mapa de calor</td><td>Padrões em duas dimensões</td><td>Ocupação por dia da semana × mês</td></tr>
+            <tr><td>KPI Card</td><td>Número único destacado</td><td>Taxa de ocupação do mês</td></tr>
+            <tr><td>Scatter</td><td>Correlação entre 2 métricas</td><td>ADR vs. Ocupação por mês</td></tr>
+            <tr><td>Treemap</td><td>Proporção/peso</td><td>Participação de cada departamento na receita</td></tr>
+            <tr><td>Bullet Chart</td><td>Real vs. Meta</td><td>Budget vs. Realizado por departamento</td></tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h3>5.3 Calculated Fields — Saber criar</h3>
+
+        <h4>Taxa de Ocupação</h4>
+        <div class="code-block"><span class="cm">// Calculated Field no Tableau</span>
+<span class="fn">SUM</span>([Quartos Ocupados]) / <span class="fn">SUM</span>([Quartos Disponíveis])</div>
+
+        <h4>ADR</h4>
+        <div class="code-block"><span class="fn">SUM</span>([Receita Hospedagem]) / <span class="fn">SUM</span>([Room Nights Vendidas])</div>
+
+        <h4>RevPAR</h4>
+        <div class="code-block"><span class="fn">SUM</span>([Receita Hospedagem]) / <span class="fn">SUM</span>([Room Nights Disponíveis])
+
+<span class="cm">// Ou</span>
+[ADR] * [Taxa Ocupacao]</div>
+
+        <h4>Variação vs. mês anterior (Table Calculation)</h4>
+        <div class="code-block"><span class="cm">// Table Calculation → Percent Difference</span>
+(<span class="fn">ZN</span>(<span class="fn">SUM</span>([Receita])) - <span class="fn">LOOKUP</span>(<span class="fn">ZN</span>(<span class="fn">SUM</span>([Receita])), -<span class="num">1</span>)) 
+/ <span class="fn">ABS</span>(<span class="fn">LOOKUP</span>(<span class="fn">ZN</span>(<span class="fn">SUM</span>([Receita])), -<span class="num">1</span>))</div>
+
+        <h4>Classificação de nota de hóspede</h4>
+        <div class="code-block"><span class="kw">IF</span> [Nota] >= <span class="num">9</span> <span class="kw">THEN</span> <span class="str">"Promotor"</span>
+<span class="kw">ELSEIF</span> [Nota] >= <span class="num">7</span> <span class="kw">THEN</span> <span class="str">"Neutro"</span>
+<span class="kw">ELSE</span> <span class="str">"Detrator"</span>
+<span class="kw">END</span></div>
+
+        <h4>Funções mais usadas</h4>
+        <table class="info-table">
+            <tr><th>Função</th><th>O que faz</th></tr>
+            <tr><td><code>SUM(), AVG(), COUNT(), MIN(), MAX()</code></td><td>Agregações básicas</td></tr>
+            <tr><td><code>DATEDIFF('day', [Checkin], [Checkout])</code></td><td>Diferença entre datas</td></tr>
+            <tr><td><code>DATETRUNC('month', [Data])</code></td><td>Trunca data para o mês</td></tr>
+            <tr><td><code>IF/ELSEIF/ELSE/END</code></td><td>Condicional</td></tr>
+            <tr><td><code>ZN()</code></td><td>Substitui NULL por zero</td></tr>
+            <tr><td><code>LOOKUP(expr, offset)</code></td><td>Referência a outro valor na tabela</td></tr>
+            <tr><td><code>RUNNING_SUM()</code></td><td>Soma acumulada</td></tr>
+            <tr><td><code>FIXED / INCLUDE / EXCLUDE</code></td><td>LOD Expressions — nível de detalhe customizado</td></tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h3>5.4 LOD Expressions — Diferencial</h3>
+        <p>LOD (Level of Detail) expressions são o superpoder do Tableau. Permitem calcular em um nível diferente do que está na visualização.</p>
+
+        <h4>FIXED — Calcula num nível fixo, ignorando filtros de viz</h4>
+        <div class="code-block"><span class="cm">// Receita total de cada canal, mesmo com filtros na visualização</span>
+{ <span class="kw">FIXED</span> [Canal] : <span class="fn">SUM</span>([Receita]) }
+
+<span class="cm">// ADR por tipo de quarto</span>
+{ <span class="kw">FIXED</span> [Tipo Quarto] : <span class="fn">SUM</span>([Receita]) / <span class="fn">SUM</span>([Noites]) }
+
+<span class="cm">// Primeira estadia de cada hóspede</span>
+{ <span class="kw">FIXED</span> [Hospede ID] : <span class="fn">MIN</span>([Checkin]) }</div>
+
+        <h4>INCLUDE — Adiciona um nível de detalhe</h4>
+        <div class="code-block"><span class="cm">// Média do ticket por reserva, mesmo vendo dados agregados por mês</span>
+<span class="fn">AVG</span>({ <span class="kw">INCLUDE</span> [Reserva ID] : <span class="fn">SUM</span>([Receita]) })</div>
+
+        <h4>EXCLUDE — Remove um nível de detalhe</h4>
+        <div class="code-block"><span class="cm">// % de participação de cada canal no total</span>
+<span class="fn">SUM</span>([Receita]) / { <span class="kw">EXCLUDE</span> [Canal] : <span class="fn">SUM</span>([Receita]) }</div>
+
+        <div class="roni-comment">
+            <p>Se na entrevista perguntarem sobre Tableau e você quiser impressionar, mencione LOD Expressions. Ex: "Uso FIXED para calcular KPIs em nível diferente da visualização — por exemplo, calcular o ADR por tipo de quarto mesmo quando o dashboard está filtrado por canal de venda."</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>5.5 Tableau: Passo a passo para criar um dashboard de hotel</h3>
+        <ol>
+            <li><strong>Conectar dados</strong> — File → Connect → selecionar fonte (Excel, SQL Server, PostgreSQL, CSV)</li>
+            <li><strong>Preparar dados</strong> — checar tipos (data como Date, valores como Number), renomear campos</li>
+            <li><strong>Criar sheets individuais</strong> — cada visualização é uma Sheet</li>
+            <li><strong>Montar o Dashboard</strong> — New Dashboard → arrastar sheets → adicionar filtros interativos</li>
+            <li><strong>Publicar</strong> — Server → Publish Workbook → Tableau Server ou Tableau Public</li>
+        </ol>
+
+        <h4>Dashboard template para hotelaria</h4>
+        <ul>
+            <li>Topo: KPI cards (Ocupação, ADR, RevPAR, Receita Total)</li>
+            <li>Centro-esquerda: Gráfico de linha — tendência mensal de ocupação e ADR</li>
+            <li>Centro-direita: Barras — receita por departamento</li>
+            <li>Inferior-esquerda: Heatmap — ocupação por dia da semana × semana do mês</li>
+            <li>Inferior-direita: Tabela — budget vs. realizado por departamento</li>
+            <li>Filtros: Período, Resort (Olímpia Park / Solar das Águas), Canal</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 6. QLIK SENSE -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section id="qlik">
+    <h2>📈 6. Qlik Sense — O Essencial <span class="tag">Ferramenta BI</span></h2>
+
+    <div class="card">
+        <h3>6.1 O que é e como difere</h3>
+        <p>Qlik Sense é uma plataforma de BI da Qlik. Diferencial: <strong>motor associativo</strong> — não usa queries tradicionais, ele carrega tudo em memória e faz associações automáticas entre tabelas.</p>
+
+        <table class="info-table">
+            <tr><th>Aspecto</th><th>Qlik Sense</th><th>Tableau</th><th>Power BI</th></tr>
+            <tr><td>Motor</td><td>Associativo (in-memory)</td><td>VizQL (query-based)</td><td>VertiPaq (in-memory)</td></tr>
+            <tr><td>Linguagem de script</td><td>Qlik Script (load script)</td><td>—</td><td>M (Power Query)</td></tr>
+            <tr><td>Linguagem de expressão</td><td>Expressions (Set Analysis)</td><td>Calculated Fields</td><td>DAX</td></tr>
+            <tr><td>Exploração</td><td>Clique em qualquer valor → filtra tudo</td><td>Filtros e ações</td><td>Cross-filter</td></tr>
+            <tr><td>Ponto forte</td><td>Descoberta de dados, associações</td><td>Visualizações ricas</td><td>Ecossistema Microsoft</td></tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h3>6.2 Conceitos-chave do Qlik Sense</h3>
+
+        <h4>Data Model — Modelo de dados</h4>
+        <ul>
+            <li>Qlik carrega dados via <strong>Load Script</strong> (editor de script próprio)</li>
+            <li>Tabelas se conectam automaticamente por campos com mesmo nome</li>
+            <li>Cuidado com <strong>synthetic keys</strong> — chaves sintéticas criadas quando duas tabelas compartilham múltiplos campos</li>
+            <li>Use <strong>Data Manager</strong> ou <strong>Data Load Editor</strong></li>
+        </ul>
+
+        <h4>Cores do motor associativo</h4>
+        <ul>
+            <li><strong style="color: #34d399;">Verde</strong> — valor selecionado (filtro ativo)</li>
+            <li><strong style="color: white;">Branco</strong> — valores associados (relacionados à seleção)</li>
+            <li><strong style="color: #94a3b8;">Cinza</strong> — valores excluídos (sem dados para essa seleção)</li>
+        </ul>
+
+        <h4>Objetos visuais mais usados</h4>
+        <ul>
+            <li><strong>KPI</strong> — número único com título</li>
+            <li><strong>Bar chart</strong>, <strong>Line chart</strong>, <strong>Combo chart</strong></li>
+            <li><strong>Pivot table</strong> — tabela dinâmica com expansão/contração</li>
+            <li><strong>Filter pane</strong> — painel de filtros interativos</li>
+            <li><strong>Map</strong> — visualização geográfica</li>
+            <li><strong>Treemap</strong>, <strong>Scatter plot</strong>, <strong>Gauge</strong></li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h3>6.3 Load Script — Carregar dados</h3>
+        <p>O Load Script é como o Power Query do Power BI, mas textual:</p>
+
+        <h4>Carregar de um arquivo Excel</h4>
+        <div class="code-block"><span class="cm">// Data Load Editor</span>
+Reservas:
+<span class="kw">LOAD</span>
+    id,
+    hospede_id,
+    quarto_id,
+    checkin,
+    checkout,
+    status,
+    canal,
+    valor_total
+<span class="kw">FROM</span> [lib://DataFiles/reservas.xlsx]
+(ooxml, embedded labels, table is Sheet1);</div>
+
+        <h4>Carregar de banco SQL</h4>
+        <div class="code-block"><span class="cm">// Conexão com banco de dados</span>
+<span class="kw">LIB CONNECT TO</span> <span class="str">'PostgreSQL_Hotel'</span>;
+
+Reservas:
+<span class="kw">SQL SELECT</span>
+    id, hospede_id, quarto_id,
+    checkin, checkout, status,
+    canal_id, valor_total
+<span class="kw">FROM</span> reservas
+<span class="kw">WHERE</span> checkin >= <span class="str">'2025-01-01'</span>;</div>
+
+        <h4>Transformações no script</h4>
+        <div class="code-block"><span class="cm">// Campos calculados no load</span>
+Reservas:
+<span class="kw">LOAD</span>
+    *,
+    checkout - checkin <span class="kw">AS</span> noites,
+    valor_total / (checkout - checkin) <span class="kw">AS</span> diaria_media,
+    <span class="fn">Month</span>(checkin) <span class="kw">AS</span> mes_checkin,
+    <span class="fn">Year</span>(checkin) <span class="kw">AS</span> ano_checkin
+<span class="kw">RESIDENT</span> Reservas_Raw;
+
+<span class="kw">DROP TABLE</span> Reservas_Raw;</div>
+
+        <h4>Criar tabela calendário (essencial para BI)</h4>
+        <div class="code-block"><span class="cm">// Master Calendar</span>
+<span class="kw">LET</span> vMinDate = <span class="fn">Num</span>(<span class="fn">MakeDate</span>(<span class="num">2024</span>, <span class="num">1</span>, <span class="num">1</span>));
+<span class="kw">LET</span> vMaxDate = <span class="fn">Num</span>(<span class="fn">Today</span>());
+
+Calendario:
+<span class="kw">LOAD</span>
+    <span class="fn">Date</span>($(vMinDate) + IterNo() - <span class="num">1</span>) <span class="kw">AS</span> Data,
+    <span class="fn">Year</span>(<span class="fn">Date</span>($(vMinDate) + IterNo() - <span class="num">1</span>)) <span class="kw">AS</span> Ano,
+    <span class="fn">Month</span>(<span class="fn">Date</span>($(vMinDate) + IterNo() - <span class="num">1</span>)) <span class="kw">AS</span> Mes,
+    <span class="fn">Day</span>(<span class="fn">Date</span>($(vMinDate) + IterNo() - <span class="num">1</span>)) <span class="kw">AS</span> Dia,
+    <span class="fn">WeekDay</span>(<span class="fn">Date</span>($(vMinDate) + IterNo() - <span class="num">1</span>)) <span class="kw">AS</span> DiaSemana
+<span class="kw">AUTOGENERATE</span> <span class="num">1</span>
+<span class="kw">WHILE</span> $(vMinDate) + IterNo() - <span class="num">1</span> &lt;= $(vMaxDate);</div>
+    </div>
+
+    <div class="card">
+        <h3>6.4 Expressions — Fórmulas do Qlik Sense</h3>
+        <p>As expressões do Qlik são similares a DAX, mas com sintaxe própria:</p>
+
+        <h4>KPIs básicos</h4>
+        <div class="code-block"><span class="cm">// Taxa de Ocupação</span>
+<span class="fn">Count</span>(<span class="kw">DISTINCT</span> quarto_id) / <span class="fn">Count</span>(<span class="kw">DISTINCT TOTAL</span> quarto_id)
+
+<span class="cm">// ADR</span>
+<span class="fn">Sum</span>(valor_total) / <span class="fn">Sum</span>(noites)
+
+<span class="cm">// RevPAR</span>
+<span class="fn">Sum</span>(valor_total) / <span class="fn">Count</span>(<span class="kw">DISTINCT TOTAL</span> quarto_id) / <span class="fn">Max</span>(dias_no_mes)
+
+<span class="cm">// Ticket Médio</span>
+<span class="fn">Sum</span>(valor_total) / <span class="fn">Count</span>(<span class="kw">DISTINCT</span> reserva_id)
+
+<span class="cm">// Taxa de Cancelamento</span>
+<span class="fn">Count</span>({&lt;status={'cancelada'}&gt;} reserva_id) / <span class="fn">Count</span>(reserva_id)</div>
+
+        <h4>Set Analysis — O superpoder do Qlik</h4>
+        <p>Set Analysis é como CALCULATE() do DAX — aplica filtros dentro da expressão:</p>
+        <div class="code-block"><span class="cm">// Receita só de hospedagem</span>
+<span class="fn">Sum</span>({&lt;categoria={'hospedagem'}&gt;} valor)
+
+<span class="cm">// Receita do ano anterior</span>
+<span class="fn">Sum</span>({&lt;ano={$(=<span class="fn">Year</span>(<span class="fn">Today</span>())-<span class="num">1</span>)}&gt;} valor)
+
+<span class="cm">// Receita excluindo canceladas</span>
+<span class="fn">Sum</span>({&lt;status-={'cancelada'}&gt;} valor_total)
+
+<span class="cm">// Ocupação em alta temporada (Jan, Jul, Dez)</span>
+<span class="fn">Count</span>({&lt;mes_checkin={<span class="str">'Jan'</span>,<span class="str">'Jul'</span>,<span class="str">'Dec'</span>}&gt;} <span class="kw">DISTINCT</span> quarto_id)
+
+<span class="cm">// Comparar com período anterior usando Set Analysis</span>
+<span class="fn">Sum</span>(valor) - <span class="fn">Sum</span>({&lt;mes_checkin={"$(=<span class="fn">MonthName</span>(<span class="fn">AddMonths</span>(<span class="fn">Today</span>(),-<span class="num">1</span>)))"}&gt;} valor)</div>
+
+        <div class="roni-comment">
+            <p><strong>Set Analysis é o equivalente ao CALCULATE() do DAX.</strong> É o conceito mais importante do Qlik. Na entrevista, se perguntarem sobre Qlik Sense, fale: "Uso Set Analysis para criar métricas comparativas — por exemplo, comparar receita do mês atual contra mesmo mês do ano anterior, independente dos filtros que o usuário tenha aplicado."</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>6.5 Qlik Sense vs. Tableau — Comparação rápida de sintaxe</h3>
+        <table class="info-table">
+            <tr><th>O que faz</th><th>Qlik Sense</th><th>Tableau</th></tr>
+            <tr><td>Soma</td><td><code>Sum(valor)</code></td><td><code>SUM([Valor])</code></td></tr>
+            <tr><td>Contagem distinta</td><td><code>Count(DISTINCT campo)</code></td><td><code>COUNTD([Campo])</code></td></tr>
+            <tr><td>Filtro na fórmula</td><td><code>Sum({&lt;canal={'Direct'}&gt;} valor)</code></td><td><code>{FIXED [Canal] : SUM([Valor])}</code></td></tr>
+            <tr><td>Nulo para zero</td><td><code>Alt(campo, 0)</code></td><td><code>ZN([Campo])</code></td></tr>
+            <tr><td>Condicional</td><td><code>If(nota>=9, 'Bom', 'Ruim')</code></td><td><code>IF [Nota]>=9 THEN 'Bom' ELSE 'Ruim' END</code></td></tr>
+            <tr><td>Diferença de datas</td><td><code>checkout - checkin</code></td><td><code>DATEDIFF('day',[Checkin],[Checkout])</code></td></tr>
+            <tr><td>Acumulado</td><td><code>RangeSum(Above(Sum(v),0,RowNo()))</code></td><td><code>RUNNING_SUM(SUM([v]))</code></td></tr>
+        </table>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 7. KPIs DA HOTELARIA -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section id="kpis">
+    <h2>📏 7. KPIs da Hotelaria — Glossário Completo <span class="tag">Domínio</span></h2>
+
+    <div class="card">
+        <h3>KPIs de Receita & Ocupação</h3>
+        <div class="kpi-row">
+            <div class="kpi-card"><div class="kpi-title">Ocupação</div><div class="kpi-val" style="font-size:1rem;">Quartos Vendidos ÷ Disponíveis</div></div>
+            <div class="kpi-card"><div class="kpi-title">ADR</div><div class="kpi-val" style="font-size:1rem;">Receita Quartos ÷ Quartos Vendidos</div></div>
+            <div class="kpi-card"><div class="kpi-title">RevPAR</div><div class="kpi-val" style="font-size:1rem;">Receita Quartos ÷ Quartos Disponíveis</div></div>
+            <div class="kpi-card"><div class="kpi-title">TRevPAR</div><div class="kpi-val" style="font-size:1rem;">Receita TOTAL ÷ Quartos Disponíveis</div></div>
+        </div>
+
+        <table class="info-table">
+            <tr><th>KPI</th><th>Fórmula</th><th>Benchmark Brasil (resort)</th><th>Por que importa</th></tr>
+            <tr><td><strong>Taxa de Ocupação</strong></td><td>Quartos Vendidos / Disponíveis × 100</td><td>55-75%</td><td>Mede quão cheio o hotel está</td></tr>
+            <tr><td><strong>ADR</strong></td><td>Receita de Quartos / Quartos Vendidos</td><td>R$ 300-600</td><td>Preço médio que o hóspede paga</td></tr>
+            <tr><td><strong>RevPAR</strong></td><td>ADR × Ocupação (ou Receita / Disponíveis)</td><td>R$ 180-400</td><td>Receita por quarto contando vazios</td></tr>
+            <tr><td><strong>TRevPAR</strong></td><td>Receita TOTAL / Quartos Disponíveis</td><td>R$ 250-600</td><td>Inclui A&B, spa, loja — mais completo</td></tr>
+            <tr><td><strong>GOPPAR</strong></td><td>GOP / Quartos Disponíveis</td><td>—</td><td>Lucro operacional por quarto</td></tr>
+            <tr><td><strong>Estadia Média</strong></td><td>Total de Noites Vendidas / Nº de Reservas</td><td>2-4 noites</td><td>Quanto tempo o hóspede fica</td></tr>
+            <tr><td><strong>Lead Time</strong></td><td>Data da Reserva - Data do Checkin</td><td>15-45 dias</td><td>Antecedência da reserva</td></tr>
+            <tr><td><strong>Taxa de Cancelamento</strong></td><td>Canceladas / Total de Reservas × 100</td><td>15-25%</td><td>Controle de no-shows e perdas</td></tr>
+            <tr><td><strong>CMV (A&B)</strong></td><td>Custo dos Insumos / Receita A&B × 100</td><td>28-35%</td><td>Eficiência do restaurante/bar</td></tr>
+            <tr><td><strong>GOP Margin</strong></td><td>Gross Operating Profit / Receita Total × 100</td><td>30-45%</td><td>Margem operacional do hotel</td></tr>
+            <tr><td><strong>NPS</strong></td><td>(% Promotores - % Detratores)</td><td>50-70</td><td>Satisfação do hóspede</td></tr>
+            <tr><td><strong>Market Penetration Index</strong></td><td>Ocupação Hotel / Ocupação Mercado</td><td>>1.0 = acima do mercado</td><td>Performance relativa aos concorrentes</td></tr>
+        </table>
+
+        <div class="hotel-box">
+            <p><strong>Enjoy específico:</strong> Com 912 suítes no Olímpia Park, se a ocupação média é 65%, são ~593 suítes ocupadas/noite. Com ADR de R$400, o RevPAR seria ~R$260. Mas o TRevPAR é provavelmente bem mais alto por causa de restaurante, pizzaria, bar, spa e shopping anexo.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>KPIs Financeiros (Controladoria)</h3>
+        <table class="info-table">
+            <tr><th>KPI</th><th>O que é</th><th>Como analisar</th></tr>
+            <tr><td><strong>Budget Variance</strong></td><td>Diferença entre orçado e realizado</td><td>Negativo = gastou mais; Positivo = economizou</td></tr>
+            <tr><td><strong>CPOR</strong> (Cost Per Occupied Room)</td><td>Custo total / Quartos Vendidos</td><td>Quanto custa manter cada quarto ocupado</td></tr>
+            <tr><td><strong>Labor Cost %</strong></td><td>Custo de pessoal / Receita Total</td><td>Hotel típico: 30-40%. Acima disso = ineficiência</td></tr>
+            <tr><td><strong>Energy Cost per Room</strong></td><td>Custo de energia / Total quartos</td><td>Monitorar sazonalidade (ar condicionado no verão)</td></tr>
+            <tr><td><strong>Receita por hóspede</strong></td><td>Receita total / Nº hóspedes</td><td>Mede quanto cada hóspede gasta além da diária</td></tr>
+            <tr><td><strong>Breakeven Occupancy</strong></td><td>Custos Fixos / (ADR - Custo Variável)</td><td>Ocupação mínima para não dar prejuízo</td></tr>
+        </table>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 8. MODELO DE DADOS HOTELEIRO -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section id="modelo">
+    <h2>🗂️ 8. Modelo de Dados Hoteleiro <span class="tag">Modelagem</span></h2>
+
+    <div class="card">
+        <h3>8.1 Star Schema para hotel</h3>
+        <p>O modelo ideal para BI de hotel é um <strong>Star Schema</strong> com uma tabela fato central e dimensões ao redor.</p>
+
+        <h4>Star vs. Snowflake</h4>
+        <table class="info-table">
+            <tr><th>Aspecto</th><th>Star Schema</th><th>Snowflake Schema</th></tr>
+            <tr><td>Dimensões</td><td>Desnormalizadas (1 tabela por dimensão)</td><td>Normalizadas (dimensão pode ter sub-tabelas)</td></tr>
+            <tr><td>Queries</td><td>Menos JOINs → mais rápido</td><td>Mais JOINs → mais normalizado</td></tr>
+            <tr><td>Espaço</td><td>Mais redundância</td><td>Menos redundância</td></tr>
+            <tr><td>Quando usar</td><td>BI, dashboards (preferido)</td><td>Quando dimensão é muito grande</td></tr>
+        </table>
+
+        <div class="code-block"><span class="cm">                    ┌──────────────┐
+                    │  dim_tempo    │
+                    │──────────────│
+                    │ data         │
+                    │ dia_semana   │
+                    │ mes          │
+                    │ trimestre    │
+                    │ ano          │
+                    │ feriado_flag │
+                    └──────┬───────┘
+                           │
+┌──────────────┐   ┌───────┴────────┐   ┌──────────────┐
+│ dim_hospede  │   │  fato_reservas │   │ dim_quarto   │
+│──────────────│   │────────────────│   │──────────────│
+│ hospede_id   ├───┤ hospede_id     │   │ quarto_id    │
+│ nome         │   │ quarto_id      ├───┤ numero       │
+│ cidade       │   │ data_checkin   │   │ tipo         │
+│ estado       │   │ data_checkout  │   │ andar        │
+│ pais         │   │ canal_id       │   │ capacidade   │
+│ segmento     │   │ noites         │   │ diaria_rack  │
+└──────────────┘   │ valor_total    │   └──────────────┘
+                   │ status         │
+┌──────────────┐   │ receita_ab     │   ┌──────────────┐
+│ dim_canal    │   │ receita_spa    │   │ dim_depto    │
+│──────────────│   │ receita_loja   │   │──────────────│
+│ canal_id     ├───┤ depto_id       ├───┤ depto_id     │
+│ nome         │   │ custo_total    │   │ nome         │
+│ tipo         │   └────────────────┘   │ centro_custo │
+│ comissao_pct │                        └──────────────┘
+└──────────────┘</span></div>
+
+        <h4>Tabela Fato vs. Dimensão</h4>
+        <ul>
+            <li><strong>Fato</strong> — contém métricas/medidas numéricas + chaves estrangeiras. Ex: <code>fato_reservas</code> (valor_total, noites, custos)</li>
+            <li><strong>Dimensão</strong> — contém atributos descritivos para filtrar/agrupar. Ex: <code>dim_tempo</code>, <code>dim_hospede</code>, <code>dim_quarto</code></li>
+            <li><strong>Surrogate Key (SK)</strong> — chave artificial (SERIAL) na dimensão, diferente da chave natural do sistema fonte</li>
+            <li><strong>Grain (Granularidade)</strong> — nível de detalhe de uma linha da fato. Ex: "uma linha por reserva" ou "uma linha por noite por reserva"</li>
+        </ul>
+
+        <div class="roni-comment">
+            <p><strong>Na entrevista, se perguntarem sobre modelagem:</strong> "Para um hotel, eu criaria um star schema com fato_reservas como tabela central com granularidade por reserva, conectada às dimensões de tempo, hóspede, quarto e canal. Também criaria uma fato_receitas separada com granularidade por transação, para capturar A&B, spa e loja. A dim_tempo é essencial — permite análise por dia da semana, feriado, temporada."</p>
+        </div>
+
+        <div class="tip-box">
+            <p><strong>Sempre tenha uma tabela calendário (dim_tempo).</strong> É a primeira coisa que um profissional de BI cria. Ela permite análises por dia da semana, feriado, comparação ano a ano, etc. Todas as ferramentas (Power BI, Tableau, Qlik) precisam dela.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>8.2 Fontes de dados num hotel real</h3>
+        <table class="info-table">
+            <tr><th>Sistema</th><th>Sigla</th><th>Dados que fornece</th></tr>
+            <tr><td>Property Management System</td><td><strong>PMS</strong></td><td>Reservas, check-in/out, quartos, hóspedes, tarifas</td></tr>
+            <tr><td>Point of Sale</td><td><strong>POS/PDV</strong></td><td>Vendas dos restaurantes, bares, loja</td></tr>
+            <tr><td>Channel Manager</td><td><strong>CM</strong></td><td>Disponibilidade e tarifas nos canais OTA</td></tr>
+            <tr><td>Revenue Management System</td><td><strong>RMS</strong></td><td>Pricing dinâmico, forecast de demanda</td></tr>
+            <tr><td>ERP/Financeiro</td><td>—</td><td>Contas a pagar/receber, folha, fornecedores</td></tr>
+            <tr><td>CRM</td><td>—</td><td>Histórico do hóspede, preferências, programa de fidelidade</td></tr>
+            <tr><td>Pesquisas de satisfação</td><td><strong>NPS/CSAT</strong></td><td>Reviews, notas, comentários</td></tr>
+        </table>
+
+        <div class="hotel-box">
+            <p>Na Enjoy, como é um condomínio-hotel (proprietários + hóspedes), provavelmente existe um sistema adicional para gestão dos <strong>proprietários</strong> — com informações de rendimentos, ocupação da unidade do proprietário vs. pool de locação, etc. Isso gera relatórios específicos para os donos das suítes.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 9. SOBREVIVENDO O DIA 1 -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section id="dia1">
+    <h2>🚀 9. Guia de Sobrevivência — Primeiros 30 Dias <span class="tag">Pós-contratação</span></h2>
+
+    <div class="card">
+        <h3>Semana 1 — Entender o terreno</h3>
+        <ul>
+            <li>Conhecer a equipe: quem é quem na Controladoria, TI, Recepção, A&B</li>
+            <li>Pedir acesso aos sistemas: PMS, BI existente, banco de dados, ERP</li>
+            <li>Mapear os relatórios que JÁ existem — não reinvente a roda</li>
+            <li><strong>Mapear as fontes de dados: quais sistemas, quais bancos, como os dados fluem hoje</strong></li>
+            <li><strong>Entender se já existe pipeline ETL ou se tudo é manual/Excel</strong></li>
+            <li>Entender o ciclo: quando fecha o mês? quando sai o report? quem recebe?</li>
+            <li>Perguntar: "Qual é o relatório mais importante que sai da Controladoria?"</li>
+            <li>Descobrir quais são as dores — o que demora muito? O que é manual?</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h3>Semana 2 — Mãos na massa (com cuidado)</h3>
+        <ul>
+            <li>Explorar o banco de dados: listar tabelas, entender relações, contar registros</li>
+            <li><strong>Documentar o modelo de dados atual (ER diagram, dicionário de dados)</strong></li>
+            <li>Reproduzir 1 relatório existente usando SQL / a ferramenta de BI</li>
+            <li>Identificar 1 quick-win: algo pequeno que você pode melhorar rapidamente</li>
+            <li><strong>Prototipar 1 pipeline ETL simples (ex: automatizar um report manual)</strong></li>
+            <li>Criar sua primeira visualização simples e mostrar ao gestor para feedback</li>
+        </ul>
+
+        <div class="code-block"><span class="cm">-- Primeiras queries para explorar o banco</span>
+<span class="cm">-- 1. Listar todas as tabelas</span>
+<span class="kw">SELECT</span> table_name <span class="kw">FROM</span> information_schema.tables 
+<span class="kw">WHERE</span> table_schema = <span class="str">'public'</span>;
+
+<span class="cm">-- 2. Ver colunas de uma tabela</span>
+<span class="kw">SELECT</span> column_name, data_type 
+<span class="kw">FROM</span> information_schema.columns 
+<span class="kw">WHERE</span> table_name = <span class="str">'reservas'</span>;
+
+<span class="cm">-- 3. Contar registros</span>
+<span class="kw">SELECT</span> <span class="fn">COUNT</span>(*) <span class="kw">FROM</span> reservas;
+
+<span class="cm">-- 4. Ver amostra dos dados</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> reservas <span class="kw">LIMIT</span> <span class="num">20</span>;
+
+<span class="cm">-- 5. Verificar range de datas</span>
+<span class="kw">SELECT</span> <span class="fn">MIN</span>(checkin), <span class="fn">MAX</span>(checkin) <span class="kw">FROM</span> reservas;
+
+<span class="cm">-- 6. Valores distintos (entender categorias)</span>
+<span class="kw">SELECT</span> <span class="kw">DISTINCT</span> status <span class="kw">FROM</span> reservas;
+<span class="kw">SELECT</span> <span class="kw">DISTINCT</span> categoria <span class="kw">FROM</span> receitas;</div>
+    </div>
+
+    <div class="card">
+        <h3>Semana 3-4 — Gerar valor</h3>
+        <ul>
+            <li>Criar/melhorar 1 dashboard que resolva uma dor real</li>
+            <li>Automatizar 1 processo manual (ex: relatório que alguém faz no Excel todo mês)</li>
+            <li><strong>Propor estrutura de data warehouse se não existir (star schema, camadas)</strong></li>
+            <li><strong>Implementar 1 pipeline ETL automatizado com validação de qualidade</strong></li>
+            <li><strong>Identificar 1 tendência nos dados e apresentar como insight acionável</strong></li>
+            <li>Documentar o que aprendeu sobre os dados (dicionário de dados)</li>
+            <li>Apresentar resultados ao gestor — sempre mostre o "antes vs. depois"</li>
+        </ul>
+
+        <div class="warn-box">
+            <p><strong>Nunca assuma que os dados estão corretos.</strong> Sempre valide. Some as receitas no BI e compare com o financeiro. Se os números não batem, descubra por quê ANTES de publicar o dashboard. Erro de dado em controladoria = problema sério.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Erros comuns de quem começa em BI hoteleiro</h3>
+        <ul>
+            <li><strong>Contar noites errado</strong> — Checkin 10/04 e Checkout 12/04 = 2 noites, não 3</li>
+            <li><strong>Não considerar no-shows</strong> — Reserva confirmada ≠ hóspede veio</li>
+            <li><strong>Misturar receita bruta e líquida</strong> — Booking cobra comissão, o valor no PMS pode ser bruto</li>
+            <li><strong>Ignorar sazonalidade na comparação</strong> — Comparar março com janeiro (férias) é injusto. Compare com março do ano passado</li>
+            <li><strong>Não alinhar o calendário fiscal</strong> — Alguns hotéis fecham o mês no dia 25, não no dia 30</li>
+            <li><strong>Esquecer de excluir apartamentos de manutenção</strong> — Quartos em reforma não contam como disponíveis</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 10. PERGUNTAS DA ENTREVISTA -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section id="perguntas">
+    <h2>🎤 10. Perguntas Prováveis da Entrevista <span class="tag">Prática</span></h2>
+
+    <div class="card">
+        <h3>Perguntas sobre você</h3>
+
+        <details>
+            <summary>"Me fale sobre você"</summary>
+            <div class="details-content">
+                <p>Use o pitch de 30 segundos da seção 1. Adaptável ao contexto. Termine com: "...e estou animado com essa oportunidade na Enjoy porque une análise de dados com o setor de hotelaria e turismo."</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>"Por que BI? Por que não seguiu Física?"</summary>
+            <div class="details-content">
+                <p>"A Física me deu uma base analítica muito forte — modelagem, estatística, pensamento quantitativo. Percebi que essa base se aplica diretamente em BI: transformar dados em insights para decisão. É a mesma lógica de resolver problemas, mas com impacto direto no negócio."</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>"Qual seu maior projeto de dados?"</summary>
+            <div class="details-content">
+                <p>Conte do dashboard que você construiu: "Criei um sistema de dashboard automatizado para pequenos negócios — pipeline ETL completo com Python/Pandas, processamento de CSV, transformação de dados e visualização com Chart.js. O sistema é multi-tenant, cada cliente acessa por URL própria. Desenvolvido de ponta a ponta, do backend ao frontend."</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>"Como você lida com prazos apertados?"</summary>
+            <div class="details-content">
+                <p>"Priorizo o que gera mais valor. Se tenho um relatório para entregar, primeiro garanto que os dados estejam corretos — prefiro entregar algo simples e preciso do que bonito e errado. Depois itero e melhoro."</p>
+            </div>
+        </details>
+    </div>
+
+    <div class="card">
+        <h3>Perguntas técnicas</h3>
+
+        <details>
+            <summary>"Qual a diferença entre INNER JOIN e LEFT JOIN?"</summary>
+            <div class="details-content">
+                <p><strong>INNER JOIN</strong> retorna só linhas que existem nas duas tabelas. <strong>LEFT JOIN</strong> retorna TODAS as linhas da tabela da esquerda, mesmo que não tenha correspondência na direita (nesse caso, campos da direita vêm como NULL).</p>
+                <p>Exemplo prático: "Se faço LEFT JOIN de quartos com reservas, vejo todos os quartos — inclusive os que não têm nenhuma reserva. Com INNER JOIN, quartos sem reserva desaparecem."</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>"O que é GROUP BY e HAVING?"</summary>
+            <div class="details-content">
+                <p><strong>GROUP BY</strong> agrupa linhas para usar funções de agregação (SUM, COUNT, AVG). <strong>HAVING</strong> filtra os grupos depois da agregação — é o WHERE do GROUP BY.</p>
+                <p>Exemplo: "GROUP BY canal me dá a receita por canal. HAVING SUM(valor) > 100000 filtra só canais com receita acima de 100 mil."</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>"O que é uma CTE (Common Table Expression)?"</summary>
+            <div class="details-content">
+                <p>"É uma subconsulta nomeada que fica no topo da query, usando WITH. Torna o código mais legível e permite reutilizar a mesma subconsulta várias vezes. Uso muito para quebrar queries complexas em passos lógicos."</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>"O que é Window Function?"</summary>
+            <div class="details-content">
+                <p>"Funções que calculam sobre um conjunto de linhas relacionadas à linha atual, sem colapsar o resultado como GROUP BY faz. Exemplo: RANK() para ranking, LAG() para comparar com o valor anterior, SUM() OVER para acumulado."</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>"Me explique o que é RevPAR"</summary>
+            <div class="details-content">
+                <p>"Revenue Per Available Room — é a receita de quartos dividida pelo total de quartos disponíveis. É o KPI mais importante porque considera tanto o preço (ADR) quanto a ocupação. Um hotel pode ter ADR alto mas ocupação baixa, e outro o contrário — o RevPAR mostra qual realmente performa melhor."</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>"Qual a diferença entre Tableau e Qlik Sense?"</summary>
+            <div class="details-content">
+                <p>"Tableau é muito forte em visualização e exploração ad-hoc — a interface drag-and-drop é intuitiva e os gráficos são bonitos. Qlik Sense tem o motor associativo como diferencial — quando você clica em qualquer valor, ele filtra automaticamente todo o modelo de dados, mostrando valores associados e excluídos. Tableau trabalha mais com queries sob demanda, enquanto Qlik carrega tudo em memória."</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>"Como você garante que os dados do dashboard estão corretos?"</summary>
+            <div class="details-content">
+                <p>"Sempre faço validação cruzada: comparo o total do dashboard com o total do financeiro ou do sistema fonte. Se tenho 100 reservas no PMS, preciso ter 100 no BI. Também verifico outliers — se aparece uma diária de R$50.000, provavelmente é erro de digitação. E crio uma rotina de verificação automática com alertas quando os números fogem do padrão esperado."</p>
+            </div>
+        </details>
+    </div>
+
+    <div class="card">
+        <h3>Perguntas técnicas — ETL, Data Warehouse e Modelagem</h3>
+
+        <details>
+            <summary>"O que é ETL e como você implementaria aqui?"</summary>
+            <div class="details-content">
+                <p>"ETL é Extract, Transform, Load — o processo de extrair dados dos sistemas-fonte, transformar (limpar, padronizar, validar) e carregar num data warehouse. Num hotel como a Enjoy, eu extrairia do PMS as reservas e quartos, do PDV as vendas de A&B, e do ERP os dados financeiros. Na transformação, padronizaria nomes de canais, calcularia métricas como noites e diária média, e validaria outliers. Na carga, alimentaria tabelas fato e dimensão num star schema."</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>"Qual a diferença entre OLTP e OLAP?"</summary>
+            <div class="details-content">
+                <p>"OLTP é o banco transacional — o PMS do hotel, por exemplo — otimizado para muitas escritas rápidas como registrar reservas e check-ins. OLAP é o data warehouse — otimizado para leituras complexas, agregações e análises históricas. Nunca se faz BI direto no OLTP porque as queries pesadas de análise atrapalham a operação."</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>"O que é um Star Schema? Por que usar?"</summary>
+            <div class="details-content">
+                <p>"É um modelo dimensional com uma tabela fato central — contendo métricas numéricas como valor, noites, custo — conectada a dimensões ao redor — tempo, hóspede, quarto, canal. O star schema é preferido para BI porque simplifica as queries (menos JOINs), é intuitivo para ferramentas como Tableau e Qlik, e tem boa performance em agregações."</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>"Como você garante a qualidade dos dados no pipeline?"</summary>
+            <div class="details-content">
+                <p>"Implemento validações em cada etapa: na extração, verifico completude e volume esperado. Na transformação, trato NULLs, detecto duplicatas com ROW_NUMBER, e valido ranges (diária entre R$50 e R$5000, por exemplo). Na carga, comparo totais com a fonte e gero logs de anomalias. Também crio dashboards de data quality para monitorar essas métricas continuamente."</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>"O que é SCD (Slowly Changing Dimension)?"</summary>
+            <div class="details-content">
+                <p>"É como lidamos com mudanças em dados de dimensão ao longo do tempo. Tipo 1 sobrescreve — uso para correções. Tipo 2 cria nova linha com datas de vigência — uso quando preciso do histórico, como quando a tarifa de um quarto muda. Tipo 3 adiciona coluna para o valor anterior. Na hotelaria, Tipo 2 é importante para dim_quarto (mudança de tarifa) e dim_canal (mudança de comissão)."</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>"Você já identificou uma tendência nos dados que gerou valor?"</summary>
+            <div class="details-content">
+                <p>"Sim. Num projeto, analisei dados de vendas e identifiquei que [adapte ao seu caso: certo canal tinha ticket alto mas alta taxa de cancelamento / certos horários tinham pico de demanda desproporcional / sazonalidade diferente do esperado]. Isso levou a [ação tomada]. É o tipo de insight que a vaga pede — usar dados para identificar tendências e melhorias que agreguem valor ao negócio."</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>"Como você desenharia um data warehouse para a Enjoy?"</summary>
+            <div class="details-content">
+                <p>"Primeiro, definiria as camadas: bronze (dados brutos do PMS, PDV e ERP), silver (dados limpos e padronizados), e gold (star schema para consumo). O modelo teria pelo menos duas tabelas fato — fato_reservas (granularidade por reserva) e fato_receitas (granularidade por transação). As dimensões seriam tempo, hóspede, quarto, canal e departamento. A dim_tempo teria flags de feriado e temporada, crucial para análise de sazonalidade. O pipeline ETL rodaria diariamente, com validações automáticas comparando totais com as fontes."</p>
+            </div>
+        </details>
+    </div>
+
+    <div class="card">
+        <h3>Perguntas para VOCÊ fazer ao entrevistador</h3>
+        <p>Sempre pergunte. Demonstra interesse e maturidade:</p>
+        <ol>
+            <li>"Quais são os principais relatórios que a Controladoria produz hoje? Com que frequência?"</li>
+            <li>"Já existe alguma ferramenta de BI em uso, ou eu estaria começando do zero?"</li>
+            <li>"Quais sistemas vocês usam como fonte de dados? PMS, ERP?"</li>
+            <li>"Qual é o maior desafio de dados que a equipe enfrenta hoje?"</li>
+            <li>"Como é a estrutura da equipe de dados? Terei interação com TI?"</li>
+        </ol>
+    </div>
+
+    <div class="card">
+        <h3>⚡ Termos para soltar naturalmente na conversa</h3>
+        <p>Demonstram fluência no setor. Use quando fizer sentido, sem forçar:</p>
+        <div class="card-grid">
+            <div class="card-sm">
+                <h4>Hotelaria</h4>
+                <p>RevPAR, ADR, TRevPAR, GOP, OTA, PMS, no-show, lead time, room night, rack rate, BAR (Best Available Rate), forecast, pickup report, compset (competitive set)</p>
+            </div>
+            <div class="card-sm">
+                <h4>BI / Dados</h4>
+                <p>ETL/ELT, star schema, snowflake, tabela fato, dimensão, surrogate key, granularidade, SCD, data warehouse, data mart, OLTP vs. OLAP, bronze/silver/gold, drill-down, slice and dice, ad-hoc, KPI, dashboard, data model, calculated field, set analysis, LOD expression, DAX, data quality, data lineage</p>
+            </div>
+            <div class="card-sm">
+                <h4>Controladoria</h4>
+                <p>Budget vs. realizado, forecast, P&L (profit and loss), CMV, USALI (Uniform System of Accounts for the Lodging Industry), centro de custo, variance analysis</p>
+            </div>
+        </div>
+
+        <div class="roni-comment">
+            <p><strong>USALI</strong> é o sistema contábil padrão da hotelaria mundial (Uniform System of Accounts for the Lodging Industry). Se mencionarem, é o plano de contas que divide receitas e custos por departamento (Rooms, F&B, Other Operated Departments, Undistributed). Saber que existe e para que serve já te diferencia.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 11. KPIs FINANCEIROS — DEEP DIVE -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section id="kpis-deep">
+    <h2>💰 11. KPIs Financeiros — Deep Dive para Entrevista <span class="tag">Diferencial</span></h2>
+
+    <p>Os 7 KPIs que um Diretor Financeiro hoteleiro vive e respira. Não basta saber a fórmula — entenda o que cada um <strong>revela, esconde e implica</strong>. Organizado do mais básico ao que realmente impressiona.</p>
+
+    <!-- ── ADR ── -->
+    <div class="card">
+        <h3>🔵 1. ADR — Average Daily Rate (Diária Média)</h3>
+
+        <div class="kpi-row">
+            <div class="kpi-card">
+                <div class="kpi-title">Fórmula</div>
+                <div class="kpi-val" style="font-size:0.95rem;">Receita de Quartos ÷ Quartos Vendidos</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Benchmark Resort BR</div>
+                <div class="kpi-val" style="font-size:1.2rem;">R$ 300–600</div>
+            </div>
+        </div>
+
+        <h4>O que mede</h4>
+        <p>O preço médio que o hóspede paga por noite. Reflete o <strong>poder de precificação</strong> do hotel.</p>
+
+        <h4>O que ele revela vs. o que esconde</h4>
+        <table class="info-table">
+            <tr><th>Revela</th><th>Esconde</th></tr>
+            <tr><td>Posicionamento (premium vs. desconto)</td><td>Quantos quartos ficaram vazios</td></tr>
+            <tr><td>Eficácia do revenue management</td><td>Qualidade da receita (canal direto vs. OTA)</td></tr>
+            <tr><td>Capacidade de subir preço em alta temporada</td><td>Custos operacionais por quarto</td></tr>
+        </table>
+
+        <h4>Trade-off clássico</h4>
+        <ul>
+            <li><strong>ADR alto</strong> → bom preço, mas pode derrubar ocupação → quartos vazios</li>
+            <li><strong>ADR baixo</strong> → mais volume, mas margem menor por quarto</li>
+        </ul>
+
+        <h4>Tipo de gráfico recomendado</h4>
+        <table class="info-table">
+            <tr><th>Gráfico</th><th>Quando usar</th></tr>
+            <tr><td><strong>Linha</strong></td><td>Tendência mensal — ADR ao longo de 12 meses, comparação YoY</td></tr>
+            <tr><td><strong>Barra agrupada</strong></td><td>ADR por tipo de quarto (Luxo I vs. Família vs. Standard)</td></tr>
+            <tr><td><strong>Combo (linha + barra)</strong></td><td>ADR (linha) + nº de quartos vendidos (barra) — para ver o trade-off</td></tr>
+        </table>
+
+        <h4>SQL — Cálculo mensal</h4>
+        <div class="code-block"><span class="kw">SELECT</span>
+    <span class="fn">DATE_TRUNC</span>(<span class="str">'month'</span>, r.checkin) <span class="kw">AS</span> mes,
+    <span class="fn">SUM</span>(r.valor_total) <span class="kw">AS</span> receita_quartos,
+    <span class="fn">SUM</span>(<span class="fn">DATE_PART</span>(<span class="str">'day'</span>, r.checkout - r.checkin)) <span class="kw">AS</span> room_nights_vendidas,
+    <span class="fn">ROUND</span>(
+        <span class="fn">SUM</span>(r.valor_total) / <span class="fn">NULLIF</span>(<span class="fn">SUM</span>(<span class="fn">DATE_PART</span>(<span class="str">'day'</span>, r.checkout - r.checkin)), <span class="num">0</span>), <span class="num">2</span>
+    ) <span class="kw">AS</span> adr
+<span class="kw">FROM</span> reservas r
+<span class="kw">WHERE</span> r.status = <span class="str">'finalizada'</span>
+<span class="kw">GROUP BY</span> <span class="num">1</span>
+<span class="kw">ORDER BY</span> mes;</div>
+
+        <h4>Estrutura CSV para dashboard</h4>
+        <div class="code-block">mes,receita_quartos,room_nights,adr
+2026-01,2850000,5200,548.08
+2026-02,1920000,4100,468.29
+2026-03,1650000,3800,434.21
+2026-04,2100000,4500,466.67</div>
+
+        <div class="roni-comment">
+            <p><strong>Na entrevista:</strong> "O ADR sozinho engana — um hotel pode ter ADR de R$600 e 40% de ocupação. O RevPAR coloca os dois juntos. Mas pra Controladoria, o que importa mesmo é o ADR líquido — descontada a comissão da OTA."</p>
+        </div>
+    </div>
+
+    <!-- ── OCCUPANCY ── -->
+    <div class="card">
+        <h3>🔵 2. Occupancy — Taxa de Ocupação</h3>
+
+        <div class="kpi-row">
+            <div class="kpi-card">
+                <div class="kpi-title">Fórmula</div>
+                <div class="kpi-val" style="font-size:0.95rem;">Quartos Vendidos ÷ Quartos Disponíveis × 100</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Benchmark Resort BR</div>
+                <div class="kpi-val" style="font-size:1.2rem;">55–75%</div>
+            </div>
+        </div>
+
+        <h4>O que mede</h4>
+        <p>Percentual de quartos ocupados. Mede <strong>eficiência de venda e demanda real</strong>.</p>
+
+        <h4>Trade-off clássico</h4>
+        <ul>
+            <li><strong>Ocupação alta</strong> → operação cheia, mas pode estar dando desconto para encher</li>
+            <li><strong>Ocupação baixa</strong> → espaço para subir preço, mas custo fixo diluído em menos quartos</li>
+        </ul>
+
+        <div class="warn-box">
+            <p><strong>Cuidado:</strong> quartos em manutenção/reforma NÃO contam como disponíveis. Se o hotel tem 912 suítes e 50 estão em reforma, o total disponível é 862. Erro comum de quem começa em BI hoteleiro.</p>
+        </div>
+
+        <h4>Tipo de gráfico recomendado</h4>
+        <table class="info-table">
+            <tr><th>Gráfico</th><th>Quando usar</th></tr>
+            <tr><td><strong>Heatmap</strong></td><td>Ocupação por dia da semana × semana do mês — revela padrões (ex: sexta e sábado lotam, terça vazia)</td></tr>
+            <tr><td><strong>Linha</strong></td><td>Tendência diária ou mensal — comparação com mesmo período ano anterior</td></tr>
+            <tr><td><strong>KPI Card com gauge</strong></td><td>Ocupação do dia/semana atual — visão rápida para a diretoria</td></tr>
+        </table>
+
+        <h4>SQL — Ocupação diária</h4>
+        <div class="code-block"><span class="kw">WITH</span> quartos_ativos <span class="kw">AS</span> (
+    <span class="kw">SELECT</span> <span class="fn">COUNT</span>(*) <span class="kw">AS</span> total
+    <span class="kw">FROM</span> quartos <span class="kw">WHERE</span> status = <span class="str">'ativo'</span>
+)
+<span class="kw">SELECT</span>
+    d.data,
+    <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> r.quarto_id) <span class="kw">AS</span> quartos_ocupados,
+    qa.total <span class="kw">AS</span> quartos_disponiveis,
+    <span class="fn">ROUND</span>(
+        <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> r.quarto_id) * <span class="num">100.0</span> / qa.total, <span class="num">1</span>
+    ) <span class="kw">AS</span> ocupacao_pct
+<span class="kw">FROM</span> calendario d
+<span class="kw">CROSS JOIN</span> quartos_ativos qa
+<span class="kw">LEFT JOIN</span> reservas r
+    <span class="kw">ON</span> d.data >= r.checkin <span class="kw">AND</span> d.data &lt; r.checkout
+    <span class="kw">AND</span> r.status <span class="kw">IN</span> (<span class="str">'confirmada'</span>, <span class="str">'finalizada'</span>)
+<span class="kw">WHERE</span> d.data <span class="kw">BETWEEN</span> <span class="str">'2026-04-01'</span> <span class="kw">AND</span> <span class="str">'2026-04-30'</span>
+<span class="kw">GROUP BY</span> d.data, qa.total
+<span class="kw">ORDER BY</span> d.data;</div>
+
+        <h4>Estrutura CSV</h4>
+        <div class="code-block">data,quartos_ocupados,quartos_disponiveis,ocupacao_pct
+2026-04-01,620,862,71.9
+2026-04-02,585,862,67.9
+2026-04-03,540,862,62.6</div>
+    </div>
+
+    <!-- ── RevPAR ── -->
+    <div class="card">
+        <h3>🔵 3. RevPAR — Revenue per Available Room</h3>
+
+        <div class="kpi-row">
+            <div class="kpi-card">
+                <div class="kpi-title">Fórmula</div>
+                <div class="kpi-val" style="font-size:0.95rem;">ADR × Ocupação</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Fórmula alternativa</div>
+                <div class="kpi-val" style="font-size:0.85rem;">Receita Quartos ÷ Quartos Disponíveis</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Benchmark Resort BR</div>
+                <div class="kpi-val" style="font-size:1.2rem;">R$ 180–400</div>
+            </div>
+        </div>
+
+        <h4>O que mede</h4>
+        <p>Performance comercial geral — combina preço E ocupação num único número. É o <strong>KPI mais citado</strong> na hotelaria.</p>
+
+        <h4>Limitação crítica</h4>
+        <div class="warn-box">
+            <p><strong>RevPAR ignora custos.</strong> Um hotel pode ter RevPAR crescendo 10% — mas se os custos operacionais crescem 15%, o lucro caiu. Por isso o Diretor Financeiro olha GOPPAR, não só RevPAR.</p>
+        </div>
+
+        <h4>Tipo de gráfico recomendado</h4>
+        <table class="info-table">
+            <tr><th>Gráfico</th><th>Quando usar</th></tr>
+            <tr><td><strong>Linha dupla</strong></td><td>RevPAR atual vs. mesmo mês ano anterior — tendência comparativa</td></tr>
+            <tr><td><strong>Scatter plot</strong></td><td>ADR (eixo X) vs. Ocupação (eixo Y), bolha = RevPAR — revela o trade-off por período</td></tr>
+            <tr><td><strong>Bullet chart</strong></td><td>RevPAR real vs. meta/budget — ideal para reunião de controladoria</td></tr>
+        </table>
+
+        <h4>SQL — RevPAR mensal</h4>
+        <div class="code-block"><span class="kw">WITH</span> metricas <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        <span class="fn">DATE_TRUNC</span>(<span class="str">'month'</span>, r.checkin) <span class="kw">AS</span> mes,
+        <span class="fn">SUM</span>(r.valor_total) <span class="kw">AS</span> receita_quartos,
+        <span class="fn">SUM</span>(<span class="fn">DATE_PART</span>(<span class="str">'day'</span>, r.checkout - r.checkin)) <span class="kw">AS</span> room_nights_vendidas
+    <span class="kw">FROM</span> reservas r
+    <span class="kw">WHERE</span> r.status = <span class="str">'finalizada'</span>
+    <span class="kw">GROUP BY</span> <span class="num">1</span>
+),
+disponivel <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        <span class="fn">DATE_TRUNC</span>(<span class="str">'month'</span>, d.data) <span class="kw">AS</span> mes,
+        <span class="fn">COUNT</span>(d.data) * (<span class="kw">SELECT</span> <span class="fn">COUNT</span>(*) <span class="kw">FROM</span> quartos <span class="kw">WHERE</span> status = <span class="str">'ativo'</span>) <span class="kw">AS</span> room_nights_disp
+    <span class="kw">FROM</span> calendario d
+    <span class="kw">GROUP BY</span> <span class="num">1</span>
+)
+<span class="kw">SELECT</span>
+    m.mes,
+    <span class="fn">ROUND</span>(m.receita_quartos / <span class="fn">NULLIF</span>(m.room_nights_vendidas, <span class="num">0</span>), <span class="num">2</span>) <span class="kw">AS</span> adr,
+    <span class="fn">ROUND</span>(m.room_nights_vendidas * <span class="num">100.0</span> / d.room_nights_disp, <span class="num">1</span>) <span class="kw">AS</span> ocupacao_pct,
+    <span class="fn">ROUND</span>(m.receita_quartos / <span class="fn">NULLIF</span>(d.room_nights_disp, <span class="num">0</span>), <span class="num">2</span>) <span class="kw">AS</span> revpar
+<span class="kw">FROM</span> metricas m
+<span class="kw">JOIN</span> disponivel d <span class="kw">ON</span> d.mes = m.mes
+<span class="kw">ORDER BY</span> m.mes;</div>
+
+        <h4>Estrutura CSV</h4>
+        <div class="code-block">mes,adr,ocupacao_pct,revpar
+2026-01,548.08,72.5,397.36
+2026-02,468.29,58.3,273.01
+2026-03,434.21,52.1,226.22</div>
+    </div>
+
+    <!-- ── TRevPAR ── -->
+    <div class="card">
+        <h3>🟢 4. TRevPAR — Total Revenue per Available Room</h3>
+
+        <div class="kpi-row">
+            <div class="kpi-card">
+                <div class="kpi-title">Fórmula</div>
+                <div class="kpi-val" style="font-size:0.95rem;">Receita TOTAL ÷ Quartos Disponíveis</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Inclui</div>
+                <div class="kpi-val" style="font-size:0.8rem;">Quartos + A&B + Spa + Loja + Eventos</div>
+            </div>
+        </div>
+
+        <h4>O que mede</h4>
+        <p>Capacidade de <strong>monetizar o hóspede além da diária</strong>. Num resort como a Enjoy, o TRevPAR pode ser 40-60% maior que o RevPAR, porque restaurante, bar, spa e shopping geram receita extra significativa.</p>
+
+        <h4>Insight de negócio</h4>
+        <div class="hotel-box">
+            <p><strong>Hotel bom não vende só diária — vende a experiência inteira.</strong> Se o TRevPAR está muito próximo do RevPAR, significa que o hóspede não está gastando quase nada além do quarto. Isso pode indicar: (1) restaurante caro demais, (2) pouca oferta de serviços, (3) hóspedes saindo para comer fora. Num resort que tem shopping anexo como a Enjoy, o TRevPAR deveria estar bem acima.</p>
+        </div>
+
+        <h4>Tipo de gráfico recomendado</h4>
+        <table class="info-table">
+            <tr><th>Gráfico</th><th>Quando usar</th></tr>
+            <tr><td><strong>Barra empilhada</strong></td><td>Composição do TRevPAR: quanto vem de quartos, A&B, spa, loja — por mês</td></tr>
+            <tr><td><strong>Waterfall</strong></td><td>Como o RevPAR "cresce" até virar TRevPAR com cada departamento</td></tr>
+            <tr><td><strong>KPI Card duplo</strong></td><td>RevPAR vs. TRevPAR lado a lado — mostra o "gap" de monetização</td></tr>
+        </table>
+
+        <h4>SQL — TRevPAR mensal com composição</h4>
+        <div class="code-block"><span class="kw">WITH</span> receita_total <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        <span class="fn">DATE_TRUNC</span>(<span class="str">'month'</span>, rec.data) <span class="kw">AS</span> mes,
+        <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> rec.categoria = <span class="str">'hospedagem'</span> <span class="kw">THEN</span> rec.valor <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> rec_quartos,
+        <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> rec.categoria = <span class="str">'A&B'</span> <span class="kw">THEN</span> rec.valor <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> rec_ab,
+        <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> rec.categoria = <span class="str">'spa'</span> <span class="kw">THEN</span> rec.valor <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> rec_spa,
+        <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> rec.categoria = <span class="str">'loja'</span> <span class="kw">THEN</span> rec.valor <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> rec_loja,
+        <span class="fn">SUM</span>(rec.valor) <span class="kw">AS</span> rec_total
+    <span class="kw">FROM</span> receitas rec
+    <span class="kw">GROUP BY</span> <span class="num">1</span>
+),
+room_nights <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        <span class="fn">DATE_TRUNC</span>(<span class="str">'month'</span>, d.data) <span class="kw">AS</span> mes,
+        <span class="fn">COUNT</span>(d.data) * (<span class="kw">SELECT</span> <span class="fn">COUNT</span>(*) <span class="kw">FROM</span> quartos <span class="kw">WHERE</span> status = <span class="str">'ativo'</span>) <span class="kw">AS</span> rn_disp
+    <span class="kw">FROM</span> calendario d
+    <span class="kw">GROUP BY</span> <span class="num">1</span>
+)
+<span class="kw">SELECT</span>
+    rt.mes,
+    <span class="fn">ROUND</span>(rt.rec_quartos / rn.rn_disp, <span class="num">2</span>) <span class="kw">AS</span> revpar,
+    <span class="fn">ROUND</span>(rt.rec_total / rn.rn_disp, <span class="num">2</span>) <span class="kw">AS</span> trevpar,
+    <span class="fn">ROUND</span>((rt.rec_total - rt.rec_quartos) * <span class="num">100.0</span> / rt.rec_total, <span class="num">1</span>) <span class="kw">AS</span> pct_receita_nao_quarto
+<span class="kw">FROM</span> receita_total rt
+<span class="kw">JOIN</span> room_nights rn <span class="kw">ON</span> rn.mes = rt.mes
+<span class="kw">ORDER BY</span> rt.mes;</div>
+
+        <h4>Estrutura CSV</h4>
+        <div class="code-block">mes,rec_quartos,rec_ab,rec_spa,rec_loja,rec_total,rn_disp,revpar,trevpar
+2026-01,2850000,980000,145000,210000,4185000,26722,106.68,156.62
+2026-02,1920000,720000,110000,160000,2910000,24136,79.57,120.56</div>
+    </div>
+
+    <!-- ── GOPPAR ── -->
+    <div class="card">
+        <h3>🟢 5. GOPPAR — Gross Operating Profit per Available Room <span class="badge badge-red">KPI do CFO</span></h3>
+
+        <div class="kpi-row">
+            <div class="kpi-card">
+                <div class="kpi-title">Fórmula</div>
+                <div class="kpi-val" style="font-size:0.85rem;">(Receita Total − Custos Operacionais) ÷ Quartos Disponíveis</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">O que realmente mede</div>
+                <div class="kpi-val" style="font-size:0.8rem;">Geração real de valor por quarto</div>
+            </div>
+        </div>
+
+        <h4>Por que esse é O KPI para o Diretor Financeiro</h4>
+        <p>RevPAR mede força comercial. <strong>GOPPAR mede se o hotel ganha dinheiro.</strong> Um hotel pode ter RevPAR crescendo enquanto o GOPPAR cai — basta os custos subirem mais que a receita.</p>
+
+        <div class="hotel-box">
+            <p><strong>O entrevistador compartilhou um post dizendo exatamente isso:</strong> "Revenue is activity. Profit is value creation." Se você mencionar GOPPAR naturalmente na entrevista, ele vai reconhecer que você entende a métrica que ele mais valoriza.</p>
+        </div>
+
+        <h4>O que o GOPPAR captura que os outros não capturam</h4>
+        <ul>
+            <li><strong>Eficiência operacional</strong> — se o custo de pessoal está alto demais</li>
+            <li><strong>Escalabilidade</strong> — se crescer ocupação gera lucro ou só custo</li>
+            <li><strong>Sustentabilidade</strong> — se o crescimento de receita se traduz em valor real</li>
+        </ul>
+
+        <h4>Tipo de gráfico recomendado</h4>
+        <table class="info-table">
+            <tr><th>Gráfico</th><th>Quando usar</th></tr>
+            <tr><td><strong>Waterfall</strong></td><td>TRevPAR → menos custos por departamento → GOPPAR final — ideal para reunião de diretoria</td></tr>
+            <tr><td><strong>Linha tripla</strong></td><td>RevPAR + TRevPAR + GOPPAR ao longo do tempo — se as linhas se afastam, custo está descontrolado</td></tr>
+            <tr><td><strong>Bullet chart</strong></td><td>GOPPAR real vs. meta orçada — variação positiva/negativa em destaque</td></tr>
+            <tr><td><strong>Barra horizontal</strong></td><td>GOPPAR por resort (Olímpia Park vs. Solar das Águas) — benchmarking interno</td></tr>
+        </table>
+
+        <h4>SQL — GOPPAR mensal</h4>
+        <div class="code-block"><span class="kw">WITH</span> receita <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        <span class="fn">DATE_TRUNC</span>(<span class="str">'month'</span>, data) <span class="kw">AS</span> mes,
+        <span class="fn">SUM</span>(valor) <span class="kw">AS</span> receita_total
+    <span class="kw">FROM</span> receitas
+    <span class="kw">GROUP BY</span> <span class="num">1</span>
+),
+custos <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        <span class="fn">DATE_TRUNC</span>(<span class="str">'month'</span>, data) <span class="kw">AS</span> mes,
+        <span class="fn">SUM</span>(valor) <span class="kw">AS</span> custo_operacional,
+        <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> categoria = <span class="str">'pessoal'</span> <span class="kw">THEN</span> valor <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> custo_pessoal,
+        <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> categoria = <span class="str">'A&B'</span> <span class="kw">THEN</span> valor <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> cmv_ab,
+        <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> categoria = <span class="str">'energia'</span> <span class="kw">THEN</span> valor <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> custo_energia
+    <span class="kw">FROM</span> despesas
+    <span class="kw">GROUP BY</span> <span class="num">1</span>
+),
+room_nights <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        <span class="fn">DATE_TRUNC</span>(<span class="str">'month'</span>, d.data) <span class="kw">AS</span> mes,
+        <span class="fn">COUNT</span>(d.data) * (<span class="kw">SELECT</span> <span class="fn">COUNT</span>(*) <span class="kw">FROM</span> quartos <span class="kw">WHERE</span> status = <span class="str">'ativo'</span>) <span class="kw">AS</span> rn_disp
+    <span class="kw">FROM</span> calendario d
+    <span class="kw">GROUP BY</span> <span class="num">1</span>
+)
+<span class="kw">SELECT</span>
+    r.mes,
+    <span class="fn">ROUND</span>(r.receita_total / rn.rn_disp, <span class="num">2</span>) <span class="kw">AS</span> trevpar,
+    <span class="fn">ROUND</span>(c.custo_operacional / rn.rn_disp, <span class="num">2</span>) <span class="kw">AS</span> cpor_total,
+    <span class="fn">ROUND</span>((r.receita_total - c.custo_operacional) / rn.rn_disp, <span class="num">2</span>) <span class="kw">AS</span> goppar,
+    <span class="fn">ROUND</span>((r.receita_total - c.custo_operacional) * <span class="num">100.0</span> / r.receita_total, <span class="num">1</span>) <span class="kw">AS</span> gop_margin_pct
+<span class="kw">FROM</span> receita r
+<span class="kw">JOIN</span> custos c <span class="kw">ON</span> c.mes = r.mes
+<span class="kw">JOIN</span> room_nights rn <span class="kw">ON</span> rn.mes = r.mes
+<span class="kw">ORDER BY</span> r.mes;</div>
+
+        <h4>Estrutura CSV</h4>
+        <div class="code-block">mes,receita_total,custo_operacional,gop,rn_disp,trevpar,goppar,gop_margin_pct
+2026-01,4185000,2680000,1505000,26722,156.62,56.33,35.96
+2026-02,2910000,2150000,760000,24136,120.56,31.49,26.12</div>
+
+        <div class="roni-comment">
+            <p><strong>Insight para a entrevista:</strong> "Quando RevPAR sobe 8% mas GOPPAR sobe só 2%, o sinal é claro: custos estão crescendo perto da receita. É aí que a controladoria entra — para descobrir se é CMV, pessoal, energia ou comissão de OTA que está comendo a margem."</p>
+        </div>
+    </div>
+
+    <!-- ── NRevPAR ── -->
+    <div class="card">
+        <h3>🟢 6. NRevPAR — Net Revenue per Available Room</h3>
+
+        <div class="kpi-row">
+            <div class="kpi-card">
+                <div class="kpi-title">Fórmula</div>
+                <div class="kpi-val" style="font-size:0.85rem;">(Receita Quartos − Custos de Distribuição) ÷ Quartos Disponíveis</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Custos de distribuição</div>
+                <div class="kpi-val" style="font-size:0.8rem;">Comissão OTA + taxas de canal</div>
+            </div>
+        </div>
+
+        <h4>O que mede</h4>
+        <p><strong>Qualidade da receita.</strong> Nem toda receita é igual — R$500 via Booking (15-20% de comissão) rende R$400-425 líquidos. R$500 via site direto rende R$500.</p>
+
+        <h4>Insight forte</h4>
+        <div class="hotel-box">
+            <p><strong>Canal importa tanto quanto preço.</strong> Um hotel pode aumentar RevPAR 10% trocando canal direto por Booking — mas o NRevPAR caiu, porque a comissão comeu o ganho. A Controladoria quer AUMENTAR venda direta justamente por isso. Esse é um dos relatórios mais pedidos.</p>
+        </div>
+
+        <h4>Tipo de gráfico recomendado</h4>
+        <table class="info-table">
+            <tr><th>Gráfico</th><th>Quando usar</th></tr>
+            <tr><td><strong>Barra agrupada</strong></td><td>RevPAR vs. NRevPAR por canal — mostra o "custo" de cada canal</td></tr>
+            <tr><td><strong>Treemap</strong></td><td>Participação de cada canal na receita LÍQUIDA (não bruta)</td></tr>
+            <tr><td><strong>KPI Card com seta</strong></td><td>% da receita que vai para comissão — e tendência (subindo ou caindo)</td></tr>
+        </table>
+
+        <h4>SQL — NRevPAR por canal</h4>
+        <div class="code-block"><span class="kw">SELECT</span>
+    c.nome <span class="kw">AS</span> canal,
+    <span class="fn">SUM</span>(r.valor_total) <span class="kw">AS</span> receita_bruta,
+    <span class="fn">SUM</span>(r.valor_total * c.comissao_pct / <span class="num">100</span>) <span class="kw">AS</span> custo_distribuicao,
+    <span class="fn">SUM</span>(r.valor_total * (<span class="num">1</span> - c.comissao_pct / <span class="num">100</span>)) <span class="kw">AS</span> receita_liquida,
+    <span class="fn">ROUND</span>(
+        <span class="fn">SUM</span>(r.valor_total * (<span class="num">1</span> - c.comissao_pct / <span class="num">100</span>))
+        / (<span class="kw">SELECT</span> <span class="fn">COUNT</span>(d.data) * (<span class="kw">SELECT</span> <span class="fn">COUNT</span>(*) <span class="kw">FROM</span> quartos <span class="kw">WHERE</span> status = <span class="str">'ativo'</span>)
+           <span class="kw">FROM</span> calendario d 
+           <span class="kw">WHERE</span> d.data <span class="kw">BETWEEN</span> <span class="str">'2026-04-01'</span> <span class="kw">AND</span> <span class="str">'2026-04-30'</span>),
+    <span class="num">2</span>) <span class="kw">AS</span> nrevpar
+<span class="kw">FROM</span> reservas r
+<span class="kw">JOIN</span> canais c <span class="kw">ON</span> c.id = r.canal_id
+<span class="kw">WHERE</span> r.status = <span class="str">'finalizada'</span>
+    <span class="kw">AND</span> r.checkin <span class="kw">BETWEEN</span> <span class="str">'2026-04-01'</span> <span class="kw">AND</span> <span class="str">'2026-04-30'</span>
+<span class="kw">GROUP BY</span> c.nome
+<span class="kw">ORDER BY</span> receita_liquida <span class="kw">DESC</span>;</div>
+
+        <h4>Estrutura CSV</h4>
+        <div class="code-block">canal,receita_bruta,comissao_pct,custo_distribuicao,receita_liquida,nrevpar
+Direto,1200000,0,0,1200000,46.41
+Booking,850000,18,153000,697000,26.96
+Decolar,420000,15,63000,357000,13.81
+Agência,310000,12,37200,272800,10.55</div>
+    </div>
+
+    <!-- ── CPOR ── -->
+    <div class="card">
+        <h3>🔴 7. CPOR — Cost per Occupied Room <span class="badge badge-red">Conector</span></h3>
+
+        <div class="kpi-row">
+            <div class="kpi-card">
+                <div class="kpi-title">Fórmula</div>
+                <div class="kpi-val" style="font-size:0.95rem;">Custos Operacionais ÷ Quartos Vendidos</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Inclui</div>
+                <div class="kpi-val" style="font-size:0.75rem;">Pessoal + Suprimentos + Energia + Manutenção</div>
+            </div>
+        </div>
+
+        <h4>O que mede</h4>
+        <p><strong>Quanto custa manter cada quarto ocupado.</strong> Esse KPI conecta receita e custo — é o outro lado da equação que o GOPPAR resume.</p>
+
+        <h4>Por que é perigoso quando sobe</h4>
+        <ul>
+            <li><strong>Se CPOR ↑ rápido</strong> → cada ponto de ocupação a mais gera MENOS lucro</li>
+            <li><strong>Se CPOR > ADR</strong> → cada quarto vendido dá PREJUÍZO</li>
+            <li>Ocupação alta pode DESTRUIR margem se CPOR não for controlado</li>
+        </ul>
+
+        <h4>Tipo de gráfico recomendado</h4>
+        <table class="info-table">
+            <tr><th>Gráfico</th><th>Quando usar</th></tr>
+            <tr><td><strong>Combo (barra + linha)</strong></td><td>CPOR por mês (barras) + ADR (linha) — se as barras alcançam a linha, alerta vermelho</td></tr>
+            <tr><td><strong>Barra empilhada</strong></td><td>Composição do CPOR: pessoal, suprimentos, energia, manutenção — onde cortar?</td></tr>
+            <tr><td><strong>Variância</strong></td><td>CPOR real vs. CPOR orçado — budget vs. realizado para a controladoria</td></tr>
+        </table>
+
+        <h4>SQL — CPOR mensal com composição</h4>
+        <div class="code-block"><span class="kw">WITH</span> quartos_vendidos <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        <span class="fn">DATE_TRUNC</span>(<span class="str">'month'</span>, r.checkin) <span class="kw">AS</span> mes,
+        <span class="fn">SUM</span>(<span class="fn">DATE_PART</span>(<span class="str">'day'</span>, r.checkout - r.checkin)) <span class="kw">AS</span> room_nights
+    <span class="kw">FROM</span> reservas r
+    <span class="kw">WHERE</span> r.status = <span class="str">'finalizada'</span>
+    <span class="kw">GROUP BY</span> <span class="num">1</span>
+),
+custos_detalhe <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        <span class="fn">DATE_TRUNC</span>(<span class="str">'month'</span>, data) <span class="kw">AS</span> mes,
+        <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> categoria = <span class="str">'pessoal'</span> <span class="kw">THEN</span> valor <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> c_pessoal,
+        <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> categoria = <span class="str">'suprimentos'</span> <span class="kw">THEN</span> valor <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> c_suprimentos,
+        <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> categoria = <span class="str">'energia'</span> <span class="kw">THEN</span> valor <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> c_energia,
+        <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> categoria = <span class="str">'manutencao'</span> <span class="kw">THEN</span> valor <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> c_manutencao,
+        <span class="fn">SUM</span>(valor) <span class="kw">AS</span> c_total
+    <span class="kw">FROM</span> despesas
+    <span class="kw">GROUP BY</span> <span class="num">1</span>
+)
+<span class="kw">SELECT</span>
+    qv.mes,
+    qv.room_nights,
+    <span class="fn">ROUND</span>(cd.c_pessoal / qv.room_nights, <span class="num">2</span>) <span class="kw">AS</span> cpor_pessoal,
+    <span class="fn">ROUND</span>(cd.c_suprimentos / qv.room_nights, <span class="num">2</span>) <span class="kw">AS</span> cpor_suprimentos,
+    <span class="fn">ROUND</span>(cd.c_energia / qv.room_nights, <span class="num">2</span>) <span class="kw">AS</span> cpor_energia,
+    <span class="fn">ROUND</span>(cd.c_manutencao / qv.room_nights, <span class="num">2</span>) <span class="kw">AS</span> cpor_manutencao,
+    <span class="fn">ROUND</span>(cd.c_total / qv.room_nights, <span class="num">2</span>) <span class="kw">AS</span> cpor_total
+<span class="kw">FROM</span> quartos_vendidos qv
+<span class="kw">JOIN</span> custos_detalhe cd <span class="kw">ON</span> cd.mes = qv.mes
+<span class="kw">ORDER BY</span> qv.mes;</div>
+
+        <h4>Estrutura CSV</h4>
+        <div class="code-block">mes,room_nights,cpor_pessoal,cpor_suprimentos,cpor_energia,cpor_manutencao,cpor_total
+2026-01,19350,85.30,32.10,18.50,12.40,148.30
+2026-02,14090,92.15,35.60,20.10,13.80,161.65</div>
+
+        <div class="roni-comment">
+            <p><strong>Insight avançado para a entrevista:</strong> "CPOR sobe na baixa temporada porque os custos fixos (pessoal, energia) se diluem em menos quartos. É por isso que o breakeven occupancy é tão importante — ele diz qual ocupação mínima o hotel precisa para não operar no vermelho."</p>
+        </div>
+    </div>
+
+    <!-- ── VISÃO INTEGRADA ── -->
+    <div class="card">
+        <h3>🧩 A Pirâmide dos KPIs — Como tudo se conecta</h3>
+
+        <div class="code-block"><span class="cm">                           ┌──────────┐
+                           │ GOPPAR   │ ← O que o CFO quer
+                           │ lucro/   │
+                           │ quarto   │
+                      ┌────┴────┬─────┴────┐
+                      │TRevPAR  │  CPOR    │
+                      │receita  │  custo   │
+                      │total/   │  por     │
+                      │quarto   │  quarto  │
+                 ┌────┴────┐   └──────────┘
+                 │ RevPAR  │
+                 │ receita │
+                 │ quartos/│
+                 │ disponív│
+            ┌────┴──┬──────┴────┐
+            │  ADR  │ Ocupação  │
+            │preço  │  volume   │
+            └───────┴───────────┘</span></div>
+
+        <p>De baixo para cima:</p>
+        <ol>
+            <li><strong>ADR × Ocupação = RevPAR</strong> → força comercial (quartos)</li>
+            <li><strong>RevPAR + receita extra = TRevPAR</strong> → monetização total do hóspede</li>
+            <li><strong>TRevPAR − CPOR ≈ GOPPAR</strong> → lucro real por quarto disponível</li>
+        </ol>
+
+        <div class="tip-box">
+            <p><strong>Dashboard ideal para a controladoria:</strong> linha 1 mostra ADR + Ocupação + RevPAR (comercial). Linha 2 mostra TRevPAR e CPOR (operacional). Linha 3 mostra GOPPAR e GOP Margin (resultado). NRevPAR entra como filtro de qualidade: quanto da receita sobra depois das comissões de canal.</p>
+        </div>
+
+        <h4>SQL — Dashboard executivo completo (todos KPIs juntos)</h4>
+        <div class="code-block"><span class="kw">WITH</span> room_data <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        <span class="fn">DATE_TRUNC</span>(<span class="str">'month'</span>, r.checkin) <span class="kw">AS</span> mes,
+        <span class="fn">SUM</span>(r.valor_total) <span class="kw">AS</span> receita_quartos,
+        <span class="fn">SUM</span>(<span class="fn">DATE_PART</span>(<span class="str">'day'</span>, r.checkout - r.checkin)) <span class="kw">AS</span> rn_vendidas,
+        <span class="fn">SUM</span>(r.valor_total * c.comissao_pct / <span class="num">100</span>) <span class="kw">AS</span> custo_distribuicao
+    <span class="kw">FROM</span> reservas r
+    <span class="kw">JOIN</span> canais c <span class="kw">ON</span> c.id = r.canal_id
+    <span class="kw">WHERE</span> r.status = <span class="str">'finalizada'</span>
+    <span class="kw">GROUP BY</span> <span class="num">1</span>
+),
+all_receita <span class="kw">AS</span> (
+    <span class="kw">SELECT</span> <span class="fn">DATE_TRUNC</span>(<span class="str">'month'</span>, data) <span class="kw">AS</span> mes, <span class="fn">SUM</span>(valor) <span class="kw">AS</span> receita_total
+    <span class="kw">FROM</span> receitas <span class="kw">GROUP BY</span> <span class="num">1</span>
+),
+all_custos <span class="kw">AS</span> (
+    <span class="kw">SELECT</span> <span class="fn">DATE_TRUNC</span>(<span class="str">'month'</span>, data) <span class="kw">AS</span> mes, <span class="fn">SUM</span>(valor) <span class="kw">AS</span> custo_total
+    <span class="kw">FROM</span> despesas <span class="kw">GROUP BY</span> <span class="num">1</span>
+),
+rn_disp <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        <span class="fn">DATE_TRUNC</span>(<span class="str">'month'</span>, d.data) <span class="kw">AS</span> mes,
+        <span class="fn">COUNT</span>(d.data) * (<span class="kw">SELECT</span> <span class="fn">COUNT</span>(*) <span class="kw">FROM</span> quartos <span class="kw">WHERE</span> status = <span class="str">'ativo'</span>) <span class="kw">AS</span> total
+    <span class="kw">FROM</span> calendario d <span class="kw">GROUP BY</span> <span class="num">1</span>
+)
+<span class="kw">SELECT</span>
+    rd.mes,
+    <span class="cm">-- Comercial</span>
+    <span class="fn">ROUND</span>(rd.receita_quartos / <span class="fn">NULLIF</span>(rd.rn_vendidas, <span class="num">0</span>), <span class="num">2</span>) <span class="kw">AS</span> adr,
+    <span class="fn">ROUND</span>(rd.rn_vendidas * <span class="num">100.0</span> / rn.total, <span class="num">1</span>) <span class="kw">AS</span> ocupacao,
+    <span class="fn">ROUND</span>(rd.receita_quartos / rn.total, <span class="num">2</span>) <span class="kw">AS</span> revpar,
+    <span class="cm">-- Qualidade</span>
+    <span class="fn">ROUND</span>((rd.receita_quartos - rd.custo_distribuicao) / rn.total, <span class="num">2</span>) <span class="kw">AS</span> nrevpar,
+    <span class="cm">-- Operacional</span>
+    <span class="fn">ROUND</span>(ar.receita_total / rn.total, <span class="num">2</span>) <span class="kw">AS</span> trevpar,
+    <span class="fn">ROUND</span>(ac.custo_total / <span class="fn">NULLIF</span>(rd.rn_vendidas, <span class="num">0</span>), <span class="num">2</span>) <span class="kw">AS</span> cpor,
+    <span class="cm">-- Resultado</span>
+    <span class="fn">ROUND</span>((ar.receita_total - ac.custo_total) / rn.total, <span class="num">2</span>) <span class="kw">AS</span> goppar,
+    <span class="fn">ROUND</span>((ar.receita_total - ac.custo_total) * <span class="num">100.0</span> / ar.receita_total, <span class="num">1</span>) <span class="kw">AS</span> gop_margin
+<span class="kw">FROM</span> room_data rd
+<span class="kw">JOIN</span> all_receita ar <span class="kw">ON</span> ar.mes = rd.mes
+<span class="kw">JOIN</span> all_custos ac <span class="kw">ON</span> ac.mes = rd.mes
+<span class="kw">JOIN</span> rn_disp rn <span class="kw">ON</span> rn.mes = rd.mes
+<span class="kw">ORDER BY</span> rd.mes;</div>
+
+        <h4>CSV — Dashboard executivo completo</h4>
+        <div class="code-block">mes,adr,ocupacao,revpar,nrevpar,trevpar,cpor,goppar,gop_margin
+2026-01,548.08,72.5,397.36,373.20,523.45,148.30,375.15,35.2
+2026-02,468.29,58.3,273.01,254.85,385.60,161.65,223.95,27.8
+2026-03,434.21,52.1,226.22,210.15,338.90,172.40,166.50,22.4</div>
+
+        <div class="roni-comment">
+            <p><strong>Olhe para o CSV acima como um CFO:</strong> de janeiro a março, o ADR caiu 20% (sazonalidade). Mas o GOPPAR caiu 55% — porque o CPOR subiu de 148 para 172 (custos fixos diluídos em menos quartos). Para ele, a pergunta é: "em qual nível de ocupação o hotel para de dar dinheiro?" Isso é o breakeven occupancy — e é exatamente o tipo de análise que a controladoria precisa do BI.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- 12. DIALETO — ANALISTA PARA CONTROLLER -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section id="dialeto">
+    <h2>🎙️ 12. Falar a Língua do Controller <span class="tag">Entrevistador</span></h2>
+
+    <p>Seu entrevistador provável é um <strong>Diretor Financeiro com 20+ anos em Controladoria hoteleira</strong> (Meliá, Club Med, Bourbon, Enjoy). Ele não avalia tecnologia — avalia se você transforma dado em decisão de negócio. Cada resposta técnica precisa terminar em resultado financeiro.</p>
+
+    <div class="card">
+        <h3>🔄 Tradutor — Analista → Controller</h3>
+        <p>Nunca use a versão técnica sozinha. Sempre emende com o impacto no negócio.</p>
+
+        <table class="info-table">
+            <tr><th>Você pensa assim</th><th>Fale assim para ele</th></tr>
+            <tr>
+                <td>"Criei um pipeline ETL com Python para extrair dados do banco"</td>
+                <td>"Automatizei a extração dos dados do sistema — o relatório que demorava meio dia para montar passou a sair automaticamente toda manhã, pronto para a decisão do gestor."</td>
+            </tr>
+            <tr>
+                <td>"Fiz um star schema com fato_reservas e dimensões"</td>
+                <td>"Estruturei os dados de forma que a controladoria consegue cruzar ocupação, receita e custo por departamento com um clique — sem precisar de planilha intermediária."</td>
+            </tr>
+            <tr>
+                <td>"Calculei RevPAR com window function no SQL"</td>
+                <td>"Montei o acompanhamento de RevPAR diário comparado ao mesmo período do ano anterior — a gestão consegue identificar queda antecipada e acionar revenue management antes de fechar o mês no vermelho."</td>
+            </tr>
+            <tr>
+                <td>"Implementei validação de qualidade de dados no ETL"</td>
+                <td>"Coloquei alertas automáticos quando os números fogem do padrão — o controller não precisa mais caçar erro de lançamento no final do mês."</td>
+            </tr>
+            <tr>
+                <td>"Dashboard com drill-down por canal de venda"</td>
+                <td>"O gestor consegue ver em segundos qual canal gerou mais receita líquida — descontada a comissão da OTA — e decidir onde focar o esforço comercial."</td>
+            </tr>
+            <tr>
+                <td>"Analisei a taxa de cancelamento por canal"</td>
+                <td>"Identifiquei que um canal com ticket alto tinha o dobro de cancelamento do canal direto — na prática isso corroía a receita projetada. Essa informação levou a uma revisão da política de overbooking."</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h3>📌 O que ele quer ouvir — baseado no perfil dele</h3>
+
+        <div class="hotel-box">
+            <p><strong>Ele compartilhou um post sobre RevPAR vs. GOPPAR.</strong> Isso é um sinal direto: ele pensa em lucro operacional, não só em receita. Mencione GOPPAR naturalmente — a maioria dos candidatos só fala de RevPAR.</p>
+        </div>
+
+        <h4>As 3 perguntas que ele realmente está fazendo (mesmo quando faz outra)</h4>
+        <ul>
+            <li><strong>"Você entende de controladoria hoteleira ou vai me ensinar TI?"</strong> — Responda com USALI, GOPPAR, budget vs. realizado, CMV. Mostre que você já chegou falando a língua.</li>
+            <li><strong>"Você consegue trabalhar com o que temos ou vai pedir plataforma nova?"</strong> — Diga que seu primeiro passo é entender os dados e sistemas existentes antes de propor qualquer mudança.</li>
+            <li><strong>"Em quanto tempo você gera valor?"</strong> — Tenha uma resposta concreta: "Na primeira semana mapeio as fontes e os relatórios existentes. Na segunda já consigo reproduzir e validar. Na terceira ou quarta entrego um quick-win."</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h3>💬 Frases que funcionam com esse perfil</h3>
+        <p>Naturalize essas construções. Soam como analista maduro, não como estudante.</p>
+
+        <div class="card-grid">
+            <div class="card-sm">
+                <h4>Sobre análise</h4>
+                <ul>
+                    <li>"O dado me mostrou que... e isso sugeria uma ação de..."</li>
+                    <li>"Antes de publicar o dashboard, validei os totais contra o sistema fonte."</li>
+                    <li>"O GOPPAR estava crescendo menos que o RevPAR — o custo estava comendo a margem."</li>
+                    <li>"Separamos receita bruta de receita líquida para não inflar o resultado."</li>
+                </ul>
+            </div>
+            <div class="card-sm">
+                <h4>Sobre processo</h4>
+                <ul>
+                    <li>"Meu primeiro passo é entender o fluxo atual — o que já existe, o que é manual, onde estão as dores."</li>
+                    <li>"Prefiro entregar algo simples e confiável do que complexo e com dúvida."</li>
+                    <li>"O relatório de budget vs. realizado é o que dá mais visibilidade à diretoria — é onde começo."</li>
+                    <li>"Quando os números não batem, descubro o porquê antes de publicar."</li>
+                </ul>
+            </div>
+            <div class="card-sm">
+                <h4>Sobre a Enjoy especificamente</h4>
+                <ul>
+                    <li>"Com o modelo de condomínio-hotel, imagino que existe um relatório de rendimento para os proprietários além do P&L operacional."</li>
+                    <li>"A sazonalidade de Olímpia é muito clara — feriados e férias puxam a ocupação. Isso já está no meu radar para análise comparativa."</li>
+                    <li>"O TRevPAR aqui deve ser bem acima do RevPAR puro, com toda a receita de A&B, spa e shopping."</li>
+                </ul>
+            </div>
+            <div class="card-sm">
+                <h4>Frases para NÃO usar</h4>
+                <ul>
+                    <li><del>"Vou fazer deploy do pipeline no Docker..."</del></li>
+                    <li><del>"Precisamos migrar para uma arquitetura de lakehouse..."</del></li>
+                    <li><del>"O modelo de machine learning vai prever..."</del></li>
+                    <li><del>"Com uma API REST eu consigo..."</del></li>
+                </ul>
+                <p style="font-size:0.82rem; color: var(--red);">Essas frases soam como custo e complexidade, não como solução.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>🏆 Como impressionar — o que poucos candidatos fazem</h3>
+
+        <h4>1. Mencione USALI</h4>
+        <p>O sistema contábil padrão de hotéis (Uniform System of Accounts for the Lodging Industry). Ele viveu isso em Meliá e Bourbon. Se você dizer "estruturei os centros de resultado seguindo o USALI — Rooms, F&B, Other Operated Departments e Undistributed", ele vai saber que você entende o setor de verdade.</p>
+
+        <h4>2. Fale de GOPPAR, não só RevPAR</h4>
+        <p>Ele compartilhou um post explicitando que GOPPAR é a métrica que importa para o dono/investidor. Diga: "RevPAR mede força comercial. Mas o que o proprietário da suíte quer saber é o GOPPAR — quanto sobra depois dos custos operacionais. É a diferença entre ocupação alta e rentabilidade real."</p>
+
+        <h4>3. Mostre que sabe o que é difícil na controladoria hoteleira</h4>
+        <div class="roni-comment">
+            <p>"O desafio em hotel não é calcular o RevPAR — é garantir que a receita do PMS, do PDV e do financeiro batem no mesmo número. Cada sistema tem sua lógica de competência. Um dos primeiros trabalhos que faço é mapear essas discrepâncias e construir a conciliação automatizada."</p>
+        </div>
+
+        <h4>4. Perguntas que ele vai adorar receber de você</h4>
+        <ol>
+            <li>"Hoje o fechamento mensal da controladoria leva quanto tempo? O que é mais manual nesse processo?"</li>
+            <li>"O relatório de rendimento para os proprietários sai do mesmo pipeline de dados operacional ou é separado?"</li>
+            <li>"Vocês trabalham com USALI ou têm plano de contas próprio?"</li>
+            <li>"Existe algum KPI que hoje só existe na cabeça de alguém — que ainda não está em nenhum dashboard?"</li>
+        </ol>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- FOOTER -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section style="text-align: center; padding: 2rem 0; border-top: 1px solid var(--border); margin-top: 2rem;">
+    <p style="color: var(--text2); font-size: 0.85rem;">
+        Módulo de preparação para a vaga de Especialista de BI — Enjoy Hotéis & Resorts<br>
+        <span style="color: var(--orange);">Boa sorte na entrevista! 🍀</span>
+    </p>
+    <p style="margin-top: 0.5rem;">
+        <a href="index.html" style="color: var(--accent2); text-decoration: none; font-size: 0.85rem;">← Voltar aos módulos</a>
+    </p>
+</section>
+
+</div>
+</body>
+</html>

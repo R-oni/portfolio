@@ -1,0 +1,90 @@
+{
+  "id": 3,
+  "name": "Resort Termas do Sol",
+  "type": "hotel_resort",
+  "comentarios": "Março refletiu a sazonalidade pós-Carnaval com ocupação de 58%, dentro do esperado. Eventos corporativos compensaram parcialmente a queda de hospedagem. Foco em abril: ativar promoções de Páscoa e pacotes família para recuperar o RevPAR. A&B segue estável como percentual de receita total — bom sinal de cross-selling.",
+  "info": "Hotelaria & Resort — 150 UHs",
+  "color_theme": "#f97316",
+  "logo": "clientes/3/paradise-hotel.png",
+  "ativo": true,
+  "kpis": [
+    {"id": "receita", "label": "Receita Total", "field": "receita_total", "format": "currency", "changeField": "changeFaturamento"},
+    {"id": "goppar", "label": "GOPPAR", "field": "goppar", "format": "currency", "changeField": "changeGOPPAR"},
+    {"id": "trevpar", "label": "TRevPAR", "field": "trevpar", "format": "currency", "changeField": "changeTRevPAR"},
+    {"id": "ocupacao", "label": "Tx. Ocupação", "field": "taxa_ocupacao", "format": "percent", "changeField": "changeOcupacao"},
+    {"id": "adr", "label": "ADR", "field": "adr", "format": "currency", "changeField": "changeADR"},
+    {"id": "revpar", "label": "RevPAR", "field": "revpar", "format": "currency", "changeField": "changeRevPAR"}
+  ],
+  "charts": [
+    {
+      "id": "chart1",
+      "tipo": "bar",
+      "titulo": "Comparativo: Receita Total (R$)",
+      "dataSource": "comparativo_faturamento",
+      "cor": "rgba(249, 115, 22, 0.8)",
+      "posicao": "full"
+    },
+    {
+      "id": "chart2",
+      "tipo": "bar",
+      "titulo": "Ocupação por Dia da Semana (%)",
+      "dataSource": "ocupacao_semana",
+      "cor": "rgba(34, 197, 94, 0.8)",
+      "posicao": "full",
+      "label_format": "percent"
+    },
+    {
+      "id": "chart3",
+      "tipo": "doughnut",
+      "titulo": "Receita por Departamento",
+      "dataSource": "receita_por_fonte",
+      "posicao": "esquerda"
+    },
+    {
+      "id": "chart4",
+      "tipo": "doughnut",
+      "titulo": "Canal de Reserva (Receita)",
+      "dataSource": "canais_reserva",
+      "posicao": "direita"
+    },
+    {
+      "id": "chart5",
+      "tipo": "line",
+      "titulo": "Evolução RevPAR (R$)",
+      "dataSource": "evolucao_revpar",
+      "cor": "rgba(255, 255, 255, 1)",
+      "posicao": "full"
+    },
+    {
+      "id": "chart6",
+      "tipo": "bar",
+      "titulo": "ADR por Tipo de UH (R$)",
+      "dataSource": "tipo_quarto_adr",
+      "cor": "rgba(59, 130, 246, 0.8)",
+      "posicao": "esquerda"
+    },
+    {
+      "id": "chart7",
+      "tipo": "bar",
+      "titulo": "RevPAR: Real vs Meta (R$)",
+      "dataSource": "revpar_vs_budget",
+      "cor": "rgba(168, 85, 247, 0.8)",
+      "posicao": "direita"
+    },
+    {
+      "id": "chart8",
+      "tipo": "bar",
+      "titulo": "Resultado Operacional (R$)",
+      "dataSource": "resultado_mensal",
+      "cor": "rgba(34, 197, 94, 0.8)",
+      "posicao": "full"
+    },
+    {
+      "id": "chart9",
+      "tipo": "doughnut",
+      "titulo": "Despesas Operacionais",
+      "dataSource": "despesas_categoria",
+      "posicao": "esquerda"
+    }
+  ]
+}
