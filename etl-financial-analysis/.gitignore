@@ -4,5 +4,6 @@ __pycache__/
 .ipynb_checkpoints/
 data/raw/*.parquet
 data/processed/*.parquet
+data/processed/*.db
 .DS_Store
 Thumbs.db
