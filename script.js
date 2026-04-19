@@ -44,16 +44,8 @@ function freezeSignatureGif() {
     }, 3000);
 }
 
-// Layout tablet: ativado por ?tablet=1 na URL (ex: dashboard.html?c=3&tablet=1)
-function applyTabletLayout() {
-    const params = new URLSearchParams(window.location.search);
-    const isTablet = params.get('tablet') === '1';
-    document.body.classList.toggle('tablet-2k', isTablet);
-}
-
 // Inicializar
 document.addEventListener('DOMContentLoaded', async () => {
-    applyTabletLayout();
     freezeSignatureGif();
     await carregarDadosClientes();
     loadClient();
