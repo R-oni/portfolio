@@ -7,9 +7,9 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
   <style>
     :root {
-      --bg: #0f1117;
-      --card: #1a1d27;
-      --border: #2a2d3e;
+      --bg: #0a0a0a;
+      --card: #141414;
+      --border: #2a2a2a;
       --accent: #7c6af7;
       --accent2: #38bdf8;
       --accent3: #34d399;
@@ -22,15 +22,16 @@
     body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; min-height: 100vh; }
 
     header {
-      background: linear-gradient(135deg, #1e1b4b 0%, #1a1d27 100%);
+      background: #000;
       border-bottom: 1px solid var(--border);
       padding: 20px 32px;
       display: flex; align-items: center; justify-content: space-between;
     }
     header h1 { font-size: 1.4rem; font-weight: 700; color: #fff; letter-spacing: .5px; }
-    header h1 span { color: var(--accent); }
+    header h1 span { color: #fb923c; }
     header p { font-size: .78rem; color: var(--muted); margin-top: 3px; }
     .badge { background: var(--accent); color: #fff; font-size: .7rem; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+    .header-logo { height: 56px; width: auto; display: block; }
 
     .tabs { display: flex; gap: 4px; padding: 16px 32px 0; border-bottom: 1px solid var(--border); }
     .tab { padding: 8px 20px; border-radius: 8px 8px 0 0; font-size: .82rem; font-weight: 600; cursor: pointer; border: 1px solid transparent; border-bottom: none; transition: all .2s; color: var(--muted); }
@@ -64,9 +65,9 @@
     /* Table */
     .table-wrap { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: .8rem; }
-    th { background: #13151f; color: var(--muted); text-transform: uppercase; font-size: .7rem; letter-spacing: .5px; padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { background: #111111; color: var(--muted); text-transform: uppercase; font-size: .7rem; letter-spacing: .5px; padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
     td { padding: 9px 12px; border-bottom: 1px solid var(--border); }
-    tr:hover td { background: #1e2130; }
+    tr:hover td { background: #1e1e1e; }
     .chip { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: .7rem; font-weight: 600; }
     .chip.high   { background: #14532d; color: #4ade80; }
     .chip.mid    { background: #713f12; color: #fbbf24; }
@@ -86,17 +87,19 @@
 <body>
 
 <header>
-  <div>
-    <h1>Dashboard <span>Operacional</span> — Indicadores de Performance</h1>
-    <p>Mês de Referência: Fevereiro 2025 &nbsp;|&nbsp; Analista: Ronison</p>
+  <div style="display:flex; align-items:center; gap:24px;">
+    <img src="beedoo-logo.png" alt="Beedoo" class="header-logo" />
+    <div>
+      <h1>Dashboard <span>Operacional</span> — Indicadores de Performance</h1>
+      <p>Mês de Referência: Fevereiro 2025 &nbsp;|&nbsp; Analista: Rónison</p>
+    </div>
   </div>
-  <span class="badge">MIS · Beedoo</span>
 </header>
 
 <div class="tabs">
-  <div class="tab active" onclick="switchTab('cobranca', this)">⚡ Cobrança</div>
-  <div class="tab" onclick="switchTab('atendimento', this)">📞 Atendimento</div>
-  <div class="tab" onclick="switchTab('insights', this)">💡 Insights Executivos</div>
+  <div class="tab active" onclick="switchTab('cobranca', this)">Cobrança</div>
+  <div class="tab" onclick="switchTab('atendimento', this)">Atendimento</div>
+  <div class="tab" onclick="switchTab('insights', this)">Insights Executivos</div>
 </div>
 
 <!-- ===================== COBRANÇA ===================== -->
@@ -256,43 +259,43 @@
 <div id="insights" class="panel">
   <div class="insights">
     <div class="insight ok">
-      <h4>🏆 Top Performer — Cobrança</h4>
+      <h4>Top Performer — Cobrança</h4>
       <p><strong>Operador 18</strong> lidera o ranking com ICM de 4,01 e 250 CPCs trabalhados, gerando 49 boletos convertidos e 36 pagos (eficiência: 74%) e Qualidade máxima (1,00). Destaque absoluto em ICM — mais que o dobro do segundo colocado.</p>
     </div>
     <div class="insight ok">
-      <h4>🏆 Top Performer — Atendimento</h4>
+      <h4>Top Performer — Atendimento</h4>
       <p><strong>Operador 9</strong> lidera com o maior ICM de Atendimento (1,220) e Qualidade 0,95, com 94 atendimentos. <strong>Operador 1</strong> vem logo atrás (ICM 1,200), com 61 atendimentos, NPS líquido de +20 e CSAT 3,98. Ambos combinam volume e excelência.</p>
     </div>
     <div class="insight warn">
-      <h4>⚠️ Baixo Desempenho — Cobrança</h4>
+      <h4>Baixo Desempenho — Cobrança</h4>
       <p><strong>Operadores 7, 44 e 42</strong> registram ICMs abaixo de 0,15. Operador 44 encerrou o mês com zero boletos pagos (3 enviados, eficiência 0%) e ICM 0,00. Ação de coaching imediata recomendada.</p>
     </div>
     <div class="insight warn">
-      <h4>⚠️ Alto TMA — Atendimento</h4>
+      <h4>Alto TMA — Atendimento</h4>
       <p><strong>Operador 11</strong> registra TMA de 14min48s, quase o dobro da média da equipe (7min35s). Isso impacta a capacidade de atendimento e pode indicar dificuldade técnica ou de processo.</p>
     </div>
     <div class="insight">
-      <h4>📉 Qualidade Crítica — Operador 45</h4>
+      <h4>Qualidade Crítica — Operador 45</h4>
       <p><strong>Operador 45</strong> é o único da equipe com Média de Qualidade = 0,00, mesmo gerando 129 CPCs e 11 boletos pagos (ef: 50%). Possível ausência de avaliação ou ocorrência crítica de qualidade que merece investigação imediata.</p>
     </div>
     <div class="insight">
-      <h4>📊 Dispersão de ICM</h4>
+      <h4>Dispersão de ICM</h4>
       <p>O ICM de Cobrança varia de <strong>0,00 a 4,01</strong> — amplitude enorme que indica equipe heterogênea. Os 20% melhores respondem por mais de 40% do resultado. Oportunidade de padronização de práticas.</p>
     </div>
     <div class="insight warn">
-      <h4>📅 Absenteísmo Pontual</h4>
+      <h4>Absenteísmo Pontual</h4>
       <p><strong>Operador 33</strong> teve 3 dias não trabalhados, seguido do Operador 38 (2 dias) e Operadores 6, 26 e 51 (1 dia cada) — total de <strong>5 operadores</strong> com ausências. Embora baixo em geral, monitoramento preventivo é recomendado.</p>
     </div>
     <div class="insight ok">
-      <h4>✅ Destaques de Eficiência e Qualidade</h4>
+      <h4>Destaques de Eficiência e Qualidade</h4>
       <p><strong>Operadores 4 e 10</strong> lideram a eficiência de pagamento com 91,7% e 91,3%. <strong>Operadores 2, 15 e 18</strong> atingiram Qualidade máxima (1,00). Compartilhar as boas práticas desses cinco operadores pode elevar a média geral da equipe.</p>
     </div>
     <div class="insight">
-      <h4>📣 NPS — Atendimento</h4>
+      <h4>NPS — Atendimento</h4>
       <p>A maioria dos operadores tem NPS positivo. <strong>Operador 7</strong> concentra o maior volume de detratores (4), enquanto <strong>Operador 14</strong> tem 0 detratores. Oportunidade de compartilhar abordagem do Op.14.</p>
     </div>
     <div class="insight ok">
-      <h4>🔄 FCR — Resolução no Primeiro Contato</h4>
+      <h4>FCR — Resolução no Primeiro Contato</h4>
       <p><strong>Operador 1</strong> lidera FCR com taxa de 89,7% (26/29 respostas positivas), seguido por <strong>Operador 2</strong> com 72,5%. Altas taxas de FCR reduzem rechamadas e impactam positivamente a experiência do cliente.</p>
     </div>
   </div>
@@ -309,7 +312,7 @@
   </div>
 </div>
 
-<footer>Dashboard construído com Chart.js · Dados: Beedoo Indicadores — Fev/2025 · Analista: Ronison</footer>
+<footer>Dashboard construído com Chart.js · Dados: Beedoo Indicadores — Fev/2025 · Analista: Rónison</footer>
 
 <script>
 // ===================== DATA =====================
@@ -426,8 +429,8 @@ new Chart(document.getElementById('icmRanking'), {
     maintainAspectRatio: false,
     plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ICM: ${ctx.raw}` } } },
     scales: {
-      x: { grid: { color: '#1e2130' }, ticks: { color: '#8892a4' } },
-      y: { grid: { color: '#1e2130' }, ticks: { color: '#8892a4', font: { size: 10 } } }
+      x: { grid: { color: '#1e1e1e' }, ticks: { color: '#8892a4' } },
+      y: { grid: { color: '#1e1e1e' }, ticks: { color: '#8892a4', font: { size: 10 } } }
     }
   }
 });
@@ -447,8 +450,8 @@ new Chart(document.getElementById('cpcBoleto'), {
     responsive: true, maintainAspectRatio: false,
     plugins: { legend: { labels: { color: '#8892a4', boxWidth: 12 } } },
     scales: {
-      x: { grid:{color:'#1e2130'}, ticks:{color:'#8892a4', font:{size:9}} },
-      y: { grid:{color:'#1e2130'}, ticks:{color:'#8892a4'} }
+      x: { grid:{color:'#1e1e1e'}, ticks:{color:'#8892a4', font:{size:9}} },
+      y: { grid:{color:'#1e1e1e'}, ticks:{color:'#8892a4'} }
     }
   }
 });
@@ -470,8 +473,8 @@ new Chart(document.getElementById('eficiencia'), {
     responsive: true, maintainAspectRatio: false,
     plugins: { legend:{display:false}, tooltip:{callbacks:{label:ctx=>` ${ctx.raw}%`}} },
     scales: {
-      x:{ grid:{color:'#1e2130'}, ticks:{color:'#8892a4',font:{size:9}} },
-      y:{ grid:{color:'#1e2130'}, ticks:{color:'#8892a4'}, min:0, max:100 }
+      x:{ grid:{color:'#1e1e1e'}, ticks:{color:'#8892a4',font:{size:9}} },
+      y:{ grid:{color:'#1e1e1e'}, ticks:{color:'#8892a4'}, min:0, max:100 }
     }
   }
 });
@@ -512,8 +515,8 @@ new Chart(document.getElementById('scatter'), {
     responsive: true, maintainAspectRatio: false,
     plugins: { legend:{display:false} },
     scales: {
-      x:{ grid:{color:'#1e2130'}, ticks:{color:'#8892a4'}, title:{display:true,text:'CPC Trabalhado',color:'#8892a4'} },
-      y:{ grid:{color:'#1e2130'}, ticks:{color:'#8892a4'}, title:{display:true,text:'ICM',color:'#8892a4'} }
+      x:{ grid:{color:'#1e1e1e'}, ticks:{color:'#8892a4'}, title:{display:true,text:'CPC Trabalhado',color:'#8892a4'} },
+      y:{ grid:{color:'#1e1e1e'}, ticks:{color:'#8892a4'}, title:{display:true,text:'ICM',color:'#8892a4'} }
     }
   }
 });
@@ -556,8 +559,8 @@ new Chart(document.getElementById('icmAten'), {
     responsive:true,maintainAspectRatio:false,
     plugins:{legend:{display:false}},
     scales:{
-      x:{grid:{color:'#1e2130'},ticks:{color:'#8892a4',font:{size:10}}},
-      y:{grid:{color:'#1e2130'},ticks:{color:'#8892a4'}}
+      x:{grid:{color:'#1e1e1e'},ticks:{color:'#8892a4',font:{size:10}}},
+      y:{grid:{color:'#1e1e1e'},ticks:{color:'#8892a4'}}
     }
   }
 });
@@ -577,8 +580,8 @@ new Chart(document.getElementById('npsBar'), {
     responsive:true,maintainAspectRatio:false,
     plugins:{legend:{labels:{color:'#8892a4',boxWidth:12}}},
     scales:{
-      x:{grid:{color:'#1e2130'},ticks:{color:'#8892a4',font:{size:10}}},
-      y:{grid:{color:'#1e2130'},ticks:{color:'#8892a4'},stacked:false}
+      x:{grid:{color:'#1e1e1e'},ticks:{color:'#8892a4',font:{size:10}}},
+      y:{grid:{color:'#1e1e1e'},ticks:{color:'#8892a4'},stacked:false}
     }
   }
 });
@@ -599,8 +602,8 @@ new Chart(document.getElementById('csatBar'), {
     responsive:true,maintainAspectRatio:false,
     plugins:{legend:{display:false}},
     scales:{
-      x:{grid:{color:'#1e2130'},ticks:{color:'#8892a4',font:{size:10}}},
-      y:{grid:{color:'#1e2130'},ticks:{color:'#8892a4'},min:0,max:5}
+      x:{grid:{color:'#1e1e1e'},ticks:{color:'#8892a4',font:{size:10}}},
+      y:{grid:{color:'#1e1e1e'},ticks:{color:'#8892a4'},min:0,max:5}
     }
   }
 });
@@ -619,8 +622,8 @@ new Chart(document.getElementById('rechamada'), {
     responsive:true,maintainAspectRatio:false,
     plugins:{legend:{labels:{color:'#8892a4',boxWidth:12}}},
     scales:{
-      x:{grid:{color:'#1e2130'},ticks:{color:'#8892a4',font:{size:10}}},
-      y:{grid:{color:'#1e2130'},ticks:{color:'#8892a4'},position:'left'},
+      x:{grid:{color:'#1e1e1e'},ticks:{color:'#8892a4',font:{size:10}}},
+      y:{grid:{color:'#1e1e1e'},ticks:{color:'#8892a4'},position:'left'},
       y2:{grid:{display:false},ticks:{color:RED},position:'right'}
     }
   }
@@ -642,7 +645,7 @@ new Chart(document.getElementById('qualAten'), {
   options:{
     responsive:true,maintainAspectRatio:false,
     plugins:{legend:{labels:{color:'#8892a4'}}},
-    scales:{r:{grid:{color:'#1e2130'},ticks:{color:'#8892a4',backdropColor:'transparent'},pointLabels:{color:'#8892a4',font:{size:9}}}}
+    scales:{r:{grid:{color:'#1e1e1e'},ticks:{color:'#8892a4',backdropColor:'transparent'},pointLabels:{color:'#8892a4',font:{size:9}}}}
   }
 });
 
@@ -661,8 +664,8 @@ new Chart(document.getElementById('npsStack'), {
     responsive:true,maintainAspectRatio:false,
     plugins:{legend:{labels:{color:'#8892a4',boxWidth:12}}},
     scales:{
-      x:{grid:{color:'#1e2130'},ticks:{color:'#8892a4',font:{size:10}},stacked:true},
-      y:{grid:{color:'#1e2130'},ticks:{color:'#8892a4'},stacked:true}
+      x:{grid:{color:'#1e1e1e'},ticks:{color:'#8892a4',font:{size:10}},stacked:true},
+      y:{grid:{color:'#1e1e1e'},ticks:{color:'#8892a4'},stacked:true}
     }
   }
 });
@@ -709,8 +712,8 @@ new Chart(document.getElementById('matrizCob'), {
       tooltip:{callbacks:{label:ctx=>`${ctx.raw.label}: Qual=${ctx.raw.x} | ICM=${ctx.raw.y}`}}
     },
     scales:{
-      x:{grid:{color:'#1e2130'},ticks:{color:'#8892a4'},title:{display:true,text:'Eficiência (Pago/Enviado)',color:'#8892a4'}},
-      y:{grid:{color:'#1e2130'},ticks:{color:'#8892a4'},title:{display:true,text:'ICM',color:'#8892a4'}}
+      x:{grid:{color:'#1e1e1e'},ticks:{color:'#8892a4'},title:{display:true,text:'Eficiência (Pago/Enviado)',color:'#8892a4'}},
+      y:{grid:{color:'#1e1e1e'},ticks:{color:'#8892a4'},title:{display:true,text:'ICM',color:'#8892a4'}}
     }
   }
 });
@@ -729,8 +732,8 @@ new Chart(document.getElementById('comparativo'), {
     responsive:true,maintainAspectRatio:false,
     plugins:{legend:{labels:{color:'#8892a4',boxWidth:12}}},
     scales:{
-      x:{grid:{color:'#1e2130'},ticks:{color:'#8892a4',font:{size:10}}},
-      y:{grid:{color:'#1e2130'},ticks:{color:'#8892a4'}}
+      x:{grid:{color:'#1e1e1e'},ticks:{color:'#8892a4',font:{size:10}}},
+      y:{grid:{color:'#1e1e1e'},ticks:{color:'#8892a4'}}
     }
   }
 });
