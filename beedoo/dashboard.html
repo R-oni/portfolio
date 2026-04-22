@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard RH — Beedoo MIS</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --card: #1a1d27;
+      --border: #2a2d3e;
+      --accent: #7c6af7;
+      --accent2: #38bdf8;
+      --accent3: #34d399;
+      --accent4: #f87171;
+      --accent5: #fbbf24;
+      --text: #e2e8f0;
+      --muted: #8892a4;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; min-height: 100vh; }
+
+    header {
+      background: linear-gradient(135deg, #1e1b4b 0%, #1a1d27 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    header h1 { font-size: 1.4rem; font-weight: 700; color: #fff; letter-spacing: .5px; }
+    header h1 span { color: var(--accent); }
+    header p { font-size: .78rem; color: var(--muted); margin-top: 3px; }
+    .badge { background: var(--accent); color: #fff; font-size: .7rem; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+
+    .tabs { display: flex; gap: 4px; padding: 16px 32px 0; border-bottom: 1px solid var(--border); }
+    .tab { padding: 8px 20px; border-radius: 8px 8px 0 0; font-size: .82rem; font-weight: 600; cursor: pointer; border: 1px solid transparent; border-bottom: none; transition: all .2s; color: var(--muted); }
+    .tab.active { background: var(--card); border-color: var(--border); color: var(--text); }
+    .tab:hover:not(.active) { color: var(--text); }
+
+    .panel { display: none; padding: 28px 32px; }
+    .panel.active { display: block; }
+
+    /* KPI cards */
+    .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .kpi { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; }
+    .kpi .label { font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; }
+    .kpi .value { font-size: 1.9rem; font-weight: 700; margin: 6px 0 2px; }
+    .kpi .sub { font-size: .75rem; color: var(--muted); }
+    .kpi.blue .value  { color: var(--accent2); }
+    .kpi.purple .value{ color: var(--accent); }
+    .kpi.green .value { color: var(--accent3); }
+    .kpi.red .value   { color: var(--accent4); }
+    .kpi.yellow .value{ color: var(--accent5); }
+
+    /* Chart grid */
+    .chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap: 20px; }
+    .chart-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+    .chart-card h3 { font-size: .85rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; margin-bottom: 16px; }
+    .chart-card.wide { grid-column: 1 / -1; }
+
+    canvas { max-height: 280px; }
+    .canvas-tall { max-height: 380px !important; }
+
+    /* Table */
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+    th { background: #13151f; color: var(--muted); text-transform: uppercase; font-size: .7rem; letter-spacing: .5px; padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+    td { padding: 9px 12px; border-bottom: 1px solid var(--border); }
+    tr:hover td { background: #1e2130; }
+    .chip { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: .7rem; font-weight: 600; }
+    .chip.high   { background: #14532d; color: #4ade80; }
+    .chip.mid    { background: #713f12; color: #fbbf24; }
+    .chip.low    { background: #450a0a; color: #f87171; }
+
+    /* Insights */
+    .insights { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .insight { background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 0 12px 12px 0; padding: 16px 18px; }
+    .insight.warn { border-left-color: var(--accent4); }
+    .insight.ok   { border-left-color: var(--accent3); }
+    .insight h4 { font-size: .82rem; font-weight: 700; margin-bottom: 6px; }
+    .insight p  { font-size: .78rem; color: var(--muted); line-height: 1.5; }
+
+    footer { text-align: center; padding: 20px; font-size: .72rem; color: var(--muted); border-top: 1px solid var(--border); margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Dashboard <span>Operacional</span> — Indicadores de Performance</h1>
+    <p>Mês de Referência: Fevereiro 2025 &nbsp;|&nbsp; Analista: Ronison</p>
+  </div>
+  <span class="badge">MIS · Beedoo</span>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('cobranca', this)">⚡ Cobrança</div>
+  <div class="tab" onclick="switchTab('atendimento', this)">📞 Atendimento</div>
+  <div class="tab" onclick="switchTab('insights', this)">💡 Insights Executivos</div>
+</div>
+
+<!-- ===================== COBRANÇA ===================== -->
+<div id="cobranca" class="panel active">
+
+  <div class="kpi-row">
+    <div class="kpi blue">
+      <div class="label">Total CPC Trabalhado</div>
+      <div class="value">5.215</div>
+      <div class="sub">53 operadores · Fev/25</div>
+    </div>
+    <div class="kpi purple">
+      <div class="label">Boletos Convertidos</div>
+      <div class="value">1.190</div>
+      <div class="sub">Taxa conv. média: 22,8%</div>
+    </div>
+    <div class="kpi green">
+      <div class="label">Boletos Pagos</div>
+      <div class="value">740</div>
+      <div class="sub">Sobre enviados totais</div>
+    </div>
+    <div class="kpi yellow">
+      <div class="label">Eficiência Média</div>
+      <div class="value">62%</div>
+      <div class="sub">Pago / Enviado (total)</div>
+    </div>
+    <div class="kpi red">
+      <div class="label">ICM Médio</div>
+      <div class="value">0,83</div>
+      <div class="sub">Índice composto geral</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Abs. com Falta</div>
+      <div class="value" style="color:#f97316">5</div>
+      <div class="sub">Operadores c/ dias não trabalhados</div>
+    </div>
+  </div>
+
+  <div class="chart-grid">
+
+    <div class="chart-card wide">
+      <h3>ICM por Operador — Ranking de Performance</h3>
+      <canvas id="icmRanking" class="canvas-tall" style="max-height:420px"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <h3>CPC Trabalhado vs. Boleto Pago (Top 20)</h3>
+      <canvas id="cpcBoleto"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <h3>Eficiência por Operador (Top 20)</h3>
+      <canvas id="eficiencia"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <h3>Média de Qualidade — Distribuição</h3>
+      <canvas id="qualidade"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <h3>Dispersão: CPC × ICM</h3>
+      <canvas id="scatter"></canvas>
+    </div>
+
+  </div>
+
+  <br>
+  <div class="chart-card">
+    <h3>Tabela Completa — Cobrança</h3>
+    <div class="table-wrap">
+      <table id="tabelaCob"></table>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ATENDIMENTO ===================== -->
+<div id="atendimento" class="panel">
+
+  <div class="kpi-row">
+    <div class="kpi blue">
+      <div class="label">Vol. Total Atendimentos</div>
+      <div class="value">1.142</div>
+      <div class="sub">15 operadores</div>
+    </div>
+    <div class="kpi purple">
+      <div class="label">NPS Líquido</div>
+      <div class="value">+209</div>
+      <div class="sub">Promotores (241) − Detratores (32)</div>
+    </div>
+    <div class="kpi green">
+      <div class="label">CSAT Conv. Médio</div>
+      <div class="value">4,01</div>
+      <div class="sub">Escala 0–5</div>
+    </div>
+    <div class="kpi yellow">
+      <div class="label">ICM Médio</div>
+      <div class="value">0,74</div>
+      <div class="sub">Atendimento</div>
+    </div>
+    <div class="kpi red">
+      <div class="label">Rechamada Média</div>
+      <div class="value">8,2%</div>
+      <div class="sub">Média por operador</div>
+    </div>
+    <div class="kpi">
+      <div class="label">TMA Médio</div>
+      <div class="value" style="color:var(--accent3)">07:35</div>
+      <div class="sub">Tempo Médio Atendimento</div>
+    </div>
+  </div>
+
+  <div class="chart-grid">
+
+    <div class="chart-card">
+      <h3>ICM — Atendimento por Operador</h3>
+      <canvas id="icmAten"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <h3>NPS: Promotores vs Detratores vs Neutros</h3>
+      <canvas id="npsBar"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <h3>CSAT Convencional por Operador</h3>
+      <canvas id="csatBar"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <h3>Volume de Atendimento vs Rechamada (%)</h3>
+      <canvas id="rechamada"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <h3>Média de Qualidade — Atendimento</h3>
+      <canvas id="qualAten"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <h3>Composição NPS (Stacked)</h3>
+      <canvas id="npsStack"></canvas>
+    </div>
+
+  </div>
+
+  <br>
+  <div class="chart-card">
+    <h3>Tabela Completa — Atendimento</h3>
+    <div class="table-wrap">
+      <table id="tabelaAten"></table>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== INSIGHTS ===================== -->
+<div id="insights" class="panel">
+  <div class="insights">
+    <div class="insight ok">
+      <h4>🏆 Top Performer — Cobrança</h4>
+      <p><strong>Operador 18</strong> lidera o ranking com ICM de 4,01 e 250 CPCs trabalhados, gerando 49 boletos convertidos e 36 pagos (eficiência: 74%) e Qualidade máxima (1,00). Destaque absoluto em ICM — mais que o dobro do segundo colocado.</p>
+    </div>
+    <div class="insight ok">
+      <h4>🏆 Top Performer — Atendimento</h4>
+      <p><strong>Operador 9</strong> lidera com o maior ICM de Atendimento (1,220) e Qualidade 0,95, com 94 atendimentos. <strong>Operador 1</strong> vem logo atrás (ICM 1,200), com 61 atendimentos, NPS líquido de +20 e CSAT 3,98. Ambos combinam volume e excelência.</p>
+    </div>
+    <div class="insight warn">
+      <h4>⚠️ Baixo Desempenho — Cobrança</h4>
+      <p><strong>Operadores 7, 44 e 42</strong> registram ICMs abaixo de 0,15. Operador 44 encerrou o mês com zero boletos pagos (3 enviados, eficiência 0%) e ICM 0,00. Ação de coaching imediata recomendada.</p>
+    </div>
+    <div class="insight warn">
+      <h4>⚠️ Alto TMA — Atendimento</h4>
+      <p><strong>Operador 11</strong> registra TMA de 14min48s, quase o dobro da média da equipe (7min35s). Isso impacta a capacidade de atendimento e pode indicar dificuldade técnica ou de processo.</p>
+    </div>
+    <div class="insight">
+      <h4>📉 Qualidade Crítica — Operador 45</h4>
+      <p><strong>Operador 45</strong> é o único da equipe com Média de Qualidade = 0,00, mesmo gerando 129 CPCs e 11 boletos pagos (ef: 50%). Possível ausência de avaliação ou ocorrência crítica de qualidade que merece investigação imediata.</p>
+    </div>
+    <div class="insight">
+      <h4>📊 Dispersão de ICM</h4>
+      <p>O ICM de Cobrança varia de <strong>0,00 a 4,01</strong> — amplitude enorme que indica equipe heterogênea. Os 20% melhores respondem por mais de 40% do resultado. Oportunidade de padronização de práticas.</p>
+    </div>
+    <div class="insight warn">
+      <h4>📅 Absenteísmo Pontual</h4>
+      <p><strong>Operador 33</strong> teve 3 dias não trabalhados, seguido do Operador 38 (2 dias) e Operadores 6, 26 e 51 (1 dia cada) — total de <strong>5 operadores</strong> com ausências. Embora baixo em geral, monitoramento preventivo é recomendado.</p>
+    </div>
+    <div class="insight ok">
+      <h4>✅ Destaques de Eficiência e Qualidade</h4>
+      <p><strong>Operadores 4 e 10</strong> lideram a eficiência de pagamento com 91,7% e 91,3%. <strong>Operadores 2, 15 e 18</strong> atingiram Qualidade máxima (1,00). Compartilhar as boas práticas desses cinco operadores pode elevar a média geral da equipe.</p>
+    </div>
+    <div class="insight">
+      <h4>📣 NPS — Atendimento</h4>
+      <p>A maioria dos operadores tem NPS positivo. <strong>Operador 7</strong> concentra o maior volume de detratores (4), enquanto <strong>Operador 14</strong> tem 0 detratores. Oportunidade de compartilhar abordagem do Op.14.</p>
+    </div>
+    <div class="insight ok">
+      <h4>🔄 FCR — Resolução no Primeiro Contato</h4>
+      <p><strong>Operador 1</strong> lidera FCR com taxa de 89,7% (26/29 respostas positivas), seguido por <strong>Operador 2</strong> com 72,5%. Altas taxas de FCR reduzem rechamadas e impactam positivamente a experiência do cliente.</p>
+    </div>
+  </div>
+
+  <div class="chart-grid">
+    <div class="chart-card">
+      <h3>Matriz: Eficiência × ICM — Cobrança</h3>
+      <canvas id="matrizCob"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3>Comparativo: ICM Cobrança vs Atendimento</h3>
+      <canvas id="comparativo"></canvas>
+    </div>
+  </div>
+</div>
+
+<footer>Dashboard construído com Chart.js · Dados: Beedoo Indicadores — Fev/2025 · Analista: Ronison</footer>
+
+<script>
+// ===================== DATA =====================
+// NOTA: campo `qual` = coluna -.1 da planilha (Média de Qualidade, escala 0–1)
+//       campo `icm`  = coluna -.2 da planilha (ICM, escala 0–4+)
+//       campo `ef`   = pago / enviado (Eficiência calculada)
+const cobData = [
+  { op:'Op 1',  cpc:95,  conv:19, env:19, pago:14, qual:0.78, icm:2.02, abs:0 },
+  { op:'Op 2',  cpc:120, conv:24, env:24, pago:16, qual:1.00, icm:1.88, abs:0 },
+  { op:'Op 3',  cpc:121, conv:14, env:14, pago:7,  qual:0.78, icm:0.66, abs:0 },
+  { op:'Op 4',  cpc:98,  conv:12, env:12, pago:11, qual:0.95, icm:0.52, abs:0 },
+  { op:'Op 5',  cpc:73,  conv:11, env:11, pago:8,  qual:0.92, icm:0.38, abs:0 },
+  { op:'Op 6',  cpc:98,  conv:15, env:15, pago:11, qual:0.94, icm:2.55, abs:1 },
+  { op:'Op 7',  cpc:99,  conv:3,  env:3,  pago:1,  qual:0.38, icm:0.04, abs:0 },
+  { op:'Op 8',  cpc:95,  conv:12, env:12, pago:5,  qual:0.87, icm:0.35, abs:0 },
+  { op:'Op 9',  cpc:121, conv:34, env:34, pago:16, qual:0.98, icm:0.65, abs:0 },
+  { op:'Op 10', cpc:69,  conv:23, env:23, pago:21, qual:0.83, icm:1.45, abs:0 },
+  { op:'Op 11', cpc:78,  conv:13, env:13, pago:11, qual:0.71, icm:0.38, abs:0 },
+  { op:'Op 12', cpc:129, conv:12, env:12, pago:10, qual:0.78, icm:0.49, abs:0 },
+  { op:'Op 13', cpc:98,  conv:12, env:12, pago:10, qual:0.78, icm:0.39, abs:0 },
+  { op:'Op 14', cpc:129, conv:28, env:28, pago:23, qual:0.78, icm:0.85, abs:0 },
+  { op:'Op 15', cpc:50,  conv:36, env:36, pago:29, qual:1.00, icm:1.44, abs:0 },
+  { op:'Op 16', cpc:77,  conv:12, env:12, pago:9,  qual:0.91, icm:0.47, abs:0 },
+  { op:'Op 17', cpc:150, conv:4,  env:4,  pago:3,  qual:0.70, icm:0.15, abs:0 },
+  { op:'Op 18', cpc:250, conv:49, env:49, pago:36, qual:1.00, icm:4.01, abs:0 },
+  { op:'Op 19', cpc:95,  conv:43, env:43, pago:31, qual:0.73, icm:1.41, abs:0 },
+  { op:'Op 20', cpc:120, conv:21, env:21, pago:15, qual:0.82, icm:0.50, abs:0 },
+  { op:'Op 21', cpc:121, conv:33, env:33, pago:23, qual:0.92, icm:0.83, abs:0 },
+  { op:'Op 22', cpc:98,  conv:23, env:23, pago:16, qual:0.65, icm:0.98, abs:0 },
+  { op:'Op 23', cpc:73,  conv:13, env:13, pago:9,  qual:0.51, icm:0.37, abs:0 },
+  { op:'Op 24', cpc:83,  conv:35, env:35, pago:24, qual:0.95, icm:1.05, abs:0 },
+  { op:'Op 25', cpc:98,  conv:27, env:27, pago:18, qual:0.96, icm:0.69, abs:0 },
+  { op:'Op 26', cpc:69,  conv:32, env:32, pago:21, qual:0.79, icm:0.87, abs:1 },
+  { op:'Op 27', cpc:129, conv:45, env:45, pago:29, qual:0.81, icm:1.09, abs:0 },
+  { op:'Op 28', cpc:98,  conv:44, env:44, pago:28, qual:0.88, icm:1.08, abs:0 },
+  { op:'Op 29', cpc:129, conv:63, env:63, pago:40, qual:0.81, icm:1.44, abs:0 },
+  { op:'Op 30', cpc:99,  conv:23, env:23, pago:14, qual:0.82, icm:0.55, abs:0 },
+  { op:'Op 31', cpc:50,  conv:5,  env:5,  pago:3,  qual:0.84, icm:0.21, abs:0 },
+  { op:'Op 32', cpc:121, conv:32, env:32, pago:19, qual:0.80, icm:0.71, abs:0 },
+  { op:'Op 33', cpc:98,  conv:28, env:28, pago:16, qual:0.84, icm:0.69, abs:3 },
+  { op:'Op 34', cpc:73,  conv:30, env:30, pago:17, qual:0.92, icm:0.81, abs:0 },
+  { op:'Op 35', cpc:83,  conv:16, env:16, pago:9,  qual:0.86, icm:0.29, abs:0 },
+  { op:'Op 36', cpc:98,  conv:38, env:38, pago:21, qual:0.79, icm:1.24, abs:0 },
+  { op:'Op 37', cpc:69,  conv:29, env:29, pago:16, qual:0.84, icm:0.70, abs:0 },
+  { op:'Op 38', cpc:98,  conv:48, env:48, pago:26, qual:0.78, icm:1.13, abs:2 },
+  { op:'Op 39', cpc:129, conv:29, env:29, pago:15, qual:0.90, icm:0.66, abs:0 },
+  { op:'Op 40', cpc:50,  conv:18, env:18, pago:9,  qual:0.71, icm:0.26, abs:0 },
+  { op:'Op 41', cpc:98,  conv:27, env:27, pago:12, qual:0.85, icm:0.44, abs:0 },
+  { op:'Op 42', cpc:73,  conv:7,  env:7,  pago:3,  qual:0.76, icm:0.11, abs:0 },
+  { op:'Op 43', cpc:83,  conv:27, env:27, pago:11, qual:0.48, icm:0.40, abs:0 },
+  { op:'Op 44', cpc:78,  conv:3,  env:3,  pago:0,  qual:0.75, icm:0.00, abs:0 },
+  { op:'Op 45', cpc:129, conv:22, env:22, pago:11, qual:0.00, icm:0.65, abs:0 },
+  { op:'Op 46', cpc:129, conv:26, env:26, pago:10, qual:0.62, icm:1.43, abs:0 },
+  { op:'Op 47', cpc:50,  conv:9,  env:9,  pago:6,  qual:0.42, icm:0.41, abs:0 },
+  { op:'Op 48', cpc:95,  conv:6,  env:6,  pago:5,  qual:0.91, icm:0.58, abs:0 },
+  { op:'Op 49', cpc:120, conv:15, env:15, pago:7,  qual:0.31, icm:1.83, abs:0 },
+  { op:'Op 50', cpc:121, conv:10, env:10, pago:4,  qual:0.45, icm:0.23, abs:0 },
+  { op:'Op 51', cpc:98,  conv:7,  env:7,  pago:1,  qual:0.81, icm:0.28, abs:1 },
+  { op:'Op 52', cpc:50,  conv:14, env:14, pago:9,  qual:0.96, icm:1.11, abs:0 },
+  { op:'Op 53', cpc:60,  conv:9,  env:9,  pago:1,  qual:0.85, icm:0.24, abs:0 },
+];
+
+const atenData = [
+  { op:'Op 1',  qual:0.78, npsD:5,  npsN:0, npsP:25, total:30, rechamada:4,  vol:61,  transf:0.16, icm:1.200, abs:0, tma:'00:05:04', csat:3.98,  csatRes:51, csatTot:77,  dsatRes:19, dsatTot:77,  vendas:39, cpc:61,  reclam:0, respPos:26, respTot:29  },
+  { op:'Op 2',  qual:0.81, npsD:2,  npsN:0, npsP:11, total:13, rechamada:9,  vol:77,  transf:0.149,icm:1.003, abs:0, tma:'00:05:45', csat:3.78,  csatRes:7,  csatTot:11,  dsatRes:1,  dsatTot:11,  vendas:45, cpc:77,  reclam:0, respPos:37, respTot:51  },
+  { op:'Op 3',  qual:0.95, npsD:1,  npsN:0, npsP:19, total:20, rechamada:12, vol:86,  transf:0.151,icm:0.883, abs:0, tma:'00:05:59', csat:4.61,  csatRes:66, csatTot:73,  dsatRes:2,  dsatTot:73,  vendas:46, cpc:86,  reclam:0, respPos:41, respTot:60  },
+  { op:'Op 4',  qual:0.57, npsD:2,  npsN:2, npsP:19, total:23, rechamada:17, vol:106, transf:0.12, icm:0.794, abs:0, tma:'00:06:32', csat:5.00,  csatRes:25, csatTot:27,  dsatRes:0,  dsatTot:27,  vendas:45, cpc:106, reclam:0, respPos:10, respTot:15  },
+  { op:'Op 5',  qual:0.88, npsD:1,  npsN:0, npsP:15, total:16, rechamada:3,  vol:49,  transf:0.128,icm:0.735, abs:0, tma:'00:06:33', csat:4.97,  csatRes:45, csatTot:53,  dsatRes:0,  dsatTot:53,  vendas:20, cpc:49,  reclam:0, respPos:14, respTot:22  },
+  { op:'Op 6',  qual:0.70, npsD:3,  npsN:1, npsP:23, total:27, rechamada:9,  vol:67,  transf:0.148,icm:0.655, abs:1, tma:'00:06:45', csat:4.34,  csatRes:49, csatTot:63,  dsatRes:9,  dsatTot:63,  vendas:25, cpc:67,  reclam:0, respPos:28, respTot:72  },
+  { op:'Op 7',  qual:0.74, npsD:4,  npsN:0, npsP:27, total:31, rechamada:21, vol:119, transf:0.171,icm:0.385, abs:0, tma:'00:07:20', csat:3.14,  csatRes:28, csatTot:34,  dsatRes:6,  dsatTot:34,  vendas:40, cpc:119, reclam:0, respPos:48, respTot:136 },
+  { op:'Op 8',  qual:0.55, npsD:2,  npsN:2, npsP:11, total:15, rechamada:0,  vol:6,   transf:0.15, icm:0.369, abs:0, tma:'00:08:53', csat:3.60,  csatRes:11, csatTot:19,  dsatRes:4,  dsatTot:19,  vendas:2,  cpc:6,   reclam:0, respPos:24, respTot:90  },
+  { op:'Op 9',  qual:0.95, npsD:1,  npsN:0, npsP:15, total:16, rechamada:2,  vol:94,  transf:0.164,icm:1.220, abs:0, tma:'00:09:17', csat:3.11,  csatRes:29, csatTot:54,  dsatRes:17, dsatTot:54,  vendas:31, cpc:94,  reclam:0, respPos:19, respTot:74  },
+  { op:'Op 10', qual:0.42, npsD:2,  npsN:1, npsP:9,  total:12, rechamada:1,  vol:67,  transf:0.166,icm:0.910, abs:0, tma:'00:12:05', csat:3.96,  csatRes:55, csatTot:89,  dsatRes:26, dsatTot:89,  vendas:22, cpc:67,  reclam:0, respPos:17, respTot:67  },
+  { op:'Op 11', qual:0.67, npsD:2,  npsN:0, npsP:13, total:15, rechamada:7,  vol:108, transf:0.13, icm:0.650, abs:1, tma:'00:14:48', csat:4.00,  csatRes:4,  csatTot:6,   dsatRes:1,  dsatTot:6,   vendas:35, cpc:108, reclam:1, respPos:35, respTot:148 },
+  { op:'Op 12', qual:0.49, npsD:3,  npsN:3, npsP:24, total:30, rechamada:3,  vol:63,  transf:0.139,icm:1.030, abs:0, tma:'00:04:34', csat:4.58,  csatRes:63, csatTot:88,  dsatRes:13, dsatTot:88,  vendas:20, cpc:63,  reclam:0, respPos:24, respTot:102 },
+  { op:'Op 13', qual:0.80, npsD:2,  npsN:0, npsP:8,  total:10, rechamada:6,  vol:88,  transf:0.141,icm:0.440, abs:0, tma:'00:05:38', csat:3.51,  csatRes:3,  csatTot:8,   dsatRes:3,  dsatTot:8,   vendas:27, cpc:88,  reclam:0, respPos:21, respTot:92  },
+  { op:'Op 14', qual:0.77, npsD:0,  npsN:2, npsP:9,  total:11, rechamada:5,  vol:83,  transf:0.12, icm:0.560, abs:0, tma:'00:05:52', csat:4.00,  csatRes:29, csatTot:55,  dsatRes:18, dsatTot:55,  vendas:25, cpc:83,  reclam:0, respPos:10, respTot:44  },
+  { op:'Op 15', qual:0.64, npsD:2,  npsN:0, npsP:13, total:15, rechamada:7,  vol:68,  transf:0.115,icm:0.340, abs:0, tma:'00:08:35', csat:3.56,  csatRes:44, csatTot:95,  dsatRes:32, dsatTot:95,  vendas:20, cpc:68,  reclam:0, respPos:6,  respTot:27  },
+];
+
+// ===================== HELPERS =====================
+const PURPLE = 'rgba(124,106,247,0.85)';
+const BLUE   = 'rgba(56,189,248,0.85)';
+const GREEN  = 'rgba(52,211,153,0.85)';
+const RED    = 'rgba(248,113,113,0.85)';
+const YELLOW = 'rgba(251,191,36,0.85)';
+const ORANGE = 'rgba(249,115,22,0.85)';
+
+function colorByVal(v, lo, hi) {
+  if (v >= hi) return GREEN;
+  if (v >= lo) return YELLOW;
+  return RED;
+}
+
+const sortedCob = [...cobData].sort((a,b) => b.icm - a.icm);
+
+// ===================== COBRANÇA CHARTS =====================
+
+// ICM Ranking (horizontal bar, all 53)
+new Chart(document.getElementById('icmRanking'), {
+  type: 'bar',
+  data: {
+    labels: sortedCob.map(d => d.op),
+    datasets: [{
+      label: 'ICM',
+      data: sortedCob.map(d => d.icm),
+      backgroundColor: sortedCob.map(d => colorByVal(d.icm, 0.7, 1.2)),
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ICM: ${ctx.raw}` } } },
+    scales: {
+      x: { grid: { color: '#1e2130' }, ticks: { color: '#8892a4' } },
+      y: { grid: { color: '#1e2130' }, ticks: { color: '#8892a4', font: { size: 10 } } }
+    }
+  }
+});
+
+// CPC vs Boleto Pago (top 20 by CPC)
+const top20 = [...cobData].sort((a,b)=>b.cpc-a.cpc).slice(0,20);
+new Chart(document.getElementById('cpcBoleto'), {
+  type: 'bar',
+  data: {
+    labels: top20.map(d=>d.op),
+    datasets: [
+      { label: 'CPC Trabalhado', data: top20.map(d=>d.cpc), backgroundColor: 'rgba(56,189,248,0.7)', borderRadius:3 },
+      { label: 'Boleto Pago',    data: top20.map(d=>d.pago), backgroundColor: 'rgba(52,211,153,0.8)', borderRadius:3 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { labels: { color: '#8892a4', boxWidth: 12 } } },
+    scales: {
+      x: { grid:{color:'#1e2130'}, ticks:{color:'#8892a4', font:{size:9}} },
+      y: { grid:{color:'#1e2130'}, ticks:{color:'#8892a4'} }
+    }
+  }
+});
+
+// Eficiência Top 20 (calculada: pago/env)
+const top20ef = [...cobData].map(d=>({...d, ef:d.pago/d.env})).sort((a,b)=>b.ef-a.ef).slice(0,20);
+new Chart(document.getElementById('eficiencia'), {
+  type: 'bar',
+  data: {
+    labels: top20ef.map(d=>d.op),
+    datasets: [{
+      label: 'Eficiência (%)',
+      data: top20ef.map(d=>+(d.ef*100).toFixed(1)),
+      backgroundColor: top20ef.map(d => colorByVal(d.ef, 0.55, 0.75)),
+      borderRadius: 3,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend:{display:false}, tooltip:{callbacks:{label:ctx=>` ${ctx.raw}%`}} },
+    scales: {
+      x:{ grid:{color:'#1e2130'}, ticks:{color:'#8892a4',font:{size:9}} },
+      y:{ grid:{color:'#1e2130'}, ticks:{color:'#8892a4'}, min:0, max:100 }
+    }
+  }
+});
+
+// Qualidade distribuição (histogram buckets) - escala 0-1
+const buckets = [0,0,0,0,0]; // <0.5, 0.5-0.65, 0.65-0.8, 0.8-0.95, >=0.95
+cobData.forEach(d => {
+  if(d.qual < 0.50) buckets[0]++;
+  else if(d.qual < 0.65) buckets[1]++;
+  else if(d.qual < 0.80) buckets[2]++;
+  else if(d.qual < 0.95) buckets[3]++;
+  else buckets[4]++;
+});
+new Chart(document.getElementById('qualidade'), {
+  type: 'doughnut',
+  data: {
+    labels: ['< 0.50','0.50–0.65','0.65–0.80','0.80–0.95','≥ 0.95'],
+    datasets:[{ data: buckets, backgroundColor:[RED, YELLOW, GREEN, BLUE, PURPLE], borderWidth:0 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { labels:{color:'#8892a4',boxWidth:12}, position:'right' } }
+  }
+});
+
+// Scatter CPC × ICM
+new Chart(document.getElementById('scatter'), {
+  type: 'scatter',
+  data: {
+    datasets:[{
+      label: 'Operadores',
+      data: cobData.map(d=>({x:d.cpc, y:d.icm})),
+      backgroundColor: PURPLE,
+      pointRadius: 6,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend:{display:false} },
+    scales: {
+      x:{ grid:{color:'#1e2130'}, ticks:{color:'#8892a4'}, title:{display:true,text:'CPC Trabalhado',color:'#8892a4'} },
+      y:{ grid:{color:'#1e2130'}, ticks:{color:'#8892a4'}, title:{display:true,text:'ICM',color:'#8892a4'} }
+    }
+  }
+});
+
+// Tabela Cobrança
+(function(){
+  const headers = ['Operador','CPC','Convertidos','Enviados','Pagos','Eficiência','Méd.Qual','ICM','Abs'];
+  const t = document.getElementById('tabelaCob');
+  t.innerHTML = `<thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead>`;
+  const tb = document.createElement('tbody');
+  sortedCob.forEach(d => {
+    const ef = d.env > 0 ? ((d.pago/d.env)*100).toFixed(0)+'%' : '–';
+    const lvl = d.icm>=1.2?'high':d.icm>=0.6?'mid':'low';
+    tb.innerHTML += `<tr>
+      <td>${d.op}</td><td>${d.cpc}</td><td>${d.conv}</td><td>${d.env}</td><td>${d.pago}</td>
+      <td>${ef}</td><td>${d.qual.toFixed(2)}</td>
+      <td><span class="chip ${lvl}">${d.icm.toFixed(2)}</span></td>
+      <td>${d.abs}</td>
+    </tr>`;
+  });
+  t.appendChild(tb);
+})();
+
+
+// ===================== ATENDIMENTO CHARTS =====================
+
+// ICM atendimento
+new Chart(document.getElementById('icmAten'), {
+  type: 'bar',
+  data: {
+    labels: atenData.map(d=>d.op),
+    datasets:[{
+      label:'ICM',
+      data: atenData.map(d=>d.icm),
+      backgroundColor: atenData.map(d=>colorByVal(d.icm,0.6,1.0)),
+      borderRadius:3
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{
+      x:{grid:{color:'#1e2130'},ticks:{color:'#8892a4',font:{size:10}}},
+      y:{grid:{color:'#1e2130'},ticks:{color:'#8892a4'}}
+    }
+  }
+});
+
+// NPS bar
+new Chart(document.getElementById('npsBar'), {
+  type:'bar',
+  data:{
+    labels: atenData.map(d=>d.op),
+    datasets:[
+      {label:'Detratores', data:atenData.map(d=>d.npsD), backgroundColor:RED, borderRadius:2},
+      {label:'Neutros',    data:atenData.map(d=>d.npsN), backgroundColor:YELLOW, borderRadius:2},
+      {label:'Promotores', data:atenData.map(d=>d.npsP), backgroundColor:GREEN, borderRadius:2},
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:'#8892a4',boxWidth:12}}},
+    scales:{
+      x:{grid:{color:'#1e2130'},ticks:{color:'#8892a4',font:{size:10}}},
+      y:{grid:{color:'#1e2130'},ticks:{color:'#8892a4'},stacked:false}
+    }
+  }
+});
+
+// CSAT Convencional
+new Chart(document.getElementById('csatBar'), {
+  type:'bar',
+  data:{
+    labels: atenData.map(d=>d.op),
+    datasets:[{
+      label:'CSAT',
+      data: atenData.map(d=>d.csat),
+      backgroundColor: atenData.map(d=>colorByVal(d.csat,3.5,4.5)),
+      borderRadius:3
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{
+      x:{grid:{color:'#1e2130'},ticks:{color:'#8892a4',font:{size:10}}},
+      y:{grid:{color:'#1e2130'},ticks:{color:'#8892a4'},min:0,max:5}
+    }
+  }
+});
+
+// Volume atendimento vs rechamada %
+new Chart(document.getElementById('rechamada'), {
+  type:'bar',
+  data:{
+    labels: atenData.map(d=>d.op),
+    datasets:[
+      {label:'Vol. Atendimento', data:atenData.map(d=>d.vol), backgroundColor:BLUE, borderRadius:2, yAxisID:'y'},
+      {label:'Rechamada (qtd)',  data:atenData.map(d=>d.rechamada), backgroundColor:RED, borderRadius:2, yAxisID:'y2'},
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:'#8892a4',boxWidth:12}}},
+    scales:{
+      x:{grid:{color:'#1e2130'},ticks:{color:'#8892a4',font:{size:10}}},
+      y:{grid:{color:'#1e2130'},ticks:{color:'#8892a4'},position:'left'},
+      y2:{grid:{display:false},ticks:{color:RED},position:'right'}
+    }
+  }
+});
+
+// Qualidade atendimento
+new Chart(document.getElementById('qualAten'), {
+  type:'radar',
+  data:{
+    labels: atenData.map(d=>d.op),
+    datasets:[{
+      label:'Média de Qualidade',
+      data: atenData.map(d=>d.qual),
+      backgroundColor:'rgba(124,106,247,0.2)',
+      borderColor:PURPLE,
+      pointBackgroundColor:PURPLE,
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:'#8892a4'}}},
+    scales:{r:{grid:{color:'#1e2130'},ticks:{color:'#8892a4',backdropColor:'transparent'},pointLabels:{color:'#8892a4',font:{size:9}}}}
+  }
+});
+
+// NPS stacked
+new Chart(document.getElementById('npsStack'), {
+  type:'bar',
+  data:{
+    labels: atenData.map(d=>d.op),
+    datasets:[
+      {label:'Detratores', data:atenData.map(d=>d.npsD), backgroundColor:'rgba(248,113,113,0.9)', borderRadius:2},
+      {label:'Neutros',    data:atenData.map(d=>d.npsN), backgroundColor:'rgba(251,191,36,0.9)',  borderRadius:2},
+      {label:'Promotores', data:atenData.map(d=>d.npsP), backgroundColor:'rgba(52,211,153,0.9)',  borderRadius:2},
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:'#8892a4',boxWidth:12}}},
+    scales:{
+      x:{grid:{color:'#1e2130'},ticks:{color:'#8892a4',font:{size:10}},stacked:true},
+      y:{grid:{color:'#1e2130'},ticks:{color:'#8892a4'},stacked:true}
+    }
+  }
+});
+
+// Tabela Atendimento
+(function(){
+  const headers=['Operador','Vol.Aten','Rechamada','Transferência','ICM','CSAT','NPS (P-D)','TMA','Qualidade','Abs'];
+  const t=document.getElementById('tabelaAten');
+  t.innerHTML=`<thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead>`;
+  const tb=document.createElement('tbody');
+  const sorted=[...atenData].sort((a,b)=>b.icm-a.icm);
+  sorted.forEach(d=>{
+    const nps=d.npsP-d.npsD;
+    const lvl=d.icm>=1.0?'high':d.icm>=0.6?'mid':'low';
+    tb.innerHTML+=`<tr>
+      <td>${d.op}</td><td>${d.vol}</td><td>${d.rechamada}</td>
+      <td>${(d.transf*100).toFixed(1)}%</td>
+      <td><span class="chip ${lvl}">${d.icm.toFixed(3)}</span></td>
+      <td>${d.csat.toFixed(2)}</td>
+      <td style="color:${nps>=0?'#34d399':'#f87171'}">${nps>0?'+':''}${nps}</td>
+      <td>${d.tma}</td><td>${d.qual.toFixed(2)}</td><td>${d.abs}</td>
+    </tr>`;
+  });
+  t.appendChild(tb);
+})();
+
+// ===================== INSIGHTS CHARTS =====================
+
+// Matriz qualidade × ICM cobrança
+new Chart(document.getElementById('matrizCob'), {
+  type:'scatter',
+  data:{
+    datasets:[{
+      label:'Operadores',
+      data: cobData.map(d=>({x:+(d.pago/d.env).toFixed(2), y:d.icm, label:d.op+'  ef='+(d.pago/d.env*100).toFixed(0)+'%'})),
+      backgroundColor: cobData.map(d=>colorByVal(d.icm,0.6,1.2)),
+      pointRadius:7,
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{
+      legend:{display:false},
+      tooltip:{callbacks:{label:ctx=>`${ctx.raw.label}: Qual=${ctx.raw.x} | ICM=${ctx.raw.y}`}}
+    },
+    scales:{
+      x:{grid:{color:'#1e2130'},ticks:{color:'#8892a4'},title:{display:true,text:'Eficiência (Pago/Enviado)',color:'#8892a4'}},
+      y:{grid:{color:'#1e2130'},ticks:{color:'#8892a4'},title:{display:true,text:'ICM',color:'#8892a4'}}
+    }
+  }
+});
+
+// Comparativo ICM × Qualidade — Atendimento
+new Chart(document.getElementById('comparativo'), {
+  type:'bar',
+  data:{
+    labels: atenData.map(d=>d.op),
+    datasets:[
+      {label:'ICM Atendimento', data:atenData.map(d=>d.icm), backgroundColor:BLUE, borderRadius:3},
+      {label:'Qualidade Media',  data:atenData.map(d=>d.qual), backgroundColor:PURPLE, borderRadius:3},
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:'#8892a4',boxWidth:12}}},
+    scales:{
+      x:{grid:{color:'#1e2130'},ticks:{color:'#8892a4',font:{size:10}}},
+      y:{grid:{color:'#1e2130'},ticks:{color:'#8892a4'}}
+    }
+  }
+});
+
+// ===================== TABS =====================
+function switchTab(id, el) {
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+}
+</script>
+</body>
+</html>

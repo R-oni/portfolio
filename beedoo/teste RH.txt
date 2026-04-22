@@ -1,0 +1,37 @@
+Bom dia Ronison, tudo bem?
+
+
+
+Como falamos por whatsapp, como parte do nosso processo seletivo para a posição de Analista de MIS, gostaríamos de propor um desafio prático para entendermos melhor seu raciocínio analítico, organização de informações e capacidade de gerar insights a partir de dados.
+
+Você receberá uma planilha contendo indicadores operacionais. A ideia é que você explore os dados e apresente as análises que considerar mais relevantes.
+
+Descrição dos campos da planilha:
+Abaixo segue o detalhamento de cada coluna para te apoiar na interpretação dos dados:
+
+Nome do CI: Identificação do colaborador (operador/analista) responsável pelos resultados apresentados.
+Mês Ref.: Mês de referência dos dados.
+CPC (Trabalhado) – Conversão: Volume de contatos/propostas trabalhadas pelo operador com foco em conversão.
+Boleto (Convertido): Quantidade de boletos gerados a partir das conversões realizadas.
+Boleto Enviado: Total de boletos efetivamente enviados aos clientes.
+Boleto Pago: Quantidade de boletos que foram pagos pelos clientes.
+Eficiência: Relação entre boletos pagos e boletos enviados (indicador de conversão final).
+Média de Qualidade: Indicador qualitativo do atendimento/desempenho do operador.
+ICM: Índice de desempenho geral (combina produtividade e qualidade – interpretar conforme correlação com os demais dados).
+Dias Úteis: Quantidade de dias úteis no período analisado.
+Dias Não Trabalhados: Quantidade de dias em que o operador não esteve ativo (faltas, férias, etc.).
+Objetivo do desafio:
+Queremos entender como você:
+
+Analisa e interpreta dados
+Identifica padrões, gaps e oportunidades
+Cria indicadores e visões relevantes
+Estrutura informações de forma clara e objetiva
+O que esperamos de você:
+Fique à vontade para trabalhar a base como preferir (Excel, Power BI, Google Sheets, etc.), mas esperamos:
+
+Análises relevantes sobre performance individual e geral
+Identificação de possíveis problemas ou inconsistências
+Sugestões de melhorias com base nos dados
+Criação de dashboards, gráficos ou indicadores (se fizer sentido)
+Principais insights executivos (o “so what?” dos dados)
