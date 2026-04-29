@@ -318,6 +318,34 @@
     }
     .port-slide { min-width: 100%; width: 100%; height: 100%; }
 
+    /* ── PORTFOLIO INTRO ── */
+    .port-intro {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 4rem;
+      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(0,255,231,.04) 0%, transparent 70%);
+    }
+    .pi-content { max-width: 580px; }
+    .pi-title { font-size: clamp(1.7rem, 3.5vw, 2.6rem); font-weight: 800; letter-spacing: -.03em; line-height: 1.12; margin-bottom: 1rem; }
+    .pi-accent { color: var(--gold); }
+    .pi-desc { color: var(--muted); font-size: .95rem; line-height: 1.8; margin-bottom: 2rem; max-width: 500px; }
+    .pi-stats {
+      display: flex; gap: 2.5rem; margin-bottom: 2.2rem;
+      padding: 1.2rem 1.6rem;
+      border: 1px solid var(--border); border-radius: var(--r);
+      background: rgba(255,255,255,.018);
+    }
+    .pi-stat { display: flex; flex-direction: column; gap: .2rem; }
+    .pi-stat-n { font-size: 1.35rem; font-weight: 800; color: var(--text); letter-spacing: -.02em; }
+    .pi-stat-l { font-size: .68rem; color: var(--muted); font-weight: 500; letter-spacing: .05em; text-transform: uppercase; }
+
+    /* ── TABLEAU EMBED ── */
+    .tableau-wrap { flex: 1; min-height: 0; overflow: hidden; position: relative; }
+    .tableau-wrap > div { width: 100% !important; height: 100% !important; position: absolute; inset: 0; }
+    .tableau-wrap object { min-width: unset !important; max-width: 100% !important; min-height: unset !important; max-height: 100% !important; width: 100% !important; height: 100% !important; }
+
     /* Card — two-column */
     .card {
       height: 100%;
@@ -350,11 +378,12 @@
 
     .embed {
       flex: 1; display: flex; flex-direction: column; min-height: 0;
+      position: relative;
       background: rgba(0,0,0,.25);
     }
     .ebar { padding: .6rem 1.75rem; font-size: .7rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: .55rem; flex-shrink: 0; }
     .edot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; flex-shrink: 0; }
-    .embed iframe { flex: 1; display: block; width: 100%; border: none; min-height: 0; height: 100%; }
+    .embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; display: block; }
     .cf { padding: .85rem 1.5rem; border-top: 1px solid var(--border); display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; flex-shrink: 0; }
 
     /* ── BUTTONS ── */
@@ -565,18 +594,21 @@
     <div class="port-tabs">
       <span class="port-section-lbl">Portfólio</span>
       <button class="port-tab active" data-slide="0">
+        <span class="tab-name">Visão Geral</span>
+      </button>
+      <button class="port-tab" data-slide="1">
         <span class="tab-num">Projeto 01</span>
         <span class="tab-name">SaaS Dashboard</span>
       </button>
-      <button class="port-tab" data-slide="1">
+      <button class="port-tab" data-slide="2">
         <span class="tab-num">Projeto 02</span>
         <span class="tab-name">MIS Call Center</span>
       </button>
-      <button class="port-tab" data-slide="2">
+      <button class="port-tab" data-slide="3">
         <span class="tab-num">Projeto 03</span>
         <span class="tab-name">Financial ETL</span>
       </button>
-      <button class="port-tab" data-slide="3">
+      <button class="port-tab" data-slide="4">
         <span class="tab-num">Projeto 04</span>
         <span class="tab-name">Vendas &amp; Receita</span>
       </button>
@@ -585,6 +617,36 @@
     <!-- Slide viewport -->
     <div class="port-viewport">
       <div class="port-track" id="portTrack">
+
+        <!-- Slide 00: Intro -->
+        <div class="port-slide">
+          <div class="port-intro">
+            <div class="pi-content">
+              <p class="lbl">Portfólio</p>
+              <h2 class="pi-title">Dados que geram<br><span class="pi-accent">decisões reais</span></h2>
+              <p class="pi-desc">Projetos end-to-end em análise de dados e Business Intelligence — pipelines ETL com Python, dashboards interativos e modelagem analítica aplicados a problemas reais de negócio.</p>
+              <div class="pi-stats">
+                <div class="pi-stat">
+                  <span class="pi-stat-n">4</span>
+                  <span class="pi-stat-l">Projetos</span>
+                </div>
+                <div class="pi-stat">
+                  <span class="pi-stat-n">ETL</span>
+                  <span class="pi-stat-l">Python · SQL</span>
+                </div>
+                <div class="pi-stat">
+                  <span class="pi-stat-n">BI</span>
+                  <span class="pi-stat-l">Power BI · Tableau</span>
+                </div>
+                <div class="pi-stat">
+                  <span class="pi-stat-n">USP</span>
+                  <span class="pi-stat-l">Física · Bacharelado</span>
+                </div>
+              </div>
+              <button class="btn btn-gold" onclick="document.querySelector('[data-slide=\'1\']').click()">Explorar projetos &nbsp;→</button>
+            </div>
+          </div>
+        </div>
 
         <!-- Slide 01 -->
         <div class="port-slide">
@@ -691,26 +753,30 @@
           <article class="card">
             <div class="card-left">
               <div class="cb">
-                <div class="pnum">Projeto 04 · Vendas &amp; Receita</div>
-                <h2 class="ptitle">Dashboard de Vendas — Análise Executiva</h2>
-                <p class="pdesc">Dashboard analítico de vendas no Power BI com modelagem relacional em star schema, medidas DAX e layout para tomada de decisão executiva. Cobre faturamento, ticket médio, evolução mensal e metas por canal.</p>
+                <div class="pnum">Projeto 04 · Análise Hoteleira</div>
+                <h2 class="ptitle">Dashboard de Hotel — Tableau Public</h2>
+                <p class="pdesc">Dashboard analítico de desempenho hoteleiro no Tableau Public. Cobre taxa de ocupação, receita por quarto, perfil de hóspede, sazonalidade e comparativos por período — com interatividade completa via filtros e parâmetros.</p>
                 <ul class="pfeat">
-                  <li>Modelagem relacional com star schema (fato + dimensões)</li>
-                  <li>Medidas DAX: faturamento, ticket médio, variação MoM e YoY</li>
-                  <li>Filtros e segmentações interativas por período, canal e produto</li>
-                  <li>Metas vs realizado com indicadores visuais de performance</li>
+                  <li>Taxa de ocupação e ADR (Average Daily Rate) por período</li>
+                  <li>Segmentação por tipo de quarto, canal de reserva e mercado</li>
+                  <li>Análise de sazonalidade e comparativo ano a ano</li>
+                  <li>Filtros interativos por data, país de origem e tipo de hóspede</li>
                 </ul>
                 <div class="ptags">
-                  <span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">Star Schema</span><span class="tag">Modelagem</span>
+                  <span class="tag">Tableau</span><span class="tag">Análise Hoteleira</span><span class="tag">KPI</span><span class="tag">Visualização</span>
                 </div>
               </div>
               <div class="cf">
-                <span class="btn btn-ghost btn-sm" style="opacity:.4;cursor:default;">Em breve: link público</span>
+                <a href="https://public.tableau.com/views/DashboardHotelII/Painel1" target="_blank" rel="noopener" class="btn btn-gold btn-sm">↗ Ver no Tableau Public</a>
               </div>
             </div>
             <div class="card-right">
               <div class="embed">
-                <iframe src="https://public.tableau.com/views/DashboardHotelII/Painel1?:language=en-US&publish=yes&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link" allowfullscreen="true" title="Power BI Projeto 4"></iframe>
+                <iframe
+                  src="https://public.tableau.com/views/DashboardHotelII/Painel1?:embed=yes&:showVizHome=no&:display_count=yes&:language=pt-BR&:toolbar=yes&:tabs=yes&:device=desktop"
+                  allowfullscreen="true"
+                  title="Dashboard Hoteleiro — Tableau Public">
+                </iframe>
               </div>
             </div>
           </article>
