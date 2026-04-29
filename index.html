@@ -19,14 +19,14 @@
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
     :root {
-      --gold:      #fbbf24;
-      --gold-h:    #f59e0b;
-      --gold-dim:  rgba(251,191,36,0.12);
+      --gold:      #00ffe7;
+      --gold-h:    #00e6d0;
+      --gold-dim:  rgba(0,255,231,0.12);
       --bg:        #07070c;
       --bg-card:   rgba(255,255,255,0.028);
       --bg-card-h: rgba(255,255,255,0.048);
       --border:    rgba(255,255,255,0.075);
-      --border-g:  rgba(251,191,36,0.32);
+      --border-g:  rgba(0,255,231,0.32);
       --text:      #e4e4f0;
       --muted:     #888899;
       --dim:       #3a3a4a;
@@ -50,7 +50,7 @@
       content: '';
       position: fixed; inset: 0;
       background:
-        radial-gradient(ellipse 90% 55% at 50% -10%, rgba(251,191,36,.05) 0%, transparent 65%),
+        radial-gradient(ellipse 90% 55% at 50% -10%, rgba(0,255,231,.05) 0%, transparent 65%),
         radial-gradient(ellipse 55% 40% at 85% 85%,  rgba(99,102,241,.035) 0%, transparent 55%);
       pointer-events: none; z-index: 0;
     }
@@ -135,79 +135,129 @@
       font-weight: 500;
     }
 
+
+
     /* ── STACK SECTION ── */
     section { position: relative; z-index: 1; }
 
-    #stack {
-      padding: 0 1.5rem;
+    #stack { overflow: hidden; }
+
+    /* Outer grid: 3 visible columns */
+    .stack-grid {
+      width: 90vw;
+      height: 90vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: .75rem;
     }
 
-    .stack-label {
-      text-align: center;
-      font-size: .68rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: .14em;
-      color: var(--gold);
-      margin-bottom: 3.5rem;
-    }
-
-    .stack-row {
-      display: flex;
-      gap: 0;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      align-items: center;
-      width: 70vw;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .stack-row + .stack-row {
-      margin-top: 4rem;
-    }
-
-    /* Each card starts invisible, below */
-    .tech-card {
-      display: flex; flex-direction: column; align-items: center; gap: .75rem;
-      background: none;
-      border: none;
-      padding: 0;
-      width: auto;
+    /* Each column: visible bordered container, enters from below */
+    .sk-col {
+      display: grid;
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      background: rgba(255,255,255,0.018);
+      overflow: hidden;
       opacity: 0;
-      transform: translateY(70px);
-      transition:
-        opacity .5s ease,
-        transform .65s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform: translateY(110px);
+      transition: opacity .65s ease, transform .85s cubic-bezier(0.22,1.2,0.36,1);
+    }
+    .sk-col.visible { opacity: 1; transform: translateY(0); }
+
+    /* Left + center: top 60%, bottom 40% */
+    .sk-col--split { grid-template-rows: 60fr 40fr; }
+
+    /* Right: 3 equal rows with padding and gap */
+    .sk-col--thirds {
+      grid-template-rows: 1fr 1fr 1fr;
+      gap: .6rem;
+      padding: .6rem;
+      background: transparent;
+      border: none;
     }
 
-    /* When parent row gets .visible, cards animate in with stagger */
-    .stack-row.visible .tech-card { opacity: 1; transform: translateY(0); }
-    .stack-row.visible .tech-card:nth-child(1) { transition-delay: 0s; }
-    .stack-row.visible .tech-card:nth-child(2) { transition-delay: .1s; }
-    .stack-row.visible .tech-card:nth-child(3) { transition-delay: .2s; }
-    .stack-row.visible .tech-card:nth-child(4) { transition-delay: .3s; }
-
-    .tech-icon {
-      width: 96px; height: 96px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
+    /* Each cell */
+    .sk-cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .tech-icon img { width: 100%; height: 100%; object-fit: contain; }
+    .sk-cell + .sk-cell { border-top: 1px solid var(--border); }
 
-    /* Letter-badge icons (no background box) */
-    .i-pbi     { color: #f2c811; font-size: 1.3rem; font-weight: 800; letter-spacing: .04em; }
-    .i-tableau { color: #e97627; font-size: 1.3rem; font-weight: 800; letter-spacing: .04em; }
-    .i-etl     { color: #2dd4bf; font-size: 1.2rem; font-weight: 800; letter-spacing: .04em; }
-    .i-dax     { color: #a78bfa; font-size: 1.3rem; font-weight: 800; letter-spacing: .04em; }
+    /* Large center icon (Python / SQL) */
+    .sk-cell--head img {
+      width: 110px; height: 110px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 22px rgba(0,255,231,.5));
+    }
 
-    .tech-name {
-      font-size: .78rem; color: var(--muted);
-      font-weight: 500; letter-spacing: .02em;
+    /* Python bottom: 2×2 grid of separate boxes */
+    .sk-cell--2x2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: .55rem;
+      border-top: 1px solid var(--border);
+      padding: .55rem;
+    }
+    .sk-cell--2x2 .sk-child {
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      background: rgba(255,255,255,0.025);
+      padding: .7rem .4rem;
+    }
+
+    /* SQL bottom: 3 separate column boxes */
+    .sk-cell--row3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: .55rem;
+      border-top: 1px solid var(--border);
+      padding: .55rem;
+    }
+    .sk-cell--row3 .sk-child {
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      background: rgba(255,255,255,0.025);
+      padding: .7rem .4rem;
+    }
+
+    /* Each child icon */
+    .sk-child {
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .4rem;
+    }
+    .sk-child img {
+      width: 44px; height: 44px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 8px rgba(0,255,231,.2));
+    }
+    .sk-child-label {
+      font-size: .58rem; color: var(--muted);
+      font-weight: 500; letter-spacing: .04em;
+      white-space: nowrap;
+    }
+
+    /* Right column: each viz box is its own bordered card */
+    .sk-cell--viz {
+      flex-direction: column; gap: .5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      background: rgba(255,255,255,0.018);
+    }
+    .sk-cell--viz img {
+      width: 80px; height: 80px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 16px rgba(0,255,231,.35));
+    }
+    .sk-cell--viz span {
+      font-size: .6rem; color: var(--muted);
+      font-weight: 500; letter-spacing: .04em;
     }
 
     /* ── PORTFOLIO ── */
     #portfolio {
       height: 100vh;
-      padding: 1rem 0 0;
+      padding: 0;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
@@ -215,16 +265,12 @@
     }
     .pw { width: 90%; max-width: 1400px; margin: 0 auto; }
 
-    /* ── PORTFOLIO LABEL ── */
-    .port-label {
-      text-align: center; padding: .55rem 0 .45rem; flex-shrink: 0;
-    }
-    .port-label span {
-      display: inline-block;
-      font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .18em;
-      color: var(--gold);
-      border: 1px solid rgba(251,191,36,.22);
-      border-radius: 2rem; padding: .22rem .85rem;
+    /* ── PORTFOLIO SECTION LABEL (inline in tab bar) ── */
+    .port-section-lbl {
+      font-size: .58rem; font-weight: 700; text-transform: uppercase; letter-spacing: .16em;
+      color: var(--dim); align-self: center; white-space: nowrap; flex-shrink: 0;
+      padding-right: .75rem; margin-right: .2rem;
+      border-right: 1px solid var(--border);
     }
     .lbl { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .14em; color: var(--gold); margin-bottom: .6rem; }
     .sec-title { font-size: clamp(1.75rem,4vw,2.6rem); font-weight: 800; letter-spacing: -.025em; }
@@ -232,7 +278,7 @@
 
     /* Container wraps tabs + viewport */
     .port-container {
-      width: 90vw; margin: 0 auto;
+      width: 95vw; margin: 0 auto;
       display: flex; flex-direction: column;
       flex: 1; min-height: 0;
       border: 1px solid var(--border); border-radius: var(--r);
@@ -258,7 +304,7 @@
     .port-tab .tab-num { font-size: .63rem; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; }
     .port-tab .tab-name { font-size: .78rem; font-weight: 500; }
     .port-tab:hover { border-color: var(--border-g); color: var(--text); }
-    .port-tab.active { border-color: var(--gold); color: var(--gold); background: rgba(251,191,36,.06); }
+    .port-tab.active { border-color: var(--gold); color: var(--gold); background: rgba(0,255,231,.06); }
 
     /* Slide viewport */
     .port-viewport {
@@ -280,7 +326,7 @@
       overflow: hidden; backdrop-filter: blur(10px);
       transition: border-color .3s, box-shadow .3s, background .3s;
     }
-    .card:hover { border-color: var(--border-g); background: var(--bg-card-h); box-shadow: 0 0 50px rgba(251,191,36,.04); }
+    .card:hover { border-color: var(--border-g); background: var(--bg-card-h); box-shadow: 0 0 50px rgba(0,255,231,.04); }
 
     .card-left {
       width: 25%; flex-shrink: 0;
@@ -300,7 +346,7 @@
     .pfeat li { color: var(--muted); font-size: .84rem; line-height: 1.6; padding: .18rem 0 .18rem 1.25rem; position: relative; }
     .pfeat li::before { content: "▸"; position: absolute; left: 0; color: var(--gold); font-size: .76rem; top: .26rem; }
     .ptags { display: flex; flex-wrap: wrap; gap: .38rem; }
-    .tag { padding: .18rem .65rem; background: rgba(251,191,36,.07); border: 1px solid rgba(251,191,36,.16); border-radius: 1rem; font-size: .73rem; color: var(--gold); font-weight: 500; }
+    .tag { padding: .18rem .65rem; background: rgba(0,255,231,.07); border: 1px solid rgba(0,255,231,.16); border-radius: 1rem; font-size: .73rem; color: var(--gold); font-weight: 500; }
 
     .embed {
       flex: 1; display: flex; flex-direction: column; min-height: 0;
@@ -313,21 +359,106 @@
 
     /* ── BUTTONS ── */
     .btn { display: inline-flex; align-items: center; gap: .45rem; padding: .6rem 1.4rem; border-radius: 2rem; font-size: .84rem; font-weight: 600; text-decoration: none; border: none; cursor: pointer; white-space: nowrap; transition: transform .2s, box-shadow .2s, background .2s; }
-    .btn-gold { background: var(--gold); color: #000; } .btn-gold:hover { background: var(--gold-h); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(251,191,36,.28); }
+    .btn-gold { background: var(--gold); color: #000; } .btn-gold:hover { background: var(--gold-h); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,255,231,.28); }
     .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--text); } .btn-ghost:hover { border-color: var(--border-g); color: var(--gold); transform: translateY(-2px); }
     .btn-green { background: #25D366; color: #fff; } .btn-green:hover { background: #20bf5a; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,211,102,.22); }
     .btn-sm { font-size: .8rem; padding: .46rem 1.05rem; }
+
+    /* ── PHONE MOCKUP ── */
+    .card--phone .card-left {
+      width: 40%;
+      height: 100%;            /* explicit so child % heights resolve */
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem 2rem;
+      border-right: 1px solid var(--border);
+      background: radial-gradient(ellipse at center, rgba(0,255,231,.03) 0%, rgba(0,0,0,.3) 100%);
+    }
+
+    /* Phone body */
+    .phone-mock {
+      /* 90% of the card-left height, capped so it never overflows */
+      height: min(calc(100vh - 100px), 680px);
+      aspect-ratio: 393 / 852; /* width derived automatically */
+      position: relative;
+      flex-shrink: 0;
+      background: linear-gradient(160deg, #2e2e30 0%, #1c1c1e 40%, #141414 70%, #1f1f21 100%);
+      border-radius: 36px;     /* fixed px — stays rectangular at any size */
+      box-shadow:
+        0 0 0 1px #5a5a5c,
+        0 32px 80px rgba(0,0,0,.85),
+        0 6px 20px rgba(0,0,0,.6),
+        0 0 50px rgba(0,255,231,.05),
+        inset 1px 2px 0 rgba(255,255,255,.09),
+        inset -1px -2px 0 rgba(0,0,0,.45);
+    }
+
+    /* Dynamic island */
+    .phone-mock::before {
+      content: '';
+      position: absolute;
+      top: 12px; left: 50%;
+      transform: translateX(-50%);
+      width: 30%; height: 18px;
+      background: #000;
+      border-radius: 20px;
+      z-index: 20;
+      box-shadow: 0 0 0 1px rgba(255,255,255,.05);
+    }
+
+    /* Glass shine */
+    .phone-mock::after {
+      content: '';
+      position: absolute;
+      inset: 8px 6px;
+      border-radius: 28px;
+      background: linear-gradient(140deg, rgba(255,255,255,.06) 0%, transparent 35%);
+      pointer-events: none;
+      z-index: 15;
+    }
+
+    /* Screen (inset bezels in fixed px) */
+    .phone-screen {
+      position: absolute;
+      inset: 8px 6px;
+      border-radius: 28px;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .phone-screen iframe {
+      /* Always renders at real mobile width; JS scales it to fit the screen area */
+      position: absolute;
+      top: 0; left: 0;
+      width: 393px;
+      border: none;
+      display: block;
+      transform-origin: top left;
+    }
 
     /* ── DIVIDER ── */
     .divider { position: relative; z-index: 1; height: 1px; background: linear-gradient(90deg,transparent,var(--border) 50%,transparent); max-width: 980px; margin: 0 auto; }
 
     /* ── CONTACT ── */
-    #contact {
-      text-align: center;
-      padding: 0 1.5rem;
+    #contact { text-align: center; padding: 0 1.5rem; }
+    .contact-inner { display: flex; flex-direction: column; align-items: center; gap: 2rem; }
+    .contact-title { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; letter-spacing: -.03em; color: var(--text); }
+    .contact-links { display: flex; flex-direction: column; gap: 1rem; align-items: stretch; width: 100%; max-width: 400px; }
+    .contact-item {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1.1rem 1.6rem;
+      border: 1px solid var(--border); border-radius: var(--r);
+      color: var(--text); text-decoration: none;
+      font-size: 1rem; font-weight: 500; letter-spacing: -.01em;
+      background: rgba(255,255,255,.018);
+      transition: border-color .2s, color .2s, background .2s, box-shadow .2s;
     }
-    .ci { max-width: 520px; margin: 0 auto; }
-    .cgrid { display: flex; gap: .875rem; justify-content: center; flex-wrap: wrap; margin-top: 2.5rem; }
+    .contact-item:hover { border-color: var(--border-g); color: var(--gold); background: var(--gold-dim); box-shadow: 0 0 28px rgba(0,255,231,.08); }
+    .contact-item--wa:hover { border-color: rgba(37,211,102,.45); color: #25D366; background: rgba(37,211,102,.05); box-shadow: 0 0 28px rgba(37,211,102,.08); }
+    .contact-icon { font-size: 1.3rem; flex-shrink: 0; }
+    .contact-val { font-size: 1rem; }
 
     /* ── FOOTER ── */
     footer { display: none; }
@@ -370,75 +501,69 @@
     <h1 class="hero-name">Rónison Ricardo</h1>
     <div class="hero-sub">
       <span class="hero-sub-line">Bacharel em Física pela USP &nbsp;·&nbsp; Tecnólogo da Informação</span>
-      <span class="hero-sub-line">Analista de Dados &nbsp;|&nbsp; Business Intelligence</span>
+      <span class="hero-badge">Analista de Dados &nbsp;·&nbsp; Business Intelligence</span>
     </div>
   </section>
 
   <!-- STACK -->
   <section id="stack">
-    <div class="pw">
-      <p class="stack-label reveal">Stack Técnico</p>
+  <div class="stack-grid">
 
-      <!-- Row 1 -->
-      <div class="stack-row" id="row1">
-        <div class="tech-card">
-          <div class="tech-icon">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python">
-          </div>
-          <span class="tech-name">Python</span>
-        </div>
-        <div class="tech-card">
-          <div class="tech-icon">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg" alt="SQL">
-          </div>
-          <span class="tech-name">SQL</span>
-        </div>
-        <div class="tech-card">
-          <div class="tech-icon i-pbi">PBI</div>
-          <span class="tech-name">Power BI</span>
-        </div>
-        <div class="tech-card">
-          <div class="tech-icon i-tableau">TAB</div>
-          <span class="tech-name">Tableau</span>
-        </div>
+    <!-- Coluna esquerda: Python -->
+    <div class="sk-col sk-col--split" id="skG0">
+      <!-- 60%: Python grande -->
+      <div class="sk-cell sk-cell--head">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python">
       </div>
-
-      <!-- Row 2 -->
-      <div class="stack-row" id="row2">
-        <div class="tech-card">
-          <div class="tech-icon i-etl">ETL</div>
-          <span class="tech-name">ETL</span>
-        </div>
-        <div class="tech-card">
-          <div class="tech-icon">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pandas/pandas-original.svg" alt="Pandas">
-          </div>
-          <span class="tech-name">Pandas</span>
-        </div>
-        <div class="tech-card">
-          <div class="tech-icon i-dax">DAX</div>
-          <span class="tech-name">DAX</span>
-        </div>
-        <div class="tech-card">
-          <div class="tech-icon">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" alt="JavaScript">
-          </div>
-          <span class="tech-name">JavaScript</span>
-        </div>
+      <!-- 40%: 4 filhos em grade 2x2 -->
+      <div class="sk-cell sk-cell--2x2">
+        <div class="sk-child"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/numpy/numpy-original.svg" alt="NumPy"><span class="sk-child-label">NumPy</span></div>
+        <div class="sk-child"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/scipy/scipy-original.svg" alt="SciPy"><span class="sk-child-label">SciPy</span></div>
+        <div class="sk-child"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pandas/pandas-original.svg" alt="Pandas"><span class="sk-child-label">Pandas</span></div>
+        <div class="sk-child"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/matplotlib/matplotlib-original.svg" alt="Matplotlib"><span class="sk-child-label">Matplotlib</span></div>
       </div>
-
     </div>
+
+    <!-- Coluna centro: SQL -->
+    <div class="sk-col sk-col--split" id="skG1">
+      <!-- 60%: SQL grande -->
+      <div class="sk-cell sk-cell--head">
+        <img src="imagens/sql.png" alt="SQL">
+      </div>
+      <!-- 40%: 3 filhos em linha -->
+      <div class="sk-cell sk-cell--row3">
+        <div class="sk-child"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/microsoftsqlserver/microsoftsqlserver-plain.svg" alt="SQL Server"><span class="sk-child-label">SQL Server</span></div>
+        <div class="sk-child"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg" alt="PostgreSQL"><span class="sk-child-label">PostgreSQL</span></div>
+        <div class="sk-child"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg" alt="MySQL"><span class="sk-child-label">MySQL</span></div>
+      </div>
+    </div>
+
+    <!-- Coluna direita: Visualização (3 linhas iguais) -->
+    <div class="sk-col sk-col--thirds" id="skG2">
+      <div class="sk-cell sk-cell--viz">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/c/cf/New_Power_BI_Logo.svg" alt="Power BI">
+        <span>Power BI</span>
+      </div>
+      <div class="sk-cell sk-cell--viz">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tableau/tableau-original.svg" alt="Tableau">
+        <span>Tableau</span>
+      </div>
+      <div class="sk-cell sk-cell--viz">
+        <img src="imagens/chart_js.svg" alt="Chart.js">
+      </div>
+    </div>
+
+  </div><!-- /stack-grid -->
   </section>
 
   <!-- PORTFOLIO -->
   <section id="portfolio">
-    <div class="port-label"><span>Portfólio</span></div>
-
     <!-- Container: tabs + viewport -->
     <div class="port-container">
 
     <!-- Tab buttons -->
     <div class="port-tabs">
+      <span class="port-section-lbl">Portfólio</span>
       <button class="port-tab active" data-slide="0">
         <span class="tab-num">Projeto 01</span>
         <span class="tab-name">SaaS Dashboard</span>
@@ -463,8 +588,19 @@
 
         <!-- Slide 01 -->
         <div class="port-slide">
-          <article class="card">
+          <article class="card card--phone">
+
+            <!-- LEFT: phone mockup -->
             <div class="card-left">
+              <div class="phone-mock">
+                <div class="phone-screen">
+                  <iframe src="dashboard.html?c=1" allowfullscreen="true" title="SaaS Dashboard Demo"></iframe>
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT: description -->
+            <div class="card-right">
               <div class="cb">
                 <div class="pnum">Projeto 01 · Dashboard Automatizado</div>
                 <h2 class="ptitle">SaaS Dashboard para Pequenos Negócios</h2>
@@ -485,12 +621,7 @@
                 <a href="https://github.com/rfrfrff3/roniricardo" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">📂 GitHub</a>
               </div>
             </div>
-            <div class="card-right">
-              <div class="embed">
-                <div class="ebar"><span class="edot"></span>SaaS Dashboard — Visualização ao Vivo</div>
-                <iframe src="dashboard.html?c=1" allowfullscreen="true" title="SaaS Dashboard Demo"></iframe>
-              </div>
-            </div>
+
           </article>
         </div>
 
@@ -519,7 +650,6 @@
             </div>
             <div class="card-right">
               <div class="embed">
-                <div class="ebar"><span class="edot"></span>MIS Dashboard — Visualização ao Vivo</div>
                 <iframe src="beedoo/dashboard_python.html" allowfullscreen="true" title="MIS Dashboard Call Center"></iframe>
               </div>
             </div>
@@ -550,7 +680,6 @@
             </div>
             <div class="card-right">
               <div class="embed">
-                <div class="ebar"><span class="edot"></span>Power BI — Análise Financeira</div>
                 <iframe src="https://app.powerbi.com/view?r=SEU_LINK_AQUI_3" allowfullscreen="true" title="Power BI Projeto 3"></iframe>
               </div>
             </div>
@@ -581,7 +710,6 @@
             </div>
             <div class="card-right">
               <div class="embed">
-                <div class="ebar"><span class="edot"></span>Power BI — Vendas &amp; Receita</div>
                 <iframe src="https://app.powerbi.com/view?r=SEU_LINK_AQUI_4" allowfullscreen="true" title="Power BI Projeto 4"></iframe>
               </div>
             </div>
@@ -597,19 +725,20 @@
 
   <!-- CONTACT -->
   <section id="contact">
-    <div class="ci">
-      <div class="reveal">
-        <p class="lbl">Contato</p>
-        <h2 class="sec-title">Vamos conversar</h2>
-        <p class="sec-desc">Aberto a oportunidades em BI, MIS e Data Analytics.</p>
+    <div class="contact-inner">
+      <p class="lbl">Contato</p>
+      <h2 class="contact-title">Vamos conversar</h2>
+      <div class="contact-links">
+        <a href="mailto:ronison_ricardo@alumni.usp" class="contact-item">
+          <span class="contact-icon">✉</span>
+          <span class="contact-val">ronison_ricardo@alumni.usp</span>
+        </a>
+        <a href="https://wa.me/5511943322013" target="_blank" rel="noopener" class="contact-item contact-item--wa">
+          <span class="contact-icon">💬</span>
+          <span class="contact-val">+55 11 94332-2013 · WhatsApp</span>
+        </a>
       </div>
-      <div class="cgrid reveal d1">
-        <a href="https://linkedin.com/in/rónison-ricardo" target="_blank" rel="noopener" class="btn btn-gold">🔗 LinkedIn</a>
-        <a href="https://github.com/r-oni" target="_blank" rel="noopener" class="btn btn-ghost">📂 GitHub</a>
-        <a href="mailto:ronison.a.ricardo@gmail.com" class="btn btn-ghost">📧 E-mail</a>
-        <a href="https://wa.me/5511943322013" target="_blank" rel="noopener" class="btn btn-green">💬 WhatsApp</a>
-      </div>
-      <p style="margin-top:3rem;font-size:.75rem;color:var(--dim)">&copy; 2026 Rónison Ricardo — Business Intelligence</p>
+      <p style="font-size:.72rem;color:var(--dim);margin-top:.5rem">&copy; 2026 Rónison Ricardo — Business Intelligence</p>
     </div>
   </section><!-- /contact -->
 
@@ -618,26 +747,67 @@
   <footer>&copy; 2026 Rónison Ricardo — Business Intelligence</footer>
 
   <script>
-    // ── FULLPAGE ──
+    // ── FULLPAGE SPA ──
     const PAGES = 4;
+    const SLUGS = ['hero', 'stack', 'portfolio', 'contact'];
+    const PAGE_TITLES = [
+      'Rónison Ricardo — Business Intelligence',
+      'Stack Técnico · Rónison Ricardo',
+      'Portfólio · Rónison Ricardo',
+      'Contato · Rónison Ricardo'
+    ];
     let current = 0;
     let animating = false;
     const track = document.getElementById('page-track');
     const dots = document.querySelectorAll('.page-dot');
 
-    function goTo(idx) {
+    function slugToIdx(slug) {
+      const i = SLUGS.indexOf(slug);
+      return i >= 0 ? i : 0;
+    }
+    function hashToIdx() {
+      return slugToIdx(location.hash.replace('#', ''));
+    }
+
+    function goTo(idx, pushState = true) {
       if (idx < 0 || idx >= PAGES || animating) return;
       animating = true;
       current = idx;
       track.style.transform = `translateY(-${idx * 100}vh)`;
-      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-      // Trigger stack animation when on stack page
-      if (idx === 1) {
-        document.querySelectorAll('.stack-row').forEach(r => r.classList.add('visible'));
-        document.querySelectorAll('.reveal').forEach(r => r.classList.add('visible'));
+      dots.forEach((d, i) => {
+        d.classList.toggle('active', i === idx);
+        d.setAttribute('aria-current', i === idx ? 'true' : 'false');
+      });
+      document.title = PAGE_TITLES[idx];
+      if (pushState) {
+        history.pushState({ page: idx }, '', '#' + SLUGS[idx]);
       }
+      if (idx === 1) triggerStackAnim();
+      else resetStackAnim();
       setTimeout(() => { animating = false; }, 750);
     }
+
+    // Back / Forward
+    window.addEventListener('popstate', (e) => {
+      const idx = (e.state && e.state.page != null) ? e.state.page : hashToIdx();
+      goTo(idx, false);
+    });
+
+    // Initial load — jump to hash instantly, no transition
+    (function init() {
+      const idx = hashToIdx();
+      track.style.transition = 'none';
+      current = idx;
+      track.style.transform = `translateY(-${idx * 100}vh)`;
+      dots.forEach((d, i) => {
+        d.classList.toggle('active', i === idx);
+        d.setAttribute('aria-current', i === idx ? 'true' : 'false');
+      });
+      document.title = PAGE_TITLES[idx];
+      history.replaceState({ page: idx }, '', '#' + SLUGS[idx]);
+      if (idx === 1) triggerStackAnim();
+      requestAnimationFrame(() => { track.style.transition = ''; });
+    })();
 
     // Wheel — reset accumulator during animation to prevent direction glitches
     let wheelAcc = 0;
@@ -668,6 +838,20 @@
     // Dot clicks
     dots.forEach(d => d.addEventListener('click', () => goTo(parseInt(d.dataset.page))));
 
+    // ── STACK ANIMATION ──
+    const skGroups = [0, 1, 2].map(i => document.getElementById('skG' + i));
+
+    function triggerStackAnim() {
+      resetStackAnim();
+      skGroups[0].classList.add('visible');
+      setTimeout(() => skGroups[1].classList.add('visible'), 400);
+      setTimeout(() => skGroups[2].classList.add('visible'), 800);
+    }
+
+    function resetStackAnim() {
+      skGroups.forEach(g => g.classList.remove('visible'));
+    }
+
     // Portfolio carousel
     const portTabs = document.querySelectorAll('.port-tab');
     const portTrack = document.getElementById('portTrack');
@@ -683,10 +867,26 @@
       });
     });
 
-    // Prevent wheel inside portfolio iframe area from changing page
+    // Prevent wheel inside portfolio from changing page
     document.querySelector('.port-viewport').addEventListener('wheel', (e) => {
       e.stopPropagation();
     });
+
+    // ── PHONE IFRAME SCALE ──
+    // Renders the iframe at 393px (real mobile width) then scales to fit the physical screen area.
+    function scalePhoneIframe() {
+      const screen = document.querySelector('.phone-screen');
+      const iframe = screen && screen.querySelector('iframe');
+      if (!screen || !iframe) return;
+      const sw = screen.offsetWidth;   // actual pixel width of screen area
+      const sh = screen.offsetHeight;  // actual pixel height of screen area
+      const scale = sw / 393;
+      iframe.style.transform = `scale(${scale})`;
+      // height must fill the screen area after scaling
+      iframe.style.height = Math.ceil(sh / scale) + 'px';
+    }
+    scalePhoneIframe();
+    window.addEventListener('resize', scalePhoneIframe);
   </script>
 
 </body>

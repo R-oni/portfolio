@@ -899,4 +899,3 @@ function createChartConfig(chartConfig, chartData) {
 
 // (updateDate removed — lastUpdate box was removed from HTML)
 
-

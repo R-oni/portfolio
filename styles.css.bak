@@ -109,8 +109,8 @@ body {
 }
 
 .client-logo {
-    max-width: 400px;
-    max-height: auto;
+    max-width: 634px;
+    max-height: 232px;
     width: auto;
     height: auto;
     object-fit: contain;
@@ -690,5 +690,4 @@ body {
     opacity: 1;
     transform: translateY(0);
 }
-
 
