@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard RH — Beedoo MIS</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --card: #141414;
+      --border: #2a2a2a;
+      --accent: #7c6af7;
+      --accent2: #38bdf8;
+      --accent3: #34d399;
+      --accent4: #f87171;
+      --accent5: #fbbf24;
+      --text: #e2e8f0;
+      --muted: #8892a4;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; min-height: 100vh; }
+
+    header {
+      background: #000;
+      border-bottom: 1px solid var(--border);
+      padding: 20px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    header h1 { font-size: 1.4rem; font-weight: 700; color: #fff; letter-spacing: .5px; }
+    header h1 span { color: #fb923c; }
+    header p { font-size: .78rem; color: var(--muted); margin-top: 3px; }
+    .badge { background: var(--accent); color: #fff; font-size: .7rem; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+    .header-logo { height: 56px; width: auto; display: block; }
+
+    .tabs { display: flex; gap: 4px; padding: 16px 32px 0; border-bottom: 1px solid var(--border); }
+    .tab { padding: 8px 20px; border-radius: 8px 8px 0 0; font-size: .82rem; font-weight: 600; cursor: pointer; border: 1px solid transparent; border-bottom: none; transition: all .2s; color: var(--muted); }
+    .tab.active { background: var(--card); border-color: var(--border); color: var(--text); }
+    .tab:hover:not(.active) { color: var(--text); }
+
+    .panel { display: none; padding: 28px 32px; }
+    .panel.active { display: block; }
+
+    /* KPI cards */
+    .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .kpi { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; }
+    .kpi .label { font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; }
+    .kpi .value { font-size: 1.9rem; font-weight: 700; margin: 6px 0 2px; }
+    .kpi .sub { font-size: .75rem; color: var(--muted); }
+    .kpi.blue .value  { color: var(--accent2); }
+    .kpi.purple .value{ color: var(--accent); }
+    .kpi.green .value { color: var(--accent3); }
+    .kpi.red .value   { color: var(--accent4); }
+    .kpi.yellow .value{ color: var(--accent5); }
+
+    /* Chart grid */
+    .chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap: 20px; }
+    .chart-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+    .chart-card h3 { font-size: .85rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; margin-bottom: 16px; }
+    .chart-card.wide { grid-column: 1 / -1; }
+
+    canvas { max-height: 280px; }
+    .canvas-tall { max-height: 380px !important; }
+
+    /* Table */
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+    th { background: #111111; color: var(--muted); text-transform: uppercase; font-size: .7rem; letter-spacing: .5px; padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+    td { padding: 9px 12px; border-bottom: 1px solid var(--border); }
+    tr:hover td { background: #1e1e1e; }
+    .chip { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: .7rem; font-weight: 600; }
+    .chip.high   { background: #14532d; color: #4ade80; }
+    .chip.mid    { background: #713f12; color: #fbbf24; }
+    .chip.low    { background: #450a0a; color: #f87171; }
+
+    /* Insights */
+    .insights { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .insight { background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 0 12px 12px 0; padding: 16px 18px; }
+    .insight.warn { border-left-color: var(--accent4); }
+    .insight.ok   { border-left-color: var(--accent3); }
+    .insight h4 { font-size: .82rem; font-weight: 700; margin-bottom: 6px; }
+    .insight p  { font-size: .78rem; color: var(--muted); line-height: 1.5; }
+
+    footer { text-align: center; padding: 20px; font-size: .72rem; color: var(--muted); border-top: 1px solid var(--border); margin-top: 20px; }
+
+    /* erro de carregamento */
+    #load-error { display:none; background:#450a0a; color:#f87171; padding:16px 32px; font-size:.85rem; }
+  </style>
+</head>
+<body>
+
+<div id="load-error">
+  ⚠ <strong>data.js não encontrado.</strong> Execute <code>python gerar_dados.py</code> na pasta beedoo/ e recarregue a página.
+</div>
+
+<header>
+  <div style="display:flex; align-items:center; gap:24px;">
+    <img src="beedoo-logo.png" alt="Beedoo" class="header-logo" />
+    <div>
+      <h1>Dashboard <span>Operacional</span> — Indicadores de Performance</h1>
+      <p id="header-sub">Carregando dados...</p>
+    </div>
+  </div>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('cobranca', this)">Cobrança</div>
+  <div class="tab" onclick="switchTab('atendimento', this)">Atendimento</div>
+  <div class="tab" onclick="switchTab('insights', this)">Insights Executivos</div>
+</div>
+
+<!-- ===================== COBRANÇA ===================== -->
+<div id="cobranca" class="panel active">
+
+  <div class="kpi-row">
+    <div class="kpi blue">
+      <div class="label">Total CPC Trabalhado</div>
+      <div class="value" id="kpi-cpc-total">–</div>
+      <div class="sub" id="kpi-cpc-sub">–</div>
+    </div>
+    <div class="kpi purple">
+      <div class="label">Boletos Convertidos</div>
+      <div class="value" id="kpi-conv-total">–</div>
+      <div class="sub" id="kpi-conv-sub">–</div>
+    </div>
+    <div class="kpi green">
+      <div class="label">Boletos Pagos</div>
+      <div class="value" id="kpi-pago-total">–</div>
+      <div class="sub">Sobre enviados totais</div>
+    </div>
+    <div class="kpi yellow">
+      <div class="label">Eficiência Média</div>
+      <div class="value" id="kpi-ef-media">–</div>
+      <div class="sub">Pago / Enviado (total)</div>
+    </div>
+    <div class="kpi red">
+      <div class="label">ICM Médio</div>
+      <div class="value" id="kpi-icm-cob">–</div>
+      <div class="sub">Índice composto geral</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Abs. com Falta</div>
+      <div class="value" id="kpi-abs-cob" style="color:#f97316">–</div>
+      <div class="sub">Operadores c/ dias não trabalhados</div>
+    </div>
+  </div>
+
+  <div class="chart-grid">
+    <div class="chart-card wide">
+      <h3>ICM por Operador — Ranking de Performance</h3>
+      <canvas id="icmRanking" class="canvas-tall" style="max-height:420px"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3>CPC Trabalhado vs. Boleto Pago (Top 20)</h3>
+      <canvas id="cpcBoleto"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3>Eficiência por Operador (Top 20)</h3>
+      <canvas id="eficiencia"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3>Média de Qualidade — Distribuição</h3>
+      <canvas id="qualidade"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3>Dispersão: CPC × ICM</h3>
+      <canvas id="scatter"></canvas>
+    </div>
+  </div>
+
+  <br>
+  <div class="chart-card">
+    <h3>Tabela Completa — Cobrança</h3>
+    <div class="table-wrap">
+      <table id="tabelaCob"></table>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ATENDIMENTO ===================== -->
+<div id="atendimento" class="panel">
+
+  <div class="kpi-row">
+    <div class="kpi blue">
+      <div class="label">Vol. Total Atendimentos</div>
+      <div class="value" id="kpi-vol-total">–</div>
+      <div class="sub" id="kpi-vol-sub">–</div>
+    </div>
+    <div class="kpi purple">
+      <div class="label">NPS Líquido</div>
+      <div class="value" id="kpi-nps">–</div>
+      <div class="sub" id="kpi-nps-sub">–</div>
+    </div>
+    <div class="kpi green">
+      <div class="label">CSAT Conv. Médio</div>
+      <div class="value" id="kpi-csat">–</div>
+      <div class="sub">Escala 0–5</div>
+    </div>
+    <div class="kpi yellow">
+      <div class="label">ICM Médio</div>
+      <div class="value" id="kpi-icm-aten">–</div>
+      <div class="sub">Atendimento</div>
+    </div>
+    <div class="kpi red">
+      <div class="label">Rechamada Média</div>
+      <div class="value" id="kpi-rechamada">–</div>
+      <div class="sub">Média por operador</div>
+    </div>
+    <div class="kpi">
+      <div class="label">TMA Médio</div>
+      <div class="value" id="kpi-tma" style="color:var(--accent3)">–</div>
+      <div class="sub">Tempo Médio Atendimento</div>
+    </div>
+  </div>
+
+  <div class="chart-grid">
+    <div class="chart-card">
+      <h3>ICM — Atendimento por Operador</h3>
+      <canvas id="icmAten"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3>NPS: Promotores vs Detratores vs Neutros</h3>
+      <canvas id="npsBar"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3>CSAT Convencional por Operador</h3>
+      <canvas id="csatBar"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3>Volume de Atendimento vs Rechamada (%)</h3>
+      <canvas id="rechamada"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3>Média de Qualidade — Atendimento</h3>
+      <canvas id="qualAten"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3>Composição NPS (Stacked)</h3>
+      <canvas id="npsStack"></canvas>
+    </div>
+  </div>
+
+  <br>
+  <div class="chart-card">
+    <h3>Tabela Completa — Atendimento</h3>
+    <div class="table-wrap">
+      <table id="tabelaAten"></table>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== INSIGHTS ===================== -->
+<div id="insights" class="panel">
+  <div id="insights-cards" class="insights"></div>
+
+  <div class="chart-grid">
+    <div class="chart-card">
+      <h3>Matriz: Eficiência × ICM — Cobrança</h3>
+      <canvas id="matrizCob"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3>Comparativo: ICM vs Qualidade — Atendimento</h3>
+      <canvas id="comparativo"></canvas>
+    </div>
+  </div>
+</div>
+
+<footer>Dashboard construído com Chart.js · Dados: Beedoo Indicadores (gerado por gerar_dados.py) · Analista: Rónison</footer>
+
+<!-- data.js é gerado por: python gerar_dados.py -->
+<script src="data.js" onerror="document.getElementById('load-error').style.display='block'"></script>
+<script>
+// ===================== HELPERS =====================
+const PURPLE = 'rgba(124,106,247,0.85)';
+const BLUE   = 'rgba(56,189,248,0.85)';
+const GREEN  = 'rgba(52,211,153,0.85)';
+const RED    = 'rgba(248,113,113,0.85)';
+const YELLOW = 'rgba(251,191,36,0.85)';
+const ORANGE = 'rgba(249,115,22,0.85)';
+
+function colorByVal(v, lo, hi) {
+  if (v >= hi) return GREEN;
+  if (v >= lo) return YELLOW;
+  return RED;
+}
+
+function tmaToSeconds(tma) {
+  const parts = tma.split(':').map(Number);
+  return parts[0] * 3600 + parts[1] * 60 + parts[2];
+}
+
+function secondsToTma(s) {
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const sec = s % 60;
+  return [h, m, sec].map(n => String(n).padStart(2, '0')).join(':');
+}
+
+// ===================== KPIs COBRANÇA =====================
+const sortedCob = [...cobData].sort((a, b) => b.icm - a.icm);
+const totalCpc  = cobData.reduce((s, d) => s + d.cpc,  0);
+const totalConv = cobData.reduce((s, d) => s + d.conv, 0);
+const totalEnv  = cobData.reduce((s, d) => s + d.env,  0);
+const totalPago = cobData.reduce((s, d) => s + d.pago, 0);
+const efMedia   = totalEnv > 0 ? Math.round(totalPago / totalEnv * 100) : 0;
+const icmCobMed = (cobData.reduce((s, d) => s + d.icm, 0) / cobData.length).toFixed(2);
+const absCount  = cobData.filter(d => d.abs > 0).length;
+const taxaConvMedia = totalCpc > 0 ? (totalConv / totalCpc * 100).toFixed(1) : 0;
+
+document.getElementById('kpi-cpc-total').textContent  = totalCpc.toLocaleString('pt-BR');
+document.getElementById('kpi-cpc-sub').textContent    = `${cobData.length} operadores`;
+document.getElementById('kpi-conv-total').textContent = totalConv.toLocaleString('pt-BR');
+document.getElementById('kpi-conv-sub').textContent   = `Taxa conv. média: ${taxaConvMedia}%`;
+document.getElementById('kpi-pago-total').textContent = totalPago.toLocaleString('pt-BR');
+document.getElementById('kpi-ef-media').textContent   = efMedia + '%';
+document.getElementById('kpi-icm-cob').textContent    = icmCobMed;
+document.getElementById('kpi-abs-cob').textContent    = absCount;
+
+// ===================== KPIs ATENDIMENTO =====================
+const totalVol  = atenData.reduce((s, d) => s + d.vol, 0);
+const totalNpsP = atenData.reduce((s, d) => s + d.npsP, 0);
+const totalNpsD = atenData.reduce((s, d) => s + d.npsD, 0);
+const npsLiq    = totalNpsP - totalNpsD;
+const csatMed   = (atenData.reduce((s, d) => s + d.csat, 0) / atenData.length).toFixed(2);
+const icmAtenMed= (atenData.reduce((s, d) => s + d.icm,  0) / atenData.length).toFixed(2);
+const rechamadaMed = (atenData.reduce((s, d) => s + d.rechamada, 0) / atenData.length).toFixed(1);
+const tmaMedSec = Math.round(atenData.reduce((s, d) => s + tmaToSeconds(d.tma), 0) / atenData.length);
+
+document.getElementById('kpi-vol-total').textContent = totalVol.toLocaleString('pt-BR');
+document.getElementById('kpi-vol-sub').textContent   = `${atenData.length} operadores`;
+document.getElementById('kpi-nps').textContent       = (npsLiq >= 0 ? '+' : '') + npsLiq;
+document.getElementById('kpi-nps-sub').textContent   = `Promotores (${totalNpsP}) − Detratores (${totalNpsD})`;
+document.getElementById('kpi-csat').textContent      = csatMed;
+document.getElementById('kpi-icm-aten').textContent  = icmAtenMed;
+document.getElementById('kpi-rechamada').textContent = rechamadaMed + '%';
+document.getElementById('kpi-tma').textContent       = secondsToTma(tmaMedSec);
+
+// Mes ref do header (a partir do primeiro registro)
+const mesRef = 'Fev/25'; // fallback — pode ser lido do xlsx se gerar_dados.py exportar
+document.getElementById('header-sub').textContent =
+  `Mês de Referência: ${mesRef} · Analista: Rónison · Fonte: Beedoo Indicadores.xlsx`;
+
+// ===================== COBRANÇA CHARTS =====================
+
+new Chart(document.getElementById('icmRanking'), {
+  type: 'bar',
+  data: {
+    labels: sortedCob.map(d => d.op),
+    datasets: [{
+      label: 'ICM',
+      data: sortedCob.map(d => d.icm),
+      backgroundColor: sortedCob.map(d => colorByVal(d.icm, 0.7, 1.2)),
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ICM: ${ctx.raw}` } } },
+    scales: {
+      x: { grid: { color: '#1e1e1e' }, ticks: { color: '#8892a4' } },
+      y: { grid: { color: '#1e1e1e' }, ticks: { color: '#8892a4', font: { size: 10 } } }
+    }
+  }
+});
+
+const top20 = [...cobData].sort((a, b) => b.cpc - a.cpc).slice(0, 20);
+new Chart(document.getElementById('cpcBoleto'), {
+  type: 'bar',
+  data: {
+    labels: top20.map(d => d.op),
+    datasets: [
+      { label: 'CPC Trabalhado', data: top20.map(d => d.cpc), backgroundColor: 'rgba(56,189,248,0.7)', borderRadius: 3 },
+      { label: 'Boleto Pago',    data: top20.map(d => d.pago), backgroundColor: 'rgba(52,211,153,0.8)', borderRadius: 3 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { labels: { color: '#8892a4', boxWidth: 12 } } },
+    scales: {
+      x: { grid: { color: '#1e1e1e' }, ticks: { color: '#8892a4', font: { size: 9 } } },
+      y: { grid: { color: '#1e1e1e' }, ticks: { color: '#8892a4' } }
+    }
+  }
+});
+
+const top20ef = [...cobData].map(d => ({ ...d, ef: d.env > 0 ? d.pago / d.env : 0 }))
+  .sort((a, b) => b.ef - a.ef).slice(0, 20);
+new Chart(document.getElementById('eficiencia'), {
+  type: 'bar',
+  data: {
+    labels: top20ef.map(d => d.op),
+    datasets: [{
+      label: 'Eficiência (%)',
+      data: top20ef.map(d => +(d.ef * 100).toFixed(1)),
+      backgroundColor: top20ef.map(d => colorByVal(d.ef, 0.55, 0.75)),
+      borderRadius: 3,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.raw}%` } } },
+    scales: {
+      x: { grid: { color: '#1e1e1e' }, ticks: { color: '#8892a4', font: { size: 9 } } },
+      y: { grid: { color: '#1e1e1e' }, ticks: { color: '#8892a4' }, min: 0, max: 100 }
+    }
+  }
+});
+
+const buckets = [0, 0, 0, 0, 0];
+cobData.forEach(d => {
+  if      (d.qual < 0.50) buckets[0]++;
+  else if (d.qual < 0.65) buckets[1]++;
+  else if (d.qual < 0.80) buckets[2]++;
+  else if (d.qual < 0.95) buckets[3]++;
+  else                    buckets[4]++;
+});
+new Chart(document.getElementById('qualidade'), {
+  type: 'doughnut',
+  data: {
+    labels: ['< 0.50', '0.50–0.65', '0.65–0.80', '0.80–0.95', '≥ 0.95'],
+    datasets: [{ data: buckets, backgroundColor: [RED, YELLOW, GREEN, BLUE, PURPLE], borderWidth: 0 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { labels: { color: '#8892a4', boxWidth: 12 }, position: 'right' } }
+  }
+});
+
+new Chart(document.getElementById('scatter'), {
+  type: 'scatter',
+  data: {
+    datasets: [{
+      label: 'Operadores',
+      data: cobData.map(d => ({ x: d.cpc, y: d.icm })),
+      backgroundColor: PURPLE,
+      pointRadius: 6,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { color: '#1e1e1e' }, ticks: { color: '#8892a4' }, title: { display: true, text: 'CPC Trabalhado', color: '#8892a4' } },
+      y: { grid: { color: '#1e1e1e' }, ticks: { color: '#8892a4' }, title: { display: true, text: 'ICM', color: '#8892a4' } }
+    }
+  }
+});
+
+// Tabela Cobrança
+(function () {
+  const headers = ['Operador', 'CPC', 'Convertidos', 'Enviados', 'Pagos', 'Eficiência', 'Méd.Qual', 'ICM', 'Abs'];
+  const t = document.getElementById('tabelaCob');
+  t.innerHTML = `<thead><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr></thead>`;
+  const tb = document.createElement('tbody');
+  sortedCob.forEach(d => {
+    const ef  = d.env > 0 ? ((d.pago / d.env) * 100).toFixed(0) + '%' : '–';
+    const lvl = d.icm >= 1.2 ? 'high' : d.icm >= 0.6 ? 'mid' : 'low';
+    tb.innerHTML += `<tr>
+      <td>${d.op}</td><td>${d.cpc}</td><td>${d.conv}</td><td>${d.env}</td><td>${d.pago}</td>
+      <td>${ef}</td><td>${d.qual.toFixed(2)}</td>
+      <td><span class="chip ${lvl}">${d.icm.toFixed(2)}</span></td>
+      <td>${d.abs}</td>
+    </tr>`;
+  });
+  t.appendChild(tb);
+})();
+
+// ===================== ATENDIMENTO CHARTS =====================
+
+new Chart(document.getElementById('icmAten'), {
+  type: 'bar',
+  data: {
+    labels: atenData.map(d => d.op),
+    datasets: [{
+      label: 'ICM',
+      data: atenData.map(d => d.icm),
+      backgroundColor: atenData.map(d => colorByVal(d.icm, 0.6, 1.0)),
+      borderRadius: 3
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { color: '#1e1e1e' }, ticks: { color: '#8892a4', font: { size: 10 } } },
+      y: { grid: { color: '#1e1e1e' }, ticks: { color: '#8892a4' } }
+    }
+  }
+});
+
+new Chart(document.getElementById('npsBar'), {
+  type: 'bar',
+  data: {
+    labels: atenData.map(d => d.op),
+    datasets: [
+      { label: 'Detratores', data: atenData.map(d => d.npsD), backgroundColor: RED,    borderRadius: 2 },
+      { label: 'Neutros',    data: atenData.map(d => d.npsN), backgroundColor: YELLOW, borderRadius: 2 },
+      { label: 'Promotores', data: atenData.map(d => d.npsP), backgroundColor: GREEN,  borderRadius: 2 },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { labels: { color: '#8892a4', boxWidth: 12 } } },
+    scales: {
+      x: { grid: { color: '#1e1e1e' }, ticks: { color: '#8892a4', font: { size: 10 } } },
+      y: { grid: { color: '#1e1e1e' }, ticks: { color: '#8892a4' } }
+    }
+  }
+});
+
+new Chart(document.getElementById('csatBar'), {
+  type: 'bar',
+  data: {
+    labels: atenData.map(d => d.op),
+    datasets: [{
+      label: 'CSAT',
+      data: atenData.map(d => d.csat),
+      backgroundColor: atenData.map(d => colorByVal(d.csat, 3.5, 4.5)),
+      borderRadius: 3
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { color: '#1e1e1e' }, ticks: { color: '#8892a4', font: { size: 10 } } },
+      y: { grid: { color: '#1e1e1e' }, ticks: { color: '#8892a4' }, min: 0, max: 5 }
+    }
+  }
+});
+
+new Chart(document.getElementById('rechamada'), {
+  type: 'bar',
+  data: {
+    labels: atenData.map(d => d.op),
+    datasets: [
+      { label: 'Vol. Atendimento', data: atenData.map(d => d.vol),       backgroundColor: BLUE, borderRadius: 2, yAxisID: 'y'  },
+      { label: 'Rechamada (qtd)', data: atenData.map(d => d.rechamada), backgroundColor: RED,  borderRadius: 2, yAxisID: 'y2' },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { labels: { color: '#8892a4', boxWidth: 12 } } },
+    scales: {
+      x:  { grid: { color: '#1e1e1e' }, ticks: { color: '#8892a4', font: { size: 10 } } },
+      y:  { grid: { color: '#1e1e1e' }, ticks: { color: '#8892a4' }, position: 'left'  },
+      y2: { grid: { display: false },   ticks: { color: RED },       position: 'right' }
+    }
+  }
+});
+
+new Chart(document.getElementById('qualAten'), {
+  type: 'radar',
+  data: {
+    labels: atenData.map(d => d.op),
+    datasets: [{
+      label: 'Média de Qualidade',
+      data: atenData.map(d => d.qual),
+      backgroundColor: 'rgba(124,106,247,0.2)',
+      borderColor: PURPLE,
+      pointBackgroundColor: PURPLE,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { labels: { color: '#8892a4' } } },
+    scales: { r: { grid: { color: '#1e1e1e' }, ticks: { color: '#8892a4', backdropColor: 'transparent' }, pointLabels: { color: '#8892a4', font: { size: 9 } } } }
+  }
+});
+
+new Chart(document.getElementById('npsStack'), {
+  type: 'bar',
+  data: {
+    labels: atenData.map(d => d.op),
+    datasets: [
+      { label: 'Detratores', data: atenData.map(d => d.npsD), backgroundColor: 'rgba(248,113,113,0.9)', borderRadius: 2 },
+      { label: 'Neutros',    data: atenData.map(d => d.npsN), backgroundColor: 'rgba(251,191,36,0.9)',  borderRadius: 2 },
+      { label: 'Promotores', data: atenData.map(d => d.npsP), backgroundColor: 'rgba(52,211,153,0.9)',  borderRadius: 2 },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { labels: { color: '#8892a4', boxWidth: 12 } } },
+    scales: {
+      x: { grid: { color: '#1e1e1e' }, ticks: { color: '#8892a4', font: { size: 10 } }, stacked: true },
+      y: { grid: { color: '#1e1e1e' }, ticks: { color: '#8892a4' }, stacked: true }
+    }
+  }
+});
+
+// Tabela Atendimento
+(function () {
+  const headers = ['Operador', 'Vol.Aten', 'Rechamada', 'Transferência', 'ICM', 'CSAT', 'NPS (P-D)', 'TMA', 'Qualidade', 'Abs'];
+  const t = document.getElementById('tabelaAten');
+  t.innerHTML = `<thead><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr></thead>`;
+  const tb = document.createElement('tbody');
+  const sorted = [...atenData].sort((a, b) => b.icm - a.icm);
+  sorted.forEach(d => {
+    const nps = d.npsP - d.npsD;
+    const lvl = d.icm >= 1.0 ? 'high' : d.icm >= 0.6 ? 'mid' : 'low';
+    tb.innerHTML += `<tr>
+      <td>${d.op}</td><td>${d.vol}</td><td>${d.rechamada}</td>
+      <td>${(d.transf * 100).toFixed(1)}%</td>
+      <td><span class="chip ${lvl}">${d.icm.toFixed(3)}</span></td>
+      <td>${d.csat.toFixed(2)}</td>
+      <td style="color:${nps >= 0 ? '#34d399' : '#f87171'}">${nps > 0 ? '+' : ''}${nps}</td>
+      <td>${d.tma}</td><td>${d.qual.toFixed(2)}</td><td>${d.abs}</td>
+    </tr>`;
+  });
+  t.appendChild(tb);
+})();
+
+// ===================== INSIGHTS DINÂMICOS =====================
+(function () {
+  const sortedCobIcm = [...cobData].sort((a, b) => b.icm - a.icm);
+  const sortedAtenIcm = [...atenData].sort((a, b) => b.icm - a.icm);
+  const worstCob = [...cobData].sort((a, b) => a.icm - b.icm).slice(0, 3).map(d => d.op).join(', ');
+  const topCob   = sortedCobIcm[0];
+  const topAten  = sortedAtenIcm[0];
+  const highTma  = [...atenData].sort((a, b) => tmaToSeconds(b.tma) - tmaToSeconds(a.tma))[0];
+  const absOps   = cobData.filter(d => d.abs > 0).map(d => d.op).join(', ');
+  const topEf    = [...cobData].filter(d => d.env > 0).map(d => ({ ...d, ef: d.pago / d.env })).sort((a, b) => b.ef - a.ef);
+  const topEfOps = topEf.slice(0, 2).map(d => `${d.op} (${(d.ef * 100).toFixed(1)}%)`).join(' e ');
+  const zeroQual = cobData.filter(d => d.qual === 0).map(d => d.op).join(', ');
+
+  const cards = [
+    { cls: 'ok',   title: 'Top Performer — Cobrança',
+      body: `<strong>${topCob.op}</strong> lidera com ICM ${topCob.icm.toFixed(2)}, ${topCob.cpc} CPCs, ${topCob.pago} boletos pagos e qualidade ${topCob.qual.toFixed(2)}.` },
+    { cls: 'ok',   title: 'Top Performer — Atendimento',
+      body: `<strong>${topAten.op}</strong> lidera com ICM ${topAten.icm.toFixed(3)}, qualidade ${topAten.qual.toFixed(2)} e ${topAten.vol} atendimentos.` },
+    { cls: 'warn', title: 'Baixo Desempenho — Cobrança',
+      body: `Operadores com ICM mais baixo: <strong>${worstCob}</strong>. Ação de coaching imediata recomendada.` },
+    { cls: 'warn', title: 'Alto TMA — Atendimento',
+      body: `<strong>${highTma.op}</strong> registra TMA de ${highTma.tma}, acima da média da equipe (${secondsToTma(tmaMedSec)}). Investigar gargalo.` },
+    { cls: '',     title: 'Dispersão de ICM — Cobrança',
+      body: `ICM varia de ${sortedCobIcm[sortedCobIcm.length-1].icm.toFixed(2)} a ${sortedCobIcm[0].icm.toFixed(2)}. Equipe heterogênea — oportunidade de padronização de práticas.` },
+    { cls: 'warn', title: 'Absenteísmo',
+      body: `Operadores com dias não trabalhados: <strong>${absOps || 'nenhum'}</strong>. Monitoramento preventivo recomendado.` },
+    { cls: 'ok',   title: 'Destaques de Eficiência',
+      body: `${topEfOps} lideram a eficiência de pagamento. Compartilhar boas práticas pode elevar a média geral.` },
+    zeroQual ? { cls: '', title: 'Qualidade Crítica',
+      body: `Operadores com Qualidade = 0,00: <strong>${zeroQual}</strong>. Verificar se há avaliação registrada.` } : null,
+  ].filter(Boolean);
+
+  const container = document.getElementById('insights-cards');
+  cards.forEach(c => {
+    const div = document.createElement('div');
+    div.className = `insight${c.cls ? ' ' + c.cls : ''}`;
+    div.innerHTML = `<h4>${c.title}</h4><p>${c.body}</p>`;
+    container.appendChild(div);
+  });
+})();
+
+// ===================== INSIGHTS CHARTS =====================
+
+new Chart(document.getElementById('matrizCob'), {
+  type: 'scatter',
+  data: {
+    datasets: [{
+      label: 'Operadores',
+      data: cobData.filter(d => d.env > 0).map(d => ({
+        x: +(d.pago / d.env).toFixed(2),
+        y: d.icm,
+        label: d.op + '  ef=' + (d.pago / d.env * 100).toFixed(0) + '%'
+      })),
+      backgroundColor: cobData.filter(d => d.env > 0).map(d => colorByVal(d.icm, 0.6, 1.2)),
+      pointRadius: 7,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => `${ctx.raw.label}: ICM=${ctx.raw.y}` } }
+    },
+    scales: {
+      x: { grid: { color: '#1e1e1e' }, ticks: { color: '#8892a4' }, title: { display: true, text: 'Eficiência (Pago/Enviado)', color: '#8892a4' } },
+      y: { grid: { color: '#1e1e1e' }, ticks: { color: '#8892a4' }, title: { display: true, text: 'ICM', color: '#8892a4' } }
+    }
+  }
+});
+
+new Chart(document.getElementById('comparativo'), {
+  type: 'bar',
+  data: {
+    labels: atenData.map(d => d.op),
+    datasets: [
+      { label: 'ICM Atendimento', data: atenData.map(d => d.icm),  backgroundColor: BLUE,   borderRadius: 3 },
+      { label: 'Qualidade Média', data: atenData.map(d => d.qual), backgroundColor: PURPLE, borderRadius: 3 },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { labels: { color: '#8892a4', boxWidth: 12 } } },
+    scales: {
+      x: { grid: { color: '#1e1e1e' }, ticks: { color: '#8892a4', font: { size: 10 } } },
+      y: { grid: { color: '#1e1e1e' }, ticks: { color: '#8892a4' } }
+    }
+  }
+});
+
+// ===================== TABS =====================
+function switchTab(id, el) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+}
+</script>
+</body>
+</html>
