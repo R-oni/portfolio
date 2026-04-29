@@ -1,377 +1,492 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rónison Ricardo — Business Intelligence</title>
-    <meta name="description" content="Analista de BI | Física — USP. Dashboards automatizados, ETL com Python/Pandas, Power BI e visualização de dados.">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://roniricardo.com/">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Rónison Ricardo — Business Intelligence">
-    <meta property="og:description" content="Analista de BI | Física — USP. Dashboards automatizados, ETL com Python, Power BI e visualização de dados.">
-    <meta property="og:url" content="https://roniricardo.com/">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Rónison Ricardo — Business Intelligence">
-    <meta name="twitter:description" content="Analista de BI | Física — USP. Dashboards automatizados, ETL com Python, Power BI e visualização de dados.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        /* --- Portfolio-specific --- */
-        #nodeGraph {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
-        .profile-info {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.15rem;
-        }
-        .profile-name {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--text);
-            letter-spacing: 0.02em;
-        }
-        .profile-role {
-            font-size: 0.95rem;
-            color: #fbbf24;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-size: 0.78rem;
-        }
-        .profile-formation {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-        .profile-stack {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            justify-content: center;
-            margin-top: 1rem;
-        }
-        .stack-tag {
-            padding: 0.3rem 0.85rem;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 2rem;
-            font-size: 0.78rem;
-            color: var(--text-muted);
-        }
-        .project-section {
-            max-width: 1040px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
-        .project-block {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            padding: 2rem 1.5rem;
-            margin-bottom: 2rem;
-            transition: border-color 0.3s ease;
-        }
-        .project-block:hover {
-            border-color: #fbbf24;
-        }
-        .project-label {
-            font-size: 0.72rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: #fbbf24;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        .project-block h2 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--text);
-            margin-bottom: 0.75rem;
-        }
-        .project-block p {
-            color: var(--text-muted);
-            line-height: 1.7;
-            font-size: 0.92rem;
-            margin-bottom: 1rem;
-        }
-        .project-features {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 1.25rem;
-        }
-        .project-features li {
-            color: var(--text-muted);
-            font-size: 0.88rem;
-            padding: 0.25rem 0 0.25rem 1.3rem;
-            position: relative;
-        }
-        .project-features li::before {
-            content: '▸';
-            position: absolute;
-            left: 0;
-            color: #fbbf24;
-        }
-        .project-tech {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.45rem;
-            margin-bottom: 1.25rem;
-        }
-        .tech-tag {
-            padding: 0.2rem 0.7rem;
-            background: rgba(251, 191, 36, 0.08);
-            border: 1px solid rgba(251, 191, 36, 0.2);
-            border-radius: 1rem;
-            font-size: 0.75rem;
-            color: #fbbf24;
-            font-weight: 500;
-        }
-        .project-links {
-            display: flex;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-        }
-        .project-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            padding: 0.45rem 1.1rem;
-            border: 1px solid var(--border);
-            border-radius: 2rem;
-            color: var(--text);
-            text-decoration: none;
-            font-size: 0.82rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        .project-link:hover {
-            border-color: #fbbf24;
-            color: #fbbf24;
-        }
-        .project-link-primary {
-            background: #fbbf24;
-            border-color: #fbbf24;
-            color: #000;
-            font-weight: 600;
-        }
-        .project-link-primary:hover {
-            background: #f59e0b;
-            border-color: #f59e0b;
-            color: #000;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rónison Ricardo — Business Intelligence</title>
+  <meta name="description" content="Analista de BI | Física — USP. Dashboards automatizados, ETL com Python/Pandas, Power BI e visualização de dados.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://roniricardo.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Rónison Ricardo — Business Intelligence">
+  <meta property="og:description" content="Analista de BI | Física — USP. Dashboards automatizados, ETL com Python, Power BI e visualização de dados.">
+  <meta property="og:url" content="https://roniricardo.com/">
+  <meta name="twitter:card" content="summary">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    :root {
+      --gold:      #fbbf24;
+      --gold-h:    #f59e0b;
+      --gold-dim:  rgba(251,191,36,0.12);
+      --bg:        #07070c;
+      --bg-card:   rgba(255,255,255,0.028);
+      --bg-card-h: rgba(255,255,255,0.048);
+      --border:    rgba(255,255,255,0.075);
+      --border-g:  rgba(251,191,36,0.32);
+      --text:      #e4e4f0;
+      --muted:     #888899;
+      --dim:       #3a3a4a;
+      --r:         0.875rem;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Ambient glow */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 90% 55% at 50% -10%, rgba(251,191,36,.05) 0%, transparent 65%),
+        radial-gradient(ellipse 55% 40% at 85% 85%,  rgba(99,102,241,.035) 0%, transparent 55%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* Dot grid */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 30px 30px;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 0 2.5rem; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(7,7,12,.8);
+      backdrop-filter: blur(20px) saturate(1.4);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-size: .9rem; font-weight: 600; letter-spacing: .01em; }
+    .nav-logo em { font-style: normal; color: var(--gold); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: .84rem; font-weight: 500;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative; z-index: 1;
+      height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 0 1.5rem;
+    }
+
+    .hero-name {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(2.4rem, 5.5vw, 4rem);
+      color: #f2f1f8;
+      letter-spacing: -0.01em;
+      line-height: 1;
+      white-space: nowrap;
+      margin-bottom: 1.4rem;
+      animation: fadeUp .7s .08s ease both;
+    }
+
+    .hero-sub {
+      display: flex; flex-direction: column; gap: .45rem;
+      text-align: center;
+      animation: fadeUp .7s .22s ease both;
+    }
+    .hero-sub-line {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(.8rem, 1.6vw, .96rem);
+      color: var(--muted);
+      font-weight: 400;
+      letter-spacing: .03em;
+    }
+    .hero-sub-line + .hero-sub-line {
+      color: #c8c8d8;
+      font-weight: 500;
+    }
+
+    /* ── STACK SECTION ── */
+    section { position: relative; z-index: 1; }
+
+    #stack {
+      padding: 7rem 1.5rem 7rem;
+    }
+
+    .stack-label {
+      text-align: center;
+      font-size: .68rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .14em;
+      color: var(--gold);
+      margin-bottom: 3.5rem;
+    }
+
+    .stack-row {
+      display: flex;
+      gap: 0;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      align-items: center;
+      width: 70vw;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .stack-row + .stack-row {
+      margin-top: 4rem;
+    }
+
+    /* Each card starts invisible, below */
+    .tech-card {
+      display: flex; flex-direction: column; align-items: center; gap: .75rem;
+      background: none;
+      border: none;
+      padding: 0;
+      width: auto;
+      opacity: 0;
+      transform: translateY(70px);
+      transition:
+        opacity .5s ease,
+        transform .65s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* When parent row gets .visible, cards animate in with stagger */
+    .stack-row.visible .tech-card { opacity: 1; transform: translateY(0); }
+    .stack-row.visible .tech-card:nth-child(1) { transition-delay: 0s; }
+    .stack-row.visible .tech-card:nth-child(2) { transition-delay: .1s; }
+    .stack-row.visible .tech-card:nth-child(3) { transition-delay: .2s; }
+    .stack-row.visible .tech-card:nth-child(4) { transition-delay: .3s; }
+
+    .tech-icon {
+      width: 96px; height: 96px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .tech-icon img { width: 100%; height: 100%; object-fit: contain; }
+
+    /* Letter-badge icons (no background box) */
+    .i-pbi     { color: #f2c811; font-size: 1.3rem; font-weight: 800; letter-spacing: .04em; }
+    .i-tableau { color: #e97627; font-size: 1.3rem; font-weight: 800; letter-spacing: .04em; }
+    .i-etl     { color: #2dd4bf; font-size: 1.2rem; font-weight: 800; letter-spacing: .04em; }
+    .i-dax     { color: #a78bfa; font-size: 1.3rem; font-weight: 800; letter-spacing: .04em; }
+
+    .tech-name {
+      font-size: .78rem; color: var(--muted);
+      font-weight: 500; letter-spacing: .02em;
+    }
+
+    /* ── PORTFOLIO ── */
+    #portfolio { padding: 7rem 1.5rem 5rem; }
+    .pw { max-width: 980px; margin: 0 auto; }
+
+    .sec-hdr { text-align: center; margin-bottom: 4rem; }
+    .lbl { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .14em; color: var(--gold); margin-bottom: .6rem; }
+    .sec-title { font-size: clamp(1.75rem,4vw,2.6rem); font-weight: 800; letter-spacing: -.025em; }
+    .sec-desc { margin-top: .65rem; color: var(--muted); font-size: .96rem; max-width: 480px; margin-left: auto; margin-right: auto; }
+
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; margin-bottom: 3rem; backdrop-filter: blur(10px); transition: border-color .3s, box-shadow .3s, background .3s; }
+    .card:hover { border-color: var(--border-g); background: var(--bg-card-h); box-shadow: 0 0 50px rgba(251,191,36,.04); }
+    .cb { padding: 2rem 2rem 1.75rem; }
+    .pnum { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .13em; color: var(--gold); margin-bottom: .4rem; }
+    .ptitle { font-size: 1.35rem; font-weight: 700; letter-spacing: -.015em; margin-bottom: .9rem; }
+    .pdesc { color: var(--muted); font-size: .91rem; line-height: 1.78; margin-bottom: 1.2rem; }
+    .pfeat { list-style: none; margin-bottom: 1.35rem; }
+    .pfeat li { color: var(--muted); font-size: .86rem; line-height: 1.6; padding: .2rem 0 .2rem 1.35rem; position: relative; }
+    .pfeat li::before { content: "▸"; position: absolute; left: 0; color: var(--gold); font-size: .78rem; top: .28rem; }
+    .ptags { display: flex; flex-wrap: wrap; gap: .38rem; }
+    .tag { padding: .18rem .65rem; background: rgba(251,191,36,.07); border: 1px solid rgba(251,191,36,.16); border-radius: 1rem; font-size: .73rem; color: var(--gold); font-weight: 500; }
+    .embed { border-top: 1px solid var(--border); background: rgba(0,0,0,.25); }
+    .ebar { padding: .65rem 2rem; font-size: .7rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: .55rem; }
+    .edot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; flex-shrink: 0; }
+    .embed iframe { display: block; width: 100%; height: 560px; border: none; }
+    .cf { padding: 1.1rem 2rem; border-top: 1px solid var(--border); display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; }
+
+    /* ── BUTTONS ── */
+    .btn { display: inline-flex; align-items: center; gap: .45rem; padding: .6rem 1.4rem; border-radius: 2rem; font-size: .84rem; font-weight: 600; text-decoration: none; border: none; cursor: pointer; white-space: nowrap; transition: transform .2s, box-shadow .2s, background .2s; }
+    .btn-gold { background: var(--gold); color: #000; } .btn-gold:hover { background: var(--gold-h); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(251,191,36,.28); }
+    .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--text); } .btn-ghost:hover { border-color: var(--border-g); color: var(--gold); transform: translateY(-2px); }
+    .btn-green { background: #25D366; color: #fff; } .btn-green:hover { background: #20bf5a; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,211,102,.22); }
+    .btn-sm { font-size: .8rem; padding: .46rem 1.05rem; }
+
+    /* ── DIVIDER ── */
+    .divider { position: relative; z-index: 1; height: 1px; background: linear-gradient(90deg,transparent,var(--border) 50%,transparent); max-width: 980px; margin: 0 auto; }
+
+    /* ── CONTACT ── */
+    #contact { padding: 7rem 1.5rem 5rem; text-align: center; }
+    .ci { max-width: 520px; margin: 0 auto; }
+    .cgrid { display: flex; gap: .875rem; justify-content: center; flex-wrap: wrap; margin-top: 2.5rem; }
+
+    /* ── FOOTER ── */
+    footer { position: relative; z-index: 1; text-align: center; padding: 1.75rem; border-top: 1px solid var(--border); color: var(--dim); font-size: .78rem; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal.d1 { transition-delay: .1s; }
+    .reveal.d2 { transition-delay: .18s; }
+    .reveal.d3 { transition-delay: .26s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      nav { padding: 0 1.25rem; }
+      .nav-links { display: none; }
+      .cb { padding: 1.5rem 1.25rem 1.35rem; }
+      .ebar, .cf { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .embed iframe { height: 380px; }
+      .tech-card { width: 90px; padding: 1.1rem .8rem 1rem; }
+    }
+  </style>
 </head>
 <body>
-    <div class="landing">
-        <canvas id="nodeGraph" aria-hidden="true"></canvas>
 
-        <!-- Perfil -->
-        <section class="landing-hero">
-            <img src="assinatura.gif" alt="Róni Ricardo" class="landing-logo">
-            <div class="profile-info">
-                <span class="profile-name">Rónison Ricardo</span>
-                <span class="profile-role">Analista de Business Intelligence</span>
-                <span class="profile-formation">Bacharel em Física — Universidade de São Paulo (USP)</span>
-            </div>
-            <div class="profile-stack">
-                <span class="stack-tag">Python</span>
-                <span class="stack-tag">Pandas</span>
-                <span class="stack-tag">SQL</span>
-                <span class="stack-tag">Power BI</span>
-                <span class="stack-tag">DAX</span>
-                <span class="stack-tag">ETL</span>
-                <span class="stack-tag">JavaScript</span>
-                <span class="stack-tag">Chart.js</span>
-                <span class="stack-tag">HTML</span>
-                <span class="stack-tag">CSS</span>
-            </div>
-        </section>
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Rónison <em>Ricardo</em></div>
+    <ul class="nav-links">
+      <li><a href="#stack">Stack</a></li>
+      <li><a href="#portfolio">Portfólio</a></li>
+      <li><a href="#contact">Contato</a></li>
+    </ul>
+  </nav>
 
-        <!-- Projetos -->
-        <div class="project-section">
+  <!-- HERO — name + subtitle only -->
+  <section id="hero">
+    <h1 class="hero-name">Rónison Ricardo</h1>
+    <div class="hero-sub">
+      <span class="hero-sub-line">Bacharel em Física pela USP &nbsp;·&nbsp; Tecnólogo da Informação</span>
+      <span class="hero-sub-line">Analista de Dados &nbsp;|&nbsp; Business Intelligence</span>
+    </div>
+  </section>
 
-            <!-- SaaS Dashboard -->
-            <article class="project-block scroll-fade">
-                <div class="project-label">Projeto Principal</div>
-                <h2>Dashboard Automatizado para Pequenos Negócios</h2>
-                <p>
-                    Sistema web de BI que automatiza a entrega de dashboards para microempresas —
-                    sem depender de ferramentas pagas. O cliente envia seus dados (CSV),
-                    eu trato no Power Query e Python/Pandas, e o pipeline gera um dashboard interativo
-                    com gráficos, KPIs e insights automáticos, acessível pelo navegador.
-                </p>
-                <ul class="project-features">
-                    <li>Pipeline ETL completo: CSV → Python/Pandas → JSON → Dashboard web</li>
-                    <li>Multi-tenant: cada cliente acessa seu painel por URL própria</li>
-                    <li>Gráficos dinâmicos configurados via JSON (bar, line, doughnut, radar)</li>
-                    <li>Insights automáticos gerados por regras de negócio por segmento</li>
-                    <li>Seletor de mês com variação percentual sobre período anterior</li>
-                    <li>Landing page com SEO, domínio próprio, robots.txt e sitemap</li>
-                </ul>
-                <div class="project-tech">
-                    <span class="tech-tag">Python</span>
-                    <span class="tech-tag">Pandas</span>
-                    <span class="tech-tag">JavaScript</span>
-                    <span class="tech-tag">Chart.js</span>
-                    <span class="tech-tag">HTML / CSS</span>
-                    <span class="tech-tag">JSON</span>
-                    <span class="tech-tag">GitHub Pages</span>
-                </div>
-                <div class="project-links">
-                    <a href="dashboard.html?c=1" class="project-link project-link-primary">📊 Ver Dashboard (demo)</a>
-                    <a href="https://github.com/rfrfrff3/roniricardo" target="_blank" class="project-link">📂 Código no GitHub</a>
-                </div>
-            </article>
+  <!-- STACK -->
+  <section id="stack">
+    <div class="pw">
+      <p class="stack-label reveal">Stack Técnico</p>
 
-            <!-- Power BI -->
-            <article class="project-block scroll-fade">
-                <div class="project-label">Visualização de Dados</div>
-                <h2>Dashboard Power BI — Análise de Vendas</h2>
-                <p>
-                    Dashboard analítico construído no Power BI com dados de vendas.
-                    Inclui modelagem de dados, medidas DAX, filtros interativos e layout
-                    voltado para apresentação executiva.
-                </p>
-                <ul class="project-features">
-                    <li>Modelagem relacional com relacionamentos entre tabelas</li>
-                    <li>Medidas DAX para KPIs calculados (faturamento, ticket médio, variação)</li>
-                    <li>Filtros e segmentações interativas</li>
-                    <li>Layout limpo para tomada de decisão gerencial</li>
-                </ul>
-                <div class="project-tech">
-                    <span class="tech-tag">Power BI</span>
-                    <span class="tech-tag">DAX</span>
-                    <span class="tech-tag">Modelagem de Dados</span>
-                </div>
-                <div class="project-links">
-                    <!-- Substituir pelo link público quando publicar -->
-                    <span class="project-link" style="opacity:0.5; cursor:default;">📈 Em breve: link público</span>
-                </div>
-            </article>
-
+      <!-- Row 1 -->
+      <div class="stack-row" id="row1">
+        <div class="tech-card">
+          <div class="tech-icon">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python">
+          </div>
+          <span class="tech-name">Python</span>
         </div>
+        <div class="tech-card">
+          <div class="tech-icon">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg" alt="SQL">
+          </div>
+          <span class="tech-name">SQL</span>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon i-pbi">PBI</div>
+          <span class="tech-name">Power BI</span>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon i-tableau">TAB</div>
+          <span class="tech-name">Tableau</span>
+        </div>
+      </div>
 
-        <!-- Contato -->
-        <section class="landing-cta">
-            <p style="font-size:0.8rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.75rem;">Contato</p>
-            <div style="display:flex; gap:0.75rem; justify-content:center; flex-wrap:wrap;">
-                <a href="https://linkedin.com/in/rónison-ricardo" target="_blank" class="landing-btn landing-btn-gold">🔗 LinkedIn</a>
-                <a href="https://github.com/r-oni" target="_blank" class="landing-btn">📂 GitHub</a>
-                <a href="mailto:ronison.a.ricardo@gmail.com" class="landing-btn">📧 E-mail</a>
-                <a href="https://wa.me/5511943322013" target="_blank" class="landing-btn" style="background:#25D366; border-color:#25D366; color:#fff; font-weight:600;">💬 WhatsApp</a>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="landing-footer">
-            <p>&copy; 2026 Rónison Ricardo</p>
-        </footer>
+      <!-- Row 2 -->
+      <div class="stack-row" id="row2">
+        <div class="tech-card">
+          <div class="tech-icon i-etl">ETL</div>
+          <span class="tech-name">ETL</span>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pandas/pandas-original.svg" alt="Pandas">
+          </div>
+          <span class="tech-name">Pandas</span>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon i-dax">DAX</div>
+          <span class="tech-name">DAX</span>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" alt="JavaScript">
+          </div>
+          <span class="tech-name">JavaScript</span>
+        </div>
+      </div>
 
     </div>
+  </section>
 
-    <!-- Scroll fade + Node graph -->
-    <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('visible');
-            });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.scroll-fade').forEach(el => observer.observe(el));
+  <div class="divider" style="margin-bottom:0"></div>
 
-        // Animated node graph background
-        (function() {
-            const canvas = document.getElementById('nodeGraph');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
-            let w, h, nodes = [];
-            const NODE_COUNT = 120;
-            const MAX_DIST = 180;
-            const NODE_RADIUS = 3;
+  <!-- PORTFOLIO -->
+  <section id="portfolio">
+    <div class="pw">
+      <div class="sec-hdr reveal">
+        <p class="lbl">Trabalhos</p>
+        <h2 class="sec-title">Portfólio</h2>
+        <p class="sec-desc">Projetos com dados reais, automação de pipelines e visualização analítica.</p>
+      </div>
 
-            function resize() {
-                w = canvas.width = canvas.offsetWidth;
-                h = canvas.height = canvas.offsetHeight;
-            }
+      <!-- Projeto 01 -->
+      <article class="card reveal">
+        <div class="cb">
+          <div class="pnum">Projeto 01 · Dashboard Automatizado</div>
+          <h2 class="ptitle">SaaS Dashboard para Pequenos Negócios</h2>
+          <p class="pdesc">Sistema web de BI que automatiza a entrega de dashboards para microempresas sem ferramentas pagas. O cliente envia dados em CSV, o pipeline Python/Pandas trata e gera um painel interativo com gráficos, KPIs e insights automáticos — acessível por URL própria.</p>
+          <ul class="pfeat">
+            <li>Pipeline ETL completo: CSV → Python/Pandas → JSON → Dashboard web</li>
+            <li>Multi-tenant: cada cliente acessa seu painel por URL própria</li>
+            <li>Gráficos dinâmicos configurados via JSON (bar, line, doughnut, radar)</li>
+            <li>Insights automáticos gerados por regras de negócio por segmento</li>
+            <li>Seletor de mês com variação percentual sobre período anterior</li>
+          </ul>
+          <div class="ptags">
+            <span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">JavaScript</span><span class="tag">Chart.js</span><span class="tag">ETL</span><span class="tag">GitHub Pages</span>
+          </div>
+        </div>
+        <div class="embed">
+          <div class="ebar"><span class="edot"></span>SaaS Dashboard — Visualização ao Vivo</div>
+          <iframe src="dashboard.html?c=1" allowfullscreen="true" title="SaaS Dashboard Demo" style="height:700px"></iframe>
+        </div>
+        <div class="cf">
+          <a href="dashboard.html?c=1" target="_blank" rel="noopener" class="btn btn-gold btn-sm">↗ Abrir em tela cheia</a>
+          <a href="https://github.com/rfrfrff3/roniricardo" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">📂 GitHub</a>
+        </div>
+      </article>
 
-            function initNodes() {
-                nodes = [];
-                // Side margin zone (lateral bands where nodes accumulate)
-                const margin = w * 0.18;
-                for (let i = 0; i < NODE_COUNT; i++) {
-                    let x;
-                    // 60% of nodes spawn in left/right margins, 40% spread across full width
-                    if (i < NODE_COUNT * 0.6) {
-                        if (i % 2 === 0) {
-                            x = Math.random() * margin;            // left band
-                        } else {
-                            x = w - Math.random() * margin;        // right band
-                        }
-                    } else {
-                        x = Math.random() * w;
-                    }
-                    nodes.push({
-                        x: x,
-                        y: Math.random() * h,
-                        vx: (Math.random() - 0.5) * 0.35,
-                        vy: (Math.random() - 0.5) * 0.35
-                    });
-                }
-            }
+      <!-- Projeto 02 -->
+      <article class="card reveal d1">
+        <div class="cb">
+          <div class="pnum">Projeto 02 · Call Center Analytics</div>
+          <h2 class="ptitle">MIS Dashboard — Análise Operacional de Call Center</h2>
+          <p class="pdesc">Pipeline de MIS para operação de call center com 68 operadores (cobrança e atendimento). Lê planilha Excel com cabeçalho duplo mesclado, normaliza via Python/Pandas e gera dashboard dinâmico com ICM, TMA, NPS, CSAT, Absenteísmo — zero dado hardcoded.</p>
+          <ul class="pfeat">
+            <li>ETL de xlsx com cabeçalho duplo mesclado via pandas (header=[0,1])</li>
+            <li>ICM — Índice Composto de Métricas calculado por operador</li>
+            <li>TMA médio, NPS, CSAT, DSAT, FCR, Rechamada e Transferência</li>
+            <li>Insights automáticos: top performers e alertas de absenteísmo</li>
+            <li>Dashboard atualiza com novo xlsx sem alterar nenhuma linha de HTML</li>
+          </ul>
+          <div class="ptags">
+            <span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">MIS</span><span class="tag">KPI</span>
+          </div>
+        </div>
+        <div class="embed">
+          <div class="ebar"><span class="edot"></span>MIS Dashboard — Visualização ao Vivo</div>
+          <iframe src="beedoo/dashboard_python.html" allowfullscreen="true" title="MIS Dashboard Call Center" style="height:700px"></iframe>
+        </div>
+        <div class="cf">
+          <a href="beedoo/dashboard_python.html" target="_blank" rel="noopener" class="btn btn-gold btn-sm">↗ Abrir em tela cheia</a>
+        </div>
+      </article>
 
-            function draw() {
-                ctx.clearRect(0, 0, w, h);
+      <!-- Projeto 03 -->
+      <article class="card reveal d2">
+        <div class="cb">
+          <div class="pnum">Projeto 03 · Financial ETL</div>
+          <h2 class="ptitle">Análise Financeira com Pipeline ETL em Python</h2>
+          <p class="pdesc">Pipeline end-to-end em Python/Jupyter: geração de dados transacionais sintéticos, extração e limpeza, modelagem de séries temporais e forecast de receita. Validação com SQL e exportação de relatórios automatizados.</p>
+          <ul class="pfeat">
+            <li>Geração e validação de dados sintéticos (transações financeiras)</li>
+            <li>Limpeza e normalização com Pandas + detecção de outliers</li>
+            <li>Análise de séries temporais e forecast com modelos estatísticos</li>
+            <li>Schema SQL documentado com queries de análise gerencial</li>
+          </ul>
+          <div class="ptags">
+            <span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">Jupyter</span><span class="tag">SQL</span><span class="tag">Forecast</span><span class="tag">Power BI</span>
+          </div>
+        </div>
+        <div class="embed">
+          <div class="ebar"><span class="edot"></span>Power BI — Análise Financeira</div>
+          <iframe src="https://app.powerbi.com/view?r=SEU_LINK_AQUI_3" allowfullscreen="true" title="Power BI Projeto 3"></iframe>
+        </div>
+        <div class="cf">
+          <a href="https://github.com/rfrfrff3/roniricardo" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">📂 GitHub</a>
+        </div>
+      </article>
 
-                // Draw edges
-                for (let i = 0; i < nodes.length; i++) {
-                    for (let j = i + 1; j < nodes.length; j++) {
-                        const dx = nodes[i].x - nodes[j].x;
-                        const dy = nodes[i].y - nodes[j].y;
-                        const dist = Math.sqrt(dx * dx + dy * dy);
-                        if (dist < MAX_DIST) {
-                            const alpha = (1 - dist / MAX_DIST) * 0.6;
-                            ctx.strokeStyle = `rgba(160,160,160,${alpha})`;
-                            ctx.lineWidth = 1;
-                            ctx.beginPath();
-                            ctx.moveTo(nodes[i].x, nodes[i].y);
-                            ctx.lineTo(nodes[j].x, nodes[j].y);
-                            ctx.stroke();
-                        }
-                    }
-                }
+      <!-- Projeto 04 -->
+      <article class="card reveal d3">
+        <div class="cb">
+          <div class="pnum">Projeto 04 · Vendas &amp; Receita</div>
+          <h2 class="ptitle">Dashboard de Vendas — Análise Executiva</h2>
+          <p class="pdesc">Dashboard analítico de vendas no Power BI com modelagem relacional em star schema, medidas DAX e layout para tomada de decisão executiva. Cobre faturamento, ticket médio, evolução mensal e metas por canal.</p>
+          <ul class="pfeat">
+            <li>Modelagem relacional com star schema (fato + dimensões)</li>
+            <li>Medidas DAX: faturamento, ticket médio, variação MoM e YoY</li>
+            <li>Filtros e segmentações interativas por período, canal e produto</li>
+            <li>Metas vs realizado com indicadores visuais de performance</li>
+          </ul>
+          <div class="ptags">
+            <span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">Star Schema</span><span class="tag">Modelagem</span>
+          </div>
+        </div>
+        <div class="embed">
+          <div class="ebar"><span class="edot"></span>Power BI — Vendas &amp; Receita</div>
+          <iframe src="https://app.powerbi.com/view?r=SEU_LINK_AQUI_4" allowfullscreen="true" title="Power BI Projeto 4"></iframe>
+        </div>
+        <div class="cf">
+          <span class="btn btn-ghost btn-sm" style="opacity:.4;cursor:default;">Em breve: link público</span>
+        </div>
+      </article>
 
-                // Draw nodes
-                for (const n of nodes) {
-                    ctx.fillStyle = 'rgba(160,160,160,0.66)';
-                    ctx.beginPath();
-                    ctx.arc(n.x, n.y, NODE_RADIUS, 0, Math.PI * 2);
-                    ctx.fill();
-                }
+    </div>
+  </section>
 
-                // Move nodes
-                for (const n of nodes) {
-                    n.x += n.vx;
-                    n.y += n.vy;
-                    if (n.x < 0 || n.x > w) n.vx *= -1;
-                    if (n.y < 0 || n.y > h) n.vy *= -1;
-                }
+  <div class="divider"></div>
 
-                requestAnimationFrame(draw);
-            }
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="ci">
+      <div class="reveal">
+        <p class="lbl">Contato</p>
+        <h2 class="sec-title">Vamos conversar</h2>
+        <p class="sec-desc">Aberto a oportunidades em BI, MIS e Data Analytics.</p>
+      </div>
+      <div class="cgrid reveal d1">
+        <a href="https://linkedin.com/in/rónison-ricardo" target="_blank" rel="noopener" class="btn btn-gold">🔗 LinkedIn</a>
+        <a href="https://github.com/r-oni" target="_blank" rel="noopener" class="btn btn-ghost">📂 GitHub</a>
+        <a href="mailto:ronison.a.ricardo@gmail.com" class="btn btn-ghost">📧 E-mail</a>
+        <a href="https://wa.me/5511943322013" target="_blank" rel="noopener" class="btn btn-green">💬 WhatsApp</a>
+      </div>
+    </div>
+  </section>
 
-            window.addEventListener('resize', () => { resize(); initNodes(); });
-            resize();
-            initNodes();
-            draw();
-        })();
-    </script>
+  <footer>&copy; 2026 Rónison Ricardo — Business Intelligence</footer>
+
+  <script>
+    // Reveal for generic .reveal elements
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+    // Stack rows — trigger when row enters viewport
+    const stackObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); stackObs.unobserve(e.target); }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+    document.querySelectorAll('.stack-row').forEach(el => stackObs.observe(el));
+  </script>
+
 </body>
 </html>
