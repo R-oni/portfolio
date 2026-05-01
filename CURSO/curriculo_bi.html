@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currículo — Rónison Ricardo — Analista de Dados e BI</title>
+    <meta name="robots" content="noindex, nofollow">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #000;
+            line-height: 1.45;
+            font-size: 11pt;
+            background: #f5f5f5;
+        }
+
+        .download-bar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: #1a1a1a;
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            z-index: 100;
+        }
+        .download-btn {
+            padding: 0.5rem 1.5rem;
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .download-btn:hover { background: #1d4ed8; }
+        .bar-note { color: #888; font-size: 0.75rem; }
+
+        .page {
+            max-width: 800px;
+            margin: 4.5rem auto 2rem;
+            background: #fff;
+            padding: 1.75rem 2.5rem;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        }
+
+        .cv-header {
+            text-align: center;
+            padding-bottom: 0.6rem;
+            border-bottom: 2px solid #000;
+            margin-bottom: 0.85rem;
+        }
+        .cv-header h1 {
+            font-size: 17pt;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 0.1rem;
+        }
+        .cv-header .subtitle {
+            font-size: 11pt;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+        .cv-header .contact-line {
+            font-size: 9.5pt;
+            color: #333;
+        }
+        .cv-header .contact-line a { color: #000; text-decoration: none; }
+
+        .cv-section { margin-bottom: 0.8rem; }
+        .cv-section h2 {
+            font-size: 10.5pt;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            border-bottom: 1.5px solid #000;
+            padding-bottom: 0.15rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .cv-summary { font-size: 10pt; line-height: 1.55; }
+
+        .cv-skills-list { font-size: 10pt; line-height: 1.6; }
+        .cv-skills-list p { margin-bottom: 0.1rem; }
+        .cv-skills-list strong { font-weight: 700; }
+
+        .cv-entry { margin-bottom: 0.55rem; }
+        .cv-entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+        .cv-entry-title { font-size: 10.5pt; font-weight: 700; }
+        .cv-entry-meta { font-size: 9.5pt; color: #333; white-space: nowrap; }
+        .cv-entry-stack { font-size: 9.5pt; color: #444; margin-bottom: 0.1rem; }
+        .cv-entry-desc { font-size: 10pt; line-height: 1.5; }
+        .cv-entry-desc ul { margin: 0.1rem 0 0 1.1rem; padding: 0; }
+        .cv-entry-desc li { margin-bottom: 0.08rem; }
+
+        .cv-formation-title { font-size: 10.5pt; font-weight: 700; }
+        .cv-formation-detail { font-size: 10pt; color: #333; }
+
+        @media print {
+            body { background: #fff; }
+            .download-bar { display: none !important; }
+            .page { margin: 0; padding: 1.2cm 1.8cm; box-shadow: none; max-width: none; }
+            .cv-section { break-inside: avoid; }
+            @page { size: A4; margin: 0; }
+        }
+        @media (max-width: 640px) {
+            .page { padding: 1.5rem 1rem; margin: 4rem 0.5rem 1rem; }
+            .cv-entry-header { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="download-bar">
+        <button class="download-btn" onclick="downloadPdf()">⬇ Baixar PDF (ATS)</button>
+        <span class="bar-note">PDF com texto real — 1 página — ATS-friendly</span>
+    </div>
+
+    <div class="page">
+
+        <header class="cv-header">
+            <h1>Rónison Aparecido Ricardo</h1>
+            <div class="subtitle">Analista de Dados e Business Intelligence (BI)</div>
+            <div class="contact-line">
+                Olímpia, SP &nbsp;|&nbsp;
+                <a href="tel:+5511943322013">+55 11 94332-2013</a> &nbsp;|&nbsp;
+                <a href="mailto:ronison.a.ricardo@gmail.com">ronison.a.ricardo@gmail.com</a> &nbsp;|&nbsp;
+                <a href="https://www.linkedin.com/in/ronison-ricardo/">linkedin.com/in/ronison-ricardo</a> &nbsp;|&nbsp;
+                <a href="https://roniricardo.com">roniricardo.com</a> &nbsp;|&nbsp;
+               
+            </div>
+        </header>
+
+        <!-- RESUMO -->
+        <section class="cv-section">
+            <h2>Resumo Profissional</h2>
+            <p class="cv-summary">
+Analista de Dados e BI com formação em Física pela USP e técnico em Informática. Pensamento analítico e abordagem orientada a dados. Aplico modelagem estatística, regressão e análise exploratória com rigor quantitativo em projetos reais de BI. Experiência em dashboards Power BI e Tableau, pipelines ETL em Python e SQL. Experiência em comunicar dados complexos para públicos não técnicos/stakeholders</p>
+        </section>
+
+        <!-- COMPETÊNCIAS -->
+        <section class="cv-section">
+            <h2>Competências Técnicas</h2>
+            <div class="cv-skills-list">
+                <p><strong>BI e Visualização:</strong> Power BI, Tableau, DAX, M, Chart.js</p>
+                <p><strong>Dados e ETL:</strong> Python, Pandas, NumPy, SciPy, Matplotlib, Power Query, pipelines ETL</p>
+                <p><strong>Banco de Dados:</strong> SQLite, PostgreSQL, consultas SQL, modelagem de dados</p>
+                <p><strong>Estatística e Modelagem:</strong> Análise exploratória (EDA), modelagem estatística, regressão, estatística descritiva e inferencial, ajuste de curvas</p>
+                <p><strong>Linguagens e Ferramentas:</strong> Python, SQL, JavaScript, Jupyter Notebook, Git, VS Code, Google Sheets</p>
+                <p><strong>Soft Skills:</strong> Comunicação com stakeholders, pensamento analítico, resolução de problemas orientada a dados, trabalho em equipe, priorização, aprendizado autodirigido</p>
+                <p><strong>Idiomas:</strong> Português (nativo), Inglês (avançado)</p>
+            </div>
+        </section>
+
+        <!-- PROJETOS -->
+        <section class="cv-section">
+            <h2>Projetos</h2>
+
+            <div class="cv-entry">
+                <div class="cv-entry-header">
+                    <span class="cv-entry-title">SaaS de BI para Pequenos Negócios</span>
+                    <span class="cv-entry-meta">2026</span>
+                </div>
+                <div class="cv-entry-stack">Python · Pandas · SQL · JavaScript · Chart.js · GitHub Pages</div>
+                <div class="cv-entry-desc">
+                    <p>Plataforma web multi-cliente com pipeline ETL completo (CSV > JSON > Chart.js) que automatiza KPIs comerciais personalizadas por segmento.</p>
+                </div>
+            </div>
+
+            <div class="cv-entry">
+                <div class="cv-entry-header">
+                    <span class="cv-entry-title">Pipeline ETL e Análise Preditiva de Dados Financeiros</span>
+                    <span class="cv-entry-meta">2026</span>
+                </div>
+                <div class="cv-entry-stack">Python · Pandas · NumPy · SciPy · SQL · Matplotlib · Jupyter Notebook</div>
+                <div class="cv-entry-desc">
+                    <p>Pipeline ETL em Python integrando 3 fontes heterogêneas (CSV, API REST, Excel) em fluxo único com detecção automática de anomalias via Z-score (limiar 3σ). Modelo de regressão linear com horizonte de projeção de 90 dias (R² ≥ 0,85 no conjunto de validação) e série temporal com média móvel, documentados em 4 Jupyter Notebooks reproduzíveis no GitHub.</p>
+                </div>
+            </div>
+
+            <div class="cv-entry">
+                <div class="cv-entry-header">
+                    <span class="cv-entry-title">Dashboard de RH e People Analytics</span>
+                    <span class="cv-entry-meta">2026</span>
+                </div>
+                <div class="cv-entry-stack">Power BI · DAX · Power Query · Excel · Tableau · SQL</div>
+                <div class="cv-entry-desc">
+                    <p>Painel de People Analytics no Power BI sobre o dataset público IBM HR (1.470 registros, 35 variáveis) com 3 KPIs centrais (turnover, absenteísmo, headcount) e 5 visuais com filtros cruzados por departamento e senioridade. Taxa de turnover calculada via DAX em 16,1% no dataset completo. Versão replicada no Tableau publicada no Tableau Public e GitHub.</p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- FORMAÇÃO -->
+        <section class="cv-section">
+            <h2>Formação Acadêmica</h2>
+            <div class="cv-entry">
+                <div class="cv-entry-header">
+                    <span class="cv-formation-title">Bacharelado em Física</span>
+                    <span class="cv-entry-meta">Concluído em 2025</span>
+                </div>
+                <div class="cv-formation-detail">Universidade de São Paulo (USP) — Instituto de Física de São Paulo (IFUSP)</div>
+            </div>
+            <div class="cv-entry" style="margin-top:0.3rem">
+                <div class="cv-entry-header">
+                    <span class="cv-formation-title">Curso Técnico em Informática</span>
+                    <span class="cv-entry-meta">Concluído em 2016</span>
+                </div>
+                <div class="cv-formation-detail">ETEC de Olímpia — Centro Paula Souza</div>
+            </div>
+        </section>
+
+        <!-- CURSOS -->
+        <section class="cv-section">
+            <h2>Cursos e Certificações</h2>
+            <div class="cv-entry">
+                <div class="cv-entry-header">
+                    <span class="cv-formation-title">Google Data Analytics; Microsoft Power BI Data Analyst</span>
+                    <span class="cv-entry-meta">Concluído em 2026</span>
+                </div>
+                <div class="cv-formation-detail" style="margin-top:0.2rem">Professional Certificates — Plataformas: Coursera / Microsoft Learn</div>
+            </div>
+        </section>
+
+    </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/vfs_fonts.min.js"></script>
+<script>
+    function downloadPdf() {
+        const dd = {
+            pageSize: 'A4',
+            pageMargins: [50, 40, 50, 40],
+            defaultStyle: { font: 'Roboto', fontSize: 9.5, lineHeight: 1.35 },
+            content: [
+
+                // CABEÇALHO
+                { text: 'RÓNISON APARECIDO RICARDO', style: 'nome' },
+                { text: 'Analista de Dados e Business Intelligence (BI)', style: 'cargo' },
+                {
+                    text: 'Olímpia, SP  |  +55 11 94332-2013  |  ronison.a.ricardo@gmail.com  |  linkedin.com/in/ronison-ricardo  |  roniricardo.com',
+                    style: 'contato', margin: [0, 3, 0, 0]
+                },
+                { canvas: [{ type: 'line', x1: 0, y1: 4, x2: 495, y2: 4, lineWidth: 1.5 }], margin: [0, 5, 0, 8] },
+
+                // RESUMO
+                { text: 'RESUMO PROFISSIONAL', style: 'secTitle' },
+                { canvas: [{ type: 'line', x1: 0, y1: 2, x2: 495, y2: 2, lineWidth: 0.5 }], margin: [0, 0, 0, 4] },
+                {
+                    text: 'Analista de Dados e BI com formação em Física pela USP e técnico em Informática. Pensamento analítico e abordagem orientada a dados. Aplico modelagem estatística, regressão e análise exploratória com rigor quantitativo em projetos reais de BI. Experiência em dashboards Power BI e Tableau, pipelines ETL em Python e SQL. Experiência em comunicar dados complexos para públicos não técnicos/stakeholders.',
+                    style: 'texto', margin: [0, 0, 0, 8]
+                },
+
+                // COMPETÊNCIAS
+                { text: 'COMPETÊNCIAS TÉCNICAS', style: 'secTitle' },
+                { canvas: [{ type: 'line', x1: 0, y1: 2, x2: 495, y2: 2, lineWidth: 0.5 }], margin: [0, 0, 0, 4] },
+                {
+                    stack: [
+                        skill('BI e Visualização', 'Power BI, Tableau, DAX, M, Chart.js'),
+                        skill('Dados e ETL', 'Python, Pandas, NumPy, SciPy, Matplotlib, Power Query, pipelines ETL'),
+                        skill('Banco de Dados', 'SQLite, PostgreSQL, consultas SQL, modelagem de dados'),
+                        skill('Estatística e Modelagem', 'Análise exploratória (EDA), modelagem estatística, regressão, estatística descritiva e inferencial, ajuste de curvas'),
+                        skill('Linguagens e Ferramentas', 'Python, SQL, JavaScript, Jupyter Notebook, Git, VS Code, Google Sheets'),
+                        skill('Soft Skills', 'Comunicação com stakeholders, pensamento analítico, resolução de problemas orientada a dados, trabalho em equipe, priorização, aprendizado autodirigido'),
+                        skill('Idiomas', 'Português (nativo), Inglês (avançado)'),
+                    ],
+                    margin: [0, 0, 0, 8]
+                },
+
+                // PROJETOS
+                { text: 'PROJETOS', style: 'secTitle' },
+                { canvas: [{ type: 'line', x1: 0, y1: 2, x2: 495, y2: 2, lineWidth: 0.5 }], margin: [0, 0, 0, 4] },
+
+                // Projeto SaaS
+                {
+                    columns: [
+                        { text: 'SaaS de BI para Pequenos Negócios', style: 'entryTitle' },
+                        { text: '2026', style: 'entryMeta', width: 85 }
+                    ], margin: [0, 0, 0, 1]
+                },
+                { text: 'Python · Pandas · SQL · JavaScript · Chart.js · GitHub Pages', style: 'stack', margin: [0, 0, 0, 2] },
+                { text: 'Plataforma web multi-cliente com pipeline ETL completo (CSV > JSON > Chart.js) que automatiza KPIs comerciais personalizadas por segmento.', style: 'texto', margin: [0, 0, 0, 5] },
+
+                // Projeto 2
+                {
+                    columns: [
+                        { text: 'Pipeline ETL e Análise Preditiva de Dados Financeiros', style: 'entryTitle' },
+                        { text: '2026', style: 'entryMeta', width: 85 }
+                    ], margin: [0, 0, 0, 1]
+                },
+                { text: 'Python · Pandas · NumPy · SciPy · SQL · Matplotlib · Jupyter Notebook', style: 'stack', margin: [0, 0, 0, 2] },
+                { text: 'Pipeline ETL em Python integrando 3 fontes heterogêneas (CSV, API REST, Excel) em fluxo único com detecção automática de anomalias via Z-score (limiar 3σ). Modelo de regressão linear com horizonte de projeção de 90 dias (R² ≥ 0,85 no conjunto de validação) e série temporal com média móvel, documentados em 4 Jupyter Notebooks reproduzíveis no GitHub.', style: 'texto', margin: [0, 0, 0, 5] },
+
+                // Projeto 3
+                {
+                    columns: [
+                        { text: 'Dashboard de RH e People Analytics', style: 'entryTitle' },
+                        { text: '2026', style: 'entryMeta', width: 85 }
+                    ], margin: [0, 0, 0, 1]
+                },
+                { text: 'Power BI · DAX · Power Query · Excel · Tableau · SQL', style: 'stack', margin: [0, 0, 0, 2] },
+                { text: 'Painel de People Analytics no Power BI sobre o dataset público IBM HR (1.470 registros, 35 variáveis) com 3 KPIs centrais (turnover, absenteísmo, headcount) e 5 visuais com filtros cruzados por departamento e senioridade. Taxa de turnover calculada via DAX em 16,1% no dataset completo. Versão replicada no Tableau publicada no Tableau Public e GitHub.', style: 'texto', margin: [0, 0, 0, 8] },
+
+                // FORMAÇÃO
+                { text: 'FORMAÇÃO ACADÊMICA', style: 'secTitle' },
+                { canvas: [{ type: 'line', x1: 0, y1: 2, x2: 495, y2: 2, lineWidth: 0.5 }], margin: [0, 0, 0, 4] },
+                {
+                    columns: [
+                        { text: 'Bacharelado em Física', style: 'entryTitle' },
+                        { text: 'Concluído em 2025', style: 'entryMeta', width: 110 }
+                    ], margin: [0, 0, 0, 1]
+                },
+                { text: 'Universidade de São Paulo (USP) — Instituto de Física de São Paulo (IFUSP)', style: 'detalhe', margin: [0, 0, 0, 4] },
+                {
+                    columns: [
+                        { text: 'Curso Técnico em Informática', style: 'entryTitle' },
+                        { text: 'Concluído em 2016', style: 'entryMeta', width: 110 }
+                    ], margin: [0, 0, 0, 1]
+                },
+                { text: 'ETEC de Olímpia — Centro Paula Souza', style: 'detalhe', margin: [0, 0, 0, 8] },
+
+                // CURSOS
+                { text: 'CURSOS E CERTIFICAÇÕES', style: 'secTitle' },
+                { canvas: [{ type: 'line', x1: 0, y1: 2, x2: 495, y2: 2, lineWidth: 0.5 }], margin: [0, 0, 0, 4] },
+                {
+                    columns: [
+                        { text: 'Google Data Analytics; Microsoft Power BI Data Analyst', style: 'entryTitle' },
+                        { text: 'Concluído em 2026', style: 'entryMeta', width: 110 }
+                    ], margin: [0, 0, 0, 8]
+                },
+
+            ],
+
+            styles: {
+                nome:       { fontSize: 17, bold: true, alignment: 'center', characterSpacing: 1 },
+                cargo:      { fontSize: 10.5, bold: true, alignment: 'center', color: '#333', margin: [0, 2, 0, 0] },
+                contato:    { fontSize: 8.5, alignment: 'center', color: '#444' },
+                secTitle:   { fontSize: 9.5, bold: true, characterSpacing: 1, margin: [0, 0, 0, 1] },
+                entryTitle: { fontSize: 9.5, bold: true },
+                entryMeta:  { fontSize: 8.5, color: '#444', alignment: 'right' },
+                stack:      { fontSize: 8.5, color: '#444', italics: true },
+                detalhe:    { fontSize: 9, color: '#333' },
+                bullets:    { fontSize: 9, color: '#222' },
+                texto:      { fontSize: 9.5, color: '#222' },
+            }
+        };
+
+        pdfMake.createPdf(dd).download('ronison-ricardo-curriculo-ats.pdf');
+    }
+
+    function skill(label, value) {
+        return {
+            text: [{ text: label + ': ', bold: true, fontSize: 9 }, { text: value, fontSize: 9, color: '#333' }],
+            margin: [0, 0, 0, 1.5]
+        };
+    }
+</script>
+</body>
+</html>

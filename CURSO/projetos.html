@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guia de Projetos — Rónison Ricardo</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0f1117;
+      color: #e2e8f0;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    /* ── LAYOUT ── */
+    header {
+      background: #1a1d2e;
+      border-bottom: 2px solid #3b82f6;
+      padding: 2rem 2rem 1.5rem;
+      text-align: center;
+    }
+    header h1 { font-size: 1.6rem; color: #fff; margin-bottom: 0.4rem; }
+    header p  { color: #94a3b8; font-size: 0.95rem; }
+
+    main {
+      max-width: 860px;
+      margin: 2rem auto;
+      padding: 0 1.5rem 4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    /* ── PROJECT CARD ── */
+    .project-card {
+      background: #1a1d2e;
+      border-radius: 10px;
+      border: 1px solid #2d3148;
+      overflow: hidden;
+    }
+
+    .project-header {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid #2d3148;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .project-number {
+      background: #3b82f6;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: bold;
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .project-title { flex: 1; }
+    .project-title h2 { font-size: 1.15rem; color: #fff; margin-bottom: 0.3rem; }
+    .project-title .period { color: #64748b; font-size: 0.85rem; }
+
+    .tech-badge {
+      display: inline-block;
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #93c5fd;
+      font-size: 0.75rem;
+      padding: 2px 9px;
+      border-radius: 99px;
+      margin: 2px 2px 2px 0;
+    }
+
+    .project-summary {
+      padding: 1.25rem 2rem;
+      color: #94a3b8;
+      font-size: 0.9rem;
+      border-bottom: 1px solid #2d3148;
+      font-style: italic;
+    }
+
+    /* ── STEPS ── */
+    .steps-container { padding: 1.5rem 2rem; display: flex; flex-direction: column; gap: 1rem; }
+
+    .step {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .step-check {
+      flex-shrink: 0;
+      width: 1.4rem;
+      height: 1.4rem;
+      margin-top: 2px;
+      accent-color: #3b82f6;
+      cursor: pointer;
+    }
+
+    .step-body { flex: 1; }
+
+    .step-label {
+      font-weight: bold;
+      color: #e2e8f0;
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .step-label .step-num {
+      font-size: 0.7rem;
+      background: #1e3a5f;
+      color: #93c5fd;
+      padding: 1px 7px;
+      border-radius: 99px;
+      font-weight: 600;
+    }
+
+    .step-detail {
+      color: #94a3b8;
+      font-size: 0.875rem;
+      line-height: 1.55;
+    }
+
+    /* ── CODE BLOCK ── */
+    .code-block {
+      background: #0d1117;
+      border: 1px solid #21262d;
+      border-radius: 6px;
+      padding: 1rem 1.2rem;
+      margin-top: 0.6rem;
+      overflow-x: auto;
+    }
+    .code-block pre {
+      font-family: "Consolas", "Courier New", monospace;
+      font-size: 0.82rem;
+      color: #e6edf3;
+      white-space: pre;
+    }
+    .code-block .comment { color: #8b949e; }
+    .code-block .keyword { color: #ff7b72; }
+    .code-block .string  { color: #a5d6ff; }
+    .code-block .func    { color: #d2a8ff; }
+
+    /* ── RESOURCE LINK ── */
+    .resource-list {
+      margin-top: 0.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .resource-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: #0f172a;
+      border: 1px solid #1e3a5f;
+      color: #60a5fa;
+      font-size: 0.8rem;
+      padding: 4px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .resource-link:hover { border-color: #3b82f6; color: #93c5fd; }
+    .resource-link::before { content: "↗"; font-size: 0.75rem; }
+
+    /* ── PROGRESS BAR ── */
+    .progress-section {
+      background: #1a1d2e;
+      border-radius: 10px;
+      border: 1px solid #2d3148;
+      padding: 1.5rem 2rem;
+    }
+    .progress-section h3 { color: #fff; margin-bottom: 1rem; font-size: 1rem; }
+    .progress-bar-wrap { background: #0f1117; border-radius: 99px; height: 10px; margin-bottom: 0.5rem; }
+    .progress-bar-fill { height: 10px; border-radius: 99px; background: linear-gradient(90deg, #3b82f6, #818cf8); transition: width 0.4s ease; }
+    .progress-label { font-size: 0.8rem; color: #64748b; display: flex; justify-content: space-between; }
+
+    /* ── TIP BOX ── */
+    .tip-box {
+      background: #0c1f0c;
+      border-left: 3px solid #22c55e;
+      padding: 0.75rem 1rem;
+      border-radius: 0 6px 6px 0;
+      margin-top: 0.6rem;
+      font-size: 0.85rem;
+      color: #86efac;
+    }
+    .tip-box strong { color: #4ade80; }
+
+    .warn-box {
+      background: #1c1000;
+      border-left: 3px solid #f59e0b;
+      padding: 0.75rem 1rem;
+      border-radius: 0 6px 6px 0;
+      margin-top: 0.6rem;
+      font-size: 0.85rem;
+      color: #fcd34d;
+    }
+    .warn-box strong { color: #fbbf24; }
+
+    /* ── STEP DONE STATE ── */
+    .step.done .step-label { color: #4ade80; text-decoration: line-through; text-decoration-color: #22c55e44; }
+    .step.done .step-detail { opacity: 0.5; }
+
+    /* ── SECTION DIVIDER ── */
+    .section-divider {
+      padding: 0.5rem 2rem 0;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #4b5563;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Guia de Construção de Projetos</h1>
+  <p>Rónison Ricardo · Analista de Dados e BI · passo a passo para o portfólio</p>
+</header>
+
+<main>
+
+  <!-- ── PROGRESS OVERVIEW ── -->
+  <div class="progress-section">
+    <h3>Progresso Geral</h3>
+    <div style="margin-bottom:1rem;">
+      <div class="progress-label"><span>Projeto 1 · Pipeline ETL</span><span id="pct1">0%</span></div>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="bar1" style="width:0%"></div></div>
+    </div>
+    <div>
+      <div class="progress-label"><span>Projeto 2 · People Analytics</span><span id="pct2">0%</span></div>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="bar2" style="width:0%;background:linear-gradient(90deg,#8b5cf6,#ec4899)"></div></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       PROJETO 1
+  ════════════════════════════════════════ -->
+  <div class="project-card" id="proj1">
+    <div class="project-header">
+      <div class="project-number">1</div>
+      <div class="project-title">
+        <h2>Pipeline ETL e Análise Preditiva de Dados Financeiros</h2>
+        <div class="period">2025 – 2026</div>
+        <div style="margin-top:0.5rem;">
+          <span class="tech-badge">Python</span>
+          <span class="tech-badge">Pandas</span>
+          <span class="tech-badge">NumPy</span>
+          <span class="tech-badge">SciPy</span>
+          <span class="tech-badge">SQL</span>
+          <span class="tech-badge">Matplotlib</span>
+          <span class="tech-badge">Jupyter Notebook</span>
+        </div>
+      </div>
+    </div>
+    <div class="project-summary">
+      Pipeline ETL em Python para ingestão e transformação de dados financeiros de múltiplas fontes (CSV, API REST, Excel) com detecção automática de anomalias. Regressão e séries temporais para projeção de receita, documentados em Jupyter Notebooks reproduzíveis no GitHub.
+    </div>
+
+    <div class="steps-container" data-project="1" data-total="8">
+
+      <!-- STEP 1 -->
+      <div class="section-divider">Configuração</div>
+      <div class="step" data-step="1-1">
+        <input type="checkbox" class="step-check" onchange="markStep(this)">
+        <div class="step-body">
+          <div class="step-label"><span class="step-num">1</span> Criar o repositório e ambiente virtual</div>
+          <div class="step-detail">
+            Crie um repositório público no GitHub chamado <strong>etl-financial-analysis</strong>.
+            Clone localmente e configure o ambiente.
+          </div>
+          <div class="code-block"><pre>
+<span class="comment"># No terminal, dentro da pasta do projeto</span>
+python -m venv .venv
+.venv\Scripts\activate          <span class="comment"># Windows</span>
+pip install pandas numpy scipy matplotlib \
+            openpyxl requests jupyterlab sqlalchemy</pre></div>
+          <div class="tip-box"><strong>Dica:</strong> Crie também um arquivo <code>requirements.txt</code> com <code>pip freeze > requirements.txt</code> — isso torna o repo reproduzível.</div>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step" data-step="1-2">
+        <input type="checkbox" class="step-check" onchange="markStep(this)">
+        <div class="step-body">
+          <div class="step-label"><span class="step-num">2</span> Definir e obter as fontes de dados</div>
+          <div class="step-detail">
+            O projeto usa três fontes propositalmente diferentes para reforçar o ETL de múltiplas origens:
+            <ul style="margin-top:0.5rem;margin-left:1.2rem;color:#94a3b8;">
+              <li><strong style="color:#e2e8f0;">CSV</strong> — Dataset financeiro público: <em>Kaggle "Personal Finance"</em> ou gere dados sintéticos com Faker</li>
+              <li><strong style="color:#e2e8f0;">API REST</strong> — Cotações históricas via <a class="resource-link" href="https://www.alphavantage.co/support/#api-key" target="_blank" style="display:inline;padding:1px 6px;">Alpha Vantage (grátis)</a> ou <code>yfinance</code></li>
+              <li><strong style="color:#e2e8f0;">Excel</strong> — Planilha de orçamento: crie manualmente 1 aba com colunas Mês, Receita, Despesa, Categoria</li>
+            </ul>
+          </div>
+          <div class="resource-list">
+            <a class="resource-link" href="https://www.kaggle.com/datasets/bukolafatunde/personal-finance" target="_blank">Kaggle Personal Finance CSV</a>
+            <a class="resource-link" href="https://pypi.org/project/yfinance/" target="_blank">yfinance (API histórica)</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="section-divider">Extração (E)</div>
+      <div class="step" data-step="1-3">
+        <input type="checkbox" class="step-check" onchange="markStep(this)">
+        <div class="step-body">
+          <div class="step-label"><span class="step-num">3</span> Notebook 1 — Extração (E do ETL)</div>
+          <div class="step-detail">
+            Crie <code>01_extract.ipynb</code>. Cada célula carrega uma fonte, salva em <code>/data/raw/</code>.
+          </div>
+          <div class="code-block"><pre>
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">import</span> yfinance <span class="keyword">as</span> yf
+<span class="keyword">import</span> os
+
+os.<span class="func">makedirs</span>(<span class="string">"data/raw"</span>, exist_ok=<span class="keyword">True</span>)
+
+<span class="comment"># Fonte 1: CSV</span>
+df_csv = pd.<span class="func">read_csv</span>(<span class="string">"data/source/personal_finance.csv"</span>)
+df_csv.<span class="func">to_parquet</span>(<span class="string">"data/raw/finance_csv.parquet"</span>)
+
+<span class="comment"># Fonte 2: API REST (yfinance)</span>
+df_api = yf.<span class="func">download</span>(<span class="string">"^BVSP"</span>, start=<span class="string">"2022-01-01"</span>, end=<span class="string">"2024-12-31"</span>)
+df_api.<span class="func">to_parquet</span>(<span class="string">"data/raw/ibovespa.parquet"</span>)
+
+<span class="comment"># Fonte 3: Excel</span>
+df_xl = pd.<span class="func">read_excel</span>(<span class="string">"data/source/orcamento.xlsx"</span>, sheet_name=<span class="string">"Dados"</span>)
+df_xl.<span class="func">to_parquet</span>(<span class="string">"data/raw/orcamento.parquet"</span>)</pre></div>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="section-divider">Transformação (T) + Anomalias</div>
+      <div class="step" data-step="1-4">
+        <input type="checkbox" class="step-check" onchange="markStep(this)">
+        <div class="step-body">
+          <div class="step-label"><span class="step-num">4</span> Notebook 2 — Transformação e detecção de anomalias</div>
+          <div class="step-detail">
+            Crie <code>02_transform.ipynb</code>. Limpe, normalize tipos e aplique o detector de anomalias com Z-score (SciPy).
+          </div>
+          <div class="code-block"><pre>
+<span class="keyword">from</span> scipy <span class="keyword">import</span> stats
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+<span class="comment"># Leitura</span>
+df = pd.<span class="func">read_parquet</span>(<span class="string">"data/raw/finance_csv.parquet"</span>)
+
+<span class="comment"># Padroniza datas e tipos</span>
+df[<span class="string">"date"</span>] = pd.<span class="func">to_datetime</span>(df[<span class="string">"date"</span>])
+df[<span class="string">"amount"</span>] = df[<span class="string">"amount"</span>].<span class="func">astype</span>(<span class="string">"float64"</span>)
+
+<span class="comment"># Detecta anomalias pelo Z-score</span>
+z_scores = np.<span class="func">abs</span>(stats.<span class="func">zscore</span>(df[<span class="string">"amount"</span>]))
+df[<span class="string">"anomalia"</span>] = z_scores > 3          <span class="comment"># True = outlier</span>
+
+<span class="comment"># Salva</span>
+df.<span class="func">to_parquet</span>(<span class="string">"data/processed/finance_clean.parquet"</span>)</pre></div>
+          <div class="warn-box"><strong>Atenção:</strong> Coloque células <code>print(df.dtypes)</code> e <code>df.head()</code> entre as etapas — o recrutador lê o notebook e precisa ver o raciocínio.</div>
+        </div>
+      </div>
+
+      <!-- STEP 5 -->
+      <div class="section-divider">Análise Preditiva</div>
+      <div class="step" data-step="1-5">
+        <input type="checkbox" class="step-check" onchange="markStep(this)">
+        <div class="step-body">
+          <div class="step-label"><span class="step-num">5</span> Notebook 3 — Regressão Linear (projeção de receita)</div>
+          <div class="step-detail">
+            Crie <code>03_predict_regression.ipynb</code>. Regressão linear simples para prever receita futura.
+          </div>
+          <div class="code-block"><pre>
+<span class="keyword">from</span> scipy.stats <span class="keyword">import</span> linregress
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+
+df = pd.<span class="func">read_parquet</span>(<span class="string">"data/processed/finance_clean.parquet"</span>)
+
+<span class="comment"># Converte data para número (dias desde o início)</span>
+df[<span class="string">"t"</span>] = (df[<span class="string">"date"</span>] - df[<span class="string">"date"</span>].<span class="func">min</span>()).dt.days
+receita = df[df[<span class="string">"categoria"</span>] == <span class="string">"receita"</span>]
+
+slope, intercept, r, p, se = <span class="func">linregress</span>(receita[<span class="string">"t"</span>], receita[<span class="string">"amount"</span>])
+
+<span class="comment"># Projeta próximos 90 dias</span>
+t_futuro = np.<span class="func">arange</span>(receita[<span class="string">"t"</span>].<span class="func">max</span>(), receita[<span class="string">"t"</span>].<span class="func">max</span>() + 91)
+projecao  = intercept + slope * t_futuro
+
+plt.<span class="func">figure</span>(figsize=(10, 4))
+plt.<span class="func">plot</span>(receita[<span class="string">"t"</span>], receita[<span class="string">"amount"</span>], label=<span class="string">"Real"</span>)
+plt.<span class="func">plot</span>(t_futuro, projecao, <span class="string">"--"</span>, label=<span class="string">"Projeção"</span>, color=<span class="string">"orange"</span>)
+plt.<span class="func">legend</span>(); plt.<span class="func">title</span>(<span class="string">"Projeção de Receita — Regressão Linear"</span>)
+plt.<span class="func">tight_layout</span>(); plt.<span class="func">savefig</span>(<span class="string">"outputs/projecao_receita.png"</span>, dpi=150)</pre></div>
+        </div>
+      </div>
+
+      <!-- STEP 6 -->
+      <div class="step" data-step="1-6">
+        <input type="checkbox" class="step-check" onchange="markStep(this)">
+        <div class="step-body">
+          <div class="step-label"><span class="step-num">6</span> Notebook 4 — Série Temporal com média móvel</div>
+          <div class="step-detail">
+            Crie <code>04_timeseries.ipynb</code>. Suavize a série com média móvel e adicione banda de desvio padrão.
+          </div>
+          <div class="code-block"><pre>
+<span class="comment"># Agrega por mês</span>
+mensal = df.<span class="func">resample</span>(<span class="string">"ME"</span>, on=<span class="string">"date"</span>)[<span class="string">"amount"</span>].<span class="func">sum</span>()
+
+mm3  = mensal.<span class="func">rolling</span>(3).<span class="func">mean</span>()  <span class="comment"># média móvel 3 meses</span>
+std3 = mensal.<span class="func">rolling</span>(3).<span class="func">std</span>()
+
+fig, ax = plt.<span class="func">subplots</span>(figsize=(10, 4))
+ax.<span class="func">plot</span>(mensal, label=<span class="string">"Mensal"</span>, alpha=0.5)
+ax.<span class="func">plot</span>(mm3, label=<span class="string">"MM-3"</span>, linewidth=2)
+ax.<span class="func">fill_between</span>(mm3.index, mm3 - std3, mm3 + std3, alpha=0.15, color=<span class="string">"blue"</span>)
+ax.<span class="func">set_title</span>(<span class="string">"Série Temporal — Receita Mensal"</span>)
+ax.<span class="func">legend</span>(); plt.<span class="func">tight_layout</span>()
+plt.<span class="func">savefig</span>(<span class="string">"outputs/serie_temporal.png"</span>, dpi=150)</pre></div>
+        </div>
+      </div>
+
+      <!-- STEP 7 -->
+      <div class="section-divider">Publicação</div>
+      <div class="step" data-step="1-7">
+        <input type="checkbox" class="step-check" onchange="markStep(this)">
+        <div class="step-body">
+          <div class="step-label"><span class="step-num">7</span> Estrutura de pastas e README no GitHub</div>
+          <div class="step-detail">
+            Organize o repositório assim antes de subir:
+          </div>
+          <div class="code-block"><pre>
+etl-financial-analysis/
+├── data/
+│   ├── raw/            <span class="comment"># arquivos .parquet extraídos</span>
+│   ├── processed/      <span class="comment"># dados limpos</span>
+│   └── source/         <span class="comment"># arquivos originais (CSV, Excel)</span>
+├── outputs/            <span class="comment"># imagens geradas pelos notebooks</span>
+├── 01_extract.ipynb
+├── 02_transform.ipynb
+├── 03_predict_regression.ipynb
+├── 04_timeseries.ipynb
+├── requirements.txt
+└── README.md</pre></div>
+          <div class="tip-box"><strong>README mínimo:</strong> Objetivo do projeto · Fontes de dados · Como rodar localmente · Prints dos principais gráficos. Adicione um badge de linguagem no topo.</div>
+        </div>
+      </div>
+
+      <!-- STEP 8 -->
+      <div class="step" data-step="1-8">
+        <input type="checkbox" class="step-check" onchange="markStep(this)">
+        <div class="step-body">
+          <div class="step-label"><span class="step-num">8</span> Publicar no GitHub e testar o clone limpo</div>
+          <div class="step-detail">
+            Suba tudo, depois clone em uma pasta nova e execute <code>pip install -r requirements.txt</code> + todos os notebooks em ordem. Se rodar sem erros, o projeto está reproduzível.
+          </div>
+          <div class="code-block"><pre>
+git add .
+git commit -m <span class="string">"feat: pipeline ETL completo + análise preditiva"</span>
+git push origin main</pre></div>
+        </div>
+      </div>
+
+    </div><!-- /steps-container -->
+  </div><!-- /project-card 1 -->
+
+
+  <!-- ════════════════════════════════════════
+       PROJETO 2
+  ════════════════════════════════════════ -->
+  <div class="project-card" id="proj2">
+    <div class="project-header">
+      <div class="project-number" style="background:#8b5cf6;">2</div>
+      <div class="project-title">
+        <h2>Dashboard de RH e People Analytics</h2>
+        <div class="period">2026</div>
+        <div style="margin-top:0.5rem;">
+          <span class="tech-badge">Power BI</span>
+          <span class="tech-badge">DAX</span>
+          <span class="tech-badge">Power Query</span>
+          <span class="tech-badge">Excel</span>
+          <span class="tech-badge">Tableau</span>
+          <span class="tech-badge">SQL</span>
+        </div>
+      </div>
+    </div>
+    <div class="project-summary">
+      Painel de People Analytics no Power BI com métricas de turnover, absenteísmo e headcount a partir de dataset de RH público. Segmentação por departamento e senioridade com filtros cruzados. Versão replicada no Tableau publicada no Tableau Public e GitHub.
+    </div>
+
+    <div class="steps-container" data-project="2" data-total="9">
+
+      <!-- STEP 1 -->
+      <div class="section-divider">Dataset e Preparação</div>
+      <div class="step" data-step="2-1">
+        <input type="checkbox" class="step-check" onchange="markStep(this)">
+        <div class="step-body">
+          <div class="step-label"><span class="step-num">1</span> Baixar o dataset de RH público</div>
+          <div class="step-detail">
+            Use o dataset <strong>IBM HR Analytics Employee Attrition & Performance</strong> do Kaggle — é o dataset de RH mais citado, público, sem dados reais de pessoas e com todas as colunas necessárias (turnover, departamento, senioridade, absenteísmo).
+          </div>
+          <div class="resource-list">
+            <a class="resource-link" href="https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset" target="_blank">IBM HR Analytics (Kaggle)</a>
+            <a class="resource-link" href="https://raw.githubusercontent.com/IBM/employee-attrition-aif360/master/data/emp_attrition.csv" target="_blank">Download direto CSV (GitHub IBM)</a>
+          </div>
+          <div class="tip-box"><strong>Cite no README:</strong> "Dataset: IBM HR Analytics Employee Attrition &amp; Performance — Kaggle / IBM (domínio público)". Isso elimina qualquer dúvida sobre origem dos dados.</div>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step" data-step="2-2">
+        <input type="checkbox" class="step-check" onchange="markStep(this)">
+        <div class="step-body">
+          <div class="step-label"><span class="step-num">2</span> Explorar e preparar no Excel (opcional mas recomendado)</div>
+          <div class="step-detail">
+            Abra o CSV no Excel, revise os tipos de coluna e crie uma aba auxiliar com uma tabela de <strong>senioridade</strong> mapeando <code>JobLevel</code> (1–5) para Júnior / Pleno / Sênior / Especialista / Gestor. Salve como <code>.xlsx</code> — você vai importar direto no Power BI.
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="section-divider">Power BI — Modelagem</div>
+      <div class="step" data-step="2-3">
+        <input type="checkbox" class="step-check" onchange="markStep(this)">
+        <div class="step-body">
+          <div class="step-label"><span class="step-num">3</span> Importar e transformar no Power Query</div>
+          <div class="step-detail">
+            No Power BI Desktop, vá em <strong>Obter Dados → Excel/CSV</strong>. No Power Query:
+            <ul style="margin:0.5rem 0 0 1.2rem;color:#94a3b8;">
+              <li>Renomeie as colunas para português (ex.: <code>Attrition</code> → <code>Saiu</code>, <code>Department</code> → <code>Departamento</code>)</li>
+              <li>Substitua valores em <code>Attrition</code>: <code>Yes</code> → <code>1</code>, <code>No</code> → <code>0</code></li>
+              <li>Crie coluna condicional <code>Senioridade</code> baseada em <code>JobLevel</code></li>
+              <li>Feche e aplique</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="step" data-step="2-4">
+        <input type="checkbox" class="step-check" onchange="markStep(this)">
+        <div class="step-body">
+          <div class="step-label"><span class="step-num">4</span> Criar as medidas DAX principais</div>
+          <div class="step-detail">
+            Na aba <strong>Ferramentas de tabela → Nova medida</strong>, crie as três métricas do currículo:
+          </div>
+          <div class="code-block"><pre>
+<span class="comment">// Headcount</span>
+Headcount = <span class="func">COUNTROWS</span>('HR')
+
+<span class="comment">// Taxa de Turnover (%)</span>
+Turnover % = <span class="func">DIVIDE</span>(
+    <span class="func">CALCULATE</span>(<span class="func">COUNTROWS</span>('HR'), 'HR'[Saiu] = 1),
+    [Headcount],
+    0
+) * 100
+
+<span class="comment">// Absenteísmo médio (dias)</span>
+Absenteísmo Médio = <span class="func">AVERAGE</span>('HR'[AbsenceHours])
+<span class="comment">// Se o dataset não tiver AbsenceHours, use:</span>
+<span class="comment">// AVERAGE('HR'[NumCompaniesWorked]) como proxy</span></pre></div>
+          <div class="tip-box"><strong>Dica DAX:</strong> Crie uma tabela de datas com <code>CALENDARAUTO()</code> e relacione com a coluna de admissão para habilitar filtro temporal.</div>
+        </div>
+      </div>
+
+      <!-- STEP 5 -->
+      <div class="section-divider">Power BI — Visualizações</div>
+      <div class="step" data-step="2-5">
+        <input type="checkbox" class="step-check" onchange="markStep(this)">
+        <div class="step-body">
+          <div class="step-label"><span class="step-num">5</span> Montar a página de visão geral + filtros cruzados</div>
+          <div class="step-detail">
+            Crie a página <strong>"Visão Geral"</strong> com estes visuais:
+            <ul style="margin:0.5rem 0 0 1.2rem;color:#94a3b8;">
+              <li><strong style="color:#e2e8f0;">Cartões KPI:</strong> Headcount · Turnover % · Absenteísmo Médio</li>
+              <li><strong style="color:#e2e8f0;">Gráfico de barras:</strong> Turnover % por Departamento</li>
+              <li><strong style="color:#e2e8f0;">Gráfico de colunas:</strong> Headcount por Senioridade</li>
+              <li><strong style="color:#e2e8f0;">Segmentadores (Slicers):</strong> Departamento + Senioridade (no topo da página)</li>
+            </ul>
+            Selecione cada visual, vá em <strong>Formatar → Editar interações</strong> e confirme que os slicers filtram todos os outros visuais.
+          </div>
+          <div class="tip-box"><strong>Visual extra (diferencial):</strong> Adicione um gráfico de dispersão com <em>Satisfação no Trabalho</em> vs <em>Turnover</em> — mostra que você explora correlações.</div>
+        </div>
+      </div>
+
+      <!-- STEP 6 -->
+      <div class="step" data-step="2-6">
+        <input type="checkbox" class="step-check" onchange="markStep(this)">
+        <div class="step-body">
+          <div class="step-label"><span class="step-num">6</span> Exportar o .pbix e tirar prints para o GitHub</div>
+          <div class="step-detail">
+            Salve o arquivo como <code>hr-people-analytics.pbix</code>.
+            Tire prints das páginas (Windows: <kbd>Win + Shift + S</kbd>) e salve em <code>outputs/</code>.
+            O <code>.pbix</code> deve estar na raiz do repositório.
+          </div>
+          <div class="warn-box"><strong>Limitação:</strong> Power BI não tem publicação gratuita para web — o link do portfólio será o print + o arquivo <code>.pbix</code> no GitHub. Já o Tableau tem publicação gratuita (próximo passo).</div>
+        </div>
+      </div>
+
+      <!-- STEP 7 -->
+      <div class="section-divider">Tableau Public</div>
+      <div class="step" data-step="2-7">
+        <input type="checkbox" class="step-check" onchange="markStep(this)">
+        <div class="step-body">
+          <div class="step-label"><span class="step-num">7</span> Replicar no Tableau Public</div>
+          <div class="step-detail">
+            Baixe o Tableau Public (grátis), conecte ao mesmo CSV:
+            <ul style="margin:0.5rem 0 0 1.2rem;color:#94a3b8;">
+              <li>Crie uma planilha <em>Turnover por Departamento</em> (barra horizontal)</li>
+              <li>Crie uma planilha <em>Headcount por Senioridade</em> (mapa de calor ou colunas)</li>
+              <li>Monte um Dashboard combinando as duas planilhas com filtro de ação (<strong>Dashboard → Ações → Filtro</strong>)</li>
+            </ul>
+          </div>
+          <div class="resource-list">
+            <a class="resource-link" href="https://public.tableau.com/en-us/s/download" target="_blank">Tableau Public Download</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 8 -->
+      <div class="step" data-step="2-8">
+        <input type="checkbox" class="step-check" onchange="markStep(this)">
+        <div class="step-body">
+          <div class="step-label"><span class="step-num">8</span> Publicar no Tableau Public e copiar o link</div>
+          <div class="step-detail">
+            No Tableau Desktop, vá em <strong>Servidor → Tableau Public → Salvar no Tableau Public</strong>.
+            Após publicar, copie a URL (<code>public.tableau.com/views/…</code>) e cole no README do projeto.
+          </div>
+          <div class="tip-box"><strong>Dica:</strong> O link do Tableau Public é o único clicável no portfólio. Adicione-o também no currículo como <em>"Tableau Public:"</em> na seção de projetos para recrutadores que querem ver ao vivo.</div>
+        </div>
+      </div>
+
+      <!-- STEP 9 -->
+      <div class="section-divider">Publicação</div>
+      <div class="step" data-step="2-9">
+        <input type="checkbox" class="step-check" onchange="markStep(this)">
+        <div class="step-body">
+          <div class="step-label"><span class="step-num">9</span> Estrutura final do repositório</div>
+          <div class="step-detail">Organize e suba no GitHub:</div>
+          <div class="code-block"><pre>
+hr-people-analytics/
+├── data/
+│   └── ibm_hr_attrition.csv
+├── outputs/
+│   ├── powerbi_overview.png
+│   ├── powerbi_turnover.png
+│   └── tableau_dashboard.png
+├── hr-people-analytics.pbix
+├── requirements.txt      <span class="comment"># pandas + openpyxl se houver script Python</span>
+└── README.md             <span class="comment"># com link do Tableau Public</span></pre></div>
+          <div class="code-block"><pre>
+git add .
+git commit -m <span class="string">"feat: dashboard people analytics Power BI + Tableau"</span>
+git push origin main</pre></div>
+        </div>
+      </div>
+
+    </div><!-- /steps-container -->
+  </div><!-- /project-card 2 -->
+
+</main>
+
+<script>
+  // ── Marca/desmarca step e atualiza barra ──
+  function markStep(checkbox) {
+    const step = checkbox.closest('.step');
+    step.classList.toggle('done', checkbox.checked);
+    updateProgress();
+  }
+
+  function updateProgress() {
+    [1, 2].forEach(proj => {
+      const container = document.querySelector(`[data-project="${proj}"]`);
+      if (!container) return;
+      const total   = parseInt(container.dataset.total);
+      const checked = container.querySelectorAll('.step-check:checked').length;
+      const pct     = Math.round((checked / total) * 100);
+      document.getElementById(`bar${proj}`).style.width = pct + '%';
+      document.getElementById(`pct${proj}`).textContent  = pct + '%';
+    });
+  }
+
+  // ── Restaura estado dos checkboxes ao recarregar ──
+  function saveState() {
+    const state = {};
+    document.querySelectorAll('.step-check').forEach((cb, i) => {
+      state[i] = cb.checked;
+    });
+    localStorage.setItem('projetos_state', JSON.stringify(state));
+  }
+
+  function loadState() {
+    const raw = localStorage.getItem('projetos_state');
+    if (!raw) return;
+    const state = JSON.parse(raw);
+    document.querySelectorAll('.step-check').forEach((cb, i) => {
+      if (state[i]) {
+        cb.checked = true;
+        cb.closest('.step').classList.add('done');
+      }
+    });
+    updateProgress();
+  }
+
+  document.querySelectorAll('.step-check').forEach(cb => {
+    cb.addEventListener('change', saveState);
+  });
+
+  loadState();
+</script>
+
+</body>
+</html>
