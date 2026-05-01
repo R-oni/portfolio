@@ -393,7 +393,7 @@
     .btn { display: inline-flex; align-items: center; gap: .45rem; padding: .6rem 1.4rem; border-radius: 2rem; font-size: .84rem; font-weight: 600; text-decoration: none; border: none; cursor: pointer; white-space: nowrap; transition: transform .2s, box-shadow .2s, background .2s; }
     .btn-gold { background: var(--gold); color: #000; } .btn-gold:hover { background: var(--gold-h); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,255,231,.28); }
     .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--text); } .btn-ghost:hover { border-color: var(--border-g); color: var(--gold); transform: translateY(-2px); }
-    .btn-green { background: #25D366; color: #fff; } .btn-green:hover { background: #20bf5a; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,211,102,.22); }
+    .btn-green { background: #25D366; color: #000000; } .btn-green:hover { background: #20bf5a; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,211,102,.22); }
     .btn-sm { font-size: .8rem; padding: .46rem 1.05rem; }
 
     /* ── PHONE MOCKUP ── */
@@ -616,6 +616,10 @@
       </button>
       <button class="port-tab" data-slide="4">
         <span class="tab-num">Projeto 04</span>
+        <span class="tab-name">Amazônia PRODES</span>
+      </button>
+      <button class="port-tab" data-slide="5">
+        <span class="tab-num">Projeto 05</span>
         <span class="tab-name">Vendas &amp; Receita</span>
       </button>
     </div>
@@ -633,7 +637,7 @@
               <p class="pi-desc">Projetos end-to-end em análise de dados e Business Intelligence — pipelines ETL com Python, dashboards interativos e modelagem analítica aplicados a problemas reais de negócio.</p>
               <div class="pi-stats">
                 <div class="pi-stat">
-                  <span class="pi-stat-n">4</span>
+                  <span class="pi-stat-n">5</span>
                   <span class="pi-stat-l">Projetos</span>
                 </div>
                 <div class="pi-stat">
@@ -760,7 +764,7 @@
             </div>
             <div class="card-right">
               <div class="embed">
-                <iframe title="pizzadb" src="https://app.powerbi.com/reportEmbed?reportId=ec8518cd-de88-47e3-b344-b5bd58e2ed64&autoAuth=true&ctid=a7ba2ea9-be19-473e-bb09-118103e0d7bb" frameborder="0" allowfullscreen="true"></iframe>
+                <iframe title="pizzadb"   src="https://app.powerbi.com/reportEmbed?reportId=ec8518cd-de88-47e3-b344-b5bd58e2ed64&autoAuth=true&ctid=a7ba2ea9-be19-473e-bb09-118103e0d7bb&navContentPaneEnabled=false&filterPaneEnabled=false&actionBarEnabled=false"></iframe>
               </div>
             </div>
           </article>
@@ -771,7 +775,39 @@
           <article class="card">
             <div class="card-left">
               <div class="cb">
-                <div class="pnum">Projeto 04 · Análise Hoteleira</div>
+                <div class="pnum">Projeto 04 · Desmatamento Amazônia</div>
+                <div class="proj-icons">
+                  <img class="proj-icon" src="https://upload.wikimedia.org/wikipedia/commons/c/cf/New_Power_BI_Logo.svg" alt="Power BI">
+                </div>
+                <h2 class="ptitle">Desmatamento na Amazônia — PRODES</h2>
+                <p class="pdesc">Dashboard de monitoramento do desmatamento na Amazônia Legal com dados do PRODES (INPE). Acompanha a evolução histórica das taxas de desflorestamento por estado, bioma e período — permitindo identificar tendências, anomalias e impactos de políticas ambientais.</p>
+                <ul class="pfeat">
+                  <li>Série histórica de desmatamento por estado e ano</li>
+                  <li>Comparativo de áreas desmatadas entre regiões</li>
+                  <li>Indicadores de alerta e variação percentual</li>
+                  <li>Visualização geográfica e filtros interativos</li>
+                </ul>
+                <div class="ptags">
+                  <span class="tag">Power BI</span><span class="tag">PRODES</span><span class="tag">INPE</span><span class="tag">Meio Ambiente</span>
+                </div>
+              </div>
+              <div class="cf">
+              </div>
+            </div>
+            <div class="card-right">
+              <div class="embed">
+                <iframe title="amazonia_desmatamento" src="https://app.powerbi.com/reportEmbed?reportId=35752aa1-6eee-4a1b-bf87-1d7efcfc850f&autoAuth=true&ctid=a7ba2ea9-be19-473e-bb09-118103e0d7bb&navContentPaneEnabled=false&filterPaneEnabled=false&actionBarEnabled=false" frameborder="0" allowfullscreen="true"></iframe>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- Slide 05 -->
+        <div class="port-slide">
+          <article class="card">
+            <div class="card-left">
+              <div class="cb">
+                <div class="pnum">Projeto 05 · Análise Hoteleira</div>
                 <div class="proj-icons">
                   <img class="proj-icon" src="imagens/tableau.svg" alt="Tableau">
                   <img class="proj-icon" src="imagens/sql.png" alt="SQL">
