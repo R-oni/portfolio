@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -383,7 +383,10 @@
     }
     .ebar { padding: .6rem 1.75rem; font-size: .7rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: .55rem; flex-shrink: 0; }
     .edot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; flex-shrink: 0; }
-    .embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; display: block; }
+    .embed iframe { flex: 1; display: block; width: 100%; height: 100%; border: none; min-height: 0; }
+    /* ── PROJECT ICONS ── */
+    .proj-icons { display: flex; gap: .55rem; align-items: center; margin-bottom: .7rem; }
+    .proj-icon { width: 40px; height: 40px; object-fit: contain; flex-shrink: 0; }
     .cf { padding: .85rem 1.5rem; border-top: 1px solid var(--border); display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; flex-shrink: 0; }
 
     /* ── BUTTONS ── */
@@ -485,8 +488,11 @@
       transition: border-color .2s, color .2s, background .2s, box-shadow .2s;
     }
     .contact-item:hover { border-color: var(--border-g); color: var(--gold); background: var(--gold-dim); box-shadow: 0 0 28px rgba(0,255,231,.08); }
-    .contact-item--wa:hover { border-color: rgba(37,211,102,.45); color: #25D366; background: rgba(37,211,102,.05); box-shadow: 0 0 28px rgba(37,211,102,.08); }
+    /* WhatsApp / Email: white button */
+    .contact-item--wa, .contact-item--mail { background: #ffffff; color: #000000; border-color: rgba(255,255,255,.12); justify-content: center; }
+    .contact-item--wa:hover, .contact-item--mail:hover { background: #0a0a0b; color: #000000; border-color: rgba(255,255,255,.18); box-shadow: 0 10px 34px rgba(255,255,255,.04); }
     .contact-icon { font-size: 1.3rem; flex-shrink: 0; }
+    .contact-icon-img { width: 28px; height: 28px; object-fit: contain; flex-shrink: 0; }
     .contact-val { font-size: 1rem; }
 
     /* ── FOOTER ── */
@@ -574,7 +580,7 @@
         <span>Power BI</span>
       </div>
       <div class="sk-cell sk-cell--viz">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tableau/tableau-original.svg" alt="Tableau">
+        <img src="imagens/tableau.svg" alt="Tableau">
         <span>Tableau</span>
       </div>
       <div class="sk-cell sk-cell--viz">
@@ -606,7 +612,7 @@
       </button>
       <button class="port-tab" data-slide="3">
         <span class="tab-num">Projeto 03</span>
-        <span class="tab-name">Financial ETL</span>
+        <span class="tab-name">Pizzaria BI</span>
       </button>
       <button class="port-tab" data-slide="4">
         <span class="tab-num">Projeto 04</span>
@@ -665,6 +671,10 @@
             <div class="card-right">
               <div class="cb">
                 <div class="pnum">Projeto 01 · Dashboard Automatizado</div>
+                <div class="proj-icons">
+                  <img class="proj-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python">
+                  <img class="proj-icon" src="imagens/chart_js.svg" alt="Chart.js">
+                </div>
                 <h2 class="ptitle">SaaS Dashboard para Pequenos Negócios</h2>
                 <p class="pdesc">Sistema web de BI que automatiza a entrega de dashboards para microempresas sem ferramentas pagas. O cliente envia dados em CSV, o pipeline Python/Pandas trata e gera um painel interativo com gráficos, KPIs e insights automáticos — acessível por URL própria.</p>
                 <ul class="pfeat">
@@ -693,6 +703,10 @@
             <div class="card-left">
               <div class="cb">
                 <div class="pnum">Projeto 02 · Call Center Analytics</div>
+                <div class="proj-icons">
+                  <img class="proj-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python">
+                  <img class="proj-icon" src="imagens/chart_js.svg" alt="Chart.js">
+                </div>
                 <h2 class="ptitle">MIS Dashboard — Análise Operacional de Call Center</h2>
                 <p class="pdesc">Pipeline de MIS para operação de call center com 68 operadores (cobrança e atendimento). Lê planilha Excel com cabeçalho duplo mesclado, normaliza via Python/Pandas e gera dashboard dinâmico com ICM, TMA, NPS, CSAT, Absenteísmo — zero dado hardcoded.</p>
                 <ul class="pfeat">
@@ -723,26 +737,30 @@
           <article class="card">
             <div class="card-left">
               <div class="cb">
-                <div class="pnum">Projeto 03 · Financial ETL</div>
-                <h2 class="ptitle">Análise Financeira com Pipeline ETL em Python</h2>
-                <p class="pdesc">Pipeline end-to-end em Python/Jupyter: geração de dados transacionais sintéticos, extração e limpeza, modelagem de séries temporais e forecast de receita. Validação com SQL e exportação de relatórios automatizados.</p>
+                <div class="pnum">Projeto 03 · Business Intelligence</div>
+                <div class="proj-icons">
+                  <img class="proj-icon" src="https://upload.wikimedia.org/wikipedia/commons/c/cf/New_Power_BI_Logo.svg" alt="Power BI">
+                  <img class="proj-icon" src="imagens/sql.png" alt="SQL">
+                </div>
+                <h2 class="ptitle">Dashboard de Pizzaria — Power BI</h2>
+                <p class="pdesc">Dashboard gerencial de uma pizzaria em Campinas construído no Power BI. Consolida vendas, ticket médio, produtos mais vendidos e desempenho por período — com filtros interativos para análise rápida.</p>
                 <ul class="pfeat">
-                  <li>Geração e validação de dados sintéticos (transações financeiras)</li>
-                  <li>Limpeza e normalização com Pandas + detecção de outliers</li>
-                  <li>Análise de séries temporais e forecast com modelos estatísticos</li>
-                  <li>Schema SQL documentado com queries de análise gerencial</li>
+                  <li>Visão consolidada de faturamento e volume de pedidos</li>
+                  <li>Ranking de produtos e categorias mais vendidas</li>
+                  <li>Análise de sazonalidade e comparativo por período</li>
+                  <li>Ticket médio e margem por linha de produto</li>
                 </ul>
                 <div class="ptags">
-                  <span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">Jupyter</span><span class="tag">SQL</span><span class="tag">Forecast</span><span class="tag">Power BI</span>
+                  <span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">SQL</span><span class="tag">KPI</span><span class="tag">Varejo</span>
                 </div>
               </div>
               <div class="cf">
-                <a href="https://github.com/rfrfrff3/roniricardo" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">📂 GitHub</a>
+                <a href="https://app.powerbi.com/reportEmbed?reportId=ec8518cd-de88-47e3-b344-b5bd58e2ed64&autoAuth=true&ctid=a7ba2ea9-be19-473e-bb09-118103e0d7bb" target="_blank" rel="noopener" class="btn btn-gold btn-sm">↗ Ver no Power BI</a>
               </div>
             </div>
             <div class="card-right">
               <div class="embed">
-                <iframe src="https://app.powerbi.com/view?r=SEU_LINK_AQUI_3" allowfullscreen="true" title="Power BI Projeto 3"></iframe>
+                <iframe title="pizzadb" src="https://app.powerbi.com/reportEmbed?reportId=ec8518cd-de88-47e3-b344-b5bd58e2ed64&autoAuth=true&ctid=a7ba2ea9-be19-473e-bb09-118103e0d7bb" frameborder="0" allowfullscreen="true"></iframe>
               </div>
             </div>
           </article>
@@ -754,6 +772,10 @@
             <div class="card-left">
               <div class="cb">
                 <div class="pnum">Projeto 04 · Análise Hoteleira</div>
+                <div class="proj-icons">
+                  <img class="proj-icon" src="imagens/tableau.svg" alt="Tableau">
+                  <img class="proj-icon" src="imagens/sql.png" alt="SQL">
+                </div>
                 <h2 class="ptitle">Dashboard de Hotel — Tableau Public</h2>
                 <p class="pdesc">Dashboard analítico de desempenho hoteleiro no Tableau Public. Cobre taxa de ocupação, receita por quarto, perfil de hóspede, sazonalidade e comparativos por período — com interatividade completa via filtros e parâmetros.</p>
                 <ul class="pfeat">
@@ -773,7 +795,7 @@
             <div class="card-right">
               <div class="embed">
                 <iframe
-                  src="https://public.tableau.com/views/DashboardHotelII/Painel1?:embed=yes&:showVizHome=no&:display_count=yes&:language=pt-BR&:toolbar=yes&:tabs=yes&:device=desktop"
+                  src="https://public.tableau.com/views/DashboardHotelII/Painel1?:embed=yes&:showVizHome=no&:display_count=yes&:language=pt-BR&:toolbar=yes&:tabs=yes&:size=auto"
                   allowfullscreen="true"
                   title="Dashboard Hoteleiro — Tableau Public">
                 </iframe>
@@ -795,13 +817,13 @@
       <p class="lbl">Contato</p>
       <h2 class="contact-title">Vamos conversar</h2>
       <div class="contact-links">
-        <a href="mailto:ronison_ricardo@alumni.usp" class="contact-item">
+        <a href="mailto:ronison_ricardo@alumni.usp" class="contact-item contact-item--mail">
           <span class="contact-icon">✉</span>
           <span class="contact-val">ronison_ricardo@alumni.usp</span>
         </a>
         <a href="https://wa.me/5511943322013" target="_blank" rel="noopener" class="contact-item contact-item--wa">
-          <span class="contact-icon">💬</span>
-          <span class="contact-val">+55 11 94332-2013 · WhatsApp</span>
+          <img src="whats.webp" alt="WhatsApp" class="contact-icon-img">
+          <span class="contact-val">WhatsApp</span>
         </a>
       </div>
       <p style="font-size:.72rem;color:var(--dim);margin-top:.5rem">&copy; 2026 Rónison Ricardo — Business Intelligence</p>
@@ -933,10 +955,7 @@
       });
     });
 
-    // Prevent wheel inside portfolio from changing page
-    document.querySelector('.port-viewport').addEventListener('wheel', (e) => {
-      e.stopPropagation();
-    });
+    // Portfolio: allow wheel events to bubble so page navigation works
 
     // ── PHONE IFRAME SCALE ──
     // Renders the iframe at 393px (real mobile width) then scales to fit the physical screen area.
@@ -944,15 +963,16 @@
       const screen = document.querySelector('.phone-screen');
       const iframe = screen && screen.querySelector('iframe');
       if (!screen || !iframe) return;
-      const sw = screen.offsetWidth;   // actual pixel width of screen area
-      const sh = screen.offsetHeight;  // actual pixel height of screen area
+      const sw = screen.offsetWidth;
+      const sh = screen.offsetHeight;
       const scale = sw / 393;
       iframe.style.transform = `scale(${scale})`;
-      // height must fill the screen area after scaling
       iframe.style.height = Math.ceil(sh / scale) + 'px';
     }
     scalePhoneIframe();
     window.addEventListener('resize', scalePhoneIframe);
+
+
   </script>
 
 </body>
