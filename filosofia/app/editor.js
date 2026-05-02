@@ -3,6 +3,26 @@
  * ES module — exports Editor
  */
 
+// Configure marked once at module level.
+// Supports {#id} shorthand in headings: ## My Section {#my-id}
+marked.use({
+  breaks: true,
+  gfm: true,
+  renderer: {
+    heading({ text, depth }) {
+      const m = text.match(/^(.*?)\s*\{#([\w-]+)\}$/);
+      const id = m
+        ? m[2]
+        : text.toLowerCase()
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+            .replace(/[^\w\s-]/g, '').replace(/\s+/g, '-')
+            .replace(/^-+|-+$/g, '');
+      const clean = m ? m[1] : text;
+      return `<h${depth} id="${id}">${clean}</h${depth}>\n`;
+    },
+  },
+});
+
 export class Editor {
   constructor({ onSave, onDelete, onLinkClick } = {}) {
     // View-mode elements
@@ -33,7 +53,6 @@ export class Editor {
     this._node  = null;
     this._isNew = false;
 
-    marked.setOptions({ breaks: true, gfm: true });
     this._bind();
   }
 
@@ -48,10 +67,18 @@ export class Editor {
       if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); this._save(); }
     });
 
-    // Wiki-link navigation in rendered body
+    // Anchor links (#section) scroll within the content div; wiki-links navigate nodes
     this.$body.addEventListener('click', e => {
-      const a = e.target.closest('a[data-wiki]');
-      if (a) { e.preventDefault(); this.onLinkClick(a.dataset.wiki); }
+      const a = e.target.closest('a');
+      if (!a) return;
+      const href = a.getAttribute('href') || '';
+      if (href.startsWith('#') && href.length > 1) {
+        e.preventDefault();
+        const target = this.$body.querySelector(href);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+      if (a.dataset.wiki) { e.preventDefault(); this.onLinkClick(a.dataset.wiki); }
     });
   }
 

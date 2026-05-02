@@ -211,6 +211,7 @@ export class PhilosophyGraph {
       .text(d => d.title);
 
     const drag = d3.drag()
+      .clickDistance(5)
       .on('start', (e, d) => { if (!e.active) this.sim.alphaTarget(.3).restart(); d.fx = d.x; d.fy = d.y; })
       .on('drag',  (e, d) => { d.fx = e.x; d.fy = e.y; })
       .on('end',   (e, d) => { if (!e.active) this.sim.alphaTarget(0); d.fx = null; d.fy = null; });

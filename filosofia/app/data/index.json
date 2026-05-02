@@ -8,7 +8,7 @@
         "lógica",
         "ética"
       ],
-      "body": "\n## Aristóteles (384–322 a.C.)\n\nDiscípulo de [[platao]] e fundador do Liceu, Aristóteles criou um sistema filosófico enciclopédico que abrangeu lógica, física, biologia, psicologia, ética e política. Sua influência dominou a filosofia medieval europeia e islâmica.\n\n### Crítica às Formas Platônicas\n\nPara Aristóteles, as Formas não existem separadas das coisas. O **universal** existe *nos* particulares (realismo moderado). A substância primeira (*ousía*) é o indivíduo concreto; a forma é indissociável da matéria — o **hilemorfismo**.\n\n### As Quatro Causas\n\nTodo processo natural e artificial envolve quatro causas:\n\n- **Material** — de que algo é feito\n- **Formal** — o padrão ou essência\n- **Eficiente** — o agente que produz\n- **Final** — a finalidade, o *telos*\n\nO conceito de **causa final** foi central para [[heidegger]], que o reinterpretou em sua análise do instrumento (*Zeug*).\n\n### Lógica\n\nAristóteles inventou a **lógica formal** (silogística), sistematizando as formas válidas de inferência nos *Analíticos* — base da epistemologia científica por séculos.\n\n### Ética das Virtudes\n\nNa *Ética a Nicômaco*, a virtude é um **hábito** (hexis) que consiste no meio-termo entre extremos. O bem supremo é a *eudaimonia* (florescimento), atingida por quem age virtuosamente conforme a razão.\n"
+      "body": "\n## Índice\n- [Vida e Contexto](#vida)\n- [Crítica às Formas Platônicas](#formas)\n- [As Quatro Causas](#causas)\n- [Lógica](#logica)\n- [Ética das Virtudes](#etica)\n\n## Vida e Contexto {#vida}\n\nDiscípulo de [[platao]] (384–322 a.C.) e fundador do Liceu, Aristóteles criou um sistema filosófico enciclopédico que abrangeu lógica, física, biologia, psicologia, ética e política. Sua influência dominou a filosofia medieval europeia e islâmica.\n\n## Crítica às Formas Platônicas {#formas}\n\nPara Aristóteles, as Formas não existem separadas das coisas. O **universal** existe *nos* particulares (realismo moderado). A substância primeira (*ousía*) é o indivíduo concreto; a forma é indissociável da matéria — o **hilemorfismo**.\n\n## As Quatro Causas {#causas}\n\nTodo processo natural e artificial envolve quatro causas:\n\n- **Material** — de que algo é feito\n- **Formal** — o padrão ou essência\n- **Eficiente** — o agente que produz\n- **Final** — a finalidade, o *telos*\n\nO conceito de **causa final** foi central para [[heidegger]], que o reinterpretou em sua análise do instrumento (*Zeug*).\n\n## Lógica {#logica}\n\nAristóteles inventou a **lógica formal** (silogística), sistematizando as formas válidas de inferência nos *Analíticos* — base da epistemologia científica por séculos.\n\n## Ética das Virtudes {#etica}\n\nNa *Ética a Nicômaco*, a virtude é um **hábito** (hexis) que consiste no meio-termo entre extremos. O bem supremo é a *eudaimonia* (florescimento), atingida por quem age virtuosamente conforme a razão.\n"
     },
     {
       "id": "berkeley",
@@ -17,7 +17,7 @@
         "empirismo",
         "metafísica"
       ],
-      "body": "\n## George Berkeley (1685–1753)\n\nBispo irlandês e filósofo empirista, Berkeley levou o empirismo de [[locke]] a uma conclusão surpreendente: **não existe matéria independente da mente**. Sua doutrina é o **imaterialismo** (ou idealismo subjetivo).\n\n### Esse est Percipi\n\nO princípio central: *ser é ser percebido* (*esse est percipi*). Os objetos existem apenas enquanto são percebidos por alguma mente. Árvores, pedras, estrelas — tudo é um conjunto de ideias na mente.\n\nBerkeley argumenta que a distinção de [[locke]] entre qualidades primárias (que existiriam independentemente) e secundárias é incoerente: extensão e forma também são percepções e não podem existir fora da mente.\n\n### Deus como Sustentador\n\nPara evitar que os objetos \"desapareçam\" quando ninguém os percebe, Berkeley postula que **Deus percebe continuamente todas as coisas**, garantindo a consistência e regularidade do mundo sensível.\n\n### Crítica ao Conceito de Matéria\n\nBerkeley argumenta que o conceito de \"substância material\" de [[locke]] é incoerente e desnecessário: o que chamamos de \"matéria\" é apenas um conjunto regular de impressões. [[hume]] irá além, aplicando o mesmo argumento ao próprio conceito de \"mente\" ou \"self\".\n\n### Legado\n\nO imaterialismo de Berkeley antecipa o idealismo alemão (Kant, Fichte, Schelling) e alimenta debates contemporâneos sobre percepção, realismo e ceticismo.\n"
+      "body": "\n## Índice\n- [Vida e Contexto](#vida)\n- [Esse est Percipi](#esse)\n- [Deus como Sustentador](#deus)\n- [Crítica ao Conceito de Matéria](#materia)\n- [Legado](#legado)\n\n## Vida e Contexto {#vida}\n\nBispo irlandês (1685–1753) e filósofo empirista, Berkeley levou o empirismo de [[locke]] a uma conclusão surpreendente: **não existe matéria independente da mente**. Sua doutrina é o **imaterialismo** (ou idealismo subjetivo).\n\n## Esse est Percipi {#esse}\n\nO princípio central: *ser é ser percebido* (*esse est percipi*). Os objetos existem apenas enquanto são percebidos por alguma mente. Árvores, pedras, estrelas — tudo é um conjunto de ideias na mente.\n\nBerkeley argumenta que a distinção de [[locke]] entre qualidades primárias (que existiriam independentemente) e secundárias é incoerente: extensão e forma também são percepções e não podem existir fora da mente.\n\n## Deus como Sustentador {#deus}\n\nPara evitar que os objetos \"desapareçam\" quando ninguém os percebe, Berkeley postula que **Deus percebe continuamente todas as coisas**, garantindo a consistência e regularidade do mundo sensível.\n\n## Crítica ao Conceito de Matéria {#materia}\n\nBerkeley argumenta que o conceito de \"substância material\" de [[locke]] é incoerente e desnecessário: o que chamamos de \"matéria\" é apenas um conjunto regular de impressões. [[hume]] irá além, aplicando o mesmo argumento ao próprio conceito de \"mente\" ou \"self\".\n\n## Legado {#legado}\n\nO imaterialismo de Berkeley antecipa o idealismo alemão (Kant, Fichte, Schelling) e alimenta debates contemporâneos sobre percepção, realismo e ceticismo.\n"
     },
     {
       "id": "brentano",
@@ -26,7 +26,7 @@
         "fenomenologia",
         "psicologia"
       ],
-      "body": "\n## Franz Brentano (1838–1917)\n\nFilósofo e psicólogo austríaco cujo conceito de **intencionalidade** foi o ponto de partida decisivo para [[husserl]] e para toda a fenomenologia posterior.\n\n### Psicologia do Ponto de Vista Empírico\n\nNa *Psychologie vom empirischen Standpunkt* (1874), Brentano propõe uma psicologia descritiva baseada na observação interna rigorosa dos fenômenos mentais.\n\n### Intencionalidade\n\nA marca distintiva dos fenômenos psíquicos (mentais) é a **in-existência intencional** do objeto — ou seja, todo fenômeno mental \"contém em si\" um objeto, está dirigido a algo:\n\n> \"Todo fenômeno psíquico é caracterizado pela referência a um conteúdo, pela direção para um objeto.\"\n\nInspirado em [[aristoteles]] (especialmente no *De Anima*), Brentano distinguiu:\n\n- **Representações** — o objeto simplesmente aparece à mente\n- **Juízos** — aceita-se ou rejeita-se o objeto como existente\n- **Fenômenos de amor e ódio** — atitudes de aprovação/reprovação\n\n### Influência sobre [[husserl]]\n\n[[husserl]] foi aluno de Brentano em Viena e herdou o projeto de uma psicologia descritiva rigorosa. A principal transformação foi radicalizar a intencionalidade em uma fenomenologia **transcendental**, suspendendo a questão da existência real do objeto (a *epoché*) para analisar puramente as estruturas da consciência.\n"
+      "body": "\n## Índice\n- [Vida e Contexto](#vida)\n- [Psicologia Empírica](#psicologia)\n- [Intencionalidade](#intencionalidade)\n- [Influência sobre Husserl](#influencia)\n\n## Vida e Contexto {#vida}\n\nFilósofo e psicólogo austríaco (1838–1917) cujo conceito de **intencionalidade** foi o ponto de partida decisivo para [[husserl]] e para toda a fenomenologia posterior.\n\n## Psicologia Empírica {#psicologia}\n\nNa *Psychologie vom empirischen Standpunkt* (1874), Brentano propõe uma psicologia descritiva baseada na observação interna rigorosa dos fenômenos mentais.\n\n## Intencionalidade {#intencionalidade}\n\nA marca distintiva dos fenômenos psíquicos (mentais) é a **in-existência intencional** do objeto — ou seja, todo fenômeno mental \"contém em si\" um objeto, está dirigido a algo:\n\n> \"Todo fenômeno psíquico é caracterizado pela referência a um conteúdo, pela direção para um objeto.\"\n\nInspirado em [[aristoteles]] (especialmente no *De Anima*), Brentano distinguiu:\n\n- **Representações** — o objeto simplesmente aparece à mente\n- **Juízos** — aceita-se ou rejeita-se o objeto como existente\n- **Fenômenos de amor e ódio** — atitudes de aprovação/reprovação\n\n## Influência sobre Husserl {#influencia}\n\n[[husserl]] foi aluno de Brentano em Viena e herdou o projeto de uma psicologia descritiva rigorosa. A principal transformação foi radicalizar a intencionalidade em uma fenomenologia **transcendental**, suspendendo a questão da existência real do objeto (a *epoché*) para analisar puramente as estruturas da consciência.\n"
     },
     {
       "id": "heidegger",
@@ -35,7 +35,7 @@
         "existencialismo",
         "fenomenologia"
       ],
-      "body": "\n## Martin Heidegger (1889–1976)\n\nDiscípulo e crítico de [[husserl]], Heidegger transformou a fenomenologia em **ontologia fundamental**. A questão central é o **sentido do Ser** (*Sein*), diferenciado dos entes particulares (*Seiende*) — a chamada **diferença ontológica**.\n\n### Ser-no-Mundo\n\nEm *Ser e Tempo* (1927), o modo de ser humano é o **Dasein** (\"ser-aí\"): um ente que compreende o seu próprio ser e está sempre já lançado em um mundo histórico, cultural e prático. O Dasein não é primeiro uma consciência e depois entra no mundo — ele é constitutivamente **ser-no-mundo**.\n\n### Estruturas Existenciais\n\n- **Facticidade** — o Dasein encontra-se já situado (historicidade, língua, cultura)\n- **Existencialidade** — o Dasein está sempre se projetando em possibilidades\n- **Decadência** (*Verfallenheit*) — tendência de absorção no \"impessoal\" (*das Man*)\n\n### Temporalidade\n\nA estrutura fundamental do Dasein é a **temporalidade**: o ser-para-a-morte abre a autenticidade, pois confrontar a morte como possibilidade mais própria libera para apropriar-se da própria existência.\n\n### Crítica à Metafísica Ocidental\n\nHeidegger diagnostica que a tradição desde [[aristoteles]] até [[nietzsche]] pensou o Ser como presença constante — o que ele chama de **onto-teo-logia**. Seu projeto tardio é preparar um novo começo para o pensamento, escutando o Ser através da linguagem e da poesia.\n"
+      "body": "\n## Índice\n- [Vida e Contexto](#vida)\n- [Ser-no-Mundo](#ser-no-mundo)\n- [Estruturas Existenciais](#estruturas)\n- [Temporalidade](#temporalidade)\n- [Crítica à Metafísica Ocidental](#critica)\n\n## Vida e Contexto {#vida}\n\nDiscípulo e crítico de [[husserl]] (1889–1976), Heidegger transformou a fenomenologia em **ontologia fundamental**. A questão central é o **sentido do Ser** (*Sein*), diferenciado dos entes particulares (*Seiende*) — a chamada **diferença ontológica**.\n\n## Ser-no-Mundo {#ser-no-mundo}\n\nEm *Ser e Tempo* (1927), o modo de ser humano é o **Dasein** (\"ser-aí\"): um ente que compreende o seu próprio ser e está sempre já lançado em um mundo histórico, cultural e prático. O Dasein não é primeiro uma consciência e depois entra no mundo — ele é constitutivamente **ser-no-mundo**.\n\n## Estruturas Existenciais {#estruturas}\n\n- **Facticidade** — o Dasein encontra-se já situado (historicidade, língua, cultura)\n- **Existencialidade** — o Dasein está sempre se projetando em possibilidades\n- **Decadência** (*Verfallenheit*) — tendência de absorção no \"impessoal\" (*das Man*)\n\n## Temporalidade {#temporalidade}\n\nA estrutura fundamental do Dasein é a **temporalidade**: o ser-para-a-morte abre a autenticidade, pois confrontar a morte como possibilidade mais própria libera para apropriar-se da própria existência.\n\n## Crítica à Metafísica Ocidental {#critica}\n\nHeidegger diagnostica que a tradição desde [[aristoteles]] até [[nietzsche]] pensou o Ser como presença constante — o que ele chama de **onto-teo-logia**. Seu projeto tardio é preparar um novo começo para o pensamento, escutando o Ser através da linguagem e da poesia.\n"
     },
     {
       "id": "hume",
@@ -44,7 +44,7 @@
         "empirismo",
         "ceticismo"
       ],
-      "body": "\n## David Hume (1711–1776)\n\nFilósofo escocês e maior expoente do **empirismo britânico**, Hume levou o empirismo às suas consequências céticas radicais, abalando as pretensões do racionalismo e, segundo o próprio [[kant]], despertando-o do \"sono dogmático\".\n\n### Impressões e Ideias\n\nNo *Tratado da Natureza Humana* (1739), Hume distingue:\n\n- **Impressões** — percepções vívidas e imediatas (sensações, emoções)\n- **Ideias** — cópias enfraquecidas das impressões, usadas no pensamento\n\nTodo conteúdo mental deriva de impressões. Conceitos sem impressão correspondente são vazios.\n\n### Crítica da Causalidade\n\nHume argumenta que **causalidade** não é uma relação racionalmente necessária: observamos conjunção constante (*A* sempre precede *B*), não conexão necessária. A noção de causa resulta de um **hábito mental** projetado sobre a experiência.\n\nEssa crítica foi o gatilho que impulsionou [[kant]] a formular as categorias a priori do entendimento como fundamento da necessidade causal.\n\n### Ceticismo e o Self\n\nBuscando o \"eu\", Hume encontra apenas um **feixe de percepções** em fluxo contínuo, sem substância permanente. Isso antecipa debates contemporâneos sobre identidade pessoal.\n\n### Contexto Empirista\n\nHume radicaliza o empirismo de [[locke]] e de [[berkeley]], concluindo que nem a matéria nem o espírito podem ser provados — apenas as percepções existem com certeza para o sujeito.\n"
+      "body": "\n## Índice\n- [Vida e Contexto](#vida)\n- [Impressões e Ideias](#impressoes)\n- [Crítica da Causalidade](#causalidade)\n- [Ceticismo e o Self](#ceticismo)\n- [Contexto Empirista](#contexto)\n\n## Vida e Contexto {#vida}\n\nFilósofo escocês (1711–1776) e maior expoente do **empirismo britânico**, Hume levou o empirismo às suas consequências céticas radicais, abalando as pretensões do racionalismo e, segundo o próprio [[kant]], despertando-o do \"sono dogmático\".\n\n## Impressões e Ideias {#impressoes}\n\nNo *Tratado da Natureza Humana* (1739), Hume distingue:\n\n- **Impressões** — percepções vívidas e imediatas (sensações, emoções)\n- **Ideias** — cópias enfraquecidas das impressões, usadas no pensamento\n\nTodo conteúdo mental deriva de impressões. Conceitos sem impressão correspondente são vazios.\n\n## Crítica da Causalidade {#causalidade}\n\nHume argumenta que **causalidade** não é uma relação racionalmente necessária: observamos conjunção constante (*A* sempre precede *B*), não conexão necessária. A noção de causa resulta de um **hábito mental** projetado sobre a experiência.\n\nEssa crítica foi o gatilho que impulsionou [[kant]] a formular as categorias a priori do entendimento como fundamento da necessidade causal.\n\n## Ceticismo e o Self {#ceticismo}\n\nBuscando o \"eu\", Hume encontra apenas um **feixe de percepções** em fluxo contínuo, sem substância permanente. Isso antecipa debates contemporâneos sobre identidade pessoal.\n\n## Contexto Empirista {#contexto}\n\nHume radicaliza o empirismo de [[locke]] e de [[berkeley]], concluindo que nem a matéria nem o espírito podem ser provados — apenas as percepções existem com certeza para o sujeito.\n"
     },
     {
       "id": "husserl",
@@ -53,7 +53,7 @@
         "fenomenologia",
         "consciência"
       ],
-      "body": "\n## Edmund Husserl (1859–1938)\n\nFundador da **fenomenologia**, Edmund Husserl propôs uma investigação rigorosa das estruturas da consciência e da experiência vivida (*Erlebnis*), colocando entre parênteses a questão da existência do mundo exterior — a *epoché* fenomenológica.\n\n### Intencionalidade\n\nRetomando [[brentano]], Husserl desenvolveu o conceito de **intencionalidade**: toda consciência é consciência *de* algo. Cada ato intencional possui:\n\n- **Noesis** — o ato de vivenciar, o \"como\" da experiência\n- **Noema** — o correlato intencional, o objeto tal como visado\n\n### Redução Fenomenológica\n\nA **redução eidética** (*epoché*) suspende o juízo sobre a existência do mundo e volta o olhar para a **essência** (*Eidos*) das vivências. O residuo é a **consciência pura transcendental**.\n\n### Tempo e Constituição\n\nEm *Lições para uma Fenomenologia da Consciência Interna do Tempo* (1905–1910) Husserl analisa como a consciência constitui o fluxo temporal através de **retenções** (passado recente), **protensões** (expectativas) e o **ponto-fonte** do presente vivo.\n\n### Relação com [[kant]]\n\nHusserl parte da filosofia transcendental de [[kant]] mas critica a coisa-em-si incognoscível — para a fenomenologia, tudo que pode ser dito do mundo já é correlato da consciência. Seu projeto influenciou diretamente [[heidegger]], que radicalizou e transformou a fenomenologia em analítica existencial.\n"
+      "body": "\n## Índice\n- [Vida e Contexto](#vida)\n- [Intencionalidade](#intencionalidade)\n- [Redução Fenomenológica](#reducao)\n- [Tempo e Constituição](#tempo)\n- [Relação com Kant](#kant-rel)\n\n## Vida e Contexto {#vida}\n\nFundador da **fenomenologia** (1859–1938), Edmund Husserl propôs uma investigação rigorosa das estruturas da consciência e da experiência vivida (*Erlebnis*), colocando entre parênteses a questão da existência do mundo exterior — a *epoché* fenomenológica.\n\n## Intencionalidade {#intencionalidade}\n\nRetomando [[brentano]], Husserl desenvolveu o conceito de **intencionalidade**: toda consciência é consciência *de* algo. Cada ato intencional possui:\n\n- **Noesis** — o ato de vivenciar, o \"como\" da experiência\n- **Noema** — o correlato intencional, o objeto tal como visado\n\n## Redução Fenomenológica {#reducao}\n\nA **redução eidética** (*epoché*) suspende o juízo sobre a existência do mundo e volta o olhar para a **essência** (*Eidos*) das vivências. O residuo é a **consciência pura transcendental**.\n\n## Tempo e Constituição {#tempo}\n\nEm *Lições para uma Fenomenologia da Consciência Interna do Tempo* (1905–1910) Husserl analisa como a consciência constitui o fluxo temporal através de **retenções** (passado recente), **protensões** (expectativas) e o **ponto-fonte** do presente vivo.\n\n## Relação com Kant {#kant-rel}\n\nHusserl parte da filosofia transcendental de [[kant]] mas critica a coisa-em-si incognoscível — para a fenomenologia, tudo que pode ser dito do mundo já é correlato da consciência. Seu projeto influenciou diretamente [[heidegger]], que radicalizou e transformou a fenomenologia em analítica existencial.\n"
     },
     {
       "id": "kant",
@@ -62,7 +62,7 @@
         "epistemologia",
         "ética"
       ],
-      "body": "\n## Immanuel Kant (1724–1804)\n\nFilósofo prussiano central para o Iluminismo, responsável pela **revolução copernicana** na filosofia: em vez de o sujeito se adaptar ao objeto, o objeto se constitui a partir das estruturas do sujeito.\n\n### Crítica da Razão Pura\n\nA *Kritik der reinen Vernunft* (1781) distingue:\n\n- **Intuições puras** (espaço e tempo) — formas a priori da sensibilidade\n- **Categorias do entendimento** (causalidade, substância, unidade…) — conceitos puros que estruturam a experiência\n- **Ideias da razão** (alma, mundo, Deus) — vão além da experiência possível; produzem as antinomias\n\nA distinção entre **fenômeno** (como as coisas aparecem) e **coisa-em-si** (*Ding an sich*) delimita o domínio legítimo do conhecimento.\n\n### Ética Deontológica\n\nNa *Fundamentação da Metafísica dos Costumes* (1785) Kant funda a moralidade no **imperativo categórico**:\n\n> Age apenas segundo a máxima que possas ao mesmo tempo querer que se torne lei universal.\n\nA moralidade é autônoma: a vontade legisla para si mesma a partir da razão pura prática, independente de inclinações ou consequências.\n\n### Influências e Legado\n\nKant sintetizou o racionalismo de [[husserl]] e o empirismo de [[hume]]. Suas análises da consciência anteciparam a fenomenologia. Retoma a teoria das formas de [[platao]] ao propor estruturas a priori, mas as torna condições subjetivas do conhecimento.\n"
+      "body": "\n## Índice\n- [Vida e Contexto](#vida)\n- [Crítica da Razão Pura](#crp)\n- [Estética Transcendental](#estetica)\n- [Esquematismo](#esquematismo)\n- [Ética Deontológica](#etica)\n- [Crítica do Juízo](#cj)\n- [Influências e Legado](#legado)\n\n## Vida e Contexto {#vida}\n\nFilósofo prussiano (1724–1804), central para o Iluminismo. Responsável pela **revolução copernicana** na filosofia: em vez de o sujeito se adaptar ao objeto, o objeto se constitui a partir das estruturas do sujeito.\n\n## Crítica da Razão Pura {#crp}\n\nA *Kritik der reinen Vernunft* (1781) distingue:\n\n- **Intuições puras** (espaço e tempo) — formas a priori da sensibilidade\n- **Categorias do entendimento** (causalidade, substância, unidade…) — conceitos puros que estruturam a experiência\n- **Ideias da razão** (alma, mundo, Deus) — vão além da experiência possível; produzem as antinomias\n\nA distinção entre **fenômeno** (como as coisas aparecem) e **coisa-em-si** (*Ding an sich*) delimita o domínio legítimo do conhecimento.\n\n### Estética Transcendental {#estetica}\n\nA Estética Transcendental é a primeira parte da CRP e investiga as **formas puras da intuição sensível**: espaço e tempo. Kant argumenta que espaço e tempo não são propriedades dos objetos nem conceitos derivados da experiência — são **condições a priori** sob as quais qualquer objeto pode ser percebido.\n\n- O **espaço** é a forma do sentido externo: estrutura toda percepção de objetos fora de nós\n- O **tempo** é a forma do sentido interno: estrutura toda experiência, incluindo os estados da própria mente\n\nEssa idealidade transcendental garante que a geometria e a aritmética sejam válidas universalmente — expressões das formas da nossa intuição, não de propriedades do mundo em si.\n\n### Esquematismo {#esquematismo}\n\nO **Esquematismo Transcendental** (Analítica dos Princípios) resolve um problema central: como categorias puramente intelectuais — *causalidade*, *substância*, *necessidade* — podem se aplicar a intuições sensíveis? As categorias são conceitos puros; as intuições são dados temporais. Eles são heterogêneos.\n\nA solução é o **esquema transcendental**: uma determinação temporal que medeia categoria e intuição, produzida pela imaginação transcendental.\n\nExemplos de esquemas:\n\n- **Substância** → *permanência no tempo*\n- **Causalidade** → *sucessão temporal segundo uma regra*\n- **Comunidade** → *coexistência simultânea no tempo*\n- **Necessidade** → *existência em todo o tempo*\n\nO esquematismo mostra que as categorias só têm uso legítimo aplicadas à experiência. Fora dela, geram ilusões metafísicas (provas da existência de Deus, imortalidade da alma).\n\n## Ética Deontológica {#etica}\n\nNa *Fundamentação da Metafísica dos Costumes* (1785) Kant funda a moralidade no **imperativo categórico**:\n\n> Age apenas segundo a máxima que possas ao mesmo tempo querer que se torne lei universal.\n\nA moralidade é autônoma: a vontade legisla para si mesma a partir da razão pura prática, independente de inclinações ou consequências. Uma ação tem valor moral apenas se for feita **por dever**.\n\n## Crítica do Juízo {#cj}\n\nA *Kritik der Urteilskraft* (1790) examina o **juízo reflexivo** — aquele que parte do particular em busca do universal. Divide-se em duas partes:\n\n**Crítica do Juízo Estético**: analisa julgamentos sobre o *belo* e o *sublime*. O juízo do belo envolve *satisfação desinteressada* e reivindica universalidade sem conceito determinado — um *livre jogo* entre imaginação e entendimento.\n\n**Crítica do Juízo Teleológico**: examina a **finalidade** na natureza. Organismos vivos parecem organizados segundo fins internos — o que não é explicável pela mera mecânica. Kant propõe a finalidade como princípio regulativo (heurístico), não constitutivo.\n\nA CJ serve de ponte entre a natureza (CRP) e a liberdade (CRPrática), buscando unificar o sistema crítico.\n\n## Influências e Legado {#legado}\n\nKant sintetizou o racionalismo e o empirismo de [[hume]]. Suas análises da consciência anteciparam a fenomenologia de [[husserl]]. Retoma a teoria das formas de [[platao]] ao propor estruturas a priori, mas as torna condições subjetivas do conhecimento, não objetos transcendentes.\n"
     },
     {
       "id": "locke",
@@ -71,7 +71,7 @@
         "empirismo",
         "política"
       ],
-      "body": "\n## John Locke (1632–1704)\n\nFilósofo inglês, pai do **empirismo moderno** e um dos fundadores do liberalismo político. Seu *Ensaio sobre o Entendimento Humano* (1689) estabelece que todo conhecimento deriva da experiência.\n\n### Tábula Rasa\n\nA mente ao nascer é uma **tábula rasa** (*tabula rasa*): sem ideias inatas. Todo conteúdo mental vem de dois tipos de experiência:\n\n- **Sensação** — dados dos sentidos externos\n- **Reflexão** — observação dos próprios processos mentais\n\nIdeias simples são combinadas pelo entendimento em ideias complexas (substâncias, relações, modos).\n\n### Qualidades Primárias e Secundárias\n\nLocke distingue:\n\n- **Qualidades primárias** (extensão, forma, movimento) — inerentes aos objetos\n- **Qualidades secundárias** (cor, sabor, som) — produzidas nos sentidos pelo objeto, não existem fora da percepção\n\n### Filosofia Política\n\nNo *Segundo Tratado do Governo Civil* (1689) Locke defende:\n\n- Estado de natureza como relativamente pacífico, governado pela lei natural\n- **Contrato social** para proteger vida, liberdade e propriedade\n- Direito à revolução quando o governo viola esses direitos\n\nEssas ideias influenciaram as revoluções americana e francesa.\n\n### Relação com [[hume]]\n\n[[hume]] radicalizou o empirismo de Locke ao mostrar que mesmo categorias como causalidade e identidade pessoal não resistem à análise empírica rigorosa.\n"
+      "body": "\n## Índice\n- [Vida e Contexto](#vida)\n- [Tábula Rasa](#tabula)\n- [Qualidades Primárias e Secundárias](#qualidades)\n- [Filosofia Política](#politica)\n- [Influência sobre Hume](#hume-inf)\n\n## Vida e Contexto {#vida}\n\nFilósofo inglês (1632–1704), pai do **empirismo moderno** e um dos fundadores do liberalismo político. Seu *Ensaio sobre o Entendimento Humano* (1689) estabelece que todo conhecimento deriva da experiência.\n\n## Tábula Rasa {#tabula}\n\nA mente ao nascer é uma **tábula rasa** (*tabula rasa*): sem ideias inatas. Todo conteúdo mental vem de dois tipos de experiência:\n\n- **Sensação** — dados dos sentidos externos\n- **Reflexão** — observação dos próprios processos mentais\n\nIdeias simples são combinadas pelo entendimento em ideias complexas (substâncias, relações, modos).\n\n## Qualidades Primárias e Secundárias {#qualidades}\n\nLocke distingue:\n\n- **Qualidades primárias** (extensão, forma, movimento) — inerentes aos objetos\n- **Qualidades secundárias** (cor, sabor, som) — produzidas nos sentidos pelo objeto, não existem fora da percepção\n\n## Filosofia Política {#politica}\n\nNo *Segundo Tratado do Governo Civil* (1689) Locke defende:\n\n- Estado de natureza como relativamente pacífico, governado pela lei natural\n- **Contrato social** para proteger vida, liberdade e propriedade\n- Direito à revolução quando o governo viola esses direitos\n\nEssas ideias influenciaram as revoluções americana e francesa.\n\n## Influência sobre Hume {#hume-inf}\n\n[[hume]] radicalizou o empirismo de Locke ao mostrar que mesmo categorias como causalidade e identidade pessoal não resistem à análise empírica rigorosa.\n"
     },
     {
       "id": "nietzsche",
@@ -81,7 +81,7 @@
         "ética",
         "metafísica"
       ],
-      "body": "\n## Friedrich Nietzsche (1844–1900)\n\nFilósofo alemão que diagnosticou a crise dos valores ocidentais com o anúncio da **morte de Deus**, propondo uma transvaloração radical. Sua influência se estende do existencialismo ao pós-estruturalismo e é central para [[heidegger]].\n\n### Morte de Deus e Niilismo\n\nEm *A Gaia Ciência* (1882), Nietzsche proclama que \"Deus está morto\" — não como tese ateísta simples, mas como diagnóstico cultural: os valores supremos que sustentavam o Ocidente (metafísica, moral cristã) perderam seu fundamento. Surge o **niilismo**: a ausência de valores absolutos.\n\n### Vontade de Potência\n\nO princípio fundamental da realidade e da vida é a ***Wille zur Macht*** (vontade de potência): não mero desejo de poder sobre outros, mas impulso de autoafirmação, crescimento e criação. Toda interpretação é expressão de uma perspectiva de poder.\n\n### Eterno Retorno\n\nExperimento de pensamento e imperativo existencial: *\"E se tivesses de viver esta vida incontáveis vezes?\"*. Aceitar o eterno retorno — amar o destino (*amor fati*) — é o supremo sim à existência.\n\n### Além do Bem e do Mal\n\nNietzsche critica a moral de rebanho, fruto do **ressentimento** dos fracos contra os fortes. Propõe a figura do **além-do-homem** (*Übermensch*): aquele capaz de criar novos valores sem apoio em fundamentos transcendentes.\n\n### Contra [[socrates]]\n\nNietzsche vê em [[socrates]] o início do declínio: ao privilegiar razão e dialética sobre instinto e arte, o socratismo suprimiu as forças dionisíacas vitais que constituíam a grandeza trágica grega.\n"
+      "body": "\n## Índice\n- [Vida e Contexto](#vida)\n- [Morte de Deus e Niilismo](#morte-de-deus)\n- [Vontade de Potência](#vontade)\n- [Eterno Retorno](#eterno-retorno)\n- [Além do Bem e do Mal](#alem)\n- [Contra Sócrates](#contra-socrates)\n\n## Vida e Contexto {#vida}\n\nFilósofo alemão (1844–1900) que diagnosticou a crise dos valores ocidentais com o anúncio da **morte de Deus**, propondo uma transvaloração radical. Sua influência se estende do existencialismo ao pós-estruturalismo e é central para [[heidegger]].\n\n## Morte de Deus e Niilismo {#morte-de-deus}\n\nEm *A Gaia Ciência* (1882), Nietzsche proclama que \"Deus está morto\" — não como tese ateísta simples, mas como diagnóstico cultural: os valores supremos que sustentavam o Ocidente (metafísica, moral cristã) perderam seu fundamento. Surge o **niilismo**: a ausência de valores absolutos.\n\n## Vontade de Potência {#vontade}\n\nO princípio fundamental da realidade e da vida é a ***Wille zur Macht*** (vontade de potência): não mero desejo de poder sobre outros, mas impulso de autoafirmação, crescimento e criação. Toda interpretação é expressão de uma perspectiva de poder.\n\n## Eterno Retorno {#eterno-retorno}\n\nExperimento de pensamento e imperativo existencial: *\"E se tivesses de viver esta vida incontáveis vezes?\"*. Aceitar o eterno retorno — amar o destino (*amor fati*) — é o supremo sim à existência.\n\n## Além do Bem e do Mal {#alem}\n\nNietzsche critica a moral de rebanho, fruto do **ressentimento** dos fracos contra os fortes. Propõe a figura do **além-do-homem** (*Übermensch*): aquele capaz de criar novos valores sem apoio em fundamentos transcendentes.\n\n## Contra Sócrates {#contra-socrates}\n\nNietzsche vê em [[socrates]] o início do declínio: ao privilegiar razão e dialética sobre instinto e arte, o socratismo suprimiu as forças dionisíacas vitais que constituíam a grandeza trágica grega.\n"
     },
     {
       "id": "platao",
@@ -90,7 +90,7 @@
         "metafísica",
         "epistemologia"
       ],
-      "body": "\n## Platão (428–348 a.C.)\n\nDiscípulo de [[socrates]] e fundador da Academia de Atenas, Platão criou o primeiro grande sistema filosófico ocidental. Sua obra influenciou toda a tradição posterior — do neoplatonismo à fenomenologia, passando pela teologia cristã.\n\n### Teoria das Formas\n\nO núcleo da metafísica platônica é a **teoria das Formas** (*Eidos*): os objetos sensíveis são cópias imperfeitas de modelos inteligíveis imutáveis — as Formas. A Forma do Bem é suprema, análoga ao sol que ilumina o mundo inteligível.\n\nO **Mito da Caverna** (*República*, VII) dramatiza essa tese: prisioneiros confundem sombras com realidade; o filósofo, libertado, ascende ao sol e retorna para educar os demais.\n\n### Epistemologia e Anamnese\n\nO conhecimento verdadeiro é **reminiscência** (*anamnese*): a alma, imortal, contemplou as Formas antes de encarnar e aprender é recordar o que já sabia. A *doxa* (opinião) versa sobre aparências; a *episteme* (ciência) capta as Formas imutáveis.\n\n### Alma e Estado\n\nNa *República*, a alma tripartite (racional, irascível, apetitiva) espelha a estrutura ideal da cidade. A justiça é harmonia: cada parte cumpre sua função.\n\n### Legado\n\n[[aristoteles]], seu discípulo, contestou a separação entre Formas e coisas, mas herdou a problemática. Kant retoma a ideia de estruturas a priori que condicionam a experiência, em diálogo crítico com Platão.\n"
+      "body": "\n## Índice\n- [Vida e Contexto](#vida)\n- [Teoria das Formas](#formas)\n- [Epistemologia e Anamnese](#episteme)\n- [Alma e Estado](#alma)\n- [Legado](#legado)\n\n## Vida e Contexto {#vida}\n\nDiscípulo de [[socrates]] (428–348 a.C.) e fundador da Academia de Atenas, Platão criou o primeiro grande sistema filosófico ocidental. Sua obra influenciou toda a tradição posterior — do neoplatonismo à fenomenologia, passando pela teologia cristã.\n\n## Teoria das Formas {#formas}\n\nO núcleo da metafísica platônica é a **teoria das Formas** (*Eidos*): os objetos sensíveis são cópias imperfeitas de modelos inteligíveis imutáveis — as Formas. A Forma do Bem é suprema, análoga ao sol que ilumina o mundo inteligível.\n\nO **Mito da Caverna** (*República*, VII) dramatiza essa tese: prisioneiros confundem sombras com realidade; o filósofo, libertado, ascende ao sol e retorna para educar os demais.\n\n## Epistemologia e Anamnese {#episteme}\n\nO conhecimento verdadeiro é **reminiscência** (*anamnese*): a alma, imortal, contemplou as Formas antes de encarnar e aprender é recordar o que já sabia. A *doxa* (opinião) versa sobre aparências; a *episteme* (ciência) capta as Formas imutáveis.\n\n## Alma e Estado {#alma}\n\nNa *República*, a alma tripartite (racional, irascível, apetitiva) espelha a estrutura ideal da cidade. A justiça é harmonia: cada parte cumpre sua função.\n\n## Legado {#legado}\n\n[[aristoteles]], seu discípulo, contestou a separação entre Formas e coisas, mas herdou a problemática. Kant retoma a ideia de estruturas a priori que condicionam a experiência, em diálogo crítico com Platão.\n"
     },
     {
       "id": "schopenhauer",
@@ -100,7 +100,7 @@
         "ética",
         "existencialismo"
       ],
-      "body": "\n## Arthur Schopenhauer (1788–1860)\n\nFilósofo alemão que transformou a filosofia transcendental de [[kant]] em uma metafísica da **Vontade** — uma força cega e insaciável subjacente a toda realidade. Sua obra influenciou profundamente [[nietzsche]], a psicanálise e o existencialismo.\n\n### O Mundo como Vontade e Representação\n\nObra principal (*Die Welt als Wille und Vorstellung*, 1818): o mundo tem dois aspectos:\n\n- **Representação** — o mundo como aparece ao sujeito cognoscente, estruturado pelas formas kantianas (espaço, tempo, causalidade)\n- **Vontade** — a coisa-em-si de [[kant]], que Schopenhauer identifica como uma vontade cega, irracional, que pulsa em toda a natureza\n\nAo contrário de [[kant]], Schopenhauer afirma que temos acesso à coisa-em-si **de dentro**: no ato de querer, experimentamos diretamente a Vontade.\n\n### Pessimismo\n\nA Vontade é insaciável: cada desejo satisfeito gera outro, num ciclo sem fim que produz sofrimento (*Leiden*). A existência é essencialmente sofrimento — tese que dialoga com o budismo que Schopenhauer estudou.\n\n### Libertação\n\nTrês vias de alívio do sofrimento:\n\n1. **Arte** — especialmente a música, que expressa diretamente a Vontade e permite contemplação desinteressada\n2. **Compaixão** (*Mitleid*) — fundamento da ética; reconhecer o sofrimento do outro como o próprio\n3. **Ascese** — negação da Vontade de viver; analogia com o nirvana budista\n\n### Influência sobre [[nietzsche]]\n\n[[nietzsche]] começou como schopenhauriano entusiasmado mas se distanciou: em vez de negar a Vontade, propôs afirmá-la como vontade de potência.\n"
+      "body": "\n## Índice\n- [Vida e Contexto](#vida)\n- [O Mundo como Vontade e Representação](#vontade)\n- [Pessimismo](#pessimismo)\n- [Libertação](#libertacao)\n- [Influência sobre Nietzsche](#nietzsche-inf)\n\n## Vida e Contexto {#vida}\n\nFilósofo alemão (1788–1860) que transformou a filosofia transcendental de [[kant]] em uma metafísica da **Vontade** — uma força cega e insaciável subjacente a toda realidade. Sua obra influenciou profundamente [[nietzsche]], a psicanálise e o existencialismo.\n\n## O Mundo como Vontade e Representação {#vontade}\n\nObra principal (*Die Welt als Wille und Vorstellung*, 1818): o mundo tem dois aspectos:\n\n- **Representação** — o mundo como aparece ao sujeito cognoscente, estruturado pelas formas kantianas (espaço, tempo, causalidade)\n- **Vontade** — a coisa-em-si de [[kant]], que Schopenhauer identifica como uma vontade cega, irracional, que pulsa em toda a natureza\n\nAo contrário de [[kant]], Schopenhauer afirma que temos acesso à coisa-em-si **de dentro**: no ato de querer, experimentamos diretamente a Vontade.\n\n## Pessimismo {#pessimismo}\n\nA Vontade é insaciável: cada desejo satisfeito gera outro, num ciclo sem fim que produz sofrimento (*Leiden*). A existência é essencialmente sofrimento — tese que dialoga com o budismo que Schopenhauer estudou.\n\n## Libertação {#libertacao}\n\nTrês vias de alívio do sofrimento:\n\n1. **Arte** — especialmente a música, que expressa diretamente a Vontade e permite contemplação desinteressada\n2. **Compaixão** (*Mitleid*) — fundamento da ética; reconhecer o sofrimento do outro como o próprio\n3. **Ascese** — negação da Vontade de viver; analogia com o nirvana budista\n\n## Influência sobre Nietzsche {#nietzsche-inf}\n\n[[nietzsche]] começou como schopenhauriano entusiasmado mas se distanciou: em vez de negar a Vontade, propôs afirmá-la como vontade de potência.\n"
     },
     {
       "id": "socrates",
@@ -109,7 +109,7 @@
         "ética",
         "epistemologia"
       ],
-      "body": "\n## Sócrates (470–399 a.C.)\n\nFilósofo ateniense que não deixou escritos — é conhecido sobretudo pelos diálogos de [[platao]]. Criador do **método socrático** (*elenchus*), Sócrates transformou a filosofia ao voltar o foco do cosmos para o **sujeito ético**.\n\n### O Método Maiêutico\n\nSócrates comparava-se a uma parteira: por meio de perguntas, ajudava o interlocutor a *parir* o conhecimento que já portava latente. O *elenchus* expõe as contradições nas crenças do outro, produzindo a **aporia** — estado de reconhecimento da própria ignorância — como ponto de partida genuíno.\n\n### \"Só sei que nada sei\"\n\nA ironia socrática e a consciência da própria ignorância constituem o modelo de uma sabedoria humilde. O oráculo de Delfos afirmou que ninguém era mais sábio que Sócrates — e ele concluiu que sua vantagem era saber que não sabia.\n\n### Ética Intelectualista\n\nPara Sócrates, **ninguém age mal voluntariamente**: o mal resulta da ignorância do bem. Virtude é conhecimento; quem realmente sabe o que é bom necessariamente o pratica.\n\n### Morte e Legado\n\nCondenado por impiedade e corrupção da juventude, Sócrates recusou o exílio e bebeu a cicuta em 399 a.C. Esse ato se tornou o paradigma do filósofo que vive (e morre) conforme seus princípios. [[platao]] transformou Sócrates no protagonista de quase todos os seus diálogos, e [[nietzsche]] o tomou como símbolo do que deve ser superado.\n"
+      "body": "\n## Índice\n- [Vida e Contexto](#vida)\n- [O Método Maieutíco](#metodo)\n- [A Consciência da Ignorância](#ignorancia)\n- [Ética Intelectualista](#etica)\n- [Morte e Legado](#morte)\n\n## Vida e Contexto {#vida}\n\nFilósofo ateniense (470–399 a.C.) que não deixou escritos — é conhecido sobretudo pelos diálogos de [[platao]]. Criador do **método socrático** (*elenchus*), Sócrates transformou a filosofia ao voltar o foco do cosmos para o **sujeito ético**.\n\n## O Método Maieutíco {#metodo}\n\nSócrates comparava-se a uma parteira: por meio de perguntas, ajudava o interlocutor a *parir* o conhecimento que já portava latente. O *elenchus* expõe as contradições nas crenças do outro, produzindo a **aporia** — estado de reconhecimento da própria ignorância — como ponto de partida genuíno.\n\n## A Consciência da Ignorância {#ignorancia}\n\nA ironia socrática e a consciência da própria ignorância constituem o modelo de uma sabedoria humilde. O oráculo de Delfos afirmou que ninguém era mais sábio que Sócrates — e ele concluiu que sua vantagem era saber que não sabia.\n\n## Ética Intelectualista {#etica}\n\nPara Sócrates, **ninguém age mal voluntariamente**: o mal resulta da ignorância do bem. Virtude é conhecimento; quem realmente sabe o que é bom necessariamente o pratica.\n\n## Morte e Legado {#morte}\n\nCondenado por impiedade e corrupção da juventude, Sócrates recusou o exílio e bebeu a cicuta em 399 a.C. Esse ato se tornou o paradigma do filósofo que vive (e morre) conforme seus princípios. [[platao]] transformou Sócrates no protagonista de quase todos os seus diálogos, e [[nietzsche]] o tomou como símbolo do que deve ser superado.\n"
     }
   ],
   "edges": [
@@ -123,31 +123,35 @@
     },
     {
       "source": "berkeley",
-      "target": "locke"
-    },
-    {
-      "source": "berkeley",
       "target": "hume"
     },
     {
-      "source": "brentano",
-      "target": "husserl"
+      "source": "berkeley",
+      "target": "locke"
     },
     {
       "source": "brentano",
       "target": "aristoteles"
     },
     {
-      "source": "heidegger",
+      "source": "brentano",
       "target": "husserl"
-    },
-    {
-      "source": "heidegger",
-      "target": "aristoteles"
     },
     {
       "source": "heidegger",
       "target": "nietzsche"
+    },
+    {
+      "source": "heidegger",
+      "target": "aristoteles"
+    },
+    {
+      "source": "heidegger",
+      "target": "husserl"
+    },
+    {
+      "source": "hume",
+      "target": "kant"
     },
     {
       "source": "hume",
@@ -158,24 +162,16 @@
       "target": "berkeley"
     },
     {
-      "source": "hume",
-      "target": "kant"
-    },
-    {
       "source": "husserl",
       "target": "heidegger"
     },
     {
       "source": "husserl",
-      "target": "brentano"
-    },
-    {
-      "source": "husserl",
       "target": "kant"
     },
     {
-      "source": "kant",
-      "target": "husserl"
+      "source": "husserl",
+      "target": "brentano"
     },
     {
       "source": "kant",
@@ -186,12 +182,20 @@
       "target": "platao"
     },
     {
+      "source": "kant",
+      "target": "husserl"
+    },
+    {
       "source": "locke",
       "target": "hume"
     },
     {
       "source": "locke",
       "target": "berkeley"
+    },
+    {
+      "source": "nietzsche",
+      "target": "heidegger"
     },
     {
       "source": "nietzsche",
@@ -199,10 +203,10 @@
     },
     {
       "source": "nietzsche",
-      "target": "heidegger"
+      "target": "socrates"
     },
     {
-      "source": "nietzsche",
+      "source": "platao",
       "target": "socrates"
     },
     {
@@ -210,24 +214,20 @@
       "target": "aristoteles"
     },
     {
-      "source": "platao",
-      "target": "socrates"
-    },
-    {
-      "source": "schopenhauer",
-      "target": "nietzsche"
-    },
-    {
       "source": "schopenhauer",
       "target": "kant"
     },
     {
-      "source": "socrates",
-      "target": "platao"
+      "source": "schopenhauer",
+      "target": "nietzsche"
     },
     {
       "source": "socrates",
       "target": "nietzsche"
+    },
+    {
+      "source": "socrates",
+      "target": "platao"
     }
   ]
 }

@@ -77,6 +77,23 @@ html, body {
   flex-shrink: 0;
 }
 
+/* Backup icon buttons (export / import) */
+.btn-icon {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-size: .85rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: border-color .2s, background .2s, color .2s;
+}
+.btn-icon:hover    { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+.btn-icon:disabled { opacity: .4; cursor: default; }
+
 /* New node button */
 .btn-new {
   width: 26px; height: 26px;
@@ -191,6 +208,7 @@ html, body {
 #content-body {
   flex: 1;
   overflow-y: auto;
+  scroll-behavior: smooth;
   padding: 1.1rem 1.8rem 2rem;
   line-height: 1.75;
   font-size: .85rem;
@@ -432,7 +450,7 @@ html, body {
 
 /* ── Mobile: stack vertically on narrow screens ────────────────────────────── */
 @media (max-width: 640px) {
-  #app { flex-direction: column; }
-  #graph-panel { flex: 0 0 50vh; border-right: none; border-bottom: 1px solid var(--border); }
-  #content-panel { flex: 1; }
+  #app { flex-direction: column; overflow: hidden; }
+  #graph-panel { flex: 0 0 40vh; border-right: none; border-bottom: 1px solid var(--border); min-height: 0; }
+  #content-panel { flex: 0 0 60vh; overflow: hidden; }
 }

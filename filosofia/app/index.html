@@ -21,6 +21,9 @@
     <div id="search-bar">
       <input id="search-input" type="search" placeholder="Buscar filósofo ou tag…" autocomplete="off" spellcheck="false">
       <span id="node-count"></span>
+      <button id="btn-export" class="btn-icon" title="Exportar Backup">&#x2193;</button>
+      <button id="btn-import" class="btn-icon" title="Importar Backup">&#x2191;</button>
+      <input id="import-file" type="file" accept=".json" style="display:none">
       <button id="btn-new" class="btn-new" title="Novo filósofo">+</button>
     </div>
     <svg id="graph-svg"></svg>
@@ -83,7 +86,7 @@
 <script type="module">
 import { PhilosophyGraph } from './graph.js';
 import { Editor }          from './editor.js';
-import { onNodesChange, saveNode, deleteNode, seedIfEmpty } from './firebase.js';
+import { onNodesChange, getNodes, saveNode, deleteNode } from './firebase.js';
 
 // ── State ──────────────────────────────────────────────────────────────────
 let allNodes  = [];
@@ -147,9 +150,49 @@ onNodesChange(nodes => {
   }
 });
 
-// ── Seed Firestore on first visit ──────────────────────────────────────────
-// This runs BEFORE the snapshot fires; if empty → seeds → snapshot fires with data
-seedIfEmpty('./data/index.json').catch(console.error);
+// ── Export Backup ─────────────────────────────────────────────────────────
+document.getElementById('btn-export').addEventListener('click', async () => {
+  const nodes = await getNodes();
+  const json  = JSON.stringify(nodes, null, 2);
+  const date  = new Date().toISOString().split('T')[0];
+  const blob  = new Blob([json], { type: 'application/json' });
+  const url   = URL.createObjectURL(blob);
+  const a     = Object.assign(document.createElement('a'), {
+    href: url,
+    download: `filosofia-backup-${date}.json`,
+  });
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+
+// ── Import Backup ──────────────────────────────────────────────────────────
+document.getElementById('btn-import').addEventListener('click', () => {
+  document.getElementById('import-file').click();
+});
+document.getElementById('import-file').addEventListener('change', async e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const btn = document.getElementById('btn-import');
+  btn.disabled = true;
+  btn.textContent = '…';
+  try {
+    const text  = await file.text();
+    const nodes = JSON.parse(text);
+    for (const node of nodes) {
+      const { id, ...data } = node;
+      await saveNode(id, data);
+    }
+  } catch (err) {
+    console.error('[import]', err);
+    alert('Erro ao importar: ' + err.message);
+  } finally {
+    btn.disabled    = false;
+    btn.textContent = '\u2191';
+    e.target.value  = '';   // reset so same file can be re-imported
+  }
+});
 
 // ── Search ─────────────────────────────────────────────────────────────────
 document.getElementById('search-input').addEventListener('input', e => {
@@ -171,7 +214,9 @@ document.getElementById('btn-new').addEventListener('click', () => {
 });
 
 // ── Click on graph background → clear ─────────────────────────────────────
-document.getElementById('graph-svg').addEventListener('click', () => {
+document.getElementById('graph-svg').addEventListener('click', (e) => {
+  // Ignore clicks that originated on a node element (stopPropagation safety net)
+  if (e.target.closest && e.target.closest('.node')) return;
   graph.clearActive();
   editor.clear();
   document.getElementById('search-input').value = '';

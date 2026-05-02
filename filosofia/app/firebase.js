@@ -1,6 +1,6 @@
 /**
  * firebase.js — Firestore integration for the philosophy graph
- * Exports: db, getNodes, getNode, saveNode, deleteNode, onNodesChange, seedIfEmpty
+ * Exports: db, getNodes, getNode, saveNode, deleteNode, onNodesChange
  */
 
 import { initializeApp }           from 'https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js';
@@ -13,7 +13,6 @@ import {
   setDoc,
   deleteDoc,
   onSnapshot,
-  writeBatch,
 } from 'https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js';
 
 const firebaseConfig = {
@@ -69,33 +68,4 @@ export function onNodesChange(callback) {
   });
 }
 
-/**
- * Seeds Firestore from a local index.json if the collection is empty.
- * Returns true if seeded, false if data already existed.
- */
-export async function seedIfEmpty(jsonUrl) {
-  const existing = await getDocs(collection(db, COLL));
-  if (!existing.empty) return false;
 
-  const { nodes, edges } = await fetch(jsonUrl).then(r => r.json());
-
-  // Build per-node link sets from directed edges in the JSON
-  const linkMap = {};
-  for (const { source, target } of edges) {
-    if (!linkMap[source]) linkMap[source] = new Set();
-    linkMap[source].add(target);
-  }
-
-  const batch = writeBatch(db);
-  for (const { id, title, tags, body } of nodes) {
-    batch.set(doc(db, COLL, id), {
-      title,
-      tags:  tags  || [],
-      links: [...(linkMap[id] || [])],
-      body:  body  || '',
-    });
-  }
-  await batch.commit();
-  console.log(`[firebase] Seeded ${nodes.length} nodes from ${jsonUrl}`);
-  return true;
-}
