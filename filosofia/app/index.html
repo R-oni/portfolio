@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grafo Filosófico</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Loading overlay -->
+<div id="loading">Carregando grafo…</div>
+
+<div id="app">
+
+  <!-- ── LEFT: Graph Panel ───────────────────────────────────────────────── -->
+  <div id="graph-panel">
+    <div id="search-bar">
+      <input id="search-input" type="search" placeholder="Buscar filósofo ou tag…" autocomplete="off" spellcheck="false">
+      <span id="node-count"></span>
+      <button id="btn-new" class="btn-new" title="Novo filósofo">+</button>
+    </div>
+    <svg id="graph-svg"></svg>
+  </div>
+
+  <!-- ── RIGHT: Content Panel ────────────────────────────────────────────── -->
+  <div id="content-panel">
+
+    <!-- VIEW MODE: header -->
+    <div id="view-header">
+      <div class="vh-left">
+        <span id="content-title"></span>
+        <div id="content-tags"></div>
+      </div>
+      <button id="btn-edit" class="btn btn-ghost btn-sm">✎ Editar</button>
+    </div>
+    <!-- VIEW MODE: body (rendered markdown) -->
+    <div id="content-body"></div>
+
+    <!-- EDIT MODE -->
+    <div id="edit-panel">
+      <div id="edit-header">
+        <input id="edit-title" type="text" placeholder="Título do filósofo">
+        <div class="edit-actions">
+          <button id="btn-save"   class="btn btn-gold  btn-sm">Salvar</button>
+          <button id="btn-cancel" class="btn btn-ghost btn-sm">Cancelar</button>
+          <button id="btn-delete" class="btn btn-danger btn-sm" title="Deletar">✕</button>
+        </div>
+      </div>
+      <div id="edit-meta">
+        <input id="edit-tags-input"  type="text" placeholder="Tags (vírgula): epistemologia, ética">
+        <input id="edit-links-input" type="text" placeholder="Links (vírgula): kant, husserl">
+      </div>
+      <textarea id="edit-body-input" placeholder="Conteúdo em Markdown…" spellcheck="false"></textarea>
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div id="empty-state">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="11" cy="11" r="8"/><circle cx="6" cy="8" r="1" fill="currentColor"/>
+        <circle cx="16" cy="8" r="1" fill="currentColor"/><circle cx="11" cy="14" r="1" fill="currentColor"/>
+        <line x1="8" y1="8" x2="11" y2="14"/><line x1="14" y1="8" x2="11" y2="14"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <span>Clique num nó para ler<br><small style="color:#444">ou pressione <kbd style="background:#1a1a28;border:1px solid #333;border-radius:3px;padding:0 4px">+</kbd> para criar</small></span>
+    </div>
+
+  </div><!-- /content-panel -->
+
+</div><!-- /app -->
+
+<!-- Tooltip -->
+<div id="node-tooltip"></div>
+
+<!-- External libs (globals: d3, marked) -->
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@9/marked.min.js"></script>
+
+<!-- App (ES module) -->
+<script type="module">
+import { PhilosophyGraph } from './graph.js';
+import { Editor }          from './editor.js';
+import { onNodesChange, saveNode, deleteNode, seedIfEmpty } from './firebase.js';
+
+// ── State ──────────────────────────────────────────────────────────────────
+let allNodes  = [];
+let nodeIndex = {};
+
+// ── Init D3 graph ──────────────────────────────────────────────────────────
+const graph = new PhilosophyGraph(document.getElementById('graph-svg'), {
+  onNodeClick(node) {
+    editor.showView(node);
+  },
+  onNodeHover(event, node) {
+    const tip = document.getElementById('node-tooltip');
+    tip.textContent = node.title;
+    tip.style.left  = event.clientX + 'px';
+    tip.style.top   = event.clientY + 'px';
+    tip.classList.add('visible');
+  },
+  onNodeLeave() {
+    document.getElementById('node-tooltip').classList.remove('visible');
+  },
+});
+
+// ── Init Editor ────────────────────────────────────────────────────────────
+const editor = new Editor({
+  async onSave(id, data) {
+    await saveNode(id, data);
+    graph.setActive(id);    // highlight the saved node once Firestore fires
+  },
+  async onDelete(id) {
+    await deleteNode(id);
+    graph.clearActive();
+  },
+  onLinkClick(slug) {
+    const node = nodeIndex[slug];
+    if (!node) return;
+    graph.setActive(slug);
+    graph.focusNode(slug);
+    editor.showView(node);
+  },
+});
+
+// ── Real-time Firestore subscription ──────────────────────────────────────
+onNodesChange(nodes => {
+  allNodes  = nodes;
+  nodeIndex = Object.fromEntries(nodes.map(n => [n.id, n]));
+  graph.load(nodes);
+
+  // Keep editor view fresh when its node is updated remotely
+  const active = nodeIndex[graph.activeId];
+  if (active) editor.refreshIfViewing(active);
+
+  // Update count
+  document.getElementById('node-count').textContent =
+    `${nodes.length} filósofo${nodes.length !== 1 ? 's' : ''}`;
+
+  // Dismiss loading once we have data
+  const loading = document.getElementById('loading');
+  if (loading && !loading.classList.contains('fade-out')) {
+    loading.classList.add('fade-out');
+    setTimeout(() => loading.remove(), 450);
+  }
+});
+
+// ── Seed Firestore on first visit ──────────────────────────────────────────
+// This runs BEFORE the snapshot fires; if empty → seeds → snapshot fires with data
+seedIfEmpty('./data/index.json').catch(console.error);
+
+// ── Search ─────────────────────────────────────────────────────────────────
+document.getElementById('search-input').addEventListener('input', e => {
+  const raw = e.target.value.trim();
+  if (!raw) { graph.filter(null); return; }
+  const q = raw.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  const hits = allNodes.filter(n => {
+    const title = n.title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const tags  = (n.tags || []).join(' ').toLowerCase();
+    return title.includes(q) || tags.includes(q);
+  });
+  graph.filter(new Set(hits.map(n => n.id)));
+});
+
+// ── New node button ────────────────────────────────────────────────────────
+document.getElementById('btn-new').addEventListener('click', () => {
+  graph.clearActive();
+  editor.showEdit(null);
+});
+
+// ── Click on graph background → clear ─────────────────────────────────────
+document.getElementById('graph-svg').addEventListener('click', () => {
+  graph.clearActive();
+  editor.clear();
+  document.getElementById('search-input').value = '';
+  graph.filter(null);
+});
+
+// ── Resize observer ────────────────────────────────────────────────────────
+new ResizeObserver(() => graph.resize())
+  .observe(document.getElementById('graph-svg'));
+</script>
+
+</body>
+</html>
