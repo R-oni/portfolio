@@ -4,26 +4,6 @@
  */
 import { getNode, saveNode as _saveNodeFS } from './firebase.js';
 
-// Configure marked once at module level.
-// Supports {#id} shorthand in headings: ## My Section {#my-id}
-marked.use({
-  breaks: true,
-  gfm: true,
-  renderer: {
-    heading({ text, depth }) {
-      const m = text.match(/^(.*?)\s*\{#([\w-]+)\}$/);
-      const id = m
-        ? m[2]
-        : text.toLowerCase()
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-            .replace(/[^\w\s-]/g, '').replace(/\s+/g, '-')
-            .replace(/^-+|-+$/g, '');
-      const clean = m ? m[1] : text;
-      return `<h${depth} id="${id}">${clean}</h${depth}>\n`;
-    },
-  },
-});
-
 export class Editor {
   constructor({ onSave, onDelete, onLinkClick } = {}) {
     // View-mode elements
@@ -135,20 +115,22 @@ export class Editor {
     this.$tags.innerHTML = (n.tags || [])
       .map(t => `<span class="tag-pill">${this._esc(t)}</span>`).join('');
 
-    // marked.parse() may return a Promise in newer versions — handle both
-    const parsed = marked.parse(n.body || '');
-    const render = html => {
-      this.$body.innerHTML = html.replace(
-        /\[\[([^\]]+)\]\]/g,
-        (_, slug) => `<a class="wiki-link" href="#" data-wiki="${this._esc(slug.toLowerCase())}">${this._esc(slug)}</a>`
-      );
-      this.$body.scrollTop = 0;
-    };
-    if (parsed && typeof parsed.then === 'function') {
-      parsed.then(render);
-    } else {
-      render(parsed);
+    // Parse markdown — explicit sync options, fallback to plain text if marked fails
+    let html;
+    try {
+      const result = marked.parse(n.body || '', { async: false, gfm: true, breaks: true });
+      html = typeof result === 'string' ? result : (n.body || '');
+    } catch (err) {
+      console.error('[editor] marked.parse error:', err);
+      html = '<pre style="white-space:pre-wrap">' + this._esc(n.body || '') + '</pre>';
     }
+
+    // Linkify [[wikilinks]]
+    this.$body.innerHTML = html.replace(
+      /\[\[([^\]]+)\]\]/g,
+      (_, slug) => `<a class="wiki-link" href="#" data-wiki="${this._esc(slug.toLowerCase())}">${this._esc(slug)}</a>`
+    );
+    this.$body.scrollTop = 0;
   }
 
   _renderEdit() {
