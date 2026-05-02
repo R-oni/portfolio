@@ -202,8 +202,7 @@ document.getElementById('search-input').addEventListener('input', e => {
   const hits = allNodes.filter(n => {
     const title = n.title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     const tags  = (n.tags || []).join(' ').toLowerCase();
-    const body  = (n.body || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    return title.includes(q) || tags.includes(q) || body.includes(q);
+    return title.includes(q) || tags.includes(q);
   });
   graph.filter(new Set(hits.map(n => n.id)));
 });
