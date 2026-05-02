@@ -122,10 +122,16 @@ export class PhilosophyGraph {
       }
     }
 
-    const nodes = rawNodes.map(n => ({ ...n, ...(this._prevPos[n.id] || {}) }));
+    const nodes = rawNodes.map(n => ({ ...n, links: [...(n.links || [])], ...(this._prevPos[n.id] || {}) }));
+    // Back-fill reverse links in memory so undirected graph is symmetric
+    const nodeMap = Object.fromEntries(nodes.map(n => [n.id, n]));
+    for (const { source, target } of edges) {
+      const tNode = nodeMap[target];
+      if (tNode && !tNode.links.includes(source)) tNode.links.push(source);
+    }
     this.nodes     = nodes;
     this.edges     = edges;
-    this.nodeIndex = Object.fromEntries(nodes.map(n => [n.id, n]));
+    this.nodeIndex = nodeMap;
 
     // Community detection
     this._communityLabels = detectCommunities(nodes, edges);

@@ -188,11 +188,32 @@ export class Editor {
     if (!data.title) { this.$editTitle.focus(); return; }
 
     const id = this._isNew ? this._slugify(data.title) : this._node.id;
+
+    // Auto-collect [[wikilinks]] from body and merge into links[]
+    const wikiRe = /\[\[([^\]]+)\]\]/g;
+    let m;
+    const bodyLinks = new Set(data.links.map(l => l.toLowerCase()));
+    while ((m = wikiRe.exec(data.body)) !== null) {
+      const slug = this._slugify(m[1]);
+      if (slug) bodyLinks.add(slug);
+    }
+    data.links = [...bodyLinks];
+
     this.$btnSave.disabled    = true;
     this.$btnSave.textContent = '…';
 
     try {
       await this.onSave(id, data);
+
+      // Create stub nodes for any referenced slug that doesn't exist yet
+      for (const slug of bodyLinks) {
+        if (slug === id) continue;
+        const existing = await getNode(slug);
+        if (!existing) {
+          await _saveNodeFS(slug, { title: slug, tags: [], links: [], body: '' });
+        }
+      }
+
       this._node  = { id, ...data };
       this._isNew = false;
       this._mode  = 'view';
