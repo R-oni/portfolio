@@ -217,14 +217,29 @@ export class PhilosophyGraph {
       .text(d => d.title);
 
     const drag = d3.drag()
-      .clickDistance(5)
-      .on('start', (e, d) => { if (!e.active) this.sim.alphaTarget(.3).restart(); d.fx = d.x; d.fy = d.y; })
-      .on('drag',  (e, d) => { d.fx = e.x; d.fy = e.y; })
+      .clickDistance(10000)          // never let D3 suppress the click event
+      .on('start', (e, d) => {
+        if (!e.active) this.sim.alphaTarget(.3).restart();
+        d.fx = d.x; d.fy = d.y;
+        d._startX  = e.x; d._startY = e.y;   // D3 sim coords, always available
+        d._dragging = false;
+      })
+      .on('drag',  (e, d) => {
+        d.fx = e.x; d.fy = e.y;
+        if (Math.hypot(e.x - d._startX, e.y - d._startY) > 6) d._dragging = true;
+      })
       .on('end',   (e, d) => { if (!e.active) this.sim.alphaTarget(0); d.fx = null; d.fy = null; });
 
     this.node
       .call(drag)
-      .on('click',     (e, d) => { e.stopPropagation(); this.setActive(d.id); this.onNodeClick(d); })
+      .on('click', (e, d) => {
+        e.stopPropagation();
+        if (!d._dragging) {
+          this.setActive(d.id);
+          this.onNodeClick(d);
+        }
+        d._dragging = false;
+      })
       .on('mouseover', (e, d) => this.onNodeHover(e, d))
       .on('mouseout',  (e, d) => this.onNodeLeave(e, d));
 

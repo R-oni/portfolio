@@ -135,13 +135,20 @@ export class Editor {
     this.$tags.innerHTML = (n.tags || [])
       .map(t => `<span class="tag-pill">${this._esc(t)}</span>`).join('');
 
-    // Render markdown, then linkify [[wikilinks]]
-    const raw = marked.parse(n.body || '');
-    this.$body.innerHTML = raw.replace(
-      /\[\[([^\]]+)\]\]/g,
-      (_, slug) => `<a class="wiki-link" href="#" data-wiki="${this._esc(slug.toLowerCase())}">${this._esc(slug)}</a>`
-    );
-    this.$body.scrollTop = 0;
+    // marked.parse() may return a Promise in newer versions — handle both
+    const parsed = marked.parse(n.body || '');
+    const render = html => {
+      this.$body.innerHTML = html.replace(
+        /\[\[([^\]]+)\]\]/g,
+        (_, slug) => `<a class="wiki-link" href="#" data-wiki="${this._esc(slug.toLowerCase())}">${this._esc(slug)}</a>`
+      );
+      this.$body.scrollTop = 0;
+    };
+    if (parsed && typeof parsed.then === 'function') {
+      parsed.then(render);
+    } else {
+      render(parsed);
+    }
   }
 
   _renderEdit() {
