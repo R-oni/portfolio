@@ -5,12 +5,42 @@
  * ES module — exports PhilosophyGraph
  */
 
-// ── Community palette ────────────────────────────────────────────────────────
-const PALETTE = [
-  '#6366f1', '#f59e0b', '#10b981', '#ec4899',
-  '#8b5cf6', '#3b82f6', '#f97316', '#84cc16',
-  '#06b6d4', '#ef4444', '#a78bfa', '#00ffe7',
-];
+// ── Tag-based coloring ───────────────────────────────────────────────────────
+// Each unique tag gets an evenly-spaced hue around the color wheel.
+// A node's color = circular mean of its tags' hues.
+// Identical tags  → same hue → same color
+// Partial overlap → hues pulled toward the same region → similar color
+// No overlap      → different hue regions → different colors
+
+function buildTagHues(allNodes) {
+  const tagSet = new Set();
+  for (const n of allNodes) {
+    for (const t of (n.tags || [])) tagSet.add(t.toLowerCase().trim());
+  }
+  const tags = [...tagSet].sort();
+  const map = {};
+  tags.forEach((t, i) => { map[t] = (i / tags.length) * 360; });
+  return map;
+}
+
+function tagColor(node, tagHueMap) {
+  if (!tagHueMap) return '#888899';
+  const tags = (node.tags || [])
+    .map(t => t.toLowerCase().trim())
+    .filter(t => tagHueMap[t] !== undefined);
+  if (!tags.length) return '#888899';
+
+  // Circular mean so hues wrap correctly around 360°
+  let sinSum = 0, cosSum = 0;
+  for (const t of tags) {
+    const rad = tagHueMap[t] * Math.PI / 180;
+    sinSum += Math.sin(rad);
+    cosSum += Math.cos(rad);
+  }
+  const deg = Math.atan2(sinSum, cosSum) * 180 / Math.PI;
+  const hue = (deg + 360) % 360;
+  return `hsl(${hue.toFixed(1)}, 68%, 62%)`;
+}
 
 // ── Community detection: deterministic label propagation ─────────────────────
 function detectCommunities(nodes, edges) {
@@ -133,12 +163,11 @@ export class PhilosophyGraph {
     this.edges     = edges;
     this.nodeIndex = nodeMap;
 
-    // Community detection
+    // Tag-based coloring
+    this._tagHueMap = buildTagHues(rawNodes);
+
+    // Community detection (used for spatial clustering, not coloring)
     this._communityLabels = detectCommunities(nodes, edges);
-    const cids = [...new Set(Object.values(this._communityLabels))];
-    this._communityColors = Object.fromEntries(
-      cids.map((c, i) => [c, PALETTE[i % PALETTE.length]])
-    );
 
     // Node degree (determines radius)
     this.degree = Object.fromEntries(nodes.map(n => [n.id, 0]));
@@ -152,8 +181,7 @@ export class PhilosophyGraph {
   }
 
   _color(node) {
-    const c = this._communityLabels[node.id];
-    return c ? (this._communityColors[c] || '#888899') : '#888899';
+    return tagColor(node, this._tagHueMap);
   }
 
   _radius(node) {

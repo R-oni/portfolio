@@ -131,6 +131,17 @@ export class Editor {
       (_, slug) => `<a class="wiki-link" href="#" data-wiki="${this._esc(slug.toLowerCase())}">${this._esc(slug)}</a>`
     );
     this.$body.scrollTop = 0;
+
+    // Render LaTeX with KaTeX if available
+    if (window.renderMathInElement) {
+      renderMathInElement(this.$body, {
+        delimiters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '$',  right: '$',  display: false }
+        ],
+        throwOnError: false
+      });
+    }
   }
 
   _renderEdit() {

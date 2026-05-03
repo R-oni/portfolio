@@ -448,9 +448,77 @@ html, body {
 ::-webkit-scrollbar-thumb { background: #2a2a3a; border-radius: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 
-/* ── Mobile: stack vertically on narrow screens ────────────────────────────── */
-@media (max-width: 640px) {
-  #app { flex-direction: column; overflow: hidden; }
-  #graph-panel { flex: 0 0 40vh; border-right: none; border-bottom: 1px solid var(--border); min-height: 0; }
-  #content-panel { flex: 0 0 60vh; overflow: hidden; }
+/* ── Mobile: stack vertically on touch devices (any resolution) ─────────────── */
+@media (hover: none) and (pointer: coarse), (max-width: 640px) {
+  html, body { height: 100%; overflow: hidden; }
+
+  #app {
+    flex-direction: column;
+    height: 100vh;           /* fallback */
+    height: 100svh;          /* excludes mobile browser chrome */
+    overflow: hidden;
+  }
+
+  #graph-panel {
+    flex: 0 0 40%;           /* 40% of #app height */
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #graph-svg {
+    flex: 1;
+    min-height: 0;
+  }
+
+  #content-panel {
+    flex: 0 0 60%;           /* 60% of #app height */
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #content-body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #edit-panel {
+    flex: 1;
+    min-height: 0;
+  }
+
+  #edit-body-input {
+    min-height: 0;
+  }
+
+  /* ── Larger text for mobile readability ── */
+  html, body { font-size: 17px; }
+
+  #content-body {
+    font-size: 1rem;
+    padding: 1rem 1.2rem 2rem;
+    line-height: 1.8;
+  }
+
+  #content-body h1 { font-size: 1.35rem; }
+  #content-body h2 { font-size: 1.15rem; }
+  #content-body h3 { font-size: 1rem; }
+
+  #content-title { font-size: 1.1rem; }
+
+  .tag-pill { font-size: .8rem; padding: .18rem .65rem; }
+
+  #search-input { font-size: .9rem; }
+
+  .node text { font-size: .82rem; }
+
+  .btn { font-size: .88rem; }
+  .btn-sm { padding: .45rem .9rem; }
 }
