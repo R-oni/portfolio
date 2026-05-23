@@ -1,0 +1,259 @@
+{
+  "kant": {
+    "acc": "#c9a96e",
+    "name": "Kant",
+    "area": "filosofia",
+    "cards": [
+  {
+    "text": "A razão humana, num determinado domínio dos seus conhecimentos, possui o singular destino de se ver atormentada por questões, que não pode evitar, pois lhe são impostas pela sua natureza, mas às quais também não pode dar resposta por ultrapassarem completamente as suas possibilidades.",
+    "source": "Crítica da Razão Pura, Prefácio da 1ª edição (A VII)",
+    "label": "Destino da razão"
+  },
+  {
+    "text": "Houve um tempo em que a metafísica era chamada rainha de todas as outras ciências... No nosso tempo, tornou-se moda testemunhar-lhe o maior desprezo e a nobre dama, repudiada e desamparada, lamenta-se como Hécuba.",
+    "source": "Crítica da Razão Pura, Prefácio da 1ª edição (A VIII-IX)",
+    "label": "Metafísica em declínio"
+  },
+  {
+    "text": "O teatro destas disputas infindáveis chama-se Metafísica. A nossa época é a época da crítica, à qual tudo tem que submeter-se. A religião, pela sua santidade, e a legislação, pela sua majestade, querem igualmente subtrair-se a ela. Mas então suscitam contra elas justificadas suspeitas.",
+    "source": "Crítica da Razão Pura, Prefácio da 1ª edição (A VII, nota)",
+    "label": "A era da crítica"
+  },
+  {
+    "text": "Esse tribunal outra coisa não é que a própria Crítica da Razão Pura. Por uma crítica assim, não entendo uma crítica de livros e de sistemas, mas da faculdade da razão em geral, com respeito a todos os conhecimentos a que pode aspirar, independentemente de toda a experiência.",
+    "source": "Crítica da Razão Pura, Prefácio da 1ª edição (A XI-XII)",
+    "label": "O que é a Crítica"
+  },
+  {
+    "text": "Até hoje admitia-se que o nosso conhecimento se devia regular pelos objetos; porém, todas as tentativas para descobrir a priori, mediante conceitos, algo que ampliasse o nosso conhecimento, malogravam-se com este pressuposto. Tentemos, pois, uma vez, experimentar se não se resolverão melhor as tarefas da metafísica, admitindo que os objetos se deveriam regular pelo nosso conhecimento.",
+    "source": "Crítica da Razão Pura, Prefácio da 2ª edição (B XVI)",
+    "label": "Revolução copernicana"
+  },
+  {
+    "text": "Só conhecemos a priori das coisas o que nós mesmos nelas pomos. Este método, imitado do método dos físicos, consiste em procurar os elementos da razão pura naquilo que se pode confirmar ou refutar por uma experimentação.",
+    "source": "Crítica da Razão Pura, Prefácio da 2ª edição (B XVIII, nota)",
+    "label": "Método da experimentação"
+  },
+  {
+    "text": "Se a intuição tivesse de se guiar pela natureza dos objetos, não vejo como deles se poderia conhecer algo a priori; se, pelo contrário, o objeto (como objeto dos sentidos) se guiar pela natureza da nossa faculdade de intuição, posso perfeitamente representar essa possibilidade.",
+    "source": "Crítica da Razão Pura, Prefácio da 2ª edição (B XVI-XVII)",
+    "label": "Objeto regido pelo sujeito"
+  },
+  {
+    "text": "O incondicionado, que a razão exige necessariamente e com plena legitimidade nas coisas em si, para tudo o que é condicionado, a fim de acabar a série das condições... se admitirmos que a nossa representação das coisas, tais como nos são dadas, não se regula por estas, consideradas como coisas em si, mas que são esses objetos, como fenômenos, que se regulam pelo nosso modo de representação, então desaparece a contradição.",
+    "source": "Crítica da Razão Pura, Prefácio da 2ª edição (B XX-XXI)",
+    "label": "Incondicionado e fenômeno"
+  },
+  {
+    "text": "Tive pois de suprimir o saber para encontrar lugar para a crença, e o dogmatismo da metafísica, ou seja, o preconceito de nela se progredir, sem crítica da razão pura, é a verdadeira fonte de toda a incredulidade, que está em conflito com a moralidade e é sempre muito dogmática.",
+    "source": "Crítica da Razão Pura, Prefácio da 2ª edição (B XXX-XXXI)",
+    "label": "Suprimir o saber para dar lugar à crença"
+  },
+  {
+    "text": "A crítica que limita a razão especulativa é, como tal, negativa, mas na medida em que anula um obstáculo que restringe ou mesmo ameaça aniquilar o uso prático da razão, é de fato de uma utilidade positiva e altamente importante.",
+    "source": "Crítica da Razão Pura, Prefácio da 2ª edição (B XXV)",
+    "label": "Utilidade positiva da crítica"
+  },
+  {
+    "text": "Não podemos nunca ultrapassar os limites da experiência possível, o que é precisamente a questão mais essencial desta ciência. A verdade do resultado que obtemos nesta primeira apreciação do nosso conhecimento racional a priori é-nos dada pela contra-prova da experimentação.",
+    "source": "Crítica da Razão Pura, Prefácio da 2ª edição (B XIX-XX)",
+    "label": "Limites da experiência possível"
+  },
+  {
+    "text": "A crítica não se opõe ao procedimento dogmático da razão no seu conhecimento puro, enquanto ciência (pois esta é sempre dogmática, isto é, estritamente demonstrativa, baseando-se em princípios a priori seguros), mas sim ao dogmatismo, quer dizer, à presunção de seguir por diante apenas com um conhecimento puro por conceitos (conhecimento filosófico), apoiado em princípios, como os que a razão desde há muito aplica, sem se informar como e com que direito os alcançou.",
+    "source": "Crítica da Razão Pura, Prefácio da 2ª edição (B XXXV-XXXVI)",
+    "label": "Crítica vs. dogmatismo"
+  },
+  {
+    "text": "Na execução do plano que a crítica prescreve, isto é, no futuro sistema da metafísica, teremos então de seguir o método rigoroso do célebre Wolff, o maior de todos os filósofos dogmáticos... se lhe tivesse ocorrido preparar primeiro o terreno pela crítica do respectivo instrumento, isto é, da própria razão pura.",
+    "source": "Crítica da Razão Pura, Prefácio da 2ª edição (B XXXVI)",
+    "label": "Método de Wolff e a falta da crítica"
+  },
+  {
+    "text": "Não resta dúvida de que todo o nosso conhecimento começa pela experiência... Assim, na ordem do tempo, nenhum conhecimento precede em nós a experiência e é com esta que todo o conhecimento tem o seu início.",
+    "source": "Crítica da Razão Pura, Introdução I (B 1)",
+    "label": "Conhecimento começa com experiência"
+  },
+  {
+    "text": "Se, porém, todo o conhecimento se inicia com a experiência, isso não prova que todo ele derive da experiência. Pois bem poderia o nosso próprio conhecimento por experiência ser um composto do que recebemos através das impressões sensíveis e daquilo que a nossa própria capacidade de conhecer produz por si mesma.",
+    "source": "Crítica da Razão Pura, Introdução I (B 1-2)",
+    "label": "Conhecimento não deriva todo da experiência"
+  },
+  {
+    "text": "Chamamos a priori ao conhecimento independente da experiência e de todas as impressões dos sentidos, distinguindo-o do empírico, cuja origem é a posteriori, ou seja, na experiência.",
+    "source": "Crítica da Razão Pura, Introdução I (B 2)",
+    "label": "Definição de a priori"
+  },
+  {
+    "text": "Designaremos, doravante, por juízos a priori não aqueles que não dependem desta ou daquela experiência, mas aqueles em que se verifica absoluta independência de toda e qualquer experiência.",
+    "source": "Crítica da Razão Pura, Introdução II (B 3)",
+    "label": "Juízos a priori – independência absoluta"
+  },
+  {
+    "text": "Se encontrarmos uma proposição que apenas se possa pensar como necessária, estamos em presença de um juízo a priori. A experiência não concede nunca aos seus juízos uma universalidade verdadeira e rigorosa, apenas universalidade suposta e comparativa (por indução).",
+    "source": "Crítica da Razão Pura, Introdução II (B 3-4)",
+    "label": "Critérios: necessidade e universalidade"
+  },
+  {
+    "text": "Necessidade e rigorosa universalidade são os sinais seguros de um conhecimento a priori e são inseparáveis uma da outra.",
+    "source": "Crítica da Razão Pura, Introdução II (B 4)",
+    "label": "Sinais do conhecimento a priori"
+  },
+  {
+    "text": "O que é mais significativo é o fato de certos conhecimentos saírem do campo de todas as experiências possíveis e, mediante conceitos aos quais a experiência não pode apresentar objeto correspondente, aparentarem estender os nossos juízos para além de todos os limites da experiência. É precisamente em relação a estes conhecimentos que se situam as investigações da nossa razão, eminentemente preferíveis e muito mais sublimes do que tudo o que o entendimento nos pode ensinar no campo dos fenômenos.",
+    "source": "Crítica da Razão Pura, Introdução III (B 6-7)",
+    "label": "Conhecimentos para além da experiência"
+  },
+  {
+    "text": "Os problemas inevitáveis da própria razão pura são Deus, a liberdade e a imortalidade e a ciência que, com todos os seus requisitos, tem por verdadeira finalidade a resolução destes problemas chama-se metafísica.",
+    "source": "Crítica da Razão Pura, Introdução III (B 7, nota)",
+    "label": "Três objetos da metafísica"
+  },
+  {
+    "text": "Os juízos são analíticos quando a ligação do sujeito com o predicado é pensada por identidade (o predicado já está contido no conceito do sujeito). São sintéticos quando essa ligação é pensada sem identidade (o predicado acrescenta algo não contido no conceito do sujeito).",
+    "source": "Crítica da Razão Pura, Introdução IV (B 10-11)",
+    "label": "Distinção analítico/sintético"
+  },
+  {
+    "text": "Os juízos analíticos nada acrescentam ao conceito do sujeito, apenas o decompõem nos conceitos parciais que já nele estavam pensados. Os juízos sintéticos, pelo contrário, acrescentam ao conceito de sujeito um predicado que nele não estava pensado.",
+    "source": "Crítica da Razão Pura, Introdução IV (B 11)",
+    "label": "Juízos explicativos vs. extensivos"
+  },
+  {
+    "text": "Todos os juízos matemáticos são sintéticos. O conceito da soma de sete e de cinco nada mais contém do que a reunião dos dois números em um só, pelo que, de modo algum, é pensado qual é esse número único que reúne os dois. Tenho de superar estes conceitos, procurando a ajuda da intuição.",
+    "source": "Crítica da Razão Pura, Introdução V (B 15-16)",
+    "label": "Matemática e juízos sintéticos"
+  },
+  {
+    "text": "O verdadeiro problema da razão pura está contido na seguinte pergunta: como são possíveis os juízos sintéticos a priori?",
+    "source": "Crítica da Razão Pura, Introdução VI (B 19)",
+    "label": "Problema geral da razão pura"
+  },
+  {
+    "text": "David Hume aproximou-se deste problema, mas deteve-se apenas na proposição sintética da relação do efeito com suas causas (principium causalitatis). Se tivesse tido em mente o nosso problema em toda a generalidade, reconheceria que, pelo seu raciocínio, também não poderia haver matemática pura.",
+    "source": "Crítica da Razão Pura, Introdução VI (B 19-20)",
+    "label": "Hume e o problema"
+  },
+  {
+    "text": "Como é possível a matemática pura? Como é possível a física pura? Como é possível a metafísica enquanto disposição natural? Como é possível a metafísica enquanto ciência?",
+    "source": "Crítica da Razão Pura, Introdução VI (B 20-22)",
+    "label": "Quatro perguntas fundamentais"
+  },
+  {
+    "text": "A crítica da razão acaba, necessariamente, por conduzir à ciência, ao passo que o uso dogmático da razão, sem crítica, leva, pelo contrário, a afirmações sem fundamento e, consequentemente, ao cepticismo.",
+    "source": "Crítica da Razão Pura, Introdução VI (B 23)",
+    "label": "Crítica conduz à ciência"
+  },
+  {
+    "text": "Chamo transcendental a todo o conhecimento que em geral se ocupa menos dos objetos do que do nosso modo de os conhecer, na medida em que este deve ser possível a priori. Um sistema de tais conceitos denominar-se-ia filosofia transcendental.",
+    "source": "Crítica da Razão Pura, Introdução VII (B 25)",
+    "label": "Definição de transcendental"
+  },
+  {
+    "text": "Há dois troncos do conhecimento humano, porventura oriundos de uma raiz comum, mas para nós desconhecida, que são a sensibilidade e o entendimento; pela primeira são-nos dados os objetos, mas pela segunda são esses objetos pensados.",
+    "source": "Crítica da Razão Pura, Introdução VII (B 29)",
+    "label": "Sensibilidade e entendimento"
+  },
+  {
+    "text": "Sejam quais forem o modo e os meios pelos quais um conhecimento se possa referir a objetos, é pela intuição que se relaciona imediatamente com estes e ela é o fim para o qual tende, como meio, todo o pensamento. Esta intuição, porém, apenas se verifica na medida em que o objeto nos for dado; o que, por sua vez, só é possível [pelo menos para nós homens] se o objeto afetar o espírito de certa maneira.",
+    "source": "Crítica da Razão Pura, Estética Transcendental, § 1 (B 33)",
+    "label": "Intuição e afecção"
+  },
+  {
+    "text": "A capacidade de receber representações (receptividade), graças à maneira como somos afetados pelos objetos, denomina-se sensibilidade. Por intermédio, pois, da sensibilidade são-nos dados objetos e só ela nos fornece intuições; mas é o entendimento que pensa esses objetos e é dele que provêm os conceitos.",
+    "source": "Crítica da Razão Pura, Estética Transcendental, § 1 (B 33-34)",
+    "label": "Sensibilidade vs. Entendimento"
+  },
+  {
+    "text": "O efeito de um objeto sobre a capacidade representativa, na medida em que por ele somos afetados, é a sensação. A intuição que se relaciona com o objeto, por meio de sensação, chama-se empírica. O objeto indeterminado de uma intuição empírica chama-se fenômeno.",
+    "source": "Crítica da Razão Pura, Estética Transcendental, § 1 (B 34)",
+    "label": "Fenômeno e sensação"
+  },
+  {
+    "text": "Dou o nome de matéria ao que no fenômeno corresponde à sensação; ao que, porém, possibilita que o diverso do fenômeno possa ser ordenado segundo determinadas relações dou o nome de forma do fenômeno. A forma deve encontrar-se a priori no espírito, pronta a aplicar-se à sensação.",
+    "source": "Crítica da Razão Pura, Estética Transcendental, § 1 (B 34-35)",
+    "label": "Matéria e forma do fenômeno"
+  },
+  {
+    "text": "O espaço não é um conceito empírico, extraído de experiências externas. Efetivamente, para que determinadas sensações sejam relacionadas com algo exterior a mim, requere-se já o fundamento da noção de espaço. Logo, a representação de espaço não pode ser extraída pela experiência das relações dos fenômenos externos; pelo contrário, esta experiência externa só é possível mediante essa representação.",
+    "source": "Crítica da Razão Pura, Estética Transcendental, § 2 (B 38)",
+    "label": "Espaço – a priori"
+  },
+  {
+    "text": "O espaço é uma representação necessária a priori, que fundamenta todas as intuições externas. Não se pode nunca ter uma representação de que não haja espaço, embora se possa perfeitamente pensar que não haja objetos alguns no espaço. Consideramos, por conseguinte, o espaço a condição de possibilidade dos fenômenos.",
+    "source": "Crítica da Razão Pura, Estética Transcendental, § 2 (B 38-39)",
+    "label": "Espaço – necessidade e condição"
+  },
+  {
+    "text": "O espaço não é um conceito discursivo ou universal, mas uma intuição pura. Porque, em primeiro lugar, só podemos ter a representação de um espaço único e, quando falamos de vários espaços, referimo-nos a partes de um só e mesmo espaço.",
+    "source": "Crítica da Razão Pura, Estética Transcendental, § 2 (B 39)",
+    "label": "Espaço – intuição singular"
+  },
+  {
+    "text": "A geometria é uma ciência que determina sinteticamente, e contudo a priori, as propriedades do espaço. O espaço tem de ser originariamente uma intuição, porque de um simples conceito não se podem extrair proposições que ultrapassem o conceito, o que acontece na geometria.",
+    "source": "Crítica da Razão Pura, Estética Transcendental, § 3 (B 40-41)",
+    "label": "Espaço e geometria"
+  },
+  {
+    "text": "O espaço não representa qualquer propriedade das coisas em si, nem essas coisas nas suas relações recíprocas; não é nenhuma determinação das coisas inerente aos próprios objetos e que permaneça mesmo abstraindo de todas as condições subjetivas da intuição.",
+    "source": "Crítica da Razão Pura, Estética Transcendental, § 3, Consequências (B 42)",
+    "label": "Espaço – idealidade transcendental"
+  },
+  {
+    "text": "O espaço não é mais do que a forma de todos os fenômenos dos sentidos externos, isto é, a condição subjetiva da sensibilidade, única que permite a intuição externa. Afirmamos, pois, a realidade empírica do espaço (no que se refere a toda a experiência externa possível) e, não obstante, a sua idealidade transcendental.",
+    "source": "Crítica da Razão Pura, Estética Transcendental, § 3, Consequências (B 44-45)",
+    "label": "Realidade empírica e idealidade transcendental do espaço"
+  },
+  {
+    "text": "O tempo não é um conceito empírico que derive de uma experiência qualquer. Porque nem a simultaneidade nem a sucessão surgiriam na percepção se a representação do tempo não fosse o seu fundamento a priori.",
+    "source": "Crítica da Razão Pura, Estética Transcendental, § 4 (B 46)",
+    "label": "Tempo – a priori"
+  },
+  {
+    "text": "O tempo é uma representação necessária que constitui o fundamento de todas as intuições. Não se pode suprimir o próprio tempo em relação aos fenômenos em geral, embora se possam perfeitamente abstrair os fenômenos do tempo. O tempo é, pois, dado a priori.",
+    "source": "Crítica da Razão Pura, Estética Transcendental, § 4 (B 46-47)",
+    "label": "Tempo – necessidade"
+  },
+  {
+    "text": "O tempo não é um conceito discursivo ou universal, mas uma forma pura da intuição sensível. Tempos diferentes são unicamente partes de um mesmo tempo. A representação que só pode dar-se através de um único objeto é uma intuição.",
+    "source": "Crítica da Razão Pura, Estética Transcendental, § 4 (B 47-48)",
+    "label": "Tempo – intuição singular"
+  },
+  {
+    "text": "O tempo não é algo que exista em si ou que seja inerente às coisas como uma determinação objetiva. É apenas a condição subjetiva indispensável para que tenham lugar em nós todas as intuições. Esta forma de intuição interna se pode representar anteriormente aos objetos, portanto a priori.",
+    "source": "Crítica da Razão Pura, Estética Transcendental, § 6 (B 49-50)",
+    "label": "Tempo – idealidade transcendental"
+  },
+  {
+    "text": "O tempo é a condição formal a priori de todos os fenômenos em geral. O espaço limita-se aos fenômenos externos, mas o tempo constitui a condição a priori de todos os fenômenos, porque todas as representações pertencem ao estado interno e, por conseguinte, ao tempo.",
+    "source": "Crítica da Razão Pura, Estética Transcendental, § 6 (B 50-51)",
+    "label": "Tempo – condição universal"
+  },
+  {
+    "text": "Se abstrairmos do nosso modo de nos intuirmos internamente e considerarmos os objetos como podem ser em si mesmos, então o tempo não é nada. Tem apenas validade objetiva em relação aos fenômenos. O tempo é, pois, simplesmente uma condição subjetiva da nossa (humana) intuição.",
+    "source": "Crítica da Razão Pura, Estética Transcendental, § 6 (B 51-52)",
+    "label": "Tempo – subjetividade"
+  },
+  {
+    "text": "O espaço e o tempo são duas fontes de conhecimento das quais se podem extrair a priori diversos conhecimentos sintéticos, do que nos dá brilhante exemplo a matemática pura. Tomados conjuntamente são formas puras de toda a intuição sensível, possibilitando proposições sintéticas a priori.",
+    "source": "Crítica da Razão Pura, Estética Transcendental, § 8 (B 55-56)",
+    "label": "Espaço e tempo – fontes da matemática"
+  },
+  {
+    "text": "A teoria segundo a qual toda a nossa sensibilidade seria apenas a confusa representação das coisas, contendo simplesmente o que elas são em si mesmas, representa um falseamento dos conceitos de sensibilidade e de fenômeno. A diferença entre uma representação clara e uma representação obscura é apenas lógica e não se refere ao conteúdo.",
+    "source": "Crítica da Razão Pura, Estética Transcendental, § 8 (B 61-62)",
+    "label": "Crítica à confusão como sensibilidade"
+  },
+  {
+    "text": "A filosofia de Leibniz e de Wolff indicou uma perspectiva totalmente errada a todas as investigações acerca da natureza e origem dos nossos conhecimentos, considerando apenas puramente lógica a distinção entre o sensível e o intelectual. Essa diferença é manifestamente transcendental e não se refere tão-só à forma clara ou obscura, mas à origem e conteúdo desses conhecimentos.",
+    "source": "Crítica da Razão Pura, Estética Transcendental, § 8 (B 62)",
+    "label": "Crítica a Leibniz e Wolff"
+  },
+  {
+    "text": "Temos de admitir que o espaço e o tempo, enquanto condições necessárias de toda a experiência (externa e interna), são apenas condições meramente subjetivas da nossa intuição; relativamente a essas condições, todos os objetos são simples fenômenos e não coisas dadas por si desta maneira.",
+    "source": "Crítica da Razão Pura, Estética Transcendental, § 8 (B 66)",
+    "label": "Conclusão: espaço e tempo como formas subjetivas"
+  }
+]
+  }
+}

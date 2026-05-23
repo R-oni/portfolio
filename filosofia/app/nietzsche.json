@@ -1,0 +1,159 @@
+{
+  "nietzsche": {
+    "name": "Nietzsche",
+    "area": "filosofia",
+    "acc": "#c9a96e",
+    "cards": [
+      {
+        "label": "",
+        "text": "Deus está morto — e nós o matamos. Essa morte não é um evento teológico, mas cultural: é o colapso da crença no fundamento absoluto que sustentava toda a moral, todo o sentido e toda a ordem do Ocidente.",
+        "source": "A Gaia Ciência, §125 — O Homem Louco"
+      },
+      {
+        "label": "",
+        "text": "O niilismo não é uma doutrina que alguém escolhe: é a consequência inevitável do momento em que os valores supremos se desvalorizam a si mesmos — quando o 'para quê' não encontra mais resposta.",
+        "source": "Vontade de Potência, §2; Fragmentos Póstumos 1887"
+      },
+      {
+        "label": "",
+        "text": "A vontade de potência não é desejo de dominação sobre os outros: é a tendência fundamental de toda forma de vida a superar-se a si mesma, a expandir, criar, transformar — o que não cresce, definha.",
+        "source": "Assim Falou Zaratustra, 'Da Superação de Si Mesmo'"
+      },
+      {
+        "label": "",
+        "text": "O eterno retorno não é uma cosmologia: é o pensamento mais pesado — se você tivesse que viver esta vida exatamente como é, infinitas vezes, sem nenhuma alteração, você diria sim à sua vida?",
+        "source": "A Gaia Ciência, §341; Assim Falou Zaratustra, 'Da Visão e do Enigma'"
+      },
+      {
+        "label": "",
+        "text": "O além-do-homem não é um super-herói nem uma raça superior: é o sentido da terra, o ser que criou seus próprios valores após a morte de Deus, que diz sim à vida sem precisar de mundos transcendentes.",
+        "source": "Assim Falou Zaratustra, Prólogo, §3–4"
+      },
+      {
+        "label": "",
+        "text": "A moral dos escravos nasce do ressentimento: incapaz de agir, o fraco transforma sua impotência em virtude, chama de 'mau' o que é nobre e forte, e de 'bom' o que é apenas inofensivo e mediocre.",
+        "source": "Genealogia da Moral, Primeira Dissertação, §10–11"
+      },
+      {
+        "label": "",
+        "text": "A moral dos senhores parte da afirmação de si — 'eu sou bom' — e só derivadamente define o outro como 'mau'. A moral dos escravos parte da negação — 'ele é mau' — e só daí deriva seu 'eu sou bom'.",
+        "source": "Genealogia da Moral, Primeira Dissertação, §10"
+      },
+      {
+        "label": "",
+        "text": "O ascetismo não é negação do desejo, mas sua forma mais astuta: o ideal ascético dá ao sofrimento um sentido, e o homem prefere querer o nada a não querer nada — a vontade de potência se volta contra a vida, mas não cessa.",
+        "source": "Genealogia da Moral, Terceira Dissertação, §28"
+      },
+      {
+        "label": "",
+        "text": "A má consciência nasce quando os instintos animais, impedidos de se descarregar para fora por causa da sociedade, voltam-se para dentro: a crueldade que não pode mais ser exercida sobre o mundo é exercida sobre si mesmo.",
+        "source": "Genealogia da Moral, Segunda Dissertação, §16–17"
+      },
+      {
+        "label": "",
+        "text": "A culpa tem origem na relação entre credor e devedor: antes de ser um conceito moral, era um conceito econômico — o devedor que não paga sofre no corpo a equivalência entre dívida e dor.",
+        "source": "Genealogia da Moral, Segunda Dissertação, §4–6"
+      },
+      {
+        "label": "",
+        "text": "O apolíneo e o dionisíaco não são forças opostas, mas complementares: Apolo traz forma, individualidade, ilusão bela; Dionísio traz dissolução, êxtase, o fundo caótico da existência — a tragédia grega vivia da tensão entre os dois.",
+        "source": "O Nascimento da Tragédia, §1–4"
+      },
+      {
+        "label": "",
+        "text": "Sócrates matou a tragédia ao introduzir a exigência de que tudo fosse compreensível, justificável, racional: com ele nasce o otimismo teórico que acredita que conhecer é curar — e a arte profunda tornou-se impossível.",
+        "source": "O Nascimento da Tragédia, §12–15"
+      },
+      {
+        "label": "",
+        "text": "Não há fatos, apenas interpretações: o mundo não tem estrutura intrínseca esperando ser descoberta — ele é constituído pelos nossos esquemas perspectivos, e toda pretensão à objetividade absoluta é ela mesma uma perspectiva não reconhecida.",
+        "source": "Fragmentos Póstumos, 1886–1887, 7[60]"
+      },
+      {
+        "label": "",
+        "text": "O perspectivismo não é relativismo vulgar: não é que todas as perspectivas valham igual, mas que não há ponto de vista sem perspectiva — e quanto mais perspectivas soubermos adotar, mais rico será nosso conhecimento.",
+        "source": "Genealogia da Moral, Terceira Dissertação, §12"
+      },
+      {
+        "label": "",
+        "text": "A verdade é um exército móvel de metáforas, metonímias e antropomorfismos: o que chamamos de verdade é a solidificação de ilusões que o uso tornou canônicas — esquecemos que são metáforas e passamos a tratá-las como o próprio real.",
+        "source": "Sobre Verdade e Mentira no Sentido Extra-Moral"
+      },
+      {
+        "label": "",
+        "text": "O homem superior ainda carrega o peso dos velhos valores — ele sente a morte de Deus como perda, como luto. O além-do-homem não a sentirá: ele não precisava dos velhos valores para se sustentar.",
+        "source": "Assim Falou Zaratustra, 'Dos Homens Superiores'"
+      },
+      {
+        "label": "",
+        "text": "O último homem é o perigo maior, não o niilista ativo: ele pisca e diz 'nós inventamos a felicidade', contentando-se com conforto, segurança e mediocridade — incapaz de desprezar a si mesmo e, por isso, incapaz de criar.",
+        "source": "Assim Falou Zaratustra, Prólogo, §5"
+      },
+      {
+        "label": "",
+        "text": "As três metamorfoses do espírito: o camelo carrega os valores herdados sem questionar; o leão destrói esses valores, diz 'eu quero' contra o 'tu deves'; a criança cria valores novos, pois esqueceu o peso do passado.",
+        "source": "Assim Falou Zaratustra, 'Das Três Metamorfoses'"
+      },
+      {
+        "label": "",
+        "text": "O amor fati — amor ao destino — não é resignação passiva: é a afirmação ativa de tudo o que foi, é e será, incluindo o sofrimento, o erro, o acaso. Não apenas suportar, mas querer que seja exatamente assim.",
+        "source": "A Gaia Ciência, §276; Ecce Homo, 'Por Que Sou Tão Inteligente', §10"
+      },
+      {
+        "label": "",
+        "text": "O instinto de rebanho que domina a moral moderna não é natural: é o resultado de milênios de domesticação deliberada, de seleção do fraco, do obediente, do previsível — a moral é política de criação de animais mansos.",
+        "source": "Além do Bem e do Mal, §199; Genealogia da Moral, Primeira Dissertação"
+      },
+      {
+        "label": "",
+        "text": "A compaixão como valor supremo é um sintoma de décadence: não porque o sofrimento alheio seja indiferente, mas porque a compaixão que nega a vida, que quer eliminar o sofrimento a todo custo, nega também o crescimento que só o sofrimento torna possível.",
+        "source": "O Anticristo, §7; Além do Bem e do Mal, §225"
+      },
+      {
+        "label": "",
+        "text": "O filósofo do futuro não é um professor de virtude nem um sistematizador: é um legislador de valores, um experimentador que cria novas tábuas, que coloca o martelo onde outros colocam a veneração.",
+        "source": "Além do Bem e do Mal, §211"
+      },
+      {
+        "label": "",
+        "text": "Filosofar com o martelo não é destruição gratuita: é percussion — bater para ouvir se os ídolos são ocos. A maioria ressoa vazia, e esse som é já uma refutação.",
+        "source": "Crepúsculo dos Ídolos, Prefácio"
+      },
+      {
+        "label": "",
+        "text": "O platonismo invertido é o projeto de Nietzsche: Platão colocou o verdadeiro no mundo das Formas e rebaixou o sensível a cópia degradada. Inverter o platonismo é restituir ao corpo, ao instante, ao devir a dignidade que lhes foi roubada.",
+        "source": "Crepúsculo dos Ídolos, 'Como o Mundo Verdadeiro se Tornou Fábula'"
+      },
+      {
+        "label": "",
+        "text": "Wagner representou para Nietzsche o problema da modernidade inteiro: a arte que seduz em vez de elevar, que usa a música para narcotizar em vez de despertar — a ruptura com Wagner foi a condição para Nietzsche pensar por conta própria.",
+        "source": "Nietzsche Contra Wagner; O Caso Wagner"
+      },
+      {
+        "label": "",
+        "text": "A décadence não é um vício individual mas uma condição fisiológica e cultural: quando os instintos vitais se voltam contra a vida, quando o instinto de conservação se confunde com o instinto de destruição, toda uma civilização pode estar doente.",
+        "source": "O Caso Wagner, §5; Crepúsculo dos Ídolos, 'Incursões de um Extemporâneo'"
+      },
+      {
+        "label": "",
+        "text": "O grande estilo em arte nasce do domínio da abundância, não da escassez: não é a contenção do pobre que não tem o que expressar, mas a forma imposta por quem tem tanto a dizer que precisa de uma disciplina feroz para não se dissolver.",
+        "source": "Crepúsculo dos Ídolos, 'Incursões de um Extemporâneo', §11"
+      },
+      {
+        "label": "",
+        "text": "Nietzsche se proclama extemporâneo — intempestivo: nascido para seu tempo mas agindo contra ele, na esperança de ser útil a um tempo futuro. O filósofo que diagnostica sua época não pertence a ela.",
+        "source": "Considerações Extemporâneas, Prefácio"
+      },
+      {
+        "label": "",
+        "text": "A história em excesso paralisa o vivente: o homem que não consegue esquecer, que tudo carrega como fardo, perde a capacidade de agir. O esquecimento não é fraqueza — é a condição de toda criação e de toda saúde.",
+        "source": "Considerações Extemporâneas II — Da Utilidade e Desvantagem da História para a Vida"
+      },
+      {
+        "label": "",
+        "text": "Tornar-se o que se é — eis a tarefa: não realizar uma essência dada de antemão, mas criar a si mesmo através das escolhas, dos erros, das superações — a identidade não é ponto de partida mas de chegada, e nunca definitivo.",
+        "source": "A Gaia Ciência, §270; Ecce Homo, subtítulo"
+      }
+    ]
+  }
+}

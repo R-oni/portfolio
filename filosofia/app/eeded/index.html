@@ -355,35 +355,6 @@ main {
   letter-spacing: .08em;
 }
 
-/* ── Progress bookmark dot ── */
-.quote-card.is-bookmark::after {
-  content: '';
-  position: absolute;
-  top: .75rem;
-  left: .9rem;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--popup-acc, #c9a96e);
-  opacity: .55;
-  transition: opacity .3s;
-}
-.quote-card.is-bookmark.focus::after {
-  opacity: .9;
-}
-
-/* progress underline on thinker card */
-.card.has-progress .card-name::after {
-  content: '';
-  position: absolute;
-  bottom: -3px;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: var(--area-acc);
-  opacity: .35;
-}
-
 /* delete card btn */
 .qc-delete {
   position: absolute;
@@ -579,35 +550,6 @@ const app = initializeApp({
 const db   = getFirestore(app);
 const COLL       = 'thinkers';
 const COLL_AREAS = 'areas';
-const COLL_PROG  = 'progress';   // { thinkerId: cardIndex }
-
-/* ── Progress state ─────────────────────────────────────────────── */
-let progress = {};   // { thinkerId: cardIndex }
-
-async function loadProgress() {
-  try {
-    const snap = await getDocs(collection(db, COLL_PROG));
-    progress = {};
-    snap.forEach(d => { progress[d.id] = d.data().index ?? 0; });
-  } catch(e) {
-    console.warn('progress load failed', e);
-  }
-}
-
-let progressSaveTimer = null;
-async function saveProgress(thinkerId, index) {
-  if (progress[thinkerId] === index) return;   // no change
-  progress[thinkerId] = index;
-  // update indicator on the thinker card immediately
-  const cardEl = mainEl.querySelector(`.card[data-id="${thinkerId}"]`);
-  if (cardEl) cardEl.classList.toggle('has-progress', index > 0);
-  clearTimeout(progressSaveTimer);
-  progressSaveTimer = setTimeout(async () => {
-    try {
-      await setDoc(doc(db, COLL_PROG, thinkerId), { index });
-    } catch(e) { console.warn('progress save failed', e); }
-  }, 800);
-}
 
 /* ── helpers ────────────────────────────────────────────────────── */
 // derive a dark background from an accent color
@@ -691,7 +633,6 @@ function render() {
       card.dataset.id   = id;
       card.style.setProperty('--area-bg',  bg);
       card.style.setProperty('--area-acc', accent);
-      if (progress[id] > 0) card.classList.add('has-progress');
       card.innerHTML = `
         <span class="card-name">${t.name}</span>
         <div class="card-io">
@@ -750,25 +691,8 @@ function openPopup(id) {
   overlay.classList.add('active');
   popup.classList.add('active');
   document.body.style.overflow = 'hidden';
-
-  // scroll to saved progress position (or start)
-  const savedIdx = progress[id] ?? 0;
-  if (savedIdx > 0) {
-    setTimeout(() => {
-      const cards = [...popupScroll.querySelectorAll('.quote-card')];
-      const target = cards[savedIdx];
-      if (target) {
-        const containerMid = popupScroll.getBoundingClientRect().top + popupScroll.clientHeight / 2;
-        const r = target.getBoundingClientRect();
-        const delta = (r.top + r.height / 2) - containerMid;
-        popupScroll.scrollTop = popupScroll.scrollTop + delta;
-      }
-      updateFocus();
-    }, 30);
-  } else {
-    popupScroll.scrollTop = 0;
-    updateFocus();
-  }
+  popupScroll.scrollTop = 0;
+  updateFocus();
 }
 
 function renderPopupCards(t) {
@@ -784,8 +708,6 @@ function renderPopupCards(t) {
   cards.forEach((c, i) => {
     const card = document.createElement('div');
     card.className = 'quote-card' + (i === 0 ? ' focus' : '');
-    const isBookmark = (progress[currentThinker] ?? 0) === i && i > 0;
-    if (isBookmark) card.classList.add('is-bookmark');
     card.innerHTML = `
       <div class="qc-label">${c.label||''}</div>
       <div class="qc-text">${c.text}</div>
@@ -850,17 +772,6 @@ function updateFocus() {
   const cards = [...popupScroll.querySelectorAll('.quote-card')];
   const closest = getClosestCard();
   cards.forEach(c => c.classList.toggle('focus', c === closest));
-
-  // save progress: find index of focused card
-  if (currentThinker && closest) {
-    const idx = cards.indexOf(closest);
-    if (idx >= 0) {
-      // update bookmark dot: clear old, mark new
-      cards.forEach(c => c.classList.remove('is-bookmark'));
-      if (idx > 0) closest.classList.add('is-bookmark');
-      saveProgress(currentThinker, idx);
-    }
-  }
 }
 
 let snapTimer = null;
@@ -1080,8 +991,6 @@ async function loadAndRender() {
       getDocs(collection(db, COLL_AREAS)),
       getDocs(collection(db, COLL)),
     ]);
-
-    await loadProgress();
 
     // load areas — if collection is empty, seed defaults into Firestore
     areas = {};

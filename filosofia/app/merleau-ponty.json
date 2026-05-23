@@ -1,0 +1,109 @@
+{
+  "merleau-ponty": {
+    "name": "Merleau-Ponty",
+    "area": "filosofia",
+    "acc": "#c9a96e",
+    "cards": [
+      {
+        "label": "",
+        "text": "O corpo não é um objeto no mundo entre outros objetos — ele é o veículo do ser no mundo, o meio pelo qual existe algo como uma perspectiva, uma experiência, um ponto de vista.",
+        "source": "Fenomenologia da Percepção, Introdução"
+      },
+      {
+        "label": "",
+        "text": "A percepção não é uma representação mental da realidade: é um contato direto, pré-reflexivo, entre o corpo vivo e o mundo — anterior a qualquer juízo ou interpretação consciente.",
+        "source": "Fenomenologia da Percepção, Parte I"
+      },
+      {
+        "label": "",
+        "text": "O esquema corporal não é uma imagem que o sujeito faz de si mesmo, mas uma consciência global e prática da postura do corpo no mundo — um saber que habita os músculos antes de habitar a mente.",
+        "source": "Fenomenologia da Percepção, cap. III"
+      },
+      {
+        "label": "",
+        "text": "O hábito não é um mecanismo automático nem uma representação intelectual: é o corpo que aprende, que compreende, que incorpora — como o cego que 'sente' o chão pela ponta da bengala.",
+        "source": "Fenomenologia da Percepção, cap. III"
+      },
+      {
+        "label": "",
+        "text": "A distinção cartesiana entre mente e corpo é uma abstração posterior à experiência: o que vivemos primeiramente é um ser encarnado — um corpo que pensa e uma mente que sente.",
+        "source": "Fenomenologia da Percepção, Prefácio"
+      },
+      {
+        "label": "",
+        "text": "O mundo percebido é anterior ao mundo científico: a física e a biologia constroem modelos sobre uma experiência perceptiva que as precede e que jamais poderão substituir completamente.",
+        "source": "O Primado da Percepção"
+      },
+      {
+        "label": "",
+        "text": "Não há sujeito puro que observe o mundo de fora: o sujeito está sempre já engajado no mundo, situado, encarnado — ele é parte do tecido do mundo que pretende descrever.",
+        "source": "O Visível e o Invisível"
+      },
+      {
+        "label": "",
+        "text": "A carne não é matéria nem espírito: é um elemento do ser — aquilo pelo qual o vidente e o visível pertencem ao mesmo tecido, de modo que ver é também ser visto, tocar é também ser tocado.",
+        "source": "O Visível e o Invisível, cap. IV"
+      },
+      {
+        "label": "",
+        "text": "Quando minha mão direita toca a esquerda, ela é ao mesmo tempo tocante e tocada — essa reversibilidade do tato revela que o corpo não é objeto nem sujeito puro, mas uma dobra do mundo sobre si mesmo.",
+        "source": "O Visível e o Invisível"
+      },
+      {
+        "label": "",
+        "text": "A linguagem não é um código que a mente usa para exprimir pensamentos já formados: o pensamento se constitui na linguagem, e falar é um gesto corporal que cria sentido ao mesmo tempo que o comunica.",
+        "source": "Fenomenologia da Percepção, Parte II, cap. VI"
+      },
+      {
+        "label": "",
+        "text": "O pintor não reproduz o mundo visível — ele torna visível o que normalmente é apenas sentido: a textura, a profundidade, o movimento são presenças que a tela revela sem nomear.",
+        "source": "O Olho e o Espírito"
+      },
+      {
+        "label": "",
+        "text": "Cézanne não pintava o que sabia sobre as maçãs, mas o que via — e o que via era uma presença carnal, densa, anterior a qualquer conceito de 'maçã': a própria coisa se dando à percepção.",
+        "source": "A Dúvida de Cézanne"
+      },
+      {
+        "label": "",
+        "text": "O espaço vivido não é o espaço geométrico euclidiano: é orientado pelo corpo, estruturado pelo alcance dos meus gestos, pelo que está perto ou longe, acessível ou inacessível à ação.",
+        "source": "Fenomenologia da Percepção, Parte I, cap. II"
+      },
+      {
+        "label": "",
+        "text": "A motricidade é uma intencionalidade original: o corpo se move em direção ao mundo não porque recebeu uma ordem da mente, mas porque já compreende o mundo de forma motora, antes de qualquer representação.",
+        "source": "Fenomenologia da Percepção, Parte I, cap. III"
+      },
+      {
+        "label": "",
+        "text": "A intersubjetividade não começa quando duas consciências se reconhecem mutuamente: ela já está inscrita na percepção — meu corpo percebe outros corpos como análogos a si, antes de qualquer raciocínio por analogia.",
+        "source": "Fenomenologia da Percepção, Parte II, cap. IV"
+      },
+      {
+        "label": "",
+        "text": "O outro não é uma hipótese que infiro a partir do seu comportamento: ele é uma presença que percebo diretamente, porque seu corpo expressa e o meu compreende, numa comunicação que precede a reflexão.",
+        "source": "Fenomenologia da Percepção, Parte II, cap. IV"
+      },
+      {
+        "label": "",
+        "text": "A liberdade não é uma escolha feita no vazio por uma consciência absoluta: ela é sempre situada, encarnada, condicionada pela história do corpo e pelo peso do mundo — e é exatamente isso que a torna real.",
+        "source": "Fenomenologia da Percepção, Parte III, cap. III"
+      },
+      {
+        "label": "",
+        "text": "O ser selvagem — anterior à distinção sujeito-objeto, anterior à linguagem articulada — é o fundo sobre o qual toda filosofia, toda ciência e toda arte emergem sem jamais esgotá-lo.",
+        "source": "O Visível e o Invisível, notas de trabalho"
+      },
+      {
+        "label": "",
+        "text": "A reflexão filosófica nunca parte do zero: ela sempre retorna a uma experiência pré-reflexiva que a sustenta e que ela jamais consegue tematizar completamente sem trair.",
+        "source": "Fenomenologia da Percepção, Prefácio"
+      },
+      {
+        "label": "",
+        "text": "O silêncio não é ausência de linguagem: é a presença densa do que ainda não foi dito, a reserva de sentido que toda fala carrega consigo e que nenhuma fala consegue esgotar.",
+        "source": "A Prosa do Mundo"
+      }
+    ]
+  }
+}
