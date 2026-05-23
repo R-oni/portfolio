@@ -503,6 +503,18 @@ main {
 }
 #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+/* ── Card counter ── */
+#popup-counter {
+  font-family: var(--font-mono);
+  font-size: .55rem;
+  letter-spacing: .2em;
+  color: var(--muted);
+  opacity: .45;
+  margin-top: .8rem;
+  pointer-events: none;
+  min-height: 1em;
+}
+
 /* ── Loading state ── */
 #loading {
   position: fixed; inset: 0; z-index: 300;
@@ -544,6 +556,7 @@ main {
   <button id="popup-close" aria-label="Fechar">×</button>
   <div id="popup-title"></div>
   <div id="popup-scroll"></div>
+  <div id="popup-counter"></div>
 </div>
 
 <!-- add thinker / add card modal -->
@@ -606,7 +619,7 @@ async function saveProgress(thinkerId, index) {
     try {
       await setDoc(doc(db, COLL_PROG, thinkerId), { index });
     } catch(e) { console.warn('progress save failed', e); }
-  }, 8000);
+  }, 800);
 }
 
 /* ── helpers ────────────────────────────────────────────────────── */
@@ -645,6 +658,7 @@ const modalCancel   = document.getElementById('modal-cancel');
 const modalConfirm  = document.getElementById('modal-confirm');
 const loadingEl     = document.getElementById('loading');
 const toastEl       = document.getElementById('toast');
+const popupCounter  = document.getElementById('popup-counter');
 
 /* ── Toast ──────────────────────────────────────────────────────── */
 let toastTimer;
@@ -826,6 +840,7 @@ function closePopup() {
   popup.classList.remove('active');
   document.body.style.overflow = '';
   currentThinker = null;
+  popupCounter.textContent = '';
 }
 
 closeBtn.addEventListener('click', closePopup);
@@ -859,6 +874,8 @@ function updateFocus() {
       cards.forEach(c => c.classList.remove('is-bookmark'));
       if (idx > 0) closest.classList.add('is-bookmark');
       saveProgress(currentThinker, idx);
+      // update counter
+      popupCounter.textContent = `${idx + 1} / ${cards.length}`;
     }
   }
 }
