@@ -1,0 +1,344 @@
+{
+  "hegel": {
+    "name": "Hegel",
+    "area": "filosofia",
+    "acc": "#c9a96e",
+    "cards": [
+      {
+        "label": "",
+        "text": "O Espírito absoluto se realiza no mundo através de um movimento dialético em que toda afirmação gera sua própria negação, e dessa contradição surge uma síntese superior.",
+        "source": "Fenomenologia do Espírito"
+      },
+      {
+        "label": "",
+        "text": "A história universal não é o terreno da felicidade — os períodos de felicidade são páginas em branco nela, pois são épocas de harmonia sem conflito, portanto sem progresso.",
+        "source": "Filosofia da História"
+      },
+      {
+        "label": "",
+        "text": "O real é racional e o racional é real: tudo o que existe tem uma razão necessária de existir, e a razão plena só pode se manifestar no que de fato existe.",
+        "source": "Princípios da Filosofia do Direito, Prefácio"
+      },
+      {
+        "label": "",
+        "text": "A autoconsciência só se constitui no reconhecimento do outro — sem um outro que me reconheça como livre, minha própria liberdade permanece abstrata e vazia.",
+        "source": "Fenomenologia do Espírito, cap. IV"
+      },
+      {
+        "label": "",
+        "text": "O Estado é a efetividade da ideia ética: não uma limitação da liberdade individual, mas a condição concreta na qual a liberdade verdadeira se torna possível.",
+        "source": "Princípios da Filosofia do Direito, §257"
+      },
+      {
+        "label": "",
+        "text": "A arte, a religião e a filosofia são as três formas pelas quais o Espírito absoluto toma consciência de si mesmo — a filosofia sendo a forma mais elevada, pois opera pelo conceito puro.",
+        "source": "Enciclopédia das Ciências Filosóficas, §553–577"
+      },
+      {
+        "label": "",
+        "text": "A contradição não é um defeito do pensamento a ser eliminado, mas o motor de toda realidade: é a negação interna de cada coisa que a impele a se transformar.",
+        "source": "Ciência da Lógica"
+      },
+      {
+        "label": "",
+        "text": "O senhor depende do escravo para ter sua identidade confirmada, enquanto o escravo, ao transformar o mundo pelo trabalho, desenvolve uma consciência que o senhor nunca alcança.",
+        "source": "Fenomenologia do Espírito, Dialética do Senhor e do Escravo"
+      },
+      {
+        "label": "",
+        "text": "A liberdade não é ausência de determinação, mas autodeterminação: ser livre é agir segundo a própria natureza racional, não segundo impulsos externos ou caprichos.",
+        "source": "Princípios da Filosofia do Direito, §7"
+      },
+      {
+        "label": "",
+        "text": "A filosofia é o seu próprio tempo apreendido em pensamentos — ela não pode saltar sobre sua época assim como não se pode saltar sobre o próprio tempo.",
+        "source": "Princípios da Filosofia do Direito, Prefácio"
+      }
+    ]
+  },
+  "kant": {
+    "name": "Kant",
+    "area": "filosofia",
+    "acc": "#c9a96e",
+    "cards": [
+      {
+        "label": "",
+        "text": "Age apenas segundo a máxima que possas ao mesmo tempo querer que se torne lei universal — este imperativo categórico é o fundamento de toda moralidade.",
+        "source": "Fundamentação da Metafísica dos Costumes"
+      },
+      {
+        "label": "",
+        "text": "O espaço e o tempo não são propriedades do mundo exterior, mas formas puras da intuição sensível: são o modo como o sujeito estrutura toda experiência possível.",
+        "source": "Crítica da Razão Pura, Estética Transcendental"
+      },
+      {
+        "label": "",
+        "text": "O entendimento não descobre leis na natureza — ele as prescreve. A natureza, tal como a conhecemos, é em parte uma construção das categorias do nosso próprio entendimento.",
+        "source": "Prolegômenos a Toda Metafísica Futura"
+      },
+      {
+        "label": "",
+        "text": "A coisa em si permanece para sempre incognoscível: só temos acesso ao fenômeno, isto é, à realidade tal como ela aparece filtrada pelas estruturas do sujeito cognoscente.",
+        "source": "Crítica da Razão Pura, Analítica Transcendental"
+      },
+      {
+        "label": "",
+        "text": "Age de tal modo que trates a humanidade, tanto na tua pessoa como na de qualquer outro, sempre como um fim em si mesmo, e nunca meramente como um meio.",
+        "source": "Fundamentação da Metafísica dos Costumes, §429"
+      },
+      {
+        "label": "",
+        "text": "O belo agrada universalmente sem conceito: o juízo estético não descreve o objeto, mas expressa um prazer desinteressado que exige o acordo de todos sem poder prová-lo.",
+        "source": "Crítica da Faculdade do Juízo, §9"
+      },
+      {
+        "label": "",
+        "text": "A razão pura, ao tentar ir além da experiência possível, cai necessariamente em antinomias — contradições inevitáveis que revelam os limites do conhecimento especulativo.",
+        "source": "Crítica da Razão Pura, Dialética Transcendental"
+      },
+      {
+        "label": "",
+        "text": "A autonomia é o fundamento da dignidade humana: a capacidade de dar a si mesmo a lei moral, sem depender de inclinações ou de autoridade externa, é o que distingue o ser racional.",
+        "source": "Fundamentação da Metafísica dos Costumes"
+      },
+      {
+        "label": "",
+        "text": "Dois espetáculos enchem a mente de admiração sempre renovada: o céu estrelado acima de mim e a lei moral dentro de mim — ambos revelam uma grandeza que não pertence ao mundo dos sentidos.",
+        "source": "Crítica da Razão Prática, Conclusão"
+      },
+      {
+        "label": "",
+        "text": "A paz perpétua entre os povos não é uma fantasia, mas uma tarefa prática que a razão impõe: Estados livres, em federação, sob leis cosmopolitas, constituem o horizonte moral da política.",
+        "source": "À Paz Perpétua"
+      }
+    ]
+  },
+  "hume": {
+    "name": "Hume",
+    "area": "filosofia",
+    "acc": "#c9a96e",
+    "cards": [
+      {
+        "label": "",
+        "text": "Toda ideia deriva de uma impressão sensível anterior: o pensamento não cria nada por si mesmo — ele apenas combina, transpõe e amplia o material fornecido pelos sentidos.",
+        "source": "Investigação sobre o Entendimento Humano, §II"
+      },
+      {
+        "label": "",
+        "text": "A causalidade não é percebida no mundo — ela é um hábito da mente. Ao observarmos repetidamente A seguido de B, projetamos sobre os eventos uma conexão necessária que não existe nos fatos.",
+        "source": "Tratado da Natureza Humana, Livro I"
+      },
+      {
+        "label": "",
+        "text": "A razão é, e deve ser, escrava das paixões: ela não pode por si mesma mover à ação, apenas calcular os meios para fins que as emoções estabelecem.",
+        "source": "Tratado da Natureza Humana, II, iii, 3"
+      },
+      {
+        "label": "",
+        "text": "O 'eu' não é uma substância unitária percebida de forma direta: ao voltarmos a atenção para dentro, encontramos apenas um feixe de percepções em fluxo contínuo, sem nenhum sujeito permanente.",
+        "source": "Tratado da Natureza Humana, I, iv, 6"
+      },
+      {
+        "label": "",
+        "text": "Nenhum número de observações passadas pode garantir logicamente o que ocorrerá no futuro — o princípio da indução é um hábito psicológico, não uma necessidade racional.",
+        "source": "Investigação sobre o Entendimento Humano, §IV"
+      },
+      {
+        "label": "",
+        "text": "Não se pode derivar um 'dever ser' de um 'ser': a passagem de proposições factuais para proposições morais é um salto lógico que a maioria dos filósofos comete sem justificação.",
+        "source": "Tratado da Natureza Humana, III, i, 1"
+      },
+      {
+        "label": "",
+        "text": "A moral não é descoberta pela razão, mas sentida: é o sentimento de aprovação ou reprovação que atribuímos às ações, e esse sentimento é comum a todos os seres humanos.",
+        "source": "Investigação sobre os Princípios da Moral"
+      },
+      {
+        "label": "",
+        "text": "Os milagres, para serem aceitos como prova de revelação divina, precisariam ser mais improváveis do que a falsidade dos testemunhos humanos — condição que jamais foi satisfeita.",
+        "source": "Investigação sobre o Entendimento Humano, §X"
+      },
+      {
+        "label": "",
+        "text": "A crença não é um ato voluntário da razão, mas uma maneira mais viva e intensa de conceber uma ideia — ela nasce do hábito e da experiência, não da demonstração.",
+        "source": "Tratado da Natureza Humana, I, iii"
+      },
+      {
+        "label": "",
+        "text": "A simpatia é o mecanismo pelo qual nos colocamos no lugar dos outros e participamos de suas alegrias e sofrimentos — ela é a base de toda avaliação moral e de toda sociabilidade.",
+        "source": "Tratado da Natureza Humana, II, i, 11"
+      }
+    ]
+  },
+  "platao": {
+    "name": "Platão",
+    "area": "filosofia",
+    "acc": "#c9a96e",
+    "cards": [
+      {
+        "label": "",
+        "text": "O mundo sensível é apenas uma cópia imperfeita do mundo das Formas: as coisas que vemos e tocamos são sombras, e as Formas — eternas, imutáveis e invisíveis — são a realidade verdadeira.",
+        "source": "A República, Livro VI"
+      },
+      {
+        "label": "",
+        "text": "Os prisioneiros da caverna tomam as sombras projetadas na parede pela realidade; quando liberto, o filósofo sobe à luz do sol e descobre que tudo o que acreditava conhecer era ilusão.",
+        "source": "A República, Livro VII — Alegoria da Caverna"
+      },
+      {
+        "label": "",
+        "text": "Conhecer é recordar: a alma já contemplou as Formas antes de encarnar, e o aprendizado é o processo pelo qual ela desperta para o que já sabia em sua existência anterior.",
+        "source": "Mênon; Fédon"
+      },
+      {
+        "label": "",
+        "text": "A alma possui três partes — razão, ânimo e apetite — e a justiça, tanto na cidade quanto no indivíduo, consiste em cada parte cumprir sua função sob o governo da razão.",
+        "source": "A República, Livro IV"
+      },
+      {
+        "label": "",
+        "text": "O filósofo-rei não busca o poder, mas é o único capaz de exercê-lo com justiça: quem mais deseja governar é exatamente quem não deveria ser confiado com o governo.",
+        "source": "A República, Livro V–VI"
+      },
+      {
+        "label": "",
+        "text": "Eros não é simplesmente desejo do belo: em sua forma mais elevada, é o impulso que conduz a alma do amor a um corpo belo ao amor à Forma do Belo em si, eterno e absoluto.",
+        "source": "O Banquete — Discurso de Diotima"
+      },
+      {
+        "label": "",
+        "text": "A retórica, tal como praticada pelos sofistas, é uma forma de bajulação: ela persuade sem ensinar, e produz crenças sem conhecimento, sendo à filosofia o que a culinária é à medicina.",
+        "source": "Górgias"
+      },
+      {
+        "label": "",
+        "text": "A escrita enfraquece a memória e dá aos homens a aparência do saber sem o saber real: uma palavra escrita não pode responder, defender-se nem adaptar-se ao interlocutor.",
+        "source": "Fedro, 274c–275b"
+      },
+      {
+        "label": "",
+        "text": "Uma vida não examinada não merece ser vivida: o exame constante das próprias crenças, valores e contradições é o que distingue o filósofo do homem comum.",
+        "source": "Apologia de Sócrates, 38a"
+      },
+      {
+        "label": "",
+        "text": "A tirania é a forma mais degradada de governo: nasce da democracia desregrada, quando a liberdade irrestrita gera o caos que clama por um salvador, que se torna inevitavelmente tirano.",
+        "source": "A República, Livro VIII–IX"
+      }
+    ]
+  },
+  "sidarta-gautama": {
+    "name": "Sidarta Gautama",
+    "area": "budismo",
+    "acc": "#7eb89a",
+    "cards": [
+      {
+        "label": "",
+        "text": "A existência é marcada pelo sofrimento — não apenas dor física, mas a insatisfação fundamental que permeia toda experiência ligada ao apego e à impermanência.",
+        "source": "Dhammacakkappavattana Sutta — Primeiro Sermão"
+      },
+      {
+        "label": "",
+        "text": "O sofrimento tem uma causa: é o desejo ávido — de prazer, de existência, de não-existência — que nos mantém presos ao ciclo de renascimento e insatisfação.",
+        "source": "Dhammacakkappavattana Sutta"
+      },
+      {
+        "label": "",
+        "text": "A cessação do sofrimento é possível: quando o desejo é abandonado completamente, sem resíduo, o que resta é Nirvana — a extinção do fogo que alimenta o ciclo.",
+        "source": "Dhammacakkappavattana Sutta"
+      },
+      {
+        "label": "",
+        "text": "O caminho para a libertação é óctuplo: visão correta, intenção correta, fala correta, ação correta, meio de vida correto, esforço correto, atenção correta e concentração correta.",
+        "source": "Dhammacakkappavattana Sutta"
+      },
+      {
+        "label": "",
+        "text": "O que chamamos de 'eu' é apenas a combinação temporária de cinco agregados — forma, sensação, percepção, formações mentais e consciência — sem nenhum núcleo permanente.",
+        "source": "Anattalakkhana Sutta"
+      },
+      {
+        "label": "",
+        "text": "Tudo o que surge em dependência de causas e condições é impermanente: o apego a qualquer coisa impermanente como se fosse permanente é a raiz do sofrimento.",
+        "source": "Majjhima Nikaya"
+      },
+      {
+        "label": "",
+        "text": "A mente é o precursor de todas as ações: se alguém age com mente impura, o sofrimento o segue como a roda segue o casco do boi; se age com mente pura, a felicidade o acompanha como sombra.",
+        "source": "Dhammapada, v. 1–2"
+      },
+      {
+        "label": "",
+        "text": "Não acredites em algo simplesmente porque está escrito, porque foi dito por um mestre ou porque é tradição: aceita apenas o que, ao ser examinado, leva ao bem e à diminuição do sofrimento.",
+        "source": "Kalama Sutta, Anguttara Nikaya"
+      },
+      {
+        "label": "",
+        "text": "A compaixão por todos os seres — não apenas pelos próximos ou pelos que nos amam, mas por todos os seres vivos sem exceção — é o fundamento da prática ética.",
+        "source": "Metta Sutta, Sutta Nipata"
+      },
+      {
+        "label": "",
+        "text": "Assim como o oceano tem apenas um sabor — o sabor do sal — o Dharma tem apenas um sabor: o sabor da libertação.",
+        "source": "Udana 5.5"
+      }
+    ]
+  },
+  "nagarjuna": {
+    "name": "Nāgārjuna",
+    "area": "budismo",
+    "acc": "#7eb89a",
+    "cards": [
+      {
+        "label": "",
+        "text": "Nenhuma coisa existe por si mesma, com natureza própria e independente: toda existência é vazia de essência intrínseca, sendo constituída apenas por relações e dependências.",
+        "source": "Mūlamadhyamakakārikā, cap. XV"
+      },
+      {
+        "label": "",
+        "text": "A vacuidade não é o nada: é a ausência de existência independente. Dizer que algo é vazio é dizer que ele existe dependentemente — e é exatamente essa dependência que torna a mudança e a causação possíveis.",
+        "source": "Mūlamadhyamakakārikā, cap. XXIV"
+      },
+      {
+        "label": "",
+        "text": "Se as coisas tivessem natureza própria e fixa, nada poderia surgir, mudar ou cessar: é precisamente a vacuidade que abre espaço para o surgimento dependente e para a própria libertação.",
+        "source": "Mūlamadhyamakakārikā, XXIV.14"
+      },
+      {
+        "label": "",
+        "text": "O Nirvana e o Samsara não são dois lugares distintos: quando se compreende profundamente a vacuidade, não há diferença entre o mundo do sofrimento e o estado de liberação.",
+        "source": "Mūlamadhyamakakārikā, XXV.19"
+      },
+      {
+        "label": "",
+        "text": "O Buda não afirmou que o mundo é eterno nem que não é eterno, que o eu existe nem que não existe: o silêncio diante dessas questões não é evasão, mas recusa a ser aprisionado por conceitos.",
+        "source": "Vigrahavyāvartanī"
+      },
+      {
+        "label": "",
+        "text": "Todo argumento que tenta estabelecer uma posição última cai em contradição: a própria lógica, levada a seus limites, revela a impossibilidade de qualquer fundamento absoluto.",
+        "source": "Vigrahavyāvartanī"
+      },
+      {
+        "label": "",
+        "text": "A verdade possui dois níveis: a verdade convencional, na qual os fenômenos existem e têm função, e a verdade última, na qual todos os fenômenos são vazios de natureza intrínseca.",
+        "source": "Mūlamadhyamakakārikā, XXIV.8"
+      },
+      {
+        "label": "",
+        "text": "O apego ao vazio como se fosse uma doutrina positiva é ainda mais perigoso do que o apego às coisas: aquele que se agarra à vacuidade como a uma verdade absoluta simplesmente troca um erro por outro.",
+        "source": "Mūlamadhyamakakārikā, XIII.8"
+      },
+      {
+        "label": "",
+        "text": "A causalidade convencional é real e operativa: o fato de que as causas não têm existência intrínseca não impede que o fogo queime, que as palavras comuniquem ou que as ações tenham consequências.",
+        "source": "Mūlamadhyamakakārikā, cap. I"
+      },
+      {
+        "label": "",
+        "text": "Aquele que compreende o surgimento dependente compreende o Dharma; aquele que compreende o Dharma compreende o Buda: tudo converge para a mesma visão da interdependência radical.",
+        "source": "Mūlamadhyamakakārikā, Homenagem inicial"
+      }
+    ]
+  }
+}
