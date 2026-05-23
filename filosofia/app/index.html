@@ -606,7 +606,7 @@ async function saveProgress(thinkerId, index) {
     try {
       await setDoc(doc(db, COLL_PROG, thinkerId), { index });
     } catch(e) { console.warn('progress save failed', e); }
-  }, 800);
+  }, 8000);
 }
 
 /* ── helpers ────────────────────────────────────────────────────── */
