@@ -284,10 +284,10 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.8rem;
-  padding: 2rem 0;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%);
-  mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%);
+  /* scroll-snap: each card snaps to center */
+  scroll-snap-type: y mandatory;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 22%, black 78%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 22%, black 78%, transparent 100%);
 }
 #popup-scroll::-webkit-scrollbar { display: none; }
 
@@ -311,24 +311,35 @@ main {
 
 /* ── Quote cards ── */
 .quote-card {
-  width: 100%;
+  width: min(580px, 88vw);
+  flex-shrink: 0;
   background: rgba(255,255,255,.03);
   border: 1px solid rgba(255,255,255,.06);
   border-radius: 4px;
   padding: 2rem 2.4rem;
-  transition: transform .4s cubic-bezier(.22,1,.36,1), opacity .4s, background .4s, border-color .4s;
-  opacity: .35;
-  transform: scale(.92);
-  flex-shrink: 0;
   position: relative;
+  /* snap this card to center of container */
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+  /* dim/scale non-focused cards */
+  opacity: .35;
+  transform: scale(.93);
+  transition: transform .4s cubic-bezier(.22,1,.36,1), opacity .4s, background .4s, border-color .4s;
+  /* vertical margin creates the gap between cards */
+  margin: .9rem 0;
 }
 .quote-card.focus {
-  opacity:1; transform:scale(1);
+  opacity: 1;
+  transform: scale(1);
   background: rgba(255,255,255,.055);
   border-color: rgba(255,255,255,.12);
 }
 /* sentinel padding elements so first/last cards can reach center */
-.scroll-sentinel { flex-shrink: 0; width: 100%; pointer-events: none; }
+.scroll-sentinel {
+  flex-shrink: 0;
+  width: 100%;
+  pointer-events: none;
+}
 .quote-card .qc-label {
   font-family: var(--font-mono);
   font-size: .62rem;
@@ -765,24 +776,14 @@ function openPopup(id) {
   popup.classList.add('active');
   document.body.style.overflow = 'hidden';
 
-  // scroll to saved progress position (or start)
+  // scroll to saved progress position (or start) — instant, no animation
   const savedIdx = progress[id] ?? 0;
-  if (savedIdx > 0) {
-    setTimeout(() => {
-      const cards = [...popupScroll.querySelectorAll('.quote-card')];
-      const target = cards[savedIdx];
-      if (target) {
-        const containerMid = popupScroll.getBoundingClientRect().top + popupScroll.clientHeight / 2;
-        const r = target.getBoundingClientRect();
-        const delta = (r.top + r.height / 2) - containerMid;
-        popupScroll.scrollTop = popupScroll.scrollTop + delta;
-      }
-      updateFocus();
-    }, 30);
-  } else {
-    popupScroll.scrollTop = 0;
+  requestAnimationFrame(() => {
+    const cards = [...popupScroll.querySelectorAll('.quote-card')];
+    const target = cards[savedIdx] ?? cards[0];
+    if (target) scrollToCard(target, 'instant');
     updateFocus();
-  }
+  });
 }
 
 function renderPopupCards(t) {
@@ -845,63 +846,81 @@ function closePopup() {
 
 closeBtn.addEventListener('click', closePopup);
 overlay.addEventListener('click', e => { if (e.target === overlay) closePopup(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closePopup(); } });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeModal(); closePopup(); return; }
+  if (!popup.classList.contains('active')) return;
+  if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+    e.preventDefault();
+    const cards = [...popupScroll.querySelectorAll('.quote-card')];
+    const focused = cards.find(c => c.classList.contains('focus')) ?? cards[0];
+    const next = cards[cards.indexOf(focused) + 1];
+    if (next) scrollToCard(next);
+  }
+  if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+    e.preventDefault();
+    const cards = [...popupScroll.querySelectorAll('.quote-card')];
+    const focused = cards.find(c => c.classList.contains('focus')) ?? cards[0];
+    const prev = cards[cards.indexOf(focused) - 1];
+    if (prev) scrollToCard(prev);
+  }
+});
 
-/* ── Scroll focus + momentum snap ───────────────────────────────── */
-function getClosestCard() {
-  const cards = [...popupScroll.querySelectorAll('.quote-card')];
-  if (!cards.length) return null;
-  const containerMid = popupScroll.getBoundingClientRect().top + popupScroll.clientHeight / 2;
-  let closest = null, dist = Infinity;
-  cards.forEach(c => {
-    const r = c.getBoundingClientRect();
-    const d = Math.abs((r.top + r.height / 2) - containerMid);
-    if (d < dist) { dist = d; closest = c; }
-  });
-  return closest;
-}
+/* ── Focus tracking via IntersectionObserver ────────────────────── */
+let focusObserver = null;
 
 function updateFocus() {
   const cards = [...popupScroll.querySelectorAll('.quote-card')];
-  const closest = getClosestCard();
+  if (!cards.length) return;
+  const mid = popupScroll.getBoundingClientRect().top + popupScroll.clientHeight / 2;
+  let closest = null, best = Infinity;
+  cards.forEach(c => {
+    const r = c.getBoundingClientRect();
+    const d = Math.abs((r.top + r.height / 2) - mid);
+    if (d < best) { best = d; closest = c; }
+  });
   cards.forEach(c => c.classList.toggle('focus', c === closest));
-
-  // save progress: find index of focused card
   if (currentThinker && closest) {
     const idx = cards.indexOf(closest);
-    if (idx >= 0) {
-      // update bookmark dot: clear old, mark new
-      cards.forEach(c => c.classList.remove('is-bookmark'));
-      if (idx > 0) closest.classList.add('is-bookmark');
-      saveProgress(currentThinker, idx);
-      // update counter
-      popupCounter.textContent = `${idx + 1} / ${cards.length}`;
-    }
+    cards.forEach(c => c.classList.remove('is-bookmark'));
+    if (idx > 0) closest.classList.add('is-bookmark');
+    saveProgress(currentThinker, idx);
+    popupCounter.textContent = `${idx + 1} / ${cards.length}`;
   }
 }
 
-let snapTimer = null;
-let isSnapping = false;
-
-function snapToClosest() {
-  const closest = getClosestCard();
-  if (!closest) return;
-  const containerMid = popupScroll.getBoundingClientRect().top + popupScroll.clientHeight / 2;
-  const r = closest.getBoundingClientRect();
-  const delta = (r.top + r.height / 2) - containerMid;
-  if (Math.abs(delta) < 2) { isSnapping = false; return; }
-  isSnapping = true;
-  popupScroll.scrollTo({ top: popupScroll.scrollTop + delta, behavior: 'smooth' });
-  // mark snap as done after animation finishes
-  setTimeout(() => { isSnapping = false; }, 400);
+function scrollToCard(card, behavior = 'smooth') {
+  const mid = popupScroll.clientHeight / 2;
+  const cardMid = card.offsetTop + card.offsetHeight / 2;
+  popupScroll.scrollTo({ top: cardMid - mid, behavior });
 }
 
-popupScroll.addEventListener('scroll', () => {
-  updateFocus();
-  if (isSnapping) return; // ignore scroll events triggered by our own snapTo
-  clearTimeout(snapTimer);
-  snapTimer = setTimeout(snapToClosest, 160);
+/* scroll → update focus class */
+popupScroll.addEventListener('scroll', updateFocus, { passive: true });
+
+/* wheel: one tick = one card */
+popupScroll.addEventListener('wheel', e => {
+  e.preventDefault();
+  const cards = [...popupScroll.querySelectorAll('.quote-card')];
+  const focused = cards.find(c => c.classList.contains('focus')) ?? cards[0];
+  const idx = cards.indexOf(focused);
+  const next = Math.max(0, Math.min(cards.length - 1, idx + (e.deltaY > 0 ? 1 : -1)));
+  if (next !== idx) scrollToCard(cards[next]);
+}, { passive: false });
+
+/* touch swipe: one swipe = one card */
+let touchY0 = 0;
+popupScroll.addEventListener('touchstart', e => { touchY0 = e.touches[0].clientY; }, { passive: true });
+popupScroll.addEventListener('touchend', e => {
+  const dy = touchY0 - e.changedTouches[0].clientY;
+  if (Math.abs(dy) < 30) return;
+  const cards = [...popupScroll.querySelectorAll('.quote-card')];
+  const focused = cards.find(c => c.classList.contains('focus')) ?? cards[0];
+  const idx = cards.indexOf(focused);
+  const next = Math.max(0, Math.min(cards.length - 1, idx + (dy > 0 ? 1 : -1)));
+  if (next !== idx) scrollToCard(cards[next]);
 }, { passive: true });
+
+
 
 /* ── Delete thinker ─────────────────────────────────────────────── */
 deleteThinker.addEventListener('click', async () => {
@@ -929,7 +948,12 @@ async function removeCard(thinkerId, idx) {
     await updateDoc(doc(db, COLL, thinkerId), { cards });
     thinkers[thinkerId].cards = cards;
     renderPopupCards(thinkers[thinkerId]);
-    updateFocus();
+    requestAnimationFrame(() => {
+      const all = [...popupScroll.querySelectorAll('.quote-card')];
+      const target = all[Math.min(idx, all.length - 1)];
+      if (target) scrollToCard(target, 'instant');
+      updateFocus();
+    });
     toast('card removido');
   } catch(e) {
     toast('erro ao remover card');
@@ -1064,12 +1088,12 @@ function openAddCardModal(thinkerId) {
       thinkers[thinkerId].cards = cards;
       closeModal();
       renderPopupCards(thinkers[thinkerId]);
-      // scroll to new card
-      setTimeout(() => {
-        const all = popupScroll.querySelectorAll('.quote-card');
-        all[all.length - 1]?.scrollIntoView({ behavior:'smooth', block:'center' });
+      requestAnimationFrame(() => {
+        const all = [...popupScroll.querySelectorAll('.quote-card')];
+        const last = all[all.length - 1];
+        if (last) scrollToCard(last, 'smooth');
         updateFocus();
-      }, 100);
+      });
       toast('card adicionado');
     } catch(e) {
       toast('erro ao salvar card');
