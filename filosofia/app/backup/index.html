@@ -284,39 +284,10 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* scroll-snap removed — JS controls card-by-card navigation */
+  /* scroll-snap: each card snaps to center */
+  scroll-snap-type: y mandatory;
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 22%, black 78%, transparent 100%);
   mask-image: linear-gradient(to bottom, transparent 0%, black 22%, black 78%, transparent 100%);
-}
-
-/* mobile: scroll container fills viewport so focused card centers on screen */
-@media (max-width: 600px) {
-  #popup {
-    justify-content: flex-start;
-  }
-  #popup-title {
-    position: absolute;
-    top: 1.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-bottom: 0;
-    white-space: nowrap;
-    font-size: clamp(.85rem, 4vw, 1.2rem);
-  }
-  #popup-counter {
-    position: absolute;
-    bottom: 1.2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-top: 0;
-  }
-  #popup-scroll {
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%);
-    mask-image:         linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%);
-  }
 }
 #popup-scroll::-webkit-scrollbar { display: none; }
 
@@ -347,7 +318,9 @@ main {
   border-radius: 4px;
   padding: 2rem 2.4rem;
   position: relative;
-  /* snap properties removed — handled by scrollToCard() */
+  /* snap this card to center of container */
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
   /* dim/scale non-focused cards */
   opacity: .35;
   transform: scale(.93);
@@ -805,13 +778,12 @@ function openPopup(id) {
 
   // scroll to saved progress position (or start) — instant, no animation
   const savedIdx = progress[id] ?? 0;
-  // double rAF: first frame applies .active CSS (and triggers layout), second frame has correct clientHeight
-  requestAnimationFrame(() => requestAnimationFrame(() => {
+  requestAnimationFrame(() => {
     const cards = [...popupScroll.querySelectorAll('.quote-card')];
     const target = cards[savedIdx] ?? cards[0];
     if (target) scrollToCard(target, 'instant');
     updateFocus();
-  }));
+  });
 }
 
 function renderPopupCards(t) {
@@ -821,7 +793,7 @@ function renderPopupCards(t) {
   // top sentinel — half the scroll container height so first card can center
   const topSentinel = document.createElement('div');
   topSentinel.className = 'scroll-sentinel';
-  topSentinel.style.flex = '0 0 50%';  // 50% of scroll container = first card centers
+  topSentinel.style.height = (popupScroll.clientHeight / 2) + 'px';
   popupScroll.appendChild(topSentinel);
 
   cards.forEach((c, i) => {
@@ -860,7 +832,7 @@ function renderPopupCards(t) {
   // bottom sentinel
   const botSentinel = document.createElement('div');
   botSentinel.className = 'scroll-sentinel';
-  botSentinel.style.flex = '0 0 50%';  // 50% of scroll container = last card centers
+  botSentinel.style.height = (popupScroll.clientHeight / 2) + 'px';
   popupScroll.appendChild(botSentinel);
 }
 
@@ -917,13 +889,9 @@ function updateFocus() {
 }
 
 function scrollToCard(card, behavior = 'smooth') {
-  // getBoundingClientRect ensures correct direction (up AND down)
-  const containerRect = popupScroll.getBoundingClientRect();
-  const cardRect      = card.getBoundingClientRect();
-  const containerMid  = containerRect.top + popupScroll.clientHeight / 2;
-  const cardMid       = cardRect.top + cardRect.height / 2;
-  const delta         = cardMid - containerMid;
-  popupScroll.scrollTo({ top: popupScroll.scrollTop + delta, behavior });
+  const mid = popupScroll.clientHeight / 2;
+  const cardMid = card.offsetTop + card.offsetHeight / 2;
+  popupScroll.scrollTo({ top: cardMid - mid, behavior });
 }
 
 /* scroll → update focus class */
@@ -939,23 +907,12 @@ popupScroll.addEventListener('wheel', e => {
   if (next !== idx) scrollToCard(cards[next]);
 }, { passive: false });
 
-/* touch swipe: one swipe = one card, native scroll blocked */
+/* touch swipe: one swipe = one card */
 let touchY0 = 0;
-let touchMoved = false;
-popupScroll.addEventListener('touchstart', e => {
-  touchY0 = e.touches[0].clientY;
-  touchMoved = false;
-}, { passive: true });
-
-popupScroll.addEventListener('touchmove', e => {
-  touchMoved = true;
-  e.preventDefault();   // block native scroll so our animation is the only thing happening
-}, { passive: false });
-
+popupScroll.addEventListener('touchstart', e => { touchY0 = e.touches[0].clientY; }, { passive: true });
 popupScroll.addEventListener('touchend', e => {
-  if (!touchMoved) return;
   const dy = touchY0 - e.changedTouches[0].clientY;
-  if (Math.abs(dy) < 25) return;
+  if (Math.abs(dy) < 30) return;
   const cards = [...popupScroll.querySelectorAll('.quote-card')];
   const focused = cards.find(c => c.classList.contains('focus')) ?? cards[0];
   const idx = cards.indexOf(focused);
