@@ -130,7 +130,7 @@ main {
   z-index: 2;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 3rem 2rem 6rem;
+  padding: 3rem 2rem 2rem;
   display: flex;
   flex-direction: column;
   gap: 3.5rem;
@@ -555,10 +555,12 @@ main {
 
 /* ── Footer with notebook icon ── */
 footer {
-  position: fixed;
-  bottom: 1.5rem;
-  left: 1.5rem;
-  z-index: 100;
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 2.5rem 2rem;
+  border-top: 1px solid var(--border);
+  margin-top: 4rem;
 }
 
 #btn-notebook {
@@ -571,7 +573,7 @@ footer {
   padding: .5rem .65rem;
   cursor: pointer;
   transition: border-color .2s, color .2s, transform .2s;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 2.5rem;
@@ -708,10 +710,6 @@ footer {
   </div>
 </header>
 
-<footer>
-  <button id="btn-notebook" title="Abrir bloco de notas">📝</button>
-</footer>
-
 <main id="main-content"></main>
 
 <div id="overlay"></div>
@@ -751,6 +749,10 @@ footer {
 </div>
 
 <div id="toast"></div>
+
+<footer>
+  <button id="btn-notebook" title="Abrir bloco de notas">📝</button>
+</footer>
 
 <script type="module">
 import { initializeApp }    from 'https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js';
