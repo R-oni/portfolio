@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid Generator</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #222;
+            color: #fff;
+        }
+        h1 {
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        #gridCanvas {
+            border: 2px solid #ccc;
+            background-image: 
+                linear-gradient(45deg, #666 25%, transparent 25%), 
+                linear-gradient(-45deg, #666 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #666 75%),
+                linear-gradient(-45deg, transparent 75%, #666 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            max-width: 90vw;
+            max-height: 70vh;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background-color: #cc0000;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Grid Generator - 4 Columns x 30 Rows</h1>
+    <canvas id="gridCanvas" width="8000" height="30000"></canvas>
+    <button id="downloadBtn">Download Grid PNG</button>
+
+    <script>
+        const canvas = document.getElementById('gridCanvas');
+        const ctx = canvas.getContext('2d');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        // Configurações
+        const WIDTH = 8000;
+        const HEIGHT = 30000;
+        const COLUMNS = 4;
+        const ROWS = 30;
+        const LINE_COLOR = '#ff0000';
+        const LINE_WIDTH = 40;
+
+        function createGrid() {
+            // Limpar canvas (transparente)
+            ctx.clearRect(0, 0, WIDTH, HEIGHT);
+            
+            // Configurar estilo da linha
+            ctx.strokeStyle = LINE_COLOR;
+            ctx.lineWidth = LINE_WIDTH;
+            
+            // Calcular tamanho das células
+            const cellWidth = WIDTH / COLUMNS;
+            const cellHeight = HEIGHT / ROWS;
+            
+            // Desenhar linhas verticais (colunas)
+            for (let i = 0; i <= COLUMNS; i++) {
+                const x = i * cellWidth;
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, HEIGHT);
+                ctx.stroke();
+            }
+            
+            // Desenhar linhas horizontais (linhas)
+            for (let i = 0; i <= ROWS; i++) {
+                const y = i * cellHeight;
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(WIDTH, y);
+                ctx.stroke();
+            }
+        }
+
+        downloadBtn.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = 'grid-4x30.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        });
+
+        // Gerar grid ao carregar
+        createGrid();
+    </script>
+
+</body>
+</html>

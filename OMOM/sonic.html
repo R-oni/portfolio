@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sonic</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        img {
+            max-width: 90%;
+            max-height: 50vh;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .message {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+        }
+        #text-input {
+            padding: 10px;
+            font-size: 1rem;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #submit-button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        #display-area {
+            margin-top: 20px;
+            font-size: 1.5rem;
+            color: #555;
+            min-height: 1.5em;
+            word-break: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="sonic.webp" alt="Sonic the Hedgehog">
+        <p class="message">Luiz, se você chegou aqui digite algo.</p>
+        <div>
+            <input type="text" id="text-input" placeholder="Digite aqui...">
+            <button id="submit-button">Enviar</button>
+        </div>
+        <div id="display-area"></div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <script>
+        // Configuração do Firebase
+        const firebaseConfig = {
+          apiKey: "AIzaSyB-WI_nUBDmk5wljZWoLPx3ChFLT5jUt2U",
+          authDomain: "fundamentos-omom.firebaseapp.com",
+          databaseURL: "https://fundamentos-omom-default-rtdb.firebaseio.com",
+          projectId: "fundamentos-omom",
+          storageBucket: "fundamentos-omom.appspot.com",
+          messagingSenderId: "402132741780",
+          appId: "1:402132741780:web:3f78aa356a12ef4ea64e81",
+          measurementId: "G-RPG1VPWZ9L"
+        };
+
+        // Inicializa o Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const messagesRef = database.ref('messages');
+
+        const submitButton = document.getElementById('submit-button');
+        const textInput = document.getElementById('text-input');
+        const displayArea = document.getElementById('display-area');
+
+        // Função para enviar o texto para o Firebase
+        function updateText() {
+            const newText = textInput.value;
+            if (newText.trim() !== '') {
+                // Salva a nova mensagem no Firebase com um timestamp
+                messagesRef.push({
+                    text: newText,
+                    timestamp: firebase.database.ServerValue.TIMESTAMP
+                });
+                textInput.value = ''; // Limpa o campo de texto
+            }
+        }
+
+        submitButton.addEventListener('click', updateText);
+
+        // Permite enviar mensagens pressionando Enter
+        textInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                updateText();
+            }
+        });
+
+        // Atualiza a exibição das mensagens em tempo real
+        messagesRef.on('child_added', function(data) {
+            const message = data.val();
+            const messageElement = document.createElement('div');
+            messageElement.textContent = message.text;
+            displayArea.appendChild(messageElement);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>OMOM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+    body {
+        margin:0;
+        padding:0;
+        background:#fff;
+        font-family:'Press Start 2P',cursive;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+    }
+    header { margin:2rem 0; text-align:center; }
+    h1 { margin:0; font-size:2.5rem; }
+    .comic-container {
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        width:100%;
+        max-width:1200px;
+        padding:0 1rem;
+        box-sizing:border-box;
+        gap:0;
+    }
+    .comic-panel {
+        width:100%;
+        margin-bottom:0;
+        line-height:0;
+    }
+    .comic-panel img {
+        width:100%;
+        height:auto;
+        display:block;
+        margin:0;
+        padding:0;
+    }
+    @media (min-width:1024px){
+        .comic-panel {
+            width:50%;
+            border-radius:5px;
+            overflow:hidden;
+        }
+    }
+</style>
+</head>
+<body>
+<header><h1>OMOM</h1></header>
+
+<div class="comic-container">
+    <div class="comic-panel" id="livromundo-panel">
+        <img src="assets/apresentacao/livromundo.webp" alt="livromundo">
+    </div>
+
+    <div class="comic-panel" id="cena1-panel">
+        <img src="assets/apresentacao/cena1.webp" alt="cena1">
+    </div>
+
+    <div class="comic-panel" id="cena2-panel">
+        <img src="assets/apresentacao/cena2.webp" alt="cena2">
+    </div>
+
+    <div class="comic-panel" id="tira1-panel">
+        <img src="assets/apresentacao/tira1.webp" alt="tira1">
+    </div>
+
+    <div class="comic-panel" id="tira2-panel">
+        <img src="assets/apresentacao/tira2.webp" alt="tira2">
+    </div>
+
+    <div class="comic-panel" id="tira3-panel">
+        <img src="assets/apresentacao/tira3.webp" alt="tira3">
+    </div>
+
+    <div class="comic-panel" id="tira4-panel">
+        <img src="assets/apresentacao/tira4.webp" alt="tira4">
+    </div>
+
+    <div class="comic-panel" id="tira5-panel">
+        <img src="assets/apresentacao/tira5.webp" alt="tira5">
+    </div>
+
+    <div class="comic-panel" id="tira5_5-panel">
+        <img src="assets/apresentacao/tira5_5.webp" alt="tira5_5">
+    </div>
+
+    <div class="comic-panel" id="tira6-panel">
+        <img src="assets/apresentacao/tira6.webp" alt="tira6">
+    </div>
+
+    <div class="comic-panel" id="tira7-panel">
+        <img src="assets/apresentacao/tira7.webp" alt="tira7">
+    </div>
+
+    <div class="comic-panel" id="tira8-panel">
+        <img src="assets/apresentacao/tira8.webp" alt="tira8">
+    </div>
+
+    <div class="comic-panel" id="tira8_4-panel">
+        <img src="assets/apresentacao/tira8_4.webp" alt="tira8_4">
+    </div>
+
+    <div class="comic-panel" id="tira8_5-panel">
+        <img src="assets/apresentacao/tira8_5.webp" alt="tira8_5">
+    </div>
+
+    <div class="comic-panel" id="tira9-panel">
+        <img src="assets/apresentacao/tira9.webp" alt="tira9">
+    </div>
+
+    <div class="comic-panel" id="tira10-panel">
+        <img src="assets/apresentacao/tira10.webp" alt="tira10">
+    </div>
+
+    <div class="comic-panel" id="tira11-panel">
+        <img src="assets/apresentacao/tira11.webp" alt="tira11">
+    </div>
+
+    <div class="comic-panel" id="tira12-panel">
+        <img src="assets/apresentacao/tira12.webp" alt="tira12">
+    </div>
+
+    <div class="comic-panel" id="tira13-panel">
+        <img src="assets/apresentacao/tira13.webp" alt="tira13">
+    </div>
+
+    <div class="comic-panel" id="tira14-panel">
+        <img src="assets/apresentacao/tira14.webp" alt="tira14">
+    </div>
+</div>
+
+<script>
+// ===== SISTEMA DE MÚSICA POR INTERVALOS DE SCROLL (ABSOLUTO) =====
+// Cada música é independente e tem seu próprio intervalo de ativação
+// Ponto de referência: centro da viewport (scrollY + innerHeight/2)
+
+const logScrollPos = true;  // true para ver posição no console
+const FADE_TIME = 3000;     // ms para fade in/out completo (3 segundos - muito suave)
+const CHECK_DELAY = 80;     // ms entre verificações (debounce)
+
+// CONFIGURAÇÃO DE FAIXAS - TOTALMENTE INDEPENDENTES
+// Cada track define seu próprio intervalo e não depende das outras
+const TRACKS = [
+    { 
+        id: 'memories',      
+        src: 'memories.mp3',     
+        maxVolume: 0.8,
+        start: 1,           // inicia fade in quando centro estiver após 1px
+        end: 500           // inicia fade out quando centro ultrapassar 2000px
+    },
+    { 
+        id: 'radiacao',  
+        src: 'mundos/ofcmapaonei/radiacao.mp3', 
+        maxVolume: 0.1,
+        start: 850,        // pode se sobrepor com outras faixas
+        end: 6000           // fade out independente
+    },
+    { 
+        id: 'tron',  
+        src: 'mundos/ofcmapaonei/tron.mp3', 
+        maxVolume: 0.9,
+        start: 1000,        // pode se sobrepor com outras faixas
+        end: 7000           // fade out independente
+    },
+    { 
+        id: 'lunar',  
+        src: 'mundos/araporu/yourlunarway.mp3', 
+        maxVolume: 0.9,
+        start: 7001,        // pode se sobrepor com outras faixas
+        end: 50000           // fade out independente
+    } 
+];
+
+// ==== IMPLEMENTAÇÃO DO SISTEMA ====
+const active = new Map(); // id -> { audio, target, current, state, max, fadeStart }
+let scrollTimer = null;
+let userInteracted = false;
+
+// Garantir permissão de áudio após interação
+['pointerdown','keydown','touchstart'].forEach(ev => {
+    window.addEventListener(ev, () => { 
+        userInteracted = true; 
+        tryStartAll(); 
+    }, { once: true });
+});
+
+function getCenterPos() {
+    return window.scrollY + window.innerHeight / 2;
+}
+
+function updateTracks(y) {
+    // Verificar cada track individualmente
+    TRACKS.forEach(track => {
+        const isActive = (y >= track.start && y < track.end);
+        const rec = ensureAudio(track);
+        
+        if (isActive && rec.target === 0) {
+            // Ativar (fade in)
+            rec.target = rec.max;
+            rec.state = 'fading-in';
+            rec.fadeStart = performance.now();
+            if (logScrollPos) console.log(`Fade IN: ${track.id}`);
+        } 
+        else if (!isActive && rec.target > 0) {
+            // Desativar (fade out)
+            rec.target = 0;
+            rec.state = 'fading-out';
+            rec.fadeStart = performance.now();
+            if (logScrollPos) console.log(`Fade OUT: ${track.id}`);
+        }
+    });
+}
+
+function ensureAudio(track) {
+    if (active.has(track.id)) return active.get(track.id);
+    
+    const audio = new Audio(track.src);
+    audio.loop = true;
+    audio.volume = 0;
+    
+    const record = {
+        audio,
+        target: 0,
+        current: 0,
+        state: 'idle',
+        max: track.maxVolume || 1,
+        fadeStart: 0
+    };
+    
+    active.set(track.id, record);
+    
+    // Iniciar áudio se possível
+    if (userInteracted) {
+        audio.play().catch(() => {});
+    }
+    
+    return record;
+}
+
+function tryStartAll() {
+    if (!userInteracted) return;
+    active.forEach(obj => {
+        if (obj.audio.paused && obj.target > 0) {
+            obj.audio.play().catch(() => {});
+        }
+    });
+}
+
+function stepFades() {
+    const now = performance.now();
+    
+    active.forEach((rec, id) => {
+        if (rec.state === 'idle' || !rec.fadeStart) return;
+        
+        // Calcular progresso baseado no tempo real (0 a 1)
+        const elapsed = now - rec.fadeStart;
+        const progress = Math.min(1, elapsed / FADE_TIME);
+        
+        if (progress >= 1) {
+            // Fade completo
+            rec.current = rec.target;
+            rec.audio.volume = rec.current;
+            
+            if (rec.target === 0) {
+                rec.audio.pause();
+                active.delete(id);
+            } else {
+                rec.state = 'steady';
+            }
+            return;
+        }
+        
+        // Aplicar curva easeInOut para suavidade no início e fim
+        // Esta função transforma um progresso linear (0-1) em uma curva suave em S
+        const eased = progress < 0.5
+            ? 2 * progress * progress
+            : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+            
+        if (rec.state === 'fading-in') {
+            rec.current = rec.target * eased;
+        } else {
+            rec.current = rec.target + (rec.max - rec.target) * (1 - eased);
+        }
+        
+        rec.audio.volume = rec.current;
+        
+        // Garantir reprodução mesmo após pause
+        if (rec.audio.paused && rec.current > 0 && userInteracted) {
+            rec.audio.play().catch(() => {});
+        }
+    });
+}
+
+function onScrollChange() {
+    const y = getCenterPos();
+    if (logScrollPos) console.log('Posição:', Math.round(y));
+    updateTracks(y);
+}
+
+function debouncedScroll() {
+    if (scrollTimer) clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(onScrollChange, CHECK_DELAY);
+}
+
+// Iniciar sistema
+window.addEventListener('scroll', debouncedScroll, { passive: true });
+window.addEventListener('load', () => {
+    setTimeout(onScrollChange, 100); // Verificar após carregamento
+    requestAnimationFrame(function animate() {
+        stepFades();
+        requestAnimationFrame(animate);
+    });
+});
+
+// Expor controle avançado
+window.audioControl = {
+    tracks: TRACKS,
+    // Adicionar faixa durante execução
+    addTrack: function(config) {
+        TRACKS.push(config);
+        onScrollChange(); // Atualizar imediatamente
+        return config;
+    },
+    // Ajustar volumes em tempo real
+    setVolume: function(id, vol) {
+        if (active.has(id)) {
+            const rec = active.get(id);
+            rec.target = vol;
+            rec.max = vol;
+            rec.state = vol > 0 ? 'fading-in' : 'fading-out';
+            rec.fadeStart = performance.now();
+            return true;
+        }
+        return false;
+    },
+    // Forçar reprodução de uma faixa
+    play: function(id) {
+        const track = TRACKS.find(t => t.id === id);
+        if (track) {
+            const rec = ensureAudio(track);
+            rec.target = rec.max;
+            rec.state = 'fading-in';
+            rec.fadeStart = performance.now();
+            if (userInteracted) rec.audio.play().catch(()=>{});
+            return true;
+        }
+        return false;
+    },
+    // Parar uma faixa específica
+    stop: function(id) {
+        if (active.has(id)) {
+            const rec = active.get(id);
+            rec.target = 0;
+            rec.state = 'fading-out';
+            rec.fadeStart = performance.now();
+            return true;
+        }
+        return false;
+    },
+    // Verificar estado atual
+    status: function() {
+        return Array.from(active.entries()).map(([id, rec]) => ({
+            id,
+            volume: rec.current,
+            target: rec.target,
+            state: rec.state
+        }));
+    }
+};
+</script>
+</body>
+</html>

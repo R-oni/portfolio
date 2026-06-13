@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeria de Aliens</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: white;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .swiper-container {
+            width: 100%;
+            height: 80vh;
+            padding: 20px 0;
+        }
+
+        .swiper-slide {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            transition: all 0.3s ease;
+            /* Todos os slides começam com blur por padrão */
+            filter: blur(4px);
+            opacity: 0.5;
+        }
+
+        /* Apenas o slide ativo não tem blur */
+        .swiper-slide-active {
+            filter: none !important;
+            opacity: 1 !important;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            width: 100%;
+            max-width: 350px;
+            height: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            padding: 20px;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+        }
+
+        .card img {
+            width: 100%;
+            height: 85%;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.2rem;
+            color: #333;
+            text-align: center;
+            height: 10%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: #333;
+            font-size: 20px;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            margin-top: 0;
+        }
+
+        .swiper-button-next:after,
+        .swiper-button-prev:after {
+            font-size: 20px;
+        }
+
+        .swiper-button-next:hover,
+        .swiper-button-prev:hover {
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .swiper-pagination {
+            bottom: 10px;
+        }
+
+        .swiper-pagination-bullet {
+            background: #333;
+            opacity: 0.5;
+            width: 12px;
+            height: 12px;
+        }
+
+        .swiper-pagination-bullet-active {
+            opacity: 1;
+            background: #007acc;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .swiper-container {
+                height: 85vh;
+                padding: 15px 1vw;
+            }
+
+            .swiper-slide {
+                padding: 5px;
+            }
+
+            .card {
+                max-width: none;
+                width: 98vw;
+                height: 95%;
+                border-radius: 15px;
+                padding: 15px;
+            }
+
+            .card img {
+                height: 88%;
+                border-radius: 12px;
+            }
+
+            .card-title {
+                font-size: 0.8rem;
+                height: 8%;
+            }
+
+            .swiper-button-next,
+            .swiper-button-prev {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+
+            .swiper-button-next:after,
+            .swiper-button-prev:after {
+                font-size: 16px;
+            }
+
+            .swiper-pagination-bullet {
+                width: 10px;
+                height: 10px;
+            }
+        }
+
+        /* Tablet */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .swiper-container {
+                height: 90vh;
+                padding: 20px 2vw;
+            }
+
+            .card {
+                max-width: 90vw;
+                height: 90%;
+            }
+
+            .card-title {
+                font-size: 1rem;
+            }
+        }
+
+        /* Desktop */
+        @media (min-width: 1025px) {
+            .swiper-container {
+                height: 95vh;
+                padding: 20px 0;
+            }
+
+            .card {
+                max-width: 420px;
+                height: 95%;
+            }
+
+            .card-title {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* Efeito adicional para o card ativo */
+        .swiper-slide-active .card {
+            transform: scale(1.02);
+        }
+
+        .swiper-slide-active .card:hover {
+            transform: scale(1.05) translateY(-8px);
+        }
+    </style>
+</head>
+<body>
+    <div class="swiper-container">
+        <div class="swiper-wrapper" id="swiperWrapper">
+            <!-- Os slides serão gerados pelo JavaScript -->
+        </div>
+        
+        <!-- Navegação -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        
+        <!-- Paginação -->
+        <div class="swiper-pagination"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        class AlienGallery {
+            constructor() {
+                this.totalAliens = 25;
+                this.swiper = null;
+                this.init();
+            }
+
+            init() {
+                this.createSlides();
+                this.initSwiper();
+            }
+
+            createSlides() {
+                const swiperWrapper = document.getElementById('swiperWrapper');
+                
+                // Lista de nomes dos aliens baseada no index.html
+                const alienNames = [
+                    'Batedores',      // alien1
+                    'Veleywei',       // alien2
+                    'Himpis',         // alien3
+                    'Porojka',        // alien4
+                    'Denbou',         // alien5
+                    'Araporu',        // alien6
+                    'Botychera',      // alien7
+                    'Eta Cassombei',  // alien8
+                    'Macarilboz',     // alien9
+                    'Alouepoura',     // alien10
+                    'Saboe',          // alien11
+                    'Sapador',        // alien12
+                    'Cbdaf',          // alien13
+                    'Bora mu',        // alien14
+                    'Bondooga',       // alien15
+                    'Telome',         // alien16
+                    'Mundo 6',        // alien17
+                    'Bratentacolon',  // alien18
+                    'Nyuoq-Vhess',    // alien19
+                    'Mundo 2',        // alien20
+                    'Alien 21',       // alien21
+                    'Alien 22',       // alien22
+                    'Alien 23',       // alien23
+                    'Alien 24',       // alien24
+                    'Alien 25'        // alien25
+                ];
+                
+                for (let i = 1; i <= this.totalAliens; i++) {
+                    const slide = document.createElement('div');
+                    slide.className = 'swiper-slide';
+                    
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    
+                    const img = document.createElement('img');
+                    img.src = `assets/aliens/alien${i}.webp`;
+                    img.alt = alienNames[i - 1];
+                    img.onerror = () => this.handleImageError(img, i);
+                    
+                    const title = document.createElement('div');
+                    title.className = 'card-title';
+                    title.textContent = alienNames[i - 1];
+                    
+                    card.appendChild(img);
+                    card.appendChild(title);
+                    slide.appendChild(card);
+                    swiperWrapper.appendChild(slide);
+                }
+            }
+
+            handleImageError(img, alienNumber) {
+                const alienNames = [
+                    'Batedores', 'Veleywei', 'Himpis', 'Porojka', 'Denbou', 'Araporu', 'Botychera', 
+                    'Eta Cassombei', 'Macarilboz', 'Alouepoura', 'Saboe', 'Sapador', 'Cbdaf', 
+                    'Bora mu', 'Bondooga', 'Telome', 'Mundo 6', 'Bratentacolon', 'Nyuoq-Vhess', 
+                    'Mundo 2', 'Alien 21', 'Alien 22', 'Alien 23', 'Alien 24', 'Alien 25'
+                ];
+                
+                const alienName = alienNames[alienNumber - 1];
+                
+                // Fallback para imagem não encontrada
+                img.src = `data:image/svg+xml;charset=UTF-8,%3Csvg width="400" height="500" xmlns="http://www.w3.org/2000/svg"%3E%3Crect width="400" height="500" fill="%23f0f0f0" stroke="%23ddd" stroke-width="2"/%3E%3Ctext x="50%" y="45%" text-anchor="middle" dy=".3em" font-family="Arial" font-size="18" fill="%23999"%3E${alienName}%3C/text%3E%3Ctext x="50%" y="55%" text-anchor="middle" dy=".3em" font-family="Arial" font-size="14" fill="%23ccc"%3EImagem não encontrada%3C/text%3E%3C/svg%3E`;
+            }
+
+            initSwiper() {
+                this.swiper = new Swiper('.swiper-container', {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                    centeredSlides: true,
+                    loop: true,
+                    autoplay: {
+                        delay: 4000,
+                        disableOnInteraction: false,
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                    keyboard: {
+                        enabled: true,
+                    },
+                    mousewheel: {
+                        enabled: true,
+                    },
+                    effect: 'slide',
+                    speed: 800,
+                    breakpoints: {
+                        768: {
+                            slidesPerView: 1.2,
+                            spaceBetween: 30,
+                        },
+                        1024: {
+                            slidesPerView: 1.5,
+                            spaceBetween: 40,
+                        },
+                        1200: {
+                            slidesPerView: 1.8,
+                            spaceBetween: 50,
+                        }
+                    }
+                });
+
+                // Adicionar eventos personalizados
+                this.addCustomEvents();
+            }
+
+            addCustomEvents() {
+                // Pausar autoplay ao hover
+                const container = document.querySelector('.swiper-container');
+                container.addEventListener('mouseenter', () => {
+                    this.swiper.autoplay.stop();
+                });
+
+                container.addEventListener('mouseleave', () => {
+                    this.swiper.autoplay.start();
+                });
+
+                // Eventos de teclado personalizados
+                document.addEventListener('keydown', (e) => {
+                    switch(e.key) {
+                        case 'ArrowLeft':
+                            this.swiper.slidePrev();
+                            break;
+                        case 'ArrowRight':
+                            this.swiper.slideNext();
+                            break;
+                        case ' ':
+                            e.preventDefault();
+                            this.toggleAutoplay();
+                            break;
+                    }
+                });
+
+                // Clique no card para ir para próximo
+                document.addEventListener('click', (e) => {
+                    if (e.target.closest('.card')) {
+                        this.swiper.slideNext();
+                    }
+                });
+            }
+
+            toggleAutoplay() {
+                if (this.swiper.autoplay.running) {
+                    this.swiper.autoplay.stop();
+                } else {
+                    this.swiper.autoplay.start();
+                }
+            }
+
+            // Métodos públicos para controle externo
+            nextSlide() {
+                this.swiper.slideNext();
+            }
+
+            prevSlide() {
+                this.swiper.slidePrev();
+            }
+
+            goToSlide(index) {
+                this.swiper.slideTo(index);
+            }
+
+            getCurrentSlide() {
+                return this.swiper.activeIndex;
+            }
+
+            getTotalSlides() {
+                return this.swiper.slides.length;
+            }
+        }
+
+        // Inicializar quando a página carregar
+        let alienGallery;
+        document.addEventListener('DOMContentLoaded', () => {
+            alienGallery = new AlienGallery();
+        });
+
+        // Prevenir zoom em dispositivos móveis
+        document.addEventListener('touchstart', (e) => {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        });
+
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', (e) => {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>
