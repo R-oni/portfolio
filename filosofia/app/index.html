@@ -553,6 +553,129 @@ main {
   min-height: 1em;
 }
 
+/* ── Footer with notebook icon ── */
+footer {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  z-index: 100;
+}
+
+#btn-notebook {
+  background: none;
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 4px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  padding: .5rem .65rem;
+  cursor: pointer;
+  transition: border-color .2s, color .2s, transform .2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+#btn-notebook:hover {
+  border-color: rgba(255,255,255,.3);
+  color: var(--text);
+  transform: scale(1.05);
+}
+
+/* ── Notebook modal ── */
+#notebook-overlay {
+  position: fixed; inset: 0; z-index: 110;
+  background: rgba(8,7,6,.92);
+  backdrop-filter: blur(24px);
+  display: none; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity .25s;
+}
+
+#notebook-overlay.active {
+  display: flex;
+  opacity: 1;
+  pointer-events: all;
+}
+
+#notebook-modal {
+  width: min(700px, 95vw);
+  max-height: 85vh;
+  background: #141210;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 6px;
+  padding: 2.2rem 2.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  overflow-y: auto;
+}
+
+#notebook-modal h2 {
+  font-family: var(--font-display);
+  font-size: .85rem;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: #e8e0d4;
+  font-weight: 400;
+  margin: 0;
+}
+
+#notebook-textarea {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 3px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: .95rem;
+  padding: .8rem;
+  outline: none;
+  transition: border-color .2s;
+  resize: vertical;
+  min-height: 300px;
+  flex: 1;
+}
+
+#notebook-textarea:focus {
+  border-color: rgba(255,255,255,.25);
+}
+
+.notebook-actions {
+  display: flex;
+  gap: .8rem;
+  justify-content: flex-end;
+}
+
+.notebook-actions button {
+  background: none;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 3px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: .62rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  padding: .45rem 1rem;
+  cursor: pointer;
+  transition: border-color .2s, color .2s;
+}
+
+.notebook-actions button:hover {
+  border-color: rgba(255,255,255,.25);
+  color: var(--text);
+}
+
+.notebook-actions button.danger {
+  color: #c97e7e;
+}
+
+.notebook-actions button.danger:hover {
+  border-color: rgba(201, 126, 126, .3);
+  color: #e89a9a;
+}
+
 /* ── Loading state ── */
 #loading {
   position: fixed; inset: 0; z-index: 300;
@@ -585,6 +708,10 @@ main {
   </div>
 </header>
 
+<footer>
+  <button id="btn-notebook" title="Abrir bloco de notas">📝</button>
+</footer>
+
 <main id="main-content"></main>
 
 <div id="overlay"></div>
@@ -605,6 +732,20 @@ main {
     <div class="modal-actions">
       <button class="btn-cancel" id="modal-cancel">cancelar</button>
       <button class="btn-confirm" id="modal-confirm">salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- notebook modal -->
+<div id="notebook-overlay">
+  <div id="notebook-modal">
+    <h2>Bloco de Notas</h2>
+    <textarea id="notebook-textarea" placeholder="Escreva suas notas aqui..."></textarea>
+    <div class="notebook-actions">
+      <button id="notebook-btn-delete" class="danger" title="Limpar conteúdo">limpar</button>
+      <button id="notebook-btn-download" title="Baixar como JSON">↓ json</button>
+      <button id="notebook-btn-close">fechar</button>
+      <button id="notebook-btn-save" style="border-color: rgba(201, 169, 110, .3); color: #c9a96e;">salvar</button>
     </div>
   </div>
 </div>
@@ -631,6 +772,7 @@ const db   = getFirestore(app);
 const COLL       = 'thinkers';
 const COLL_AREAS = 'areas';
 const COLL_PROG  = 'progress';   // { thinkerId: cardIndex }
+const COLL_NOTEBOOK = 'notebook'; // { notes: string }
 
 /* ── Progress state ─────────────────────────────────────────────── */
 let progress = {};   // { thinkerId: cardIndex }
@@ -642,6 +784,49 @@ async function loadProgress() {
     snap.forEach(d => { progress[d.id] = d.data().index ?? 0; });
   } catch(e) {
     console.warn('progress load failed', e);
+  }
+}
+
+/* ── Notebook state ─────────────────────────────────────────────── */
+let notebookContent = '';
+let notebookSaveTimer = null;
+
+async function loadNotebook() {
+  try {
+    const docSnap = await getDocs(collection(db, COLL_NOTEBOOK));
+    if (!docSnap.empty) {
+      const doc = docSnap.docs[0];
+      notebookContent = doc.data().notes || '';
+      notebookTextarea.value = notebookContent;
+    }
+  } catch(e) {
+    console.warn('notebook load failed', e);
+  }
+}
+
+async function saveNotebook(content) {
+  try {
+    const docRef = doc(db, COLL_NOTEBOOK, 'notes');
+    await setDoc(docRef, { notes: content, lastSaved: new Date().toISOString() });
+    notebookContent = content;
+    toast('bloco de notas salvo');
+  } catch(e) {
+    toast('erro ao salvar bloco de notas');
+    console.error(e);
+  }
+}
+
+async function deleteNotebook() {
+  if (!confirm('Limpar todo o conteúdo do bloco de notas?')) return;
+  try {
+    const docRef = doc(db, COLL_NOTEBOOK, 'notes');
+    await setDoc(docRef, { notes: '', lastSaved: new Date().toISOString() });
+    notebookContent = '';
+    notebookTextarea.value = '';
+    toast('bloco de notas limpo');
+  } catch(e) {
+    toast('erro ao limpar bloco de notas');
+    console.error(e);
   }
 }
 
@@ -697,6 +882,13 @@ const modalConfirm  = document.getElementById('modal-confirm');
 const loadingEl     = document.getElementById('loading');
 const toastEl       = document.getElementById('toast');
 const popupCounter  = document.getElementById('popup-counter');
+const notebookBtn   = document.getElementById('btn-notebook');
+const notebookOverlay = document.getElementById('notebook-overlay');
+const notebookTextarea = document.getElementById('notebook-textarea');
+const notebookBtnSave = document.getElementById('notebook-btn-save');
+const notebookBtnClose = document.getElementById('notebook-btn-close');
+const notebookBtnDelete = document.getElementById('notebook-btn-delete');
+const notebookBtnDownload = document.getElementById('notebook-btn-download');
 
 /* ── Toast ──────────────────────────────────────────────────────── */
 let toastTimer;
@@ -1051,6 +1243,49 @@ function getModalValues(fields) {
 modalCancel.addEventListener('click', closeModal);
 modalConfirm.addEventListener('click', () => { if (modalCallback) modalCallback(); });
 
+/* ── Notebook modal logic ────────────────────────────────────────── */
+notebookBtn.addEventListener('click', () => {
+  notebookTextarea.value = notebookContent;
+  notebookOverlay.classList.add('active');
+  notebookTextarea.focus();
+});
+
+notebookBtnClose.addEventListener('click', () => {
+  notebookOverlay.classList.remove('active');
+});
+
+notebookBtnSave.addEventListener('click', async () => {
+  notebookBtnSave.disabled = true;
+  await saveNotebook(notebookTextarea.value);
+  notebookBtnSave.disabled = false;
+});
+
+notebookBtnDelete.addEventListener('click', async () => {
+  await deleteNotebook();
+});
+
+notebookBtnDownload.addEventListener('click', () => {
+  const json = JSON.stringify({ notes: notebookTextarea.value, exportedAt: new Date().toISOString() }, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `bloco-de-notas-${new Date().toISOString().split('T')[0]}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('bloco de notas baixado');
+});
+
+notebookOverlay.addEventListener('click', e => {
+  if (e.target === notebookOverlay) notebookOverlay.classList.remove('active');
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && notebookOverlay.classList.contains('active')) {
+    notebookOverlay.classList.remove('active');
+  }
+});
+
 /* ── Add thinker ────────────────────────────────────────────────── */
 addThinkerBtn.addEventListener('click', () => {
   const areaOptions = Object.entries(areas)
@@ -1159,6 +1394,7 @@ const AREA_DEFAULTS = {
 };
 
 async function loadAndRender() {
+  await loadNotebook();
   try {
     const [areasSnap, thinkersSnap] = await Promise.all([
       getDocs(collection(db, COLL_AREAS)),
