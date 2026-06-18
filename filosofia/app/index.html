@@ -278,7 +278,7 @@ main {
 }
 
 #popup-scroll {
-  width: min(640px, 92vw);
+  width: min(700px, 92vw);
   height: min(520px, 75vh);
   overflow-y: scroll;
   scrollbar-width: none;
@@ -410,6 +410,26 @@ main {
 }
 .quote-card.is-bookmark.focus::after {
   opacity: .9;
+}
+
+/* ── Desktop: quote-cards 10% maiores ── */
+@media (min-width: 1024px) {
+  .quote-card {
+    width: min(638px, 88vw);
+    padding: 2.2rem 2.64rem;
+  }
+  .quote-card .qc-label {
+    font-size: .682rem;
+    margin-bottom: 0.99rem;
+  }
+  .quote-card .qc-text {
+    font-size: 1.155rem;
+    line-height: 1.85;
+  }
+  .quote-card .qc-source {
+    margin-top: 1.32rem;
+    font-size: .715rem;
+  }
 }
 
 /* progress underline on thinker card */
