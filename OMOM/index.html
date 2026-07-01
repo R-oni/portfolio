@@ -695,49 +695,49 @@
       <div class="symbol brither" data-world="nyuoq-vhess">
         <img src="mundos/Nyuoq-Vhess/nyuoq-vhessmenu.webp" alt="Nyuoq-Vhess">
       </div>
-      <div class="symbol locked" data-world="himpis">
+      <div class="symbol brither" data-world="himpis">
         <img src="mundos/himpis/himpismenu.webp" alt="Himpis">
       </div>
-      <div class="symbol locked" data-world="araporu">
+      <div class="symbol brither" data-world="araporu">
         <img src="mundos/araporu/araporumenu.webp" alt="Araporu">
       </div>
-      <div class="symbol locked" data-world="denbou">
+      <div class="symbol brither" data-world="denbou">
         <img src="mundos/denbou/denboumenu.webp" alt="Denbou">
       </div>
-      <div class="symbol locked" data-world="sapador">
+      <div class="symbol brither" data-world="sapador">
         <img src="mundos/sapador/sapadormenu.webp" alt="Sapador">
       </div>
-      <div class="symbol locked" data-world="botychera">
+      <div class="symbol brither" data-world="botychera">
         <img src="mundos/botychera/botycheramenu.webp" alt="Botychera">
       </div>
-      <div class="symbol locked" data-world="macarilboz">
+      <div class="symbol brither" data-world="macarilboz">
         <img src="mundos/macarilboz/macarilbozmenu.webp" alt="Macarilboz">
       </div>
-      <div class="symbol locked" data-world="alouepoura">
+      <div class="symbol brither" data-world="alouepoura">
         <img src="mundos/alouepoura/imagens/alouepouramenu.webp" alt="Alouepoura">
       </div>
-      <div class="symbol locked" data-world="saboe">
+      <div class="symbol brither" data-world="saboe">
         <img src="mundos/saboe/saboemenu.webp" alt="Saboe">
       </div>
-      <div class="symbol locked" data-world="etacassombei">
+      <div class="symbol brither" data-world="etacassombei">
         <img src="mundos/etacassombei/etacassombeimenu.webp" alt="Eta Cassombei">
       </div>
-      <div class="symbol locked" data-world="cbdaf">
+      <div class="symbol brither" data-world="cbdaf">
         <img src="mundos/cbdaf/cbdafmenu.webp" alt="Cbdaf">
       </div>
-      <div class="symbol locked" data-world="bondooga">
+      <div class="symbol brither" data-world="bondooga">
         <img src="mundos/bondooga/imagens/bondoogamenu.webp" alt="Bondooga">
       </div>
-      <div class="symbol locked" data-world="telome">
+      <div class="symbol brither" data-world="telome">
         <img src="mundos/Telome/telomemenu.webp" alt="Telome">
       </div>
-      <div class="symbol locked" data-world="mundo6">
+      <div class="symbol brither" data-world="mundo6">
         <img src="mundos/mundo 6/criaturamenu.webp" alt="MUNDO6">
       </div>
-      <div class="symbol locked" data-world="bratentacolon">
+      <div class="symbol brither" data-world="bratentacolon">
         <img src="mundos/bratentacolon/bratentacolonmenu.webp" alt="Bratentacolon">
       </div>
-      <div class="symbol locked" data-world="mundo2">
+      <div class="symbol brither" data-world="mundo2">
         <img src="mundos/mundo 2/imagens/mundo2.webp" alt="Mundo 2">
       </div>
       <div style="width:100%;height:4vh;"></div>
@@ -1251,12 +1251,33 @@ window.addEventListener('load', initOMOMAnimation);
             }
 
             // ========== CARREGAR MUNDO COM ISOLAMENTO POR FUNÇÃO ==========
-            console.log('📦 Carregando script do mundo via fetch:', world + '.js');
+            const worldScriptMap = {
+              alouepoura: 'mundos/alouepoura/alouepoura.js',
+              araporu: 'mundos/araporu/araporu.js',
+              bondooga: 'mundos/bondooga/bondooga.js',
+              boramu: 'mundos/boramu/boramu.js',
+              botychera: 'mundos/botychera/botychera.js',
+              cbdaf: 'mundos/cbdaf/cbdaf.js',
+              denbou: 'mundos/denbou/denbou.js',
+              etacassombei: 'mundos/etacassombei/etacassombei.js',
+              himpis: 'mundos/himpis/himpis.js',
+              macarilboz: 'mundos/macarilboz/macarilboz.js',
+              'nyuoq-vhess': 'mundos/Nyuoq-Vhess/nyuoq-vhess.js',
+              ofcmapaonei: 'mundos/ofcmapaonei/ofcmapaonei.js',
+              porojka: 'mundos/porojka/porojka.js',
+              saboe: 'mundos/saboe/saboe.js',
+              sapador: 'mundos/sapador/sapador.js',
+              veleywei: 'mundos/veleywei/veleywei.js',
+              batedores: 'mundos/ttok/batedores.js',
+              veleywei: 'mundos/veleywei/veleywei.js'
+            };
+            const worldScriptPath = worldScriptMap[world] || (world + '.js');
+            console.log('📦 Carregando script do mundo via fetch:', worldScriptPath);
             const container = document.getElementById('flipbook-content');
             container.innerHTML = '';
             
             // Estado isolado por execução (sem redeclarar let globais no global scope)
-            fetch(world + '.js?_=' + Date.now())
+            fetch(worldScriptPath + '?_=' + Date.now())
               .then(r => { if(!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
               .then(code => {
                 console.log('✅ Script obtido, encapsulando...');
