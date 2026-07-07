@@ -1479,5 +1479,29 @@ window.addEventListener('load', initOMOMAnimation);
       }, 1200);
     });
   </script>
+
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+  import { getFirestore } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBYJz56mELNWNeVMsGuV0noF7GTZMDEPGI",
+    authDomain: "omom-database.firebaseapp.com",
+    projectId: "omom-database",
+    storageBucket: "omom-database.firebasestorage.app",
+    messagingSenderId: "604756647255",
+    appId: "1:604756647255:web:4ecd05c34ad62e32483212",
+    measurementId: "G-6MZK2WXYJN"
+  };
+
+  // Inicializa o Firebase
+  const app = initializeApp(firebaseConfig);
+  
+  // Salva o banco de dados globalmente para os mundos usarem
+  window.db = getFirestore(app);
+  console.log("Firebase inicializado no index!");
+
+</script>
+
 </body>
 </html>
