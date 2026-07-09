@@ -9,12 +9,7 @@ let debounce = false;
 let appState = 'intro'; // 'intro', 'system', 'globe', 'gallery', 'texto'
 let currentGalleryIndex = -1;
 let handleTouchStart, handleTouchEnd, handleWheel, handleClick;
-let handleTextoVoltar, handleTextoModo, handleFonteMais, handleFonteMenos, handleNegrito, handleItalico, handleSalvarTexto;
 let introTimeouts = [];
-
-// Estado da página de texto (editor/leitor)
-let textoModo = 'leitura'; // 'leitura' ou 'edicao'
-let textoFontSize = 18;
 
 // ==========================================
 // ARQUIVOS (GALERIA)
@@ -48,73 +43,9 @@ async function carregarTexto() {
     if (snap.exists()) {
       const dados = snap.data();
       textoEl.innerHTML = dados.conteudo || '';
-      if (dados.tamanhoFonte) aplicarFonte(dados.tamanhoFonte);
     }
   } catch (err) {
     console.error('Erro ao carregar texto:', err);
-  }
-}
-
-async function salvarTexto() {
-  const textoEl = document.getElementById('texto-conteudo');
-  const btnSalvar = document.getElementById('btn-salvar-texto');
-  if (!textoEl) return;
-  
-  if (!window.db) {
-    alert('Erro: Banco de dados não conectado.');
-    return;
-  }
-
-  try {
-    const { doc, setDoc } = await import('https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js');
-    const ref = doc(window.db, 'textos', NOME_DO_MUNDO);
-    
-    await setDoc(ref, {
-      conteudo: textoEl.innerHTML,
-      tamanhoFonte: textoFontSize,
-      atualizadoEm: new Date().toISOString()
-    });
-    
-    if (btnSalvar) {
-      const original = btnSalvar.textContent;
-      btnSalvar.textContent = 'SALVO!';
-      setTimeout(() => { btnSalvar.textContent = original; }, 1500);
-    }
-  } catch (err) {
-    console.error('Erro ao salvar texto:', err);
-    if (btnSalvar) {
-      const original = btnSalvar.textContent;
-      btnSalvar.textContent = 'ERRO';
-      setTimeout(() => { btnSalvar.textContent = original; }, 1500);
-    }
-  }
-}
-
-function aplicarFonte(px) {
-  textoFontSize = Math.min(32, Math.max(12, px));
-  const textoEl = document.getElementById('texto-conteudo');
-  const display = document.getElementById('texto-fonte-display');
-  if (textoEl) textoEl.style.fontSize = textoFontSize + 'px';
-  if (display) display.textContent = textoFontSize + 'px';
-}
-
-function alternarModoTexto() {
-  const textoEl = document.getElementById('texto-conteudo');
-  const btnModo = document.getElementById('btn-modo-texto');
-  const toolbarEdicao = document.getElementById('texto-toolbar-edicao');
-  if (!textoEl) return;
-  
-  if (textoModo === 'leitura') {
-    textoModo = 'edicao';
-    textoEl.contentEditable = 'true';
-    textoEl.focus();
-    if (btnModo) btnModo.textContent = 'LER';
-    if (toolbarEdicao) toolbarEdicao.style.display = 'flex';
-  } else {
-    textoModo = 'leitura';
-    textoEl.contentEditable = 'false';
-    if (btnModo) btnModo.textContent = 'EDITAR';
-    if (toolbarEdicao) toolbarEdicao.style.display = 'none';
   }
 }
 
@@ -149,7 +80,10 @@ window.initFlipbook = function(wrapperSelector) {
       <div style="font-size: 12px; margin-top: 4px;">estudio</div>
     </div>
 
-    <img id="layer-menu" src="mundos/himpis/himpismenu.webp" style="position: absolute; opacity: 0; transition: opacity 1s ease-in-out; max-width: 80%; max-height: 80%; z-index: 9; pointer-events: none;" draggable="false">
+    <div id="layer-menu" style="position: absolute; opacity: 0; transition: opacity 1s ease-in-out; z-index: 9; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none;">
+      <img src="mundos/himpis/himpismenu.webp" style="max-width: 40%; max-height: 40vh; pointer-events: none;" draggable="false">
+      <div style="font-family: 'Press Start 2P', monospace; font-size: 10px; color: #fff; margin-top: 15px; letter-spacing: 2px;">HIMPIS</div>
+    </div>
 
     <div id="layer-system" style="position: absolute; width: 100vw; height: 100vh; max-width: 800px; max-height: 800px; opacity: 0; transform: scale(0.01); transition: opacity 1.5s ease-out, transform 1.5s cubic-bezier(0.16, 1, 0.3, 1); z-index: 8; display: flex; justify-content: center; align-items: center; pointer-events: none;">
       <canvas id="systemCanvas" style="width: 100%; height: 100%; display: block;"></canvas>
@@ -165,27 +99,9 @@ window.initFlipbook = function(wrapperSelector) {
 
     ${galleryHTML}
 
-    <div id="layer-texto" style="position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; opacity: 0; transition: opacity 0.6s ease-in-out; z-index: 6; pointer-events: none; background-color: #000; overflow: hidden; display: flex;">
-      <div id="texto-pagina">
-        <div id="texto-toolbar">
-          <div id="btn-voltar-texto" class="texto-btn">‹ VOLTAR</div>
-          
-          <div style="display:flex; align-items:center; gap:8px;">
-            <div id="btn-modo-texto" class="texto-btn">EDITAR</div>
-            <div style="display:flex; align-items:center; gap:4px;">
-              <div id="btn-fonte-menos" class="texto-btn">A-</div>
-              <span id="texto-fonte-display" style="font-family:'Press Start 2P',monospace; font-size:8px; color:#00ffe7; min-width:34px; text-align:center; display:inline-block;">18px</span>
-              <div id="btn-fonte-mais" class="texto-btn">A+</div>
-            </div>
-          </div>
-
-          <div id="texto-toolbar-edicao">
-            <div id="btn-negrito" class="texto-btn"><b>B</b></div>
-            <div id="btn-italico" class="texto-btn"><i>I</i></div>
-            <div id="btn-salvar-texto" class="texto-btn">SALVAR</div>
-          </div>
-        </div>
-        <div id="texto-conteudo" contenteditable="false" spellcheck="false"></div>
+    <div id="layer-texto" style="position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; opacity: 0; transition: opacity 0.6s ease-in-out; z-index: 6; pointer-events: none; background-color: #ffffff; overflow: hidden; display: flex; justify-content: center;">
+      <div id="texto-pagina" style="width: 100%; max-width: 800px; height: 100%; display: flex; flex-direction: column;">
+        <div id="texto-conteudo" style="flex: 1; overflow-y: auto; padding: 40px 20px; font-family: 'Literata', serif; font-size: 18px; line-height: 1.7; color: #2b2320; outline: none; -webkit-overflow-scrolling: touch;" contenteditable="false" spellcheck="false"></div>
       </div>
     </div>
   `;
@@ -210,85 +126,14 @@ window.initFlipbook = function(wrapperSelector) {
     document.head.appendChild(literataLink);
   }
 
-  // Estilos da página de texto
+  // Estilos da página de texto puro
   if (!document.getElementById('texto-estilos')) {
     const styleTag = document.createElement('style');
     styleTag.id = 'texto-estilos';
     styleTag.textContent = `
       #layer-texto * { box-sizing: border-box; }
-      #texto-pagina {
-        width: 100%;
-        height: 100%;
-        margin: 0 auto;
-        background: #ffffff;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-      }
-      #texto-toolbar {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: flex-end;
-        gap: 8px;
-        padding: 10px;
-        background: #000;
-        border-bottom: 1px solid rgba(0, 255, 231, 0.3);
-        flex-shrink: 0;
-      }
-      #btn-voltar-texto {
-        margin-right: auto;
-      }
-      #texto-toolbar-edicao {
-        display: none;
-        flex-wrap: wrap;
-        gap: 8px;
-        align-items: center;
-      }
-      .texto-btn {
-        font-family: 'Press Start 2P', monospace;
-        font-size: 9px;
-        background: rgba(0, 0, 0, 0.85);
-        color: #00ffe7;
-        border: 1px solid #00ffe7;
-        border-radius: 4px;
-        padding: 9px 10px;
-        min-height: 36px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        white-space: nowrap;
-        transition: background 0.2s, color 0.2s;
-        user-select: none;
-      }
-      .texto-btn:active { background: #00ffe7; color: #000; }
-      #texto-conteudo {
-        flex: 1;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        font-family: 'Literata', serif;
-        font-size: 18px;
-        line-height: 1.7;
-        color: #2b2320;
-        padding: 24px 18px 60px;
-        outline: none;
-      }
-      #texto-conteudo:empty::before {
-        content: 'Toque em EDITAR para começar a escrever.';
-        font-style: italic;
-        color: rgba(43, 35, 32, 0.4);
-      }
-      @media (min-width: 640px) {
-        #texto-pagina {
-          max-width: 700px;
-          border-left: 1px solid rgba(0, 255, 231, 0.4);
-          border-right: 1px solid rgba(0, 255, 231, 0.4);
-          box-shadow: 0 0 60px rgba(0, 255, 231, 0.08);
-        }
-        #texto-toolbar { padding: 14px 24px; }
-        #texto-conteudo { padding: 48px 60px 80px; }
-      }
+      #texto-conteudo::-webkit-scrollbar { width: 6px; }
+      #texto-conteudo::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 3px; }
     `;
     document.head.appendChild(styleTag);
   }
@@ -321,38 +166,6 @@ window.initFlipbook = function(wrapperSelector) {
   };
   window.addEventListener('click', handleClick);
 
-  // Controles da página de texto
-  handleTextoVoltar = function() {
-    if (appState === 'texto') voltarCena();
-  };
-  handleTextoModo = function() { alternarModoTexto(); };
-  
-  handleFonteMais = function() { aplicarFonte(textoFontSize + 1); };
-  handleFonteMenos = function() { aplicarFonte(textoFontSize - 1); };
-  
-  handleNegrito = function() { document.execCommand('bold'); };
-  handleItalico = function() { document.execCommand('italic'); };
-  handleSalvarTexto = function() { salvarTexto(); };
-
-  setTimeout(() => { 
-    const pares = [
-      ['btn-voltar-texto', handleTextoVoltar],
-      ['btn-modo-texto', handleTextoModo],
-      ['btn-fonte-mais', handleFonteMais],
-      ['btn-fonte-menos', handleFonteMenos],
-      ['btn-negrito', handleNegrito],
-      ['btn-italico', handleItalico],
-      ['btn-salvar-texto', handleSalvarTexto]
-    ];
-    pares.forEach(([id, handler]) => {
-      const el = document.getElementById(id);
-      if (el) {
-        el.addEventListener('click', handler);
-        el.addEventListener('touchstart', handler, { passive: true });
-      }
-    });
-  }, 100);
-
   // Sequência Inicial
   introTimeouts.push(setTimeout(() => {
     document.getElementById('layer-omom').style.opacity = '0';
@@ -375,21 +188,35 @@ window.initFlipbook = function(wrapperSelector) {
   // CONTROLE DE GESTOS
   // ==========================================
   handleTouchStart = function(e) {
-    if (appState === 'texto') return; 
     touchStartY = e.touches[0].clientY;
   };
 
   handleTouchEnd = function(e) {
-    if (!swipeEnabled || appState === 'texto') return;
+    if (!swipeEnabled) return;
     const touchEndY = e.changedTouches[0].clientY;
     const diff = touchStartY - touchEndY;
+
+    // Se estiver no leitor de texto e puxar para baixo no topo, voltar
+    if (appState === 'texto') {
+      const textoEl = document.getElementById('texto-conteudo');
+      if (diff < -50 && textoEl.scrollTop <= 0) voltarCena();
+      return;
+    }
 
     if (diff > 50) avancarCena();
     else if (diff < -50) voltarCena();
   };
 
   handleWheel = function(e) {
-    if (!swipeEnabled || appState === 'texto') return;
+    if (!swipeEnabled) return;
+
+    // Se estiver no leitor de texto e rolar para cima no topo, voltar
+    if (appState === 'texto') {
+      const textoEl = document.getElementById('texto-conteudo');
+      if (e.deltaY < 0 && textoEl.scrollTop <= 0) voltarCena();
+      return;
+    }
+
     if (e.deltaY > 0) avancarCena();
     else if (e.deltaY < 0) voltarCena();
   };
@@ -509,8 +336,6 @@ window.initFlipbook = function(wrapperSelector) {
       const layerTexto = document.getElementById('layer-texto');
       layerTexto.style.opacity = '0';
       layerTexto.style.pointerEvents = 'none';
-
-      if (textoModo === 'edicao') alternarModoTexto();
 
       const lastImg = document.getElementById(`layer-gallery-${galleryImages.length - 1}`);
       if(lastImg) lastImg.style.opacity = '1';
@@ -791,24 +616,6 @@ window.stopAllAnimations = function() {
   if (handleTouchStart) window.removeEventListener('touchstart', handleTouchStart);
   if (handleTouchEnd) window.removeEventListener('touchend', handleTouchEnd);
   if (handleWheel) window.removeEventListener('wheel', handleWheel);
-
-  const paresTexto = [
-    ['btn-voltar-texto', handleTextoVoltar],
-    ['btn-modo-texto', handleTextoModo],
-    ['btn-fonte-mais', handleFonteMais],
-    ['btn-fonte-menos', handleFonteMenos],
-    ['btn-negrito', handleNegrito],
-    ['btn-italico', handleItalico],
-    ['btn-salvar-texto', handleSalvarTexto]
-  ];
-  paresTexto.forEach(([id, handler]) => {
-    if (!handler) return;
-    const el = document.getElementById(id);
-    if (el) {
-      el.removeEventListener('click', handler);
-      el.removeEventListener('touchstart', handler);
-    }
-  });
 
   document.body.style.overflow = '';
   document.documentElement.style.overflow = '';

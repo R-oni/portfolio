@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0, user-scalable=yes"/>
+  <title>OMOM</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Literata:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet"/>
+  
+  <style>
+    /* ===================================================================
+       1. ESTILOS BASE (MOBILE-FIRST)
+       =================================================================== */
+    * { margin:0; padding:0; box-sizing:border-box }
+    html, body {
+      width:100%; height:100%; overflow:hidden;
+      background:#000; color:#fff;
+      font-family:'Courier New',monospace;
+      transition: background 1s ease;
+    }
+    
+    /* Splash OMOM */
+    #omom-screen {
+      position:fixed; inset:0;
+      display:flex; align-items:center; justify-content:center;
+      background:#000; z-index:10;
+    }
+
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+    @keyframes fadeOut { from{opacity:1} to{opacity:0} }
+
+    /* Prompt Som */
+    #soundPrompt {
+      position:fixed; inset:0; display:none;
+      flex-direction:column; align-items:center; justify-content:center;
+      background:#000; z-index:8; text-align:center; margin-top:25vh;
+    }
+    #soundPrompt p {
+      font-family:'Press Start 2P',cursive; font-size:5vw; margin-bottom:4vh; color:#00FFE7;
+    }
+    .soundBtns { display:flex; gap:4vw; justify-content:center; align-items:center; }
+    .soundBtn {
+      padding:2vh 4vw; font-family:'Press Start 2P',cursive; font-size:4vw;
+      background:none; border:2px solid #00FFE7; color:#00FFE7; cursor:pointer; transition: all 0.3s ease;
+    }
+    .soundBtn:hover { background:#00FFE7; color:#000; }
+
+    /* Menu de Símbolos */
+    #menu {
+      position:fixed; inset:0; display:none; flex-direction:column; align-items:center; justify-content:flex-start;
+      z-index:7; padding:10vh 5vw 5vh; background:#000; transition: background 1s ease;
+      overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none;
+    }
+    #menu::-webkit-scrollbar { display: none; }
+    #menu h1 {
+      font-family:'Press Start 2P',cursive; font-size:6vw; color:#fff; margin-bottom:10vh;
+      text-align:center; flex-shrink: 0; position: relative;
+    }
+
+    .symbols-container {
+      display:flex; flex-wrap:wrap; justify-content:center; gap:5vw;
+      width:100%; max-width: 1200px; overflow-y: auto; padding-bottom: 0;
+      scrollbar-width: none; -ms-overflow-style: none;
+    }
+    .symbols-container::-webkit-scrollbar { display: none; }
+    .symbol {
+      cursor:pointer; animation: individualFloat 4s ease-in-out infinite; flex-shrink: 0; position: relative;
+    }
+    .symbol img { width:24vw; max-width:200px; display:block; }
+
+    /* Mundos bloqueados (Código do cadeado mantido) */
+    .symbol.locked img { opacity: 0.35; transition: opacity 0.3s ease; }
+    .symbol.locked::after {
+      content: ''; background: #00ffe7; width: 5vw; height: 4vw; max-width: 25px; max-height: 20px;
+      border-radius: 4px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -40%);
+      opacity: 0; pointer-events: none; transition: opacity 0.2s ease-out; box-shadow: 0 0 8px rgba(0, 255, 231, 0.5);
+    }
+    .symbol.locked::before {
+      content: ''; width: 2.5vw; height: 3vw; max-width: 16px; max-height: 12px;
+      border: 0.8vw solid #00ffe7; border-width: min(0.8vw, 5px); border-bottom: none; border-radius: 10px 10px 0 0;
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -110%);
+      opacity: 0; pointer-events: none; transition: opacity 0.2s ease-out;
+    }
+    .symbol.locked.show-lock::after, .symbol.locked.show-lock::before { opacity: 1; }
+
+    .symbol:nth-child(1) { animation-delay: 0s; animation-duration: 6.3s; }
+    .symbol:nth-child(2) { animation-delay: -0.8s; animation-duration: 6.1s; }
+    .symbol:nth-child(3) { animation-delay: -1.6s; animation-duration: 7.7s; }
+    .symbol:nth-child(4) { animation-delay: -2.4s; animation-duration: 8.3s; }
+    .symbol:nth-child(5) { animation-delay: -3.2s; animation-duration: 6.9s; }
+    .symbol:nth-child(6) { animation-delay: -1.1s; animation-duration: 5.5s; }
+    .symbol:nth-child(7) { animation-delay: -2.7s; animation-duration: 6.4s; }
+    .symbol:nth-child(8) { animation-delay: -0.5s; animation-duration: 6.2s; }
+    .symbol:nth-child(9) { animation-delay: -1.9s; animation-duration: 5.8s; }
+    .symbol:nth-child(10) { animation-delay: -3.5s; animation-duration: 4.0s; }
+    .symbol:nth-child(11) { animation-delay: -0.3s; animation-duration: 7.6s; }
+
+    @keyframes individualFloat {
+      0% { transform: translateY(0px); }
+      25% { transform: translateY(-10px); }
+      50% { transform: translateY(-6px); }
+      75% { transform: translateY(-12px); }
+      100% { transform: translateY(0px); }
+    }
+
+    /* Flipbook Principal */
+    #flipbook {
+      position:fixed; inset:0; display:none; background:#fff; z-index:6;
+      transition: background 1s ease; overflow-y: auto; overflow-x: hidden;
+    }
+    #flipbook-content {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 0 !important; gap: 0 !important; min-height: 100vh;
+    }
+
+    /* Voltar */
+    #btnVoltar {
+      position:fixed; top:2vh; left:5vw; padding:1vh 2vw; font-family:'Press Start 2P',cursive; font-size:3vw;
+      background:rgba(0,0,0,0.8); border:2px solid #00FFE7; color:#00FFE7;
+      cursor:pointer; display:none; z-index:20; backdrop-filter: blur(5px);
+    }
+
+    /* ===================================================================
+       2. DESKTOP E EXTRAS
+       =================================================================== */
+    @media screen and (min-width: 768px) {
+      #soundPrompt p { font-size: 1.5rem; }
+      .soundBtn { font-size: 1rem; padding: 15px 30px; }
+      #menu { padding: 8vh 5vw 3vh; text-align: center; align-items: center; display: none; flex-direction: column; }
+      #menu h1 { font-size: 3rem; margin-bottom: 10vh; width: 100%; text-align: center; }
+      .symbols-container { gap: 3vw; max-height: 70vh; }
+      .symbol img { width: 150px; }
+      #btnVoltar { font-size: 12px; padding: 10px 20px; }
+      #flipbook { background: #fff !important; }
+      @media screen and (min-width: 1024px) {
+        #menu { padding: 3vh 0 !important; justify-content: center; width: 100%; }
+        #menu h1 { font-size: 2rem !important; margin-bottom: 5vh !important; }
+        .symbols-container {
+          display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+          gap: 30px; max-width: 1400px; width: 90%; justify-items: center; margin: 0 auto;
+        }
+      }
+    }
+
+    /* Pixels Aleatórios no fundo */
+    .background-pixels { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; opacity: 0.4; }
+    .pixel { position: absolute; background: #00FFE7; animation: pixelTwinkle 0.1s ease-in-out infinite; }
+    @keyframes pixelTwinkle { 0%, 100% { opacity: 0.1; } 50% { opacity: 0.6; } }
+
+    .comics-title { font-family:'Press Start 2P',monospace; font-size:2.2vw; color:#00ffe7; letter-spacing:2px; display:inline-block; }
+    .comics-separator { width:100%; display: block; text-align: center; margin: 0 0 2vh 0; clear: both; }
+
+    @media (max-width: 767px) {
+      .comics-title { font-size: 6vw !important; }
+      .symbols-container { max-height: 90vh; }
+    }
+    @media (min-width: 768px) {
+      .comics-separator { grid-column: 1 / -1 !important; }
+      .comics-separator + .symbol { margin-top: 0 !important; }
+    }
+
+    /* ===================================================================
+       3. ESTILOS DO EDITOR DE TEXTO (INJETADO)
+       =================================================================== */
+    #layer-texto { width: 100%; height: 100vh; background-color: #000; display: flex; flex-direction: column; overflow: hidden; }
+    #texto-pagina {
+      width: 100%; height: 100%; margin: 0 auto; background: #ffffff; display: flex; flex-direction: column; overflow: hidden;
+    }
+    #texto-toolbar {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px; padding: 10px; padding-left: 120px;
+      background: #000; border-bottom: 1px solid rgba(0, 255, 231, 0.3); flex-shrink: 0;
+    }
+    #texto-toolbar-edicao { display: none; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .texto-btn {
+      font-family: 'Press Start 2P', monospace; font-size: 9px; background: rgba(0, 0, 0, 0.85);
+      color: #00ffe7; border: 1px solid #00ffe7; border-radius: 4px; padding: 9px 10px; min-height: 36px;
+      display: flex; align-items: center; justify-content: center; cursor: pointer; white-space: nowrap;
+      transition: background 0.2s, color 0.2s; user-select: none;
+    }
+    .texto-btn:active { background: #00ffe7; color: #000; }
+    #texto-conteudo {
+      flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; font-family: 'Literata', serif; font-size: 18px; line-height: 1.7;
+      color: #2b2320; padding: 24px 18px 60px; outline: none; width: 100%; text-align: left;
+    }
+    #texto-conteudo:empty::before { content: 'Toque em EDITAR para começar a escrever.'; font-style: italic; color: rgba(43, 35, 32, 0.4); }
+    
+    @media (min-width: 640px) {
+      #texto-pagina { max-width: 800px; border-left: 1px solid rgba(0, 255, 231, 0.4); border-right: 1px solid rgba(0, 255, 231, 0.4); box-shadow: 0 0 60px rgba(0, 255, 231, 0.08); }
+      #texto-toolbar { padding: 14px 24px; padding-left: 120px; }
+      #texto-conteudo { padding: 48px 60px 80px; }
+    }
+  </style>
+</head>
+<body>
+  <audio id="memories" src="assets/sfx/memories.mp3" preload="auto" loop></audio>
+  <audio id="whooshSound" src="assets/sfx/whoosh.wav" preload="auto"></audio>
+  
+  <div id="omom-screen">
+    <canvas id="omom-pixel-canvas" style="display:block; margin:auto; background:#000; width:100vw; height:30vh; max-height:180px;"></canvas>
+  </div>
+
+  <div id="soundPrompt">
+    <p>Som?</p>
+    <div class="soundBtns">
+      <button class="soundBtn" id="btnYes">SIM</button>
+      <button class="soundBtn" id="btnNo">NÃO</button>
+    </div>
+  </div>
+
+  <div id="menu">
+    <h1>
+      <img id="instagramIcon" src="assets/instagram.webp" alt="Instagram" onclick="window.open('https://www.instagram.com/roniricardoart/', '_blank')" style="cursor:pointer; width:50px; display:inline-block; vertical-align:middle; margin-right:10px;">
+      OMOM
+    </h1>
+    <div class="symbols-container" id="main-symbols">
+      <div class="symbol brither" data-world="himpis"><img src="mundos/himpis/himpismenu.webp" alt="Himpis"></div>
+      <div class="symbol brither" data-world="denbou"><img src="mundos/denbou/denboumenu.webp" alt="Denbou"></div>
+      <div class="symbol brither" data-world="sapador"><img src="mundos/sapador/sapadormenu.webp" alt="Sapador"></div>
+      <div class="symbol brither" data-world="araporu"><img src="mundos/araporu/araporumenu.webp" alt="Araporu"></div>
+      <div class="symbol brither" data-world="macarilboz"><img src="mundos/macarilboz/macarilbozmenu.webp" alt="Macarilboz"></div>
+      <div class="symbol brither" data-world="alouepoura"><img src="mundos/alouepoura/imagens/alouepouramenu.webp" alt="Alouepoura"></div>
+      <div class="symbol brither" data-world="saboe"><img src="mundos/saboe/saboemenu.webp" alt="Saboe"></div>
+      <div class="symbol brither" data-world="etacassombei"><img src="mundos/etacassombei/etacassombeimenu.webp" alt="Eta Cassombei"></div>
+      <div class="symbol brither" data-world="cbdaf"><img src="mundos/cbdaf/cbdafmenu.webp" alt="Cbdaf"></div>
+      <div class="symbol brither" data-world="bondooga"><img src="mundos/bondooga/imagens/bondoogamenu.webp" alt="Bondooga"></div>
+      <div class="symbol brither" data-world="telome"><img src="mundos/Telome/telomemenu.webp" alt="Telome"></div>
+      <div class="symbol brither" data-world="mundo6"><img src="mundos/mundo 6/criaturamenu.webp" alt="MUNDO6"></div>
+      <div class="symbol brither" data-world="bratentacolon"><img src="mundos/bratentacolon/bratentacolonmenu.webp" alt="Bratentacolon"></div>
+      <div class="symbol brither" data-world="mundo2"><img src="mundos/mundo 2/imagens/mundo2.webp" alt="Mundo 2"></div>
+      <div class="symbol brither" data-world="tumboes"><img src="mundos/tumboes/tumboesmenu.webp" alt="Tumboes"></div>
+      <div class="symbol brither" data-world="cassmiranoborezan"><img src="mundos/cassmiranoborezan/imagens/cassmiranoborezanmenu.webp" alt="Cass'miran-oborezan"></div>
+      <div class="symbol brither" data-world="boramu"><img src="mundos/boramu/imagens/boramumenu.webp" alt="Bora mu"></div>
+      <div class="symbol brither" data-world="nyuoq-vhess"><img src="mundos/Nyuoq-Vhess/nyuoq-vhessmenu.webp" alt="Nyuoq-Vhess"></div>
+      
+      <div style="width:100%;height:4vh;"></div>
+      <div class="comics-separator"><span class="comics-title">COMICS</span></div>
+      <div style="width:100%;height:2vh;"></div>
+      
+      <div class="symbol brither" data-world="batedores"><img src="mundos/ttok/ttokmenu.webp" alt="Batedores"></div>
+      <div class="symbol brither" data-world="veleywei"><img src="assets/veleyweimenu.png" alt="Veleywei"></div>
+      <div class="symbol brither" data-world="porojka"><img src="mundos/porojka/artesaosmenu.webp" alt="Porojka"></div>
+      <div class="symbol brither" data-world="botychera"><img src="mundos/botychera/botycheramenu.webp" alt="Botychera"></div>
+    </div>
+    <div style="height: 4vh;"></div>
+  </div>
+
+  <div id="flipbook">
+    <button id="btnVoltar">VOLTAR</button>
+    <div id="flipbook-content">
+      </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://hammerjs.github.io/dist/hammer.min.js"></script>
+  
+  <script>
+    // =========================================================
+    // 1. CORREÇÃO DA ANIMAÇÃO OMOM
+    // =========================================================
+    function initOMOMAnimation() {
+      const text = "OMOM";
+      const fontSize = 60;
+      const fontFamily = "'Press Start 2P', monospace";
+      const color = "#fff";
+      const pixelSize = 2;
+      const appearSpeed = 25;
+      const fadeDelay = 3000;
+      const fadeDuration = 1200;
+
+      const canvas = document.getElementById('omom-pixel-canvas');
+      if (!canvas) return;
+      
+      canvas.style.display = 'block';
+      canvas.style.opacity = '1';
+      const ctx = canvas.getContext('2d');
+
+      function resizeCanvas() {
+        canvas.width = Math.min(window.innerWidth, 600);
+        canvas.height = Math.max(fontSize * 2, Math.min(window.innerHeight * 0.3, 180));
+      }
+      resizeCanvas();
+
+      document.fonts.load(`bold ${fontSize}px ${fontFamily}`).then(() => {
+        function getTextPixels() {
+          const off = document.createElement('canvas');
+          off.width = canvas.width; off.height = canvas.height;
+          const offCtx = off.getContext('2d');
+          offCtx.clearRect(0, 0, off.width, off.height);
+          offCtx.font = `bold ${fontSize}px ${fontFamily}`;
+          offCtx.textAlign = "center"; offCtx.textBaseline = "middle";
+          offCtx.fillStyle = color;
+          offCtx.fillText(text, off.width/2, off.height/2);
+          const imageData = offCtx.getImageData(0, 0, off.width, off.height);
+          let pixels = [];
+          for (let y = 0; y < off.height; y += pixelSize) {
+            for (let x = 0; x < off.width; x += pixelSize) {
+              let idx = (y * off.width + x) * 4 + 3;
+              if (imageData.data[idx] > 128) pixels.push({x, y});
+            }
+          }
+          for (let i = pixels.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [pixels[i], pixels[j]] = [pixels[j], pixels[i]];
+          }
+          return pixels;
+        }
+
+        function revealPixels(pixels, onComplete) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          let drawn = 0;
+          function drawStep() {
+            for (let i = 0; i < appearSpeed && drawn < pixels.length; i++, drawn++) {
+              const {x, y} = pixels[drawn];
+              ctx.fillStyle = color;
+              ctx.fillRect(x, y, pixelSize, pixelSize);
+            }
+            if (drawn < pixels.length) requestAnimationFrame(drawStep);
+            else if (onComplete) setTimeout(onComplete, fadeDelay);
+          }
+          drawStep();
+        }
+
+        function fadeOutCanvas(duration, callback) {
+          let opacity = 1;
+          const step = 16 / duration;
+          function fade() {
+            opacity -= step;
+            if (opacity <= 0) { canvas.style.opacity = 0; if (callback) callback(); }
+            else { canvas.style.opacity = opacity; requestAnimationFrame(fade); }
+          }
+          fade();
+        }
+
+        const pixels = getTextPixels();
+        revealPixels(pixels, () => fadeOutCanvas(fadeDuration, () => {
+          $('#omom-screen').fadeOut(300, () => {
+            $('#soundPrompt').fadeIn(300);
+          });
+        }));
+      }).catch(err => {
+        console.log("Erro ao carregar fonte, usando fallback", err);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.font = `bold ${fontSize}px monospace`; ctx.textAlign = "center";
+        ctx.textBaseline = "middle"; ctx.fillStyle = color;
+        ctx.fillText(text, canvas.width/2, canvas.height/2);
+        
+        setTimeout(() => {
+          fadeOutCanvas(fadeDuration, () => {
+            $('#omom-screen').fadeOut(300, () => {
+              $('#soundPrompt').fadeIn(300);
+            });
+          });
+        }, fadeDelay);
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', initOMOMAnimation);
+
+    // =========================================================
+    // 2. VARIÁVEIS DO SITE E ÁUDIO
+    // =========================================================
+    let allowSound = false;
+    const memories = document.getElementById('memories');
+    const whooshSound = document.getElementById('whooshSound');
+
+    // Variáveis unificadas do Editor
+    let textoModo = 'leitura';
+    let textoFontSize = 18;
+    let mundoAtual = '';
+
+    function optimizeDesktopLayout() {
+      if (window.innerWidth >= 1024) {
+        const windowHeight = window.innerHeight;
+        const menuHeight = windowHeight - 180;
+        $('.symbols-container').css({ 'max-height': menuHeight + 'px', 'height': 'auto' });
+      }
+    }
+    $(window).on('resize', function() {
+      optimizeDesktopLayout();
+      if (window.innerWidth >= 768 && $('#flipbook').is(':visible')) {
+        $('#flipbook').css('background', '#fff');
+      }
+    });
+
+    $('#btnYes').click(() => startSite(true));
+    $('#btnNo').click(() => startSite(false));
+
+    function createBackgroundPixels() {
+      const menu = document.getElementById('menu');
+      const existingPixels = menu.querySelector('.background-pixels');
+      if (existingPixels) existingPixels.remove();
+      
+      const pixelsContainer = document.createElement('div');
+      pixelsContainer.className = 'background-pixels';
+      menu.appendChild(pixelsContainer);
+
+      for (let i = 0; i < 160; i++) {
+        const pixel = document.createElement('div');
+        pixel.className = 'pixel';
+        const size = 4;
+        pixel.style.width = size + 'px'; pixel.style.height = size + 'px';
+        pixel.style.left = Math.random() * 100 + '%'; pixel.style.top = Math.random() * 100 + '%';
+        pixel.style.animationDelay = Math.random() * 3 + 's';
+        pixel.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        pixelsContainer.appendChild(pixel);
+      }
+    }
+    
+    function startSite(sound) {
+      allowSound = sound;
+      $('#soundPrompt').hide();
+      if (allowSound) {
+        memories.volume = 0;
+        memories.play().catch(() => {});
+        let fadeInAudio = setInterval(() => {
+          if (memories.volume < 0.95) memories.volume += 0.05;
+          else { memories.volume = 1; clearInterval(fadeInAudio); }
+        }, 50);
+      }
+      $('#menu').fadeIn(500, () => {
+        createBackgroundPixels();
+        setupWorldClickHandlers();
+      });
+    }
+
+    // =========================================================
+    // 3. LOGICA CENTRAL: EDITOR INJETADO VS. ARQUIVOS EXTERNOS
+    // =========================================================
+    function setupWorldClickHandlers() {
+      $('.symbol.brither').off('click');
+      
+      $('.symbol.brither').on('click', function() {
+        const world = $(this).data('world');
+        console.log('Mundo selecionado:', world);
+        
+        if (allowSound && whooshSound) {
+          try {
+            whooshSound.currentTime = 0.1; whooshSound.volume = 0.6;
+            const playPromise = whooshSound.play();
+            if (playPromise !== undefined) playPromise.catch(e => console.log(e));
+          } catch (error) {}
+        }
+
+        // Mundos que NÃO usam o editor de texto novo (buscam os scripts JS próprios)
+        const mundosExcecao = ['batedores', 'porojka', 'veleywei', 'botychera'];
+
+        if (mundosExcecao.includes(world)) {
+          // Lógica antiga para os de exceção
+          $('#menu').fadeOut(500, () => {
+            showPixelTransition(() => {
+              $('#flipbook').css('display','block').fadeIn(500);
+              $('#btnVoltar').fadeIn(300);
+
+              if (allowSound && !memories.paused) fadeOutMemories();
+
+              const worldScriptMap = {
+                porojka: 'mundos/porojka/porojka.js',
+                batedores: 'mundos/ttok/batedores.js',
+                veleywei: 'mundos/veleywei/veleywei.js',
+                botychera: 'mundos/botychera/botychera.js'
+              };
+              const worldScriptPath = worldScriptMap[world] || (world + '.js');
+              const container = document.getElementById('flipbook-content');
+              container.innerHTML = '';
+              
+              fetch(worldScriptPath + '?_=' + Date.now())
+                .then(r => r.text())
+                .then(code => {
+                  delete window.initFlipbook; delete window.initGlobe;
+                  const worldSandbox = { console, THREE: window.THREE, Hammer: window.Hammer };
+                  const wrapped = `(function(sandbox){ with(sandbox){ ${code}\n } })(this.__sandbox);`;
+                  worldSandbox.__sandbox = worldSandbox;
+                  (function(){ eval(wrapped); }).call({__sandbox: worldSandbox});
+                  
+                  if (typeof window.initFlipbook === 'function') window.initFlipbook('#flipbook-content');
+                }).catch(e => container.innerHTML = '<div style="color:red">Erro: '+e+'</div>');
+            });
+          });
+        } 
+        else {
+          // NOVA LÓGICA: INJETAR EDITOR DE TEXTO DIRETO NA TELA PARA OS OUTROS MUNDOS
+          mundoAtual = world;
+          
+          $('#menu').fadeOut(500, () => {
+            showPixelTransition(() => {
+              const container = document.getElementById('flipbook-content');
+              
+              // Injeta o HTML do editor
+              container.innerHTML = `
+                <div id="layer-texto">
+                  <div id="texto-pagina">
+                    <div id="texto-toolbar">
+                      <div style="display:flex; align-items:center; gap:8px;">
+                        <div id="btn-modo-texto" class="texto-btn">EDITAR</div>
+                        <div style="display:flex; align-items:center; gap:4px;">
+                          <div id="btn-fonte-menos" class="texto-btn">A-</div>
+                          <span id="texto-fonte-display">18px</span>
+                          <div id="btn-fonte-mais" class="texto-btn">A+</div>
+                        </div>
+                      </div>
+                      <div id="texto-toolbar-edicao">
+                        <div id="btn-negrito" class="texto-btn"><b>B</b></div>
+                        <div id="btn-italico" class="texto-btn"><i>I</i></div>
+                        <div id="btn-salvar-texto" class="texto-btn">SALVAR</div>
+                      </div>
+                    </div>
+                    <div id="texto-conteudo" contenteditable="false" spellcheck="false">Carregando história de ${world}...</div>
+                  </div>
+                </div>
+              `;
+
+              // Eventos dos botões de formatação
+              document.getElementById('btn-modo-texto').onclick = alternarModoTexto;
+              document.getElementById('btn-fonte-mais').onclick = () => aplicarFonte(textoFontSize + 1);
+              document.getElementById('btn-fonte-menos').onclick = () => aplicarFonte(textoFontSize - 1);
+              document.getElementById('btn-negrito').onclick = () => document.execCommand('bold');
+              document.getElementById('btn-italico').onclick = () => document.execCommand('italic');
+              document.getElementById('btn-salvar-texto').onclick = salvarTexto;
+
+              $('#flipbook').css({'display':'block', 'background':'#fff'}).fadeIn(500);
+              $('#btnVoltar').fadeIn(300);
+
+              if (allowSound && !memories.paused) fadeOutMemories();
+
+              carregarTexto(mundoAtual);
+            });
+          });
+        }
+      });
+    }
+
+    function fadeOutMemories() {
+      let fadeAudio = setInterval(() => {
+        if (memories.volume > 0.05) memories.volume -= 0.05;
+        else { memories.volume = 0; memories.pause(); clearInterval(fadeAudio); memories.currentTime = 0; }
+      }, 50);
+    }
+
+    // =========================================================
+    // 4. FUNÇÕES DO FIREBASE DO EDITOR INJETADO
+    // =========================================================
+    async function carregarTexto(nomeDoMundo) {
+      const textoEl = document.getElementById('texto-conteudo');
+      if (!textoEl) return;
+      
+      if (!window.db || !window.fsGetDoc) {
+        console.warn('Aguardando conexão com banco de dados...');
+        setTimeout(() => carregarTexto(nomeDoMundo), 500);
+        return;
+      }
+
+      try {
+        const ref = window.fsDoc(window.db, 'textos', nomeDoMundo);
+        const snap = await window.fsGetDoc(ref);
+        
+        if (snap.exists()) {
+          const dados = snap.data();
+          textoEl.innerHTML = dados.conteudo || '';
+          if (dados.tamanhoFonte) aplicarFonte(dados.tamanhoFonte);
+        } else {
+          textoEl.innerHTML = '';
+        }
+      } catch (err) {
+        console.error('Erro ao carregar texto:', err);
+        textoEl.innerHTML = 'Erro ao carregar dados. Verifique sua conexão.';
+      }
+    }
+
+    async function salvarTexto() {
+      const textoEl = document.getElementById('texto-conteudo');
+      const btnSalvar = document.getElementById('btn-salvar-texto');
+      if (!textoEl || !mundoAtual) return;
+      
+      if (!window.db) return alert('Erro: Banco de dados não conectado.');
+
+      try {
+        const ref = window.fsDoc(window.db, 'textos', mundoAtual);
+        await window.fsSetDoc(ref, {
+          conteudo: textoEl.innerHTML,
+          tamanhoFonte: textoFontSize,
+          atualizadoEm: new Date().toISOString()
+        });
+        
+        btnSalvar.textContent = 'SALVO!';
+        setTimeout(() => { btnSalvar.textContent = 'SALVAR'; }, 1500);
+      } catch (err) {
+        console.error('Erro ao salvar texto:', err);
+        btnSalvar.textContent = 'ERRO';
+        setTimeout(() => { btnSalvar.textContent = 'SALVAR'; }, 1500);
+      }
+    }
+
+    function aplicarFonte(px) {
+      textoFontSize = Math.min(32, Math.max(12, px));
+      const textoEl = document.getElementById('texto-conteudo');
+      const display = document.getElementById('texto-fonte-display');
+      if (textoEl) textoEl.style.fontSize = textoFontSize + 'px';
+      if (display) display.textContent = textoFontSize + 'px';
+    }
+
+    function alternarModoTexto() {
+      const textoEl = document.getElementById('texto-conteudo');
+      const btnModo = document.getElementById('btn-modo-texto');
+      const toolbarEdicao = document.getElementById('texto-toolbar-edicao');
+      if (!textoEl) return;
+      
+      if (textoModo === 'leitura') {
+        textoModo = 'edicao';
+        textoEl.contentEditable = 'true';
+        textoEl.focus();
+        btnModo.textContent = 'LER';
+        toolbarEdicao.style.display = 'flex';
+      } else {
+        textoModo = 'leitura';
+        textoEl.contentEditable = 'false';
+        btnModo.textContent = 'EDITAR';
+        toolbarEdicao.style.display = 'none';
+      }
+    }
+
+    // =========================================================
+    // 5. BOTÃO VOLTAR E TRANSIÇÕES
+    // =========================================================
+    $('#btnVoltar').click(() => {
+      try {
+        $('#flipbook-content').empty();
+        mundoAtual = ''; // Reseta o editor
+        if(window.stopAllAnimations) window.stopAllAnimations(); // Para os mundos de exceção
+        delete window.initFlipbook; delete window.initGlobe;
+      } catch(e){}
+      
+      if (allowSound && whooshSound) {
+        try { whooshSound.currentTime = 0.1; whooshSound.volume = 0.6; whooshSound.play().catch(e=>e); } catch (e) {}
+      }
+      
+      showReversePixelTransition(() => {
+        $('#flipbook').hide(); $('#btnVoltar').hide(); $('#flipbook-content').empty();
+        
+        $('html, body').css('background', '#000'); $('#menu').css('background', '#000'); $('#flipbook').css('background', ''); 
+        
+        if (allowSound) {
+            memories.volume = 0; memories.play().catch(() => {});
+            let fadeInAudio = setInterval(() => {
+                if (memories.volume < 0.95) memories.volume += 0.05;
+                else { memories.volume = 1; clearInterval(fadeInAudio); }
+            }, 50);
+        }
+        
+        createBackgroundPixels();
+        $('#menu').fadeIn(500);
+        setupWorldClickHandlers();
+      });
+    });
+
+    function showPixelTransition(callback) {
+      const canvas = document.createElement('canvas'); canvas.style.position = 'fixed'; canvas.style.inset = '0'; canvas.style.zIndex = '99999';
+      canvas.width = window.innerWidth; canvas.height = window.innerHeight; document.body.appendChild(canvas);
+      const ctx = canvas.getContext('2d'); const pixelSize = 9;
+      const cols = Math.ceil(canvas.width / pixelSize); const rows = Math.ceil(canvas.height / pixelSize);
+      let pixels = [];
+      for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) pixels.push({x, y});
+      for (let i = pixels.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [pixels[i], pixels[j]] = [pixels[j], pixels[i]]; }
+      let drawn = 0;
+      function drawStep() {
+        for (let i = 0; i < 80 && drawn < pixels.length; i++, drawn++) {
+          const {x, y} = pixels[drawn]; ctx.fillStyle = '#00ffe7'; ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
+        }
+        if (drawn < pixels.length) requestAnimationFrame(drawStep);
+        else setTimeout(() => { canvas.remove(); if (callback) callback(); }, 150);
+      }
+      drawStep();
+    }
+
+    function showReversePixelTransition(callback) { showPixelTransition(callback); }
+
+    $(document).on('click', '.symbol.locked', function (e) {
+      e.preventDefault(); const el = this; el.classList.add('show-lock');
+      if (el._lockTimer) clearTimeout(el._lockTimer);
+      el._lockTimer = setTimeout(() => { el.classList.remove('show-lock'); el._lockTimer = null; }, 1200);
+    });
+  </script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBYJz56mELNWNeVMsGuV0noF7GTZMDEPGI",
+      authDomain: "omom-database.firebaseapp.com",
+      projectId: "omom-database",
+      storageBucket: "omom-database.firebasestorage.app",
+      messagingSenderId: "604756647255",
+      appId: "1:604756647255:web:4ecd05c34ad62e32483212",
+      measurementId: "G-6MZK2WXYJN"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    
+    // Tornamos as funções do firestore globais para que o script principal as utilize facilmente sem dor de cabeça de módulos
+    window.db = getFirestore(app);
+    window.fsDoc = doc;
+    window.fsGetDoc = getDoc;
+    window.fsSetDoc = setDoc;
+    
+    console.log("🔥 Firebase inicializado e conectado ao editor unificado!");
+  </script>
+</body>
+</html>

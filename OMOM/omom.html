@@ -136,7 +136,7 @@
     }
 
     #instagramIcon:hover {
-      transform: translateY(-50%) scale(1.2);
+      transform: translateY(-50%) scale(1.1);
     }
 
     @keyframes instagramPulse {
@@ -144,7 +144,7 @@
         transform: translateY(-50%) scale(1);
       }
       50% {
-        transform: translateY(-50%) scale(1.2);
+        transform: translateY(-50%) scale(1.1);
       }
     }
 
@@ -352,7 +352,6 @@
       background: #fff200;
     }
 
-    /* Popup de Ordem Recomendada - Removido */
 
     /* Ajustes específicos para mobile */
     @media screen and (max-width: 767px) {
@@ -504,28 +503,7 @@
           margin: 0 auto;
         }
 
-        /* Sombra leve nas imagens do flipbook */
-        #flipbook-content img {
-          box-shadow: 0 14px 30px rgba(0,0,0,0.22), 0 6px 12px rgba(0,0,0,0.18);
-          border-radius: 10px;
-          transition: transform .2s ease, box-shadow .2s ease;
-          will-change: transform, box-shadow;
-        }
-        #flipbook-content img:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 18px 40px rgba(0,0,0,0.28), 0 8px 16px rgba(0,0,0,0.2);
-        }
 
-        /* Opcional: sombra leve nos ícones do menu */
-        .symbol img {
-          box-shadow: 0 8px 18px rgba(0,0,0,0.18);
-          border-radius: 8px;
-          transition: transform .2s ease, box-shadow .2s ease;
-        }
-        .symbol:hover img {
-          transform: translateY(-3px);
-          box-shadow: 0 12px 28px rgba(0,0,0,0.24);
-        }
       }
 
       /* Para telas muito grandes - mantido separado conforme original */
@@ -731,6 +709,12 @@
       </div>
       <div class="symbol brither" data-world="mundo2">
         <img src="mundos/mundo 2/imagens/mundo2.webp" alt="Mundo 2">
+      </div>
+      <div class="symbol brither" data-world="tumboes">
+        <img src="mundos/tumboes/tumboesmenu.webp" alt="Tumboes">
+      </div>
+      <div class="symbol brither" data-world="cassmiranoborezan">
+        <img src="mundos/cassmiranoborezan/imagens/cassmiranoborezanmenu.webp" alt="Cass'miran-oborezan">
       </div>
      <div class="symbol brither" data-world="boramu">
         <img src="mundos/boramu/imagens/boramumenu.webp" alt="Bora mu">
@@ -939,60 +923,6 @@ window.addEventListener('load', initOMOMAnimation);
       }
     }
 
-    // Configuração do zoom para mobile (pinch)
-    function setupMobilePinch(slideEl) {
-      if (hammerManager) {
-        hammerManager.destroy();
-        hammerManager = null;
-      }
-      
-      // Reset all slides to scale 1
-      document.querySelectorAll('.swiper-slide').forEach(s => {
-        s.style.transform = 'scale(1)';
-        s.style.zIndex = '1';
-      });
-      
-      hammerManager = new Hammer(slideEl);
-      hammerManager.get('pinch').set({ enable: true });
-      
-      let scale = 1;
-      let initialScale = 1;
-      
-      hammerManager.on('pinchstart', (ev) => {
-        initialScale = currentScale;
-        // Disable swiper touch during pinch
-        if (currentSwiper) {
-          currentSwiper.allowTouchMove = false;
-        }
-        // Bring current slide to front
-        slideEl.style.zIndex = '10';
-      });
-      
-      hammerManager.on('pinchmove', (ev) => {
-        scale = Math.max(1, Math.min(initialScale * ev.scale, 3));
-        slideEl.style.transform = `scale(${scale})`;
-        currentScale = scale;
-        isZoomedIn = scale > 1.05;
-      });
-      
-      hammerManager.on('pinchend', () => {
-        if (scale < 1.05) {
-          slideEl.style.transform = 'scale(1)';
-          slideEl.style.zIndex = '1';
-          currentScale = 1;
-          isZoomedIn = false;
-        }
-        
-        // Re-enable swiper touch after pinch
-        setTimeout(() => {
-          if (currentSwiper) {
-            currentSwiper.allowTouchMove = true;
-          }
-        }, 100);
-      });
-    }
-
-  
 
     // Mostra o aviso ao abrir o flipbook pela primeira vez na sessão
     function showFictionOverlayIfNeeded() {
@@ -1004,8 +934,6 @@ window.addEventListener('load', initOMOMAnimation);
       document.getElementById('fictionOverlay').style.display = 'none';
       sessionStorage.setItem('fictionWarnedFlipbook', '1');
     };
-
-    // Funções de popup de ordem removidas
 
     window.addEventListener('load', () => {
       // Primeiro mostra OMOM por 2.8 segundos (apenas a versão canvas)
@@ -1213,6 +1141,13 @@ window.addEventListener('load', initOMOMAnimation);
             $('#flipbook').css('background', '#dafdff');
           }
         }
+        else if (world === 'tumboes') {
+          $('html, body').css('background', '#98c2f7');
+          $('#menu').css('background', '#98c2f7');
+          if (isMobile) {
+            $('#flipbook').css('background', '#98c2f7');
+          }
+        }
         else if (world === 'botychera') {
           $('html, body').css('background', '#fff');
           $('#menu').css('background', '#fff');
@@ -1269,6 +1204,7 @@ window.addEventListener('load', initOMOMAnimation);
               saboe: 'mundos/saboe/saboe.js',
               sapador: 'mundos/sapador/sapador.js',
               veleywei: 'mundos/veleywei/veleywei.js',
+              tumboes: 'mundos/tumboes/tumboes.js',
               batedores: 'mundos/ttok/batedores.js',
               veleywei: 'mundos/veleywei/veleywei.js'
             };
