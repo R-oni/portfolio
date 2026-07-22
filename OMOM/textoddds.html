@@ -174,7 +174,6 @@
       background: #000; border-bottom: 1px solid rgba(0, 255, 231, 0.3); flex-shrink: 0;
     }
     #texto-toolbar-edicao { display: none; flex-wrap: wrap; gap: 8px; align-items: center; }
-    #texto-toolbar-desenho { display: none; flex-wrap: wrap; gap: 8px; align-items: center; }
     .texto-btn {
       font-family: 'Press Start 2P', monospace; font-size: 9px; background: rgba(0, 0, 0, 0.85);
       color: #00ffe7; border: 1px solid #00ffe7; border-radius: 4px; padding: 9px 10px; min-height: 36px;
@@ -182,29 +181,38 @@
       transition: background 0.2s, color 0.2s; user-select: none;
     }
     .texto-btn:active { background: #00ffe7; color: #000; }
-    .texto-btn.ativo { background: #00ffe7; color: #000; }
-    #input-lapis-cor {
-      width: 34px; height: 34px; padding: 0; border: 1px solid #00ffe7; border-radius: 4px;
-      background: transparent; cursor: pointer;
-    }
-    #texto-conteudo-wrapper {
-      flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; position: relative;
-    }
     #texto-conteudo {
-      position: relative; z-index: 1; font-family: 'Literata', serif; font-size: 18px; line-height: 1.7;
+      flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; font-family: 'Literata', serif; font-size: 18px; line-height: 1.7;
       color: #2b2320; padding: 24px 18px 60px; outline: none; width: 100%; text-align: left;
     }
     #texto-conteudo:empty::before { content: 'Toque em EDITAR para começar a escrever.'; font-style: italic; color: rgba(43, 35, 32, 0.4); }
-    #texto-desenho-canvas {
-      position: absolute; top: 0; left: 0; z-index: 2; pointer-events: none; touch-action: pan-y;
-    }
-    #texto-desenho-canvas.desenho-ativo { pointer-events: auto; touch-action: none; cursor: crosshair; }
     
     @media (min-width: 640px) {
       #texto-pagina { max-width: 800px; border-left: 1px solid rgba(0, 255, 231, 0.4); border-right: 1px solid rgba(0, 255, 231, 0.4); box-shadow: 0 0 60px rgba(0, 255, 231, 0.08); }
       #texto-toolbar { padding: 14px 24px; padding-left: 120px; }
       #texto-conteudo { padding: 48px 60px 80px; }
     }
+
+    /* ===================================================================
+       4. TELA DE DESENHO (LÁPIS P&B)
+       =================================================================== */
+    #layer-desenho {
+      position: fixed; inset: 0; z-index: 50; background: #111;
+      display: flex; flex-direction: column;
+    }
+    #desenho-toolbar {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px;
+      background: #000; border-bottom: 1px solid rgba(0, 255, 231, 0.3); flex-shrink: 0;
+    }
+    #desenho-canvas-wrap {
+      flex: 1; overflow: auto; display: flex; align-items: center; justify-content: center;
+      background: #2b2b2b; touch-action: none;
+    }
+    #desenho-canvas {
+      background: #fff; box-shadow: 0 0 40px rgba(0,0,0,0.5); cursor: crosshair;
+      touch-action: none;
+    }
+    #desenho-espessura { accent-color: #00ffe7; }
   </style>
 </head>
 <body>
@@ -240,6 +248,9 @@
       <div class="symbol brither" data-world="bondooga"><img src="mundos/bondooga/imagens/bondoogamenu.webp" alt="Bondooga"></div>
       <div class="symbol brither" data-world="telome"><img src="mundos/Telome/telomemenu.webp" alt="Telome"></div>
       <div class="symbol brither" data-world="mundo6"><img src="mundos/mundo 6/criaturamenu.webp" alt="MUNDO6"></div>
+      <div class="symbol brither" data-world="mundo7"><img src="mundos/mundo7/mundo7menu.webp" alt="MUNDO7"></div>
+      <div class="symbol brither" data-world="mundo8"><img src="mundos/mundo8/mundo8menu.webp" alt="MUNDO8"></div>
+      <div class="symbol brither" data-world="mundo9"><img src="mundos/mundo9/mundo9menu.webp" alt="MUNDO9"></div>
       <div class="symbol brither" data-world="bratentacolon"><img src="mundos/bratentacolon/bratentacolonmenu.webp" alt="Bratentacolon"></div>
       <div class="symbol brither" data-world="mundo2"><img src="mundos/mundo 2/imagens/mundo2.webp" alt="Mundo 2"></div>
       <div class="symbol brither" data-world="tumboes"><img src="mundos/tumboes/tumboesmenu.webp" alt="Tumboes"></div>
@@ -384,16 +395,6 @@
     let textoFontSize = 18;
     let mundoAtual = '';
 
-    // Variáveis do desenho/ilustração sobre o texto
-    let desenhoModo = false;
-    let desenhoFerramenta = 'lapis'; // 'lapis' | 'borracha'
-    let lapisTamanho = 4;
-    let lapisCor = '#2b2320';
-    let desenhoTemConteudo = false;
-    let desenhoDesenhando = false;
-    let desenhoUltimoPonto = null;
-    let desenhoResizeObserver = null;
-
     function optimizeDesktopLayout() {
       if (window.innerWidth >= 1024) {
         const windowHeight = window.innerHeight;
@@ -516,9 +517,8 @@
                 <div id="layer-texto">
                   <div id="texto-pagina">
                     <div id="texto-toolbar">
-                      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                      <div style="display:flex; align-items:center; gap:8px;">
                         <div id="btn-modo-texto" class="texto-btn">EDITAR</div>
-                        <div id="btn-modo-desenho" class="texto-btn">DESENHAR</div>
                         <div style="display:flex; align-items:center; gap:4px;">
                           <div id="btn-fonte-menos" class="texto-btn">A-</div>
                           <span id="texto-fonte-display">18px</span>
@@ -528,24 +528,11 @@
                       <div id="texto-toolbar-edicao">
                         <div id="btn-negrito" class="texto-btn"><b>B</b></div>
                         <div id="btn-italico" class="texto-btn"><i>I</i></div>
+                        <div id="btn-ilustrar" class="texto-btn">✏️ ILUSTRAR</div>
                         <div id="btn-salvar-texto" class="texto-btn">SALVAR</div>
                       </div>
-                      <div id="texto-toolbar-desenho">
-                        <div id="btn-ferramenta-desenho" class="texto-btn">BORRACHA</div>
-                        <div style="display:flex; align-items:center; gap:4px;">
-                          <div id="btn-lapis-menos" class="texto-btn">&minus;</div>
-                          <span id="texto-lapis-display">4px</span>
-                          <div id="btn-lapis-mais" class="texto-btn">+</div>
-                        </div>
-                        <input type="color" id="input-lapis-cor" value="#2b2320" title="Cor do lápis">
-                        <div id="btn-limpar-desenho" class="texto-btn">LIMPAR</div>
-                        <div id="btn-salvar-desenho" class="texto-btn">SALVAR</div>
-                      </div>
                     </div>
-                    <div id="texto-conteudo-wrapper">
-                      <div id="texto-conteudo" contenteditable="false" spellcheck="false">Carregando história de ${world}...</div>
-                      <canvas id="texto-desenho-canvas"></canvas>
-                    </div>
+                    <div id="texto-conteudo" contenteditable="false" spellcheck="false">Carregando história de ${world}...</div>
                   </div>
                 </div>
               `;
@@ -557,21 +544,8 @@
               document.getElementById('btn-negrito').onclick = () => document.execCommand('bold');
               document.getElementById('btn-italico').onclick = () => document.execCommand('italic');
               document.getElementById('btn-salvar-texto').onclick = salvarTexto;
-
-              // Eventos dos botões de desenho (ilustrações sobre o texto)
-              document.getElementById('btn-modo-desenho').onclick = alternarModoDesenho;
-              document.getElementById('btn-ferramenta-desenho').onclick = () => selecionarFerramentaDesenho(desenhoFerramenta === 'borracha' ? 'lapis' : 'borracha');
-              document.getElementById('btn-lapis-menos').onclick = () => ajustarLapis(-1);
-              document.getElementById('btn-lapis-mais').onclick = () => ajustarLapis(1);
-              document.getElementById('input-lapis-cor').oninput = (e) => { lapisCor = e.target.value; };
-              document.getElementById('btn-limpar-desenho').onclick = limparDesenho;
-              document.getElementById('btn-salvar-desenho').onclick = salvarTexto;
-
-              // Reinicia o estado do desenho para o mundo aberto agora
-              desenhoModo = false; desenhoFerramenta = 'lapis'; desenhoTemConteudo = false;
-              document.getElementById('input-lapis-cor').value = lapisCor;
-              ajustarLapis(0);
-              inicializarCanvasDesenho();
+              document.getElementById('btn-ilustrar').onclick = abrirTelaDesenho;
+              configurarPasteDeImagem();
 
               $('#flipbook').css({'display':'block', 'background':'#fff'}).fadeIn(500);
               $('#btnVoltar').fadeIn(300);
@@ -613,10 +587,8 @@
           const dados = snap.data();
           textoEl.innerHTML = dados.conteudo || '';
           if (dados.tamanhoFonte) aplicarFonte(dados.tamanhoFonte);
-          carregarDesenho(dados);
         } else {
           textoEl.innerHTML = '';
-          carregarDesenho(null);
         }
       } catch (err) {
         console.error('Erro ao carregar texto:', err);
@@ -624,211 +596,146 @@
       }
     }
 
-    // Redesenha a ilustração salva no canvas assim que ele tiver o tamanho certo
-    function carregarDesenho(dados) {
-      const canvas = document.getElementById('texto-desenho-canvas');
-      if (!canvas) return;
-      const desenharQuandoPronto = () => {
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        desenhoTemConteudo = false;
-        if (!dados || !dados.desenho) return;
-        const img = new Image();
-        img.onload = () => { ctx.drawImage(img, 0, 0); desenhoTemConteudo = true; };
-        img.onerror = () => console.warn('Não foi possível carregar a ilustração salva.');
-        img.src = dados.desenho;
-      };
-      // Dá um tempinho para o ResizeObserver ajustar o canvas ao texto recém-carregado
-      requestAnimationFrame(() => requestAnimationFrame(desenharQuandoPronto));
-    }
-
     async function salvarTexto() {
       const textoEl = document.getElementById('texto-conteudo');
-      const canvas = document.getElementById('texto-desenho-canvas');
       const btnSalvar = document.getElementById('btn-salvar-texto');
-      const btnSalvarDesenho = document.getElementById('btn-salvar-desenho');
       if (!textoEl || !mundoAtual) return;
       
       if (!window.db) return alert('Erro: Banco de dados não conectado.');
 
-      const setStatus = (msg) => {
-        if (btnSalvar) btnSalvar.textContent = msg;
-        if (btnSalvarDesenho) btnSalvarDesenho.textContent = msg;
-      };
-
       try {
-        const dados = {
+        const ref = window.fsDoc(window.db, 'textos', mundoAtual);
+        await window.fsSetDoc(ref, {
           conteudo: textoEl.innerHTML,
           tamanhoFonte: textoFontSize,
           atualizadoEm: new Date().toISOString()
-        };
-
-        // Inclui a ilustração desenhada sobre o texto, comprimida para ocupar pouco espaço
-        if (canvas && canvas.width > 0 && canvas.height > 0) {
-          const resultado = exportarDesenhoComprimido(canvas);
-          if (resultado !== undefined) dados.desenho = resultado; // string (dataURL) ou null (vazio)
-          // se resultado for undefined (erro ou desenho grande demais), mantém o que já estava salvo
-        }
-
-        const ref = window.fsDoc(window.db, 'textos', mundoAtual);
-        await window.fsSetDoc(ref, dados, { merge: true });
+        });
         
-        setStatus('SALVO!');
-        setTimeout(() => setStatus('SALVAR'), 1500);
+        btnSalvar.textContent = 'SALVO!';
+        setTimeout(() => { btnSalvar.textContent = 'SALVAR'; }, 1500);
       } catch (err) {
         console.error('Erro ao salvar texto:', err);
-        setStatus('ERRO');
-        setTimeout(() => setStatus('SALVAR'), 1500);
+        btnSalvar.textContent = 'ERRO';
+        setTimeout(() => { btnSalvar.textContent = 'SALVAR'; }, 1500);
       }
     }
 
-    // Converte o canvas em PNG (leve, pois a ilustração é maior parte transparente)
-    // e recusa salvar se ficar grande demais para o banco de dados.
-    function exportarDesenhoComprimido(canvas) {
-      if (!desenhoTemConteudo) return null;
+    // =========================================================
+    // 4B. UPLOAD DE IMAGENS PARA O CLOUDFLARE R2 (via Worker)
+    // (o Firestore continua guardando só o link, nunca o base64 pesado)
+    // =========================================================
+
+    // >>> COLE AQUI A URL DO SEU WORKER DEPOIS DE PUBLICÁ-LO <<<
+    // Exemplo: "https://omom-upload.SEUUSUARIO.workers.dev"
+    const WORKER_UPLOAD_URL = "https://omom-ilustracoes.omomestudios.workers.dev";
+
+    // >>> COLE AQUI A MESMA CHAVE SECRETA QUE VOCÊ CONFIGUROU NO WORKER <<<
+    const WORKER_UPLOAD_TOKEN = "omom-7f9a2c8e1b4d6f3a";
+
+    // Comprime/re-codifica qualquer imagem para webp antes de subir, para não pesar o Storage à toa
+    function blobParaWebp(blob, qualidade = 0.85, larguraMax = 1600) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+          let { width, height } = img;
+          if (width > larguraMax) {
+            height = Math.round(height * (larguraMax / width));
+            width = larguraMax;
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width; canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          canvas.toBlob(
+            (out) => out ? resolve(out) : reject(new Error('Falha ao converter para webp')),
+            'image/webp',
+            qualidade
+          );
+          URL.revokeObjectURL(img.src);
+        };
+        img.onerror = reject;
+        img.src = URL.createObjectURL(blob);
+      });
+    }
+
+    // Sobe o blob para o Worker, que por sua vez grava no bucket R2 e devolve a URL pública
+    async function subirImagemParaStorage(blob, mundo) {
+      if (!WORKER_UPLOAD_URL || WORKER_UPLOAD_URL.includes('SEU-WORKER')) {
+        throw new Error('Worker do Cloudflare ainda não configurado (veja WORKER_UPLOAD_URL).');
+      }
+      const webpBlob = await blobParaWebp(blob);
+      const nomeArquivo = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.webp`;
+      const caminho = `mundos/${mundo}/ilustracoes/${nomeArquivo}`;
+
+      const resp = await fetch(`${WORKER_UPLOAD_URL}/upload?path=${encodeURIComponent(caminho)}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'image/webp',
+          'Authorization': `Bearer ${WORKER_UPLOAD_TOKEN}`
+        },
+        body: webpBlob
+      });
+
+      if (!resp.ok) {
+        const msg = await resp.text().catch(() => '');
+        throw new Error(`Falha no upload (HTTP ${resp.status}): ${msg}`);
+      }
+
+      const data = await resp.json();
+      if (!data.url) throw new Error('Worker não retornou URL da imagem.');
+      return data.url;
+    }
+
+    // Insere um placeholder no texto, sobe a imagem, e troca o placeholder pelo <img> real com a URL do Storage
+    async function inserirImagemNoTexto(blob) {
+      const textoEl = document.getElementById('texto-conteudo');
+      if (!textoEl || !mundoAtual) return;
+
+      const idTemp = 'img-pendente-' + Date.now();
+      document.execCommand('insertHTML', false,
+        `<span id="${idTemp}" style="display:inline-block;padding:8px 12px;border:1px dashed #999;color:#888;font-size:13px;">enviando ilustração…</span>`
+      );
+
       try {
-        const dataUrl = canvas.toDataURL('image/png');
-        const limiteBytes = 700 * 1024; // margem de segurança abaixo do limite de ~1MB por documento
-        const tamanhoAproximado = Math.ceil((dataUrl.length * 3) / 4);
-        if (tamanhoAproximado > limiteBytes) {
-          alert('O desenho ficou grande demais para salvar. Tente simplificar a ilustração ou apagar partes menos importantes.');
-          return undefined;
+        const url = await subirImagemParaStorage(blob, mundoAtual);
+        const placeholder = document.getElementById(idTemp);
+        if (placeholder) {
+          const img = document.createElement('img');
+          img.src = url;
+          img.style.maxWidth = '100%';
+          img.style.display = 'block';
+          img.style.margin = '16px auto';
+          placeholder.replaceWith(img);
         }
-        return dataUrl;
       } catch (err) {
-        console.error('Erro ao exportar desenho:', err);
-        return undefined;
-      }
-    }
-
-    // =========================================================
-    // FUNÇÕES DO DESENHO SOBRE O TEXTO (ILUSTRAÇÕES)
-    // =========================================================
-    function inicializarCanvasDesenho() {
-      const wrapper = document.getElementById('texto-conteudo-wrapper');
-      const textoEl = document.getElementById('texto-conteudo');
-      const canvas = document.getElementById('texto-desenho-canvas');
-      if (!wrapper || !textoEl || !canvas) return;
-      const ctx = canvas.getContext('2d');
-
-      function redimensionarCanvas() {
-        const largura = Math.max(wrapper.clientWidth, 1);
-        const altura = Math.max(textoEl.scrollHeight, wrapper.clientHeight, 1);
-        if (canvas.width === largura && canvas.height === altura) return;
-
-        // Preserva o que já foi desenhado antes de redimensionar (redimensionar limpa o canvas)
-        let copia = null;
-        if (canvas.width > 0 && canvas.height > 0) {
-          copia = document.createElement('canvas');
-          copia.width = canvas.width; copia.height = canvas.height;
-          copia.getContext('2d').drawImage(canvas, 0, 0);
+        console.error('Erro ao subir imagem:', err);
+        const placeholder = document.getElementById(idTemp);
+        if (placeholder) {
+          placeholder.textContent = 'erro ao enviar ilustração';
+          placeholder.style.color = '#c00';
+          placeholder.style.borderColor = '#c00';
         }
-        canvas.width = largura; canvas.height = altura;
-        canvas.style.width = largura + 'px'; canvas.style.height = altura + 'px';
-        if (copia) ctx.drawImage(copia, 0, 0);
       }
-      redimensionarCanvas();
-
-      if (desenhoResizeObserver) desenhoResizeObserver.disconnect();
-      desenhoResizeObserver = new ResizeObserver(redimensionarCanvas);
-      desenhoResizeObserver.observe(textoEl);
-      $(window).off('resize.desenho').on('resize.desenho', redimensionarCanvas);
-
-      function posicaoEvento(e) {
-        const rect = canvas.getBoundingClientRect();
-        const escalaX = canvas.width / rect.width;
-        const escalaY = canvas.height / rect.height;
-        return { x: (e.clientX - rect.left) * escalaX, y: (e.clientY - rect.top) * escalaY };
-      }
-
-      function desenharSegmento(de, para) {
-        ctx.globalCompositeOperation = (desenhoFerramenta === 'borracha') ? 'destination-out' : 'source-over';
-        ctx.strokeStyle = lapisCor;
-        ctx.lineWidth = lapisTamanho;
-        ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-        ctx.beginPath();
-        ctx.moveTo(de.x, de.y);
-        ctx.lineTo(para.x, para.y);
-        ctx.stroke();
-      }
-
-      canvas.onpointerdown = (e) => {
-        if (!desenhoModo) return;
-        e.preventDefault();
-        desenhoDesenhando = true;
-        desenhoTemConteudo = true;
-        try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
-        desenhoUltimoPonto = posicaoEvento(e);
-        desenharSegmento(desenhoUltimoPonto, desenhoUltimoPonto); // registra um pontinho em cliques únicos
-      };
-      canvas.onpointermove = (e) => {
-        if (!desenhoModo || !desenhoDesenhando) return;
-        e.preventDefault();
-        const p = posicaoEvento(e);
-        desenharSegmento(desenhoUltimoPonto, p);
-        desenhoUltimoPonto = p;
-      };
-      const finalizarTraco = (e) => {
-        if (!desenhoDesenhando) return;
-        desenhoDesenhando = false;
-        desenhoUltimoPonto = null;
-        try { canvas.releasePointerCapture(e.pointerId); } catch (err) {}
-      };
-      canvas.onpointerup = finalizarTraco;
-      canvas.onpointercancel = finalizarTraco;
-      canvas.onpointerleave = finalizarTraco;
     }
 
-    function alternarModoDesenho() {
-      const canvas = document.getElementById('texto-desenho-canvas');
-      const btnDesenho = document.getElementById('btn-modo-desenho');
-      const toolbarDesenho = document.getElementById('texto-toolbar-desenho');
-      const toolbarEdicao = document.getElementById('texto-toolbar-edicao');
+    // Intercepta Ctrl+V de imagem no editor: em vez de deixar o navegador
+    // embutir como base64 gigante, sobe pro Storage e insere só o link.
+    function configurarPasteDeImagem() {
       const textoEl = document.getElementById('texto-conteudo');
-      if (!canvas) return;
-
-      desenhoModo = !desenhoModo;
-
-      if (desenhoModo) {
-        // Sai do modo de edição de texto para não haver conflito de toque/teclado
-        if (textoModo === 'edicao') {
-          textoModo = 'leitura';
-          textoEl.contentEditable = 'false';
-          document.getElementById('btn-modo-texto').textContent = 'EDITAR';
-          toolbarEdicao.style.display = 'none';
+      if (!textoEl) return;
+      textoEl.addEventListener('paste', (e) => {
+        if (textoModo !== 'edicao') return;
+        const items = (e.clipboardData || window.clipboardData).items;
+        for (const item of items) {
+          if (item.type && item.type.startsWith('image/')) {
+            e.preventDefault();
+            const blob = item.getAsFile();
+            if (blob) inserirImagemNoTexto(blob);
+            return;
+          }
         }
-        canvas.classList.add('desenho-ativo');
-        toolbarDesenho.style.display = 'flex';
-        btnDesenho.textContent = 'FECHAR';
-        btnDesenho.classList.add('ativo');
-      } else {
-        canvas.classList.remove('desenho-ativo');
-        toolbarDesenho.style.display = 'none';
-        btnDesenho.textContent = 'DESENHAR';
-        btnDesenho.classList.remove('ativo');
-      }
-    }
-
-    function selecionarFerramentaDesenho(ferramenta) {
-      desenhoFerramenta = ferramenta;
-      const btn = document.getElementById('btn-ferramenta-desenho');
-      if (!btn) return;
-      if (ferramenta === 'borracha') { btn.textContent = 'LÁPIS'; btn.classList.add('ativo'); }
-      else { btn.textContent = 'BORRACHA'; btn.classList.remove('ativo'); }
-    }
-
-    function ajustarLapis(delta) {
-      lapisTamanho = Math.min(40, Math.max(1, lapisTamanho + delta));
-      const display = document.getElementById('texto-lapis-display');
-      if (display) display.textContent = lapisTamanho + 'px';
-    }
-
-    function limparDesenho() {
-      const canvas = document.getElementById('texto-desenho-canvas');
-      if (!canvas) return;
-      if (!confirm('Apagar toda a ilustração desta página?')) return;
-      canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-      desenhoTemConteudo = false;
+        // se não é imagem, deixa o comportamento padrão de colar texto acontecer
+      });
     }
 
     function aplicarFonte(px) {
@@ -844,9 +751,6 @@
       const btnModo = document.getElementById('btn-modo-texto');
       const toolbarEdicao = document.getElementById('texto-toolbar-edicao');
       if (!textoEl) return;
-
-      // Sai do modo de desenho, se estiver ativo, para não haver conflito de toque/teclado
-      if (desenhoModo) alternarModoDesenho();
       
       if (textoModo === 'leitura') {
         textoModo = 'edicao';
@@ -863,15 +767,197 @@
     }
 
     // =========================================================
+    // 4C. TELA DE DESENHO — LÁPIS P&B COM ZOOM
+    // =========================================================
+    let desenhoState = null;
+
+    function abrirTelaDesenho() {
+      if (document.getElementById('layer-desenho')) return;
+
+      const overlay = document.createElement('div');
+      overlay.id = 'layer-desenho';
+      overlay.innerHTML = `
+        <div id="desenho-toolbar">
+          <div id="btn-desenho-fechar" class="texto-btn">✕ FECHAR</div>
+          <div style="flex:1"></div>
+          <div id="btn-desenho-desfazer" class="texto-btn">DESFAZER</div>
+          <div id="btn-desenho-limpar" class="texto-btn">LIMPAR</div>
+          <div style="display:flex; align-items:center; gap:4px;">
+            <div id="btn-desenho-zoom-menos" class="texto-btn">−</div>
+            <span id="desenho-zoom-display" style="color:#00ffe7; font-family:'Press Start 2P',monospace; font-size:9px; min-width:42px; text-align:center;">100%</span>
+            <div id="btn-desenho-zoom-mais" class="texto-btn">+</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="color:#00ffe7; font-family:'Press Start 2P',monospace; font-size:9px;">LÁPIS</span>
+            <input type="range" id="desenho-espessura" min="1" max="12" value="3" style="width:80px;">
+          </div>
+          <div id="btn-desenho-usar" class="texto-btn" style="background:#00ffe7;color:#000;">USAR NO TEXTO</div>
+        </div>
+        <div id="desenho-canvas-wrap">
+          <canvas id="desenho-canvas"></canvas>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+
+      const canvas = document.getElementById('desenho-canvas');
+      const ctx = canvas.getContext('2d');
+      const wrap = document.getElementById('desenho-canvas-wrap');
+
+      // Resolução interna fixa (papel), independente do zoom visual
+      const LARGURA_PAPEL = 1240;
+      const ALTURA_PAPEL = 1754; // proporção A4-ish para sketch
+      canvas.width = LARGURA_PAPEL;
+      canvas.height = ALTURA_PAPEL;
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.strokeStyle = '#1a1a1a';
+
+      let zoom = Math.min(wrap.clientWidth / LARGURA_PAPEL, wrap.clientHeight / ALTURA_PAPEL) * 0.95;
+      let desenhando = false;
+      let ultimoPonto = null;
+      let ultimoTempo = 0;
+      let historico = [];
+      const espessuraBase = () => parseFloat(document.getElementById('desenho-espessura').value);
+
+      function aplicarZoom() {
+        canvas.style.width = (LARGURA_PAPEL * zoom) + 'px';
+        canvas.style.height = (ALTURA_PAPEL * zoom) + 'px';
+        document.getElementById('desenho-zoom-display').textContent = Math.round(zoom * 100) + '%';
+      }
+      aplicarZoom();
+
+      function salvarHistorico() {
+        historico.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+        if (historico.length > 25) historico.shift(); // limite pra não estourar memória
+      }
+      salvarHistorico(); // estado em branco como primeiro passo do desfazer
+
+      function pontoCanvas(e) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return {
+          x: (clientX - rect.left) * (canvas.width / rect.width),
+          y: (clientY - rect.top) * (canvas.height / rect.height)
+        };
+      }
+
+      // Espessura reage à velocidade do traço: rápido = mais fino, devagar = mais grosso — efeito lápis
+      function espessuraPorVelocidade(p1, p2, dt) {
+        const dist = Math.hypot(p2.x - p1.x, p2.y - p1.y);
+        const vel = dt > 0 ? dist / dt : 0;
+        const base = espessuraBase();
+        const fator = Math.max(0.4, Math.min(1.3, 1.1 - vel * 0.04));
+        return Math.max(0.8, base * fator);
+      }
+
+      function iniciarTraco(e) {
+        e.preventDefault();
+        desenhando = true;
+        ultimoPonto = pontoCanvas(e);
+        ultimoTempo = performance.now();
+      }
+      function continuarTraco(e) {
+        if (!desenhando) return;
+        e.preventDefault();
+        const p = pontoCanvas(e);
+        const agora = performance.now();
+        const dt = agora - ultimoTempo;
+        ctx.lineWidth = espessuraPorVelocidade(ultimoPonto, p, dt);
+        ctx.globalAlpha = 0.85;
+        ctx.beginPath();
+        ctx.moveTo(ultimoPonto.x, ultimoPonto.y);
+        ctx.lineTo(p.x, p.y);
+        ctx.stroke();
+        ultimoPonto = p;
+        ultimoTempo = agora;
+      }
+      function finalizarTraco() {
+        if (!desenhando) return;
+        desenhando = false;
+        salvarHistorico();
+      }
+
+      canvas.addEventListener('mousedown', iniciarTraco);
+      canvas.addEventListener('mousemove', continuarTraco);
+      window.addEventListener('mouseup', finalizarTraco);
+      canvas.addEventListener('touchstart', iniciarTraco, { passive: false });
+      canvas.addEventListener('touchmove', continuarTraco, { passive: false });
+      canvas.addEventListener('touchend', finalizarTraco);
+
+      // Zoom: botões + pinça (touch) + scroll com Ctrl/trackpad
+      function mudarZoom(delta) {
+        zoom = Math.max(0.2, Math.min(4, zoom + delta));
+        aplicarZoom();
+      }
+      document.getElementById('btn-desenho-zoom-mais').onclick = () => mudarZoom(0.15);
+      document.getElementById('btn-desenho-zoom-menos').onclick = () => mudarZoom(-0.15);
+
+      let pinchDist = null;
+      wrap.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 2) {
+          pinchDist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+          );
+        }
+      }, { passive: true });
+      wrap.addEventListener('touchmove', (e) => {
+        if (e.touches.length === 2 && pinchDist !== null) {
+          const novaDist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+          );
+          mudarZoom((novaDist - pinchDist) * 0.004);
+          pinchDist = novaDist;
+        }
+      }, { passive: true });
+      wrap.addEventListener('wheel', (e) => {
+        if (e.ctrlKey || e.metaKey) {
+          e.preventDefault();
+          mudarZoom(-e.deltaY * 0.002);
+        }
+      }, { passive: false });
+
+      document.getElementById('btn-desenho-desfazer').onclick = () => {
+        if (historico.length > 1) {
+          historico.pop();
+          ctx.putImageData(historico[historico.length - 1], 0, 0);
+        }
+      };
+      document.getElementById('btn-desenho-limpar').onclick = () => {
+        if (!confirm('Limpar o sketch inteiro?')) return;
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        salvarHistorico();
+      };
+      document.getElementById('btn-desenho-fechar').onclick = fecharTelaDesenho;
+      document.getElementById('btn-desenho-usar').onclick = () => {
+        canvas.toBlob(async (blob) => {
+          if (!blob) return;
+          fecharTelaDesenho();
+          await inserirImagemNoTexto(blob);
+        }, 'image/png');
+      };
+
+      desenhoState = { overlay };
+    }
+
+    function fecharTelaDesenho() {
+      const overlay = document.getElementById('layer-desenho');
+      if (overlay) overlay.remove();
+      desenhoState = null;
+    }
+
+    // =========================================================
     // 5. BOTÃO VOLTAR E TRANSIÇÕES
     // =========================================================
     $('#btnVoltar').click(() => {
       try {
         $('#flipbook-content').empty();
         mundoAtual = ''; // Reseta o editor
-        if (desenhoResizeObserver) { desenhoResizeObserver.disconnect(); desenhoResizeObserver = null; }
-        $(window).off('resize.desenho');
-        desenhoModo = false; desenhoFerramenta = 'lapis'; desenhoTemConteudo = false;
         if(window.stopAllAnimations) window.stopAllAnimations(); // Para os mundos de exceção
         delete window.initFlipbook; delete window.initGlobe;
       } catch(e){}
@@ -948,8 +1034,11 @@
     window.fsDoc = doc;
     window.fsGetDoc = getDoc;
     window.fsSetDoc = setDoc;
-    
-    console.log("🔥 Firebase inicializado e conectado ao editor unificado!");
+
+    // As imagens agora não passam mais pelo Firebase Storage — vão direto
+    // para o Cloudflare R2 através do Worker (ver subirImagemParaStorage()).
+
+    console.log("🔥 Firebase (Firestore) inicializado e conectado ao editor unificado!");
   </script>
 </body>
 </html>
