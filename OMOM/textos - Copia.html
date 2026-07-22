@@ -71,7 +71,7 @@
     }
     .symbol img { width:24vw; max-width:200px; display:block; }
 
-    /* Mundos bloqueados */
+    /* Mundos bloqueados (Código do cadeado mantido) */
     .symbol.locked img { opacity: 0.35; transition: opacity 0.3s ease; }
     .symbol.locked::after {
       content: ''; background: #00ffe7; width: 5vw; height: 4vw; max-width: 25px; max-height: 20px;
@@ -187,7 +187,7 @@
     }
     #texto-conteudo:empty::before { content: 'Toque em EDITAR para começar a escrever.'; font-style: italic; color: rgba(43, 35, 32, 0.4); }
 
-    /* Ilustrações inseridas no texto */
+    /* Ilustrações inseridas no texto: wrapper não-editável com botão de editar embaixo */
     .omom-ilustracao { display: block; text-align: center; margin: 16px 0; }
     .omom-ilustracao img { max-width: 100%; display: block; margin: 0 auto; }
     .omom-editar-desenho-btn {
@@ -206,7 +206,7 @@
     }
 
     /* ===================================================================
-       4. TELA DE DESENHO E CAMADAS
+       4. TELA DE DESENHO (LÁPIS P&B)
        =================================================================== */
     #layer-desenho {
       position: fixed; inset: 0; z-index: 50; background: #111;
@@ -214,25 +214,17 @@
     }
     #desenho-toolbar {
       display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px;
-      background: #000; border-bottom: 1px solid rgba(0, 255, 231, 0.3); flex-shrink: 0; position: relative; z-index: 110;
+      background: #000; border-bottom: 1px solid rgba(0, 255, 231, 0.3); flex-shrink: 0;
     }
     #desenho-canvas-wrap {
       flex: 1; overflow: auto; display: flex; align-items: center; justify-content: center;
-      background: #2b2b2b; touch-action: none; position: relative;
+      background: #2b2b2b; touch-action: none;
     }
-    #desenho-layers-container {
-      position: relative; background: #fff; box-shadow: 0 0 40px rgba(0,0,0,0.5);
-      transform-origin: center center;
-    }
-    .layer-canvas {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      cursor: crosshair; touch-action: none; transform-origin: center center;
+    #desenho-canvas {
+      background: #fff; box-shadow: 0 0 40px rgba(0,0,0,0.5); cursor: crosshair;
+      touch-action: none;
     }
     #desenho-espessura { accent-color: #00ffe7; }
-
-    /* Barra de rolagem para listas das camadas */
-    #camadas-lista::-webkit-scrollbar { width: 4px; }
-    #camadas-lista::-webkit-scrollbar-thumb { background: #00ffe7; border-radius: 4px; }
   </style>
 </head>
 <body>
@@ -252,7 +244,9 @@
   </div>
 
   <div id="menu">
-    <h1>OMOM</h1>
+    <h1>
+      OMOM
+    </h1>
     <div class="symbols-container" id="main-symbols">
       <div class="symbol brither" data-world="himpis"><img src="mundos/himpis/himpismenu.webp" alt="Himpis"></div>
       <div class="symbol brither" data-world="denbou"><img src="mundos/denbou/denboumenu.webp" alt="Denbou"></div>
@@ -290,7 +284,8 @@
 
   <div id="flipbook">
     <button id="btnVoltar">VOLTAR</button>
-    <div id="flipbook-content"></div>
+    <div id="flipbook-content">
+      </div>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -302,41 +297,71 @@
     // 1. CORREÇÃO DA ANIMAÇÃO OMOM
     // =========================================================
     function initOMOMAnimation() {
-      const text = "OMOM"; const fontSize = 60; const fontFamily = "'Press Start 2P', monospace"; const color = "#fff";
-      const pixelSize = 2; const appearSpeed = 25; const fadeDelay = 3000; const fadeDuration = 1200;
+      const text = "OMOM";
+      const fontSize = 60;
+      const fontFamily = "'Press Start 2P', monospace";
+      const color = "#fff";
+      const pixelSize = 2;
+      const appearSpeed = 25;
+      const fadeDelay = 3000;
+      const fadeDuration = 1200;
+
       const canvas = document.getElementById('omom-pixel-canvas');
       if (!canvas) return;
-      canvas.style.display = 'block'; canvas.style.opacity = '1'; const ctx = canvas.getContext('2d');
-      function resizeCanvas() { canvas.width = Math.min(window.innerWidth, 600); canvas.height = Math.max(fontSize * 2, Math.min(window.innerHeight * 0.3, 180)); }
+      
+      canvas.style.display = 'block';
+      canvas.style.opacity = '1';
+      const ctx = canvas.getContext('2d');
+
+      function resizeCanvas() {
+        canvas.width = Math.min(window.innerWidth, 600);
+        canvas.height = Math.max(fontSize * 2, Math.min(window.innerHeight * 0.3, 180));
+      }
       resizeCanvas();
+
       document.fonts.load(`bold ${fontSize}px ${fontFamily}`).then(() => {
         function getTextPixels() {
-          const off = document.createElement('canvas'); off.width = canvas.width; off.height = canvas.height;
-          const offCtx = off.getContext('2d'); offCtx.clearRect(0, 0, off.width, off.height);
-          offCtx.font = `bold ${fontSize}px ${fontFamily}`; offCtx.textAlign = "center"; offCtx.textBaseline = "middle"; offCtx.fillStyle = color;
+          const off = document.createElement('canvas');
+          off.width = canvas.width; off.height = canvas.height;
+          const offCtx = off.getContext('2d');
+          offCtx.clearRect(0, 0, off.width, off.height);
+          offCtx.font = `bold ${fontSize}px ${fontFamily}`;
+          offCtx.textAlign = "center"; offCtx.textBaseline = "middle";
+          offCtx.fillStyle = color;
           offCtx.fillText(text, off.width/2, off.height/2);
-          const imageData = offCtx.getImageData(0, 0, off.width, off.height); let pixels = [];
+          const imageData = offCtx.getImageData(0, 0, off.width, off.height);
+          let pixels = [];
           for (let y = 0; y < off.height; y += pixelSize) {
             for (let x = 0; x < off.width; x += pixelSize) {
-              let idx = (y * off.width + x) * 4 + 3; if (imageData.data[idx] > 128) pixels.push({x, y});
+              let idx = (y * off.width + x) * 4 + 3;
+              if (imageData.data[idx] > 128) pixels.push({x, y});
             }
           }
-          for (let i = pixels.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [pixels[i], pixels[j]] = [pixels[j], pixels[i]]; }
+          for (let i = pixels.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [pixels[i], pixels[j]] = [pixels[j], pixels[i]];
+          }
           return pixels;
         }
+
         function revealPixels(pixels, onComplete) {
-          ctx.clearRect(0, 0, canvas.width, canvas.height); let drawn = 0;
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          let drawn = 0;
           function drawStep() {
             for (let i = 0; i < appearSpeed && drawn < pixels.length; i++, drawn++) {
-              const {x, y} = pixels[drawn]; ctx.fillStyle = color; ctx.fillRect(x, y, pixelSize, pixelSize);
+              const {x, y} = pixels[drawn];
+              ctx.fillStyle = color;
+              ctx.fillRect(x, y, pixelSize, pixelSize);
             }
             if (drawn < pixels.length) requestAnimationFrame(drawStep);
             else if (onComplete) setTimeout(onComplete, fadeDelay);
           }
           drawStep();
         }
+
         function fadeOutCanvas(duration, callback) {
-          let opacity = 1; const step = 16 / duration;
+          let opacity = 1;
+          const step = 16 / duration;
           function fade() {
             opacity -= step;
             if (opacity <= 0) { canvas.style.opacity = 0; if (callback) callback(); }
@@ -344,85 +369,162 @@
           }
           fade();
         }
+
         const pixels = getTextPixels();
         revealPixels(pixels, () => fadeOutCanvas(fadeDuration, () => {
-          $('#omom-screen').fadeOut(300, () => { $('#soundPrompt').fadeIn(300); });
+          $('#omom-screen').fadeOut(300, () => {
+            $('#soundPrompt').fadeIn(300);
+          });
         }));
       }).catch(err => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.font = `bold ${fontSize}px monospace`; ctx.textAlign = "center";
-        ctx.textBaseline = "middle"; ctx.fillStyle = color; ctx.fillText(text, canvas.width/2, canvas.height/2);
-        setTimeout(() => { fadeOutCanvas(fadeDuration, () => { $('#omom-screen').fadeOut(300, () => { $('#soundPrompt').fadeIn(300); }); }); }, fadeDelay);
+        console.log("Erro ao carregar fonte, usando fallback", err);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.font = `bold ${fontSize}px monospace`; ctx.textAlign = "center";
+        ctx.textBaseline = "middle"; ctx.fillStyle = color;
+        ctx.fillText(text, canvas.width/2, canvas.height/2);
+        
+        setTimeout(() => {
+          fadeOutCanvas(fadeDuration, () => {
+            $('#omom-screen').fadeOut(300, () => {
+              $('#soundPrompt').fadeIn(300);
+            });
+          });
+        }, fadeDelay);
       });
     }
+
     window.addEventListener('DOMContentLoaded', initOMOMAnimation);
 
     // =========================================================
     // 2. VARIÁVEIS DO SITE E ÁUDIO
     // =========================================================
-    let allowSound = false; const memories = document.getElementById('memories'); const whooshSound = document.getElementById('whooshSound');
-    let textoModo = 'leitura'; let textoFontSize = 18; let mundoAtual = '';
+    let allowSound = false;
+    const memories = document.getElementById('memories');
+    const whooshSound = document.getElementById('whooshSound');
+
+    // Variáveis unificadas do Editor
+    let textoModo = 'leitura';
+    let textoFontSize = 18;
+    let mundoAtual = '';
 
     function optimizeDesktopLayout() {
       if (window.innerWidth >= 1024) {
-        const windowHeight = window.innerHeight; const menuHeight = windowHeight - 180;
+        const windowHeight = window.innerHeight;
+        const menuHeight = windowHeight - 180;
         $('.symbols-container').css({ 'max-height': menuHeight + 'px', 'height': 'auto' });
       }
     }
-    $(window).on('resize', function() { optimizeDesktopLayout(); if (window.innerWidth >= 768 && $('#flipbook').is(':visible')) { $('#flipbook').css('background', '#fff'); } });
-    $('#btnYes').click(() => startSite(true)); $('#btnNo').click(() => startSite(false));
+    $(window).on('resize', function() {
+      optimizeDesktopLayout();
+      if (window.innerWidth >= 768 && $('#flipbook').is(':visible')) {
+        $('#flipbook').css('background', '#fff');
+      }
+    });
+
+    $('#btnYes').click(() => startSite(true));
+    $('#btnNo').click(() => startSite(false));
 
     function createBackgroundPixels() {
-      const menu = document.getElementById('menu'); const existingPixels = menu.querySelector('.background-pixels'); if (existingPixels) existingPixels.remove();
-      const pixelsContainer = document.createElement('div'); pixelsContainer.className = 'background-pixels'; menu.appendChild(pixelsContainer);
+      const menu = document.getElementById('menu');
+      const existingPixels = menu.querySelector('.background-pixels');
+      if (existingPixels) existingPixels.remove();
+      
+      const pixelsContainer = document.createElement('div');
+      pixelsContainer.className = 'background-pixels';
+      menu.appendChild(pixelsContainer);
+
       for (let i = 0; i < 160; i++) {
-        const pixel = document.createElement('div'); pixel.className = 'pixel'; const size = 4;
-        pixel.style.width = size + 'px'; pixel.style.height = size + 'px'; pixel.style.left = Math.random() * 100 + '%'; pixel.style.top = Math.random() * 100 + '%';
-        pixel.style.animationDelay = Math.random() * 3 + 's'; pixel.style.animationDuration = (Math.random() * 2 + 2) + 's'; pixelsContainer.appendChild(pixel);
+        const pixel = document.createElement('div');
+        pixel.className = 'pixel';
+        const size = 4;
+        pixel.style.width = size + 'px'; pixel.style.height = size + 'px';
+        pixel.style.left = Math.random() * 100 + '%'; pixel.style.top = Math.random() * 100 + '%';
+        pixel.style.animationDelay = Math.random() * 3 + 's';
+        pixel.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        pixelsContainer.appendChild(pixel);
       }
     }
+    
     function startSite(sound) {
-      allowSound = sound; $('#soundPrompt').hide();
+      allowSound = sound;
+      $('#soundPrompt').hide();
       if (allowSound) {
-        memories.volume = 0; memories.play().catch(() => {});
-        let fadeInAudio = setInterval(() => { if (memories.volume < 0.95) memories.volume += 0.05; else { memories.volume = 1; clearInterval(fadeInAudio); } }, 50);
+        memories.volume = 0;
+        memories.play().catch(() => {});
+        let fadeInAudio = setInterval(() => {
+          if (memories.volume < 0.95) memories.volume += 0.05;
+          else { memories.volume = 1; clearInterval(fadeInAudio); }
+        }, 50);
       }
-      $('#menu').fadeIn(500, () => { createBackgroundPixels(); setupWorldClickHandlers(); });
+      $('#menu').fadeIn(500, () => {
+        createBackgroundPixels();
+        setupWorldClickHandlers();
+      });
     }
 
     // =========================================================
-    // 3. LOGICA CENTRAL
+    // 3. LOGICA CENTRAL: EDITOR INJETADO VS. ARQUIVOS EXTERNOS
     // =========================================================
     function setupWorldClickHandlers() {
       $('.symbol.brither').off('click');
+      
       $('.symbol.brither').on('click', function() {
-        const world = $(this).data('world'); console.log('Mundo selecionado:', world);
+        const world = $(this).data('world');
+        console.log('Mundo selecionado:', world);
+        
         if (allowSound && whooshSound) {
-          try { whooshSound.currentTime = 0.1; whooshSound.volume = 0.6; const playPromise = whooshSound.play(); if (playPromise !== undefined) playPromise.catch(e => console.log(e)); } catch (error) {}
+          try {
+            whooshSound.currentTime = 0.1; whooshSound.volume = 0.6;
+            const playPromise = whooshSound.play();
+            if (playPromise !== undefined) playPromise.catch(e => console.log(e));
+          } catch (error) {}
         }
+
+        // Mundos que NÃO usam o editor de texto novo (buscam os scripts JS próprios)
         const mundosExcecao = ['batedores', 'porojka', 'veleywei', 'botychera'];
+
         if (mundosExcecao.includes(world)) {
+          // Lógica antiga para os de exceção
           $('#menu').fadeOut(500, () => {
             showPixelTransition(() => {
-              $('#flipbook').css('display','block').fadeIn(500); $('#btnVoltar').fadeIn(300);
+              $('#flipbook').css('display','block').fadeIn(500);
+              $('#btnVoltar').fadeIn(300);
+
               if (allowSound && !memories.paused) fadeOutMemories();
-              const worldScriptMap = { porojka: 'mundos/porojka/porojka.js', batedores: 'mundos/ttok/batedores.js', veleywei: 'mundos/veleywei/veleywei.js', botychera: 'mundos/botychera/botychera.js' };
+
+              const worldScriptMap = {
+                porojka: 'mundos/porojka/porojka.js',
+                batedores: 'mundos/ttok/batedores.js',
+                veleywei: 'mundos/veleywei/veleywei.js',
+                botychera: 'mundos/botychera/botychera.js'
+              };
               const worldScriptPath = worldScriptMap[world] || (world + '.js');
-              const container = document.getElementById('flipbook-content'); container.innerHTML = '';
-              fetch(worldScriptPath + '?_=' + Date.now()).then(r => r.text()).then(code => {
+              const container = document.getElementById('flipbook-content');
+              container.innerHTML = '';
+              
+              fetch(worldScriptPath + '?_=' + Date.now())
+                .then(r => r.text())
+                .then(code => {
                   delete window.initFlipbook; delete window.initGlobe;
                   const worldSandbox = { console, THREE: window.THREE, Hammer: window.Hammer };
                   const wrapped = `(function(sandbox){ with(sandbox){ ${code}\n } })(this.__sandbox);`;
-                  worldSandbox.__sandbox = worldSandbox; (function(){ eval(wrapped); }).call({__sandbox: worldSandbox});
+                  worldSandbox.__sandbox = worldSandbox;
+                  (function(){ eval(wrapped); }).call({__sandbox: worldSandbox});
+                  
                   if (typeof window.initFlipbook === 'function') window.initFlipbook('#flipbook-content');
-              }).catch(e => container.innerHTML = '<div style="color:red">Erro: '+e+'</div>');
+                }).catch(e => container.innerHTML = '<div style="color:red">Erro: '+e+'</div>');
             });
           });
         } 
         else {
+          // NOVA LÓGICA: INJETAR EDITOR DE TEXTO DIRETO NA TELA PARA OS OUTROS MUNDOS
           mundoAtual = world;
+          
           $('#menu').fadeOut(500, () => {
             showPixelTransition(() => {
               const container = document.getElementById('flipbook-content');
+              
+              // Injeta o HTML do editor
               container.innerHTML = `
                 <div id="layer-texto">
                   <div id="texto-pagina">
@@ -430,7 +532,9 @@
                       <div style="display:flex; align-items:center; gap:8px;">
                         <div id="btn-modo-texto" class="texto-btn">EDITAR</div>
                         <div style="display:flex; align-items:center; gap:4px;">
-                          <div id="btn-fonte-menos" class="texto-btn">A-</div><span id="texto-fonte-display">18px</span><div id="btn-fonte-mais" class="texto-btn">A+</div>
+                          <div id="btn-fonte-menos" class="texto-btn">A-</div>
+                          <span id="texto-fonte-display">18px</span>
+                          <div id="btn-fonte-mais" class="texto-btn">A+</div>
                         </div>
                       </div>
                       <div id="texto-toolbar-edicao">
@@ -442,7 +546,10 @@
                     </div>
                     <div id="texto-conteudo" contenteditable="false" spellcheck="false">Carregando história de ${world}...</div>
                   </div>
-                </div>`;
+                </div>
+              `;
+
+              // Eventos dos botões de formatação
               document.getElementById('btn-modo-texto').onclick = alternarModoTexto;
               document.getElementById('btn-fonte-mais').onclick = () => aplicarFonte(textoFontSize + 1);
               document.getElementById('btn-fonte-menos').onclick = () => aplicarFonte(textoFontSize - 1);
@@ -450,44 +557,86 @@
               document.getElementById('btn-italico').onclick = () => document.execCommand('italic');
               document.getElementById('btn-salvar-texto').onclick = salvarTexto;
               document.getElementById('btn-ilustrar').onclick = abrirTelaDesenho;
-              configurarPasteDeImagem(); configurarEdicaoDeImagem();
-              $('#flipbook').css({'display':'block', 'background':'#fff'}).fadeIn(500); $('#btnVoltar').fadeIn(300);
+              configurarPasteDeImagem();
+              configurarEdicaoDeImagem();
+
+              $('#flipbook').css({'display':'block', 'background':'#fff'}).fadeIn(500);
+              $('#btnVoltar').fadeIn(300);
+
               if (allowSound && !memories.paused) fadeOutMemories();
+
               carregarTexto(mundoAtual);
             });
           });
         }
       });
     }
+
     function fadeOutMemories() {
       let fadeAudio = setInterval(() => {
-        if (memories.volume > 0.05) memories.volume -= 0.05; else { memories.volume = 0; memories.pause(); clearInterval(fadeAudio); memories.currentTime = 0; }
+        if (memories.volume > 0.05) memories.volume -= 0.05;
+        else { memories.volume = 0; memories.pause(); clearInterval(fadeAudio); memories.currentTime = 0; }
       }, 50);
     }
 
     // =========================================================
-    // 4. FIREBASE DO EDITOR INJETADO
+    // 4. FUNÇÕES DO FIREBASE DO EDITOR INJETADO
     // =========================================================
     async function carregarTexto(nomeDoMundo) {
-      const textoEl = document.getElementById('texto-conteudo'); if (!textoEl) return;
-      if (!window.db || !window.fsGetDoc) { setTimeout(() => carregarTexto(nomeDoMundo), 500); return; }
+      const textoEl = document.getElementById('texto-conteudo');
+      if (!textoEl) return;
+      
+      if (!window.db || !window.fsGetDoc) {
+        console.warn('Aguardando conexão com banco de dados...');
+        setTimeout(() => carregarTexto(nomeDoMundo), 500);
+        return;
+      }
+
       try {
-        const ref = window.fsDoc(window.db, 'textos', nomeDoMundo); const snap = await window.fsGetDoc(ref);
+        const ref = window.fsDoc(window.db, 'textos', nomeDoMundo);
+        const snap = await window.fsGetDoc(ref);
+        
         if (snap.exists()) {
-          const dados = snap.data(); textoEl.innerHTML = dados.conteudo || '';
-          if (dados.tamanhoFonte) aplicarFonte(dados.tamanhoFonte); hidratarIlustracoes();
-        } else textoEl.innerHTML = '';
-      } catch (err) { textoEl.innerHTML = 'Erro ao carregar dados.'; }
+          const dados = snap.data();
+          textoEl.innerHTML = dados.conteudo || '';
+          if (dados.tamanhoFonte) aplicarFonte(dados.tamanhoFonte);
+          hidratarIlustracoes();
+        } else {
+          textoEl.innerHTML = '';
+        }
+      } catch (err) {
+        console.error('Erro ao carregar texto:', err);
+        textoEl.innerHTML = 'Erro ao carregar dados. Verifique sua conexão.';
+      }
     }
+
     async function salvarTexto() {
-      const textoEl = document.getElementById('texto-conteudo'); const btnSalvar = document.getElementById('btn-salvar-texto');
-      if (!textoEl || !mundoAtual || !window.db) return;
+      const textoEl = document.getElementById('texto-conteudo');
+      const btnSalvar = document.getElementById('btn-salvar-texto');
+      if (!textoEl || !mundoAtual) return;
+      
+      if (!window.db) return alert('Erro: Banco de dados não conectado.');
+
       try {
         const ref = window.fsDoc(window.db, 'textos', mundoAtual);
-        await window.fsSetDoc(ref, { conteudo: textoEl.innerHTML, tamanhoFonte: textoFontSize, atualizadoEm: new Date().toISOString() });
-        btnSalvar.textContent = 'SALVO!'; setTimeout(() => { btnSalvar.textContent = 'SALVAR'; }, 1500);
-      } catch (err) { btnSalvar.textContent = 'ERRO'; setTimeout(() => { btnSalvar.textContent = 'SALVAR'; }, 1500); }
+        await window.fsSetDoc(ref, {
+          conteudo: textoEl.innerHTML,
+          tamanhoFonte: textoFontSize,
+          atualizadoEm: new Date().toISOString()
+        });
+        
+        btnSalvar.textContent = 'SALVO!';
+        setTimeout(() => { btnSalvar.textContent = 'SALVAR'; }, 1500);
+      } catch (err) {
+        console.error('Erro ao salvar texto:', err);
+        btnSalvar.textContent = 'ERRO';
+        setTimeout(() => { btnSalvar.textContent = 'SALVAR'; }, 1500);
+      }
     }
+
+    // =========================================================
+    // 4B. UPLOAD DE IMAGENS PARA O CLOUDFLARE R2 (via Worker)
+    // =========================================================
 
     const WORKER_UPLOAD_URL = "https://omom-ilustracoes.omomestudios.workers.dev";
     const WORKER_UPLOAD_TOKEN = "omom-7f9a2c8e1b4d6f3a";
@@ -497,156 +646,330 @@
         const img = new Image();
         img.onload = () => {
           let { width, height } = img;
-          if (width > larguraMax) { height = Math.round(height * (larguraMax / width)); width = larguraMax; }
-          const canvas = document.createElement('canvas'); canvas.width = width; canvas.height = height;
-          canvas.getContext('2d').drawImage(img, 0, 0, width, height);
-          canvas.toBlob((out) => out ? resolve(out) : reject(new Error('Falha webp')), 'image/webp', qualidade);
+          if (width > larguraMax) {
+            height = Math.round(height * (larguraMax / width));
+            width = larguraMax;
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width; canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          canvas.toBlob(
+            (out) => out ? resolve(out) : reject(new Error('Falha ao converter para webp')),
+            'image/webp',
+            qualidade
+          );
           URL.revokeObjectURL(img.src);
         };
-        img.onerror = reject; img.src = URL.createObjectURL(blob);
+        img.onerror = reject;
+        img.src = URL.createObjectURL(blob);
       });
     }
 
     async function subirImagemParaStorage(blob, mundo, caminhoExistente = null) {
+      if (!WORKER_UPLOAD_URL || WORKER_UPLOAD_URL.includes('SEU-WORKER')) {
+        throw new Error('Worker do Cloudflare ainda não configurado (veja WORKER_UPLOAD_URL).');
+      }
       const webpBlob = await blobParaWebp(blob);
       const caminho = caminhoExistente || `mundos/${mundo}/ilustracoes/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.webp`;
+
       const resp = await fetch(`${WORKER_UPLOAD_URL}/upload?path=${encodeURIComponent(caminho)}`, {
-        method: 'POST', headers: { 'Content-Type': 'image/webp', 'Authorization': `Bearer ${WORKER_UPLOAD_TOKEN}` }, body: webpBlob
+        method: 'POST',
+        headers: {
+          'Content-Type': 'image/webp',
+          'Authorization': `Bearer ${WORKER_UPLOAD_TOKEN}`
+        },
+        body: webpBlob
       });
-      if (!resp.ok) throw new Error('Upload falhou');
-      let responseText = await resp.text(); let finalUrl = '';
-      try { finalUrl = JSON.parse(responseText).url; } catch (e) { if (responseText.startsWith('http')) finalUrl = responseText.trim(); }
-      if (!finalUrl) finalUrl = `${WORKER_UPLOAD_URL}/${caminho}`;
+
+      if (!resp.ok) {
+        const msg = await resp.text().catch(() => '');
+        throw new Error(`Falha no upload (HTTP ${resp.status}): ${msg}`);
+      }
+
+      // Correção robusta para caso o worker responda com texto puro ou json irregular
+      let responseText = await resp.text();
+      let finalUrl = '';
+      
+      try {
+        const data = JSON.parse(responseText);
+        finalUrl = data.url;
+      } catch (e) {
+        if (responseText.startsWith('http')) {
+          finalUrl = responseText.trim();
+        }
+      }
+
+      if (!finalUrl) {
+        finalUrl = `${WORKER_UPLOAD_URL}/${caminho}`;
+      }
+
       return { url: finalUrl, caminho };
     }
-    function sanitizarNomeArquivo(nome) { return nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || `ilust-${Date.now()}`; }
+
+    function sanitizarNomeArquivo(nome) {
+      const limpo = nome
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // remove acentos
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .slice(0, 60);
+      return limpo || `ilustracao-${Date.now()}`;
+    }
 
     async function inserirImagemNoTexto(blob, seletorSalvo, nomeEscolhido = null) {
-      const textoEl = document.getElementById('texto-conteudo'); if (!textoEl || !mundoAtual) return;
+      const textoEl = document.getElementById('texto-conteudo');
+      if (!textoEl || !mundoAtual) {
+        console.error('Não foi possível inserir a ilustração: textoEl ou mundoAtual ausentes.', { textoEl, mundoAtual });
+        return;
+      }
+
       const idTemp = 'img-pendente-' + Date.now();
       const placeholderHtml = `<span id="${idTemp}" style="display:inline-block;padding:8px 12px;border:1px dashed #999;color:#888;font-size:13px;">enviando ilustração…</span>`;
 
-      const sel = window.getSelection(); let inseridoComExecCommand = false;
-      if (seletorSalvo && textoEl.contains(seletorSalvo.anchorNode)) { sel.removeAllRanges(); sel.addRange(seletorSalvo); }
-      if (!sel.rangeCount || !textoEl.contains(sel.getRangeAt(0).commonAncestorContainer)) {
-        textoEl.focus(); const range = document.createRange(); range.selectNodeContents(textoEl); range.collapse(false);
-        sel.removeAllRanges(); sel.addRange(range);
-      } else textoEl.focus();
+      const sel = window.getSelection();
+      let inseridoComExecCommand = false;
 
-      try { inseridoComExecCommand = document.execCommand('insertHTML', false, placeholderHtml); } catch (e) {}
-      if (!inseridoComExecCommand || !document.getElementById(idTemp)) textoEl.insertAdjacentHTML('beforeend', placeholderHtml);
+      if (seletorSalvo && textoEl.contains(seletorSalvo.anchorNode)) {
+        sel.removeAllRanges();
+        sel.addRange(seletorSalvo);
+      }
+
+      if (!sel.rangeCount || !textoEl.contains(sel.getRangeAt(0).commonAncestorContainer)) {
+        textoEl.focus();
+        const range = document.createRange();
+        range.selectNodeContents(textoEl);
+        range.collapse(false);
+        sel.removeAllRanges();
+        sel.addRange(range);
+      } else {
+        textoEl.focus();
+      }
+
+      try {
+        inseridoComExecCommand = document.execCommand('insertHTML', false, placeholderHtml);
+      } catch (e) {
+        inseridoComExecCommand = false;
+      }
+
+      if (!inseridoComExecCommand || !document.getElementById(idTemp)) {
+        textoEl.insertAdjacentHTML('beforeend', placeholderHtml);
+      }
 
       try {
         const caminhoDesejado = nomeEscolhido ? `mundos/${mundoAtual}/ilustracoes/${nomeEscolhido}.webp` : null;
         const { url, caminho } = await subirImagemParaStorage(blob, mundoAtual, caminhoDesejado);
         const placeholder = document.getElementById(idTemp);
         if (placeholder) {
-          const wrapper = criarIlustracaoElemento(url, caminho);
-          placeholder.replaceWith(wrapper);
-          // Correção do cursor abaixo da imagem (Feature 4)
-          if (!wrapper.nextSibling) textoEl.insertAdjacentHTML('beforeend', '<p><br></p>');
+          placeholder.replaceWith(criarIlustracaoElemento(url, caminho));
         }
       } catch (err) {
-        const p = document.getElementById(idTemp); if(p){ p.textContent = 'erro'; p.style.color = '#c00'; }
+        console.error('Erro ao subir imagem:', err);
+        const placeholder = document.getElementById(idTemp);
+        if (placeholder) {
+          placeholder.textContent = 'erro ao enviar ilustração';
+          placeholder.style.color = '#c00';
+          placeholder.style.borderColor = '#c00';
+        }
       }
     }
+
     function configurarPasteDeImagem() {
-      const textoEl = document.getElementById('texto-conteudo'); if (!textoEl) return;
+      const textoEl = document.getElementById('texto-conteudo');
+      if (!textoEl) return;
       textoEl.addEventListener('paste', (e) => {
         if (textoModo !== 'edicao') return;
         const items = (e.clipboardData || window.clipboardData).items;
         for (const item of items) {
           if (item.type && item.type.startsWith('image/')) {
-            e.preventDefault(); const blob = item.getAsFile(); if (blob) inserirImagemNoTexto(blob); return;
+            e.preventDefault();
+            const blob = item.getAsFile();
+            if (blob) inserirImagemNoTexto(blob);
+            return;
           }
         }
       });
     }
 
+    // CORREÇÃO APLICADA AQUI: Remoção do "wrapper.appendChild(link)" que não existia e causava o crash.
     function criarIlustracaoElemento(url, caminho) {
-      const wrapper = document.createElement('span'); wrapper.className = 'omom-ilustracao'; wrapper.setAttribute('contenteditable', 'false');
-      const img = document.createElement('img'); img.src = url; img.dataset.caminho = caminho;
-      const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'omom-editar-desenho-btn'; btn.textContent = '✏️ EDITAR DESENHO';
-      wrapper.appendChild(img); wrapper.appendChild(document.createElement('br')); wrapper.appendChild(btn);
+      const wrapper = document.createElement('span');
+      wrapper.className = 'omom-ilustracao';
+      wrapper.setAttribute('contenteditable', 'false');
+
+      const img = document.createElement('img');
+      img.src = url;
+      img.dataset.caminho = caminho;
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'omom-editar-desenho-btn';
+      btn.textContent = '✏️ EDITAR DESENHO';
+
+      wrapper.appendChild(img);
+      wrapper.appendChild(document.createElement('br'));
+      wrapper.appendChild(btn);
+      
       return wrapper;
     }
+
     function hidratarIlustracoes() {
-      const textoEl = document.getElementById('texto-conteudo'); if (!textoEl) return;
+      const textoEl = document.getElementById('texto-conteudo');
+      if (!textoEl) return;
       textoEl.querySelectorAll('img[data-caminho]').forEach((img) => {
-        if (img.closest('.omom-ilustracao')) return;
-        img.replaceWith(criarIlustracaoElemento(img.src, img.dataset.caminho));
+        if (img.closest('.omom-ilustracao')) return; // já está no formato novo
+        const wrapper = criarIlustracaoElemento(img.src, img.dataset.caminho);
+        img.replaceWith(wrapper);
       });
     }
+
     function configurarEdicaoDeImagem() {
-      const textoEl = document.getElementById('texto-conteudo'); if (!textoEl) return;
+      const textoEl = document.getElementById('texto-conteudo');
+      if (!textoEl) return;
       textoEl.addEventListener('click', (e) => {
-        if (textoModo !== 'edicao') return; const btn = e.target.closest('.omom-editar-desenho-btn'); if (!btn) return;
-        e.preventDefault(); const img = btn.closest('.omom-ilustracao')?.querySelector('img[data-caminho]'); if (img) abrirTelaDesenhoParaEditar(img);
+        if (textoModo !== 'edicao') return;
+        const btn = e.target.closest('.omom-editar-desenho-btn');
+        if (!btn) return;
+        e.preventDefault();
+        const img = btn.closest('.omom-ilustracao')?.querySelector('img[data-caminho]');
+        if (!img) return;
+        abrirTelaDesenhoParaEditar(img);
       });
     }
+
     function aplicarFonte(px) {
       textoFontSize = Math.min(32, Math.max(12, px));
-      const textoEl = document.getElementById('texto-conteudo'), display = document.getElementById('texto-fonte-display');
-      if (textoEl) textoEl.style.fontSize = textoFontSize + 'px'; if (display) display.textContent = textoFontSize + 'px';
+      const textoEl = document.getElementById('texto-conteudo');
+      const display = document.getElementById('texto-fonte-display');
+      if (textoEl) textoEl.style.fontSize = textoFontSize + 'px';
+      if (display) display.textContent = textoFontSize + 'px';
     }
+
     function alternarModoTexto() {
-      const textoEl = document.getElementById('texto-conteudo'), btnModo = document.getElementById('btn-modo-texto'), tb = document.getElementById('texto-toolbar-edicao');
+      const textoEl = document.getElementById('texto-conteudo');
+      const btnModo = document.getElementById('btn-modo-texto');
+      const toolbarEdicao = document.getElementById('texto-toolbar-edicao');
       if (!textoEl) return;
+      
       if (textoModo === 'leitura') {
-        textoModo = 'edicao'; textoEl.contentEditable = 'true'; textoEl.classList.add('modo-edicao'); textoEl.focus();
-        btnModo.textContent = 'LER'; tb.style.display = 'flex';
+        textoModo = 'edicao';
+        textoEl.contentEditable = 'true';
+        textoEl.classList.add('modo-edicao');
+        textoEl.focus();
+        btnModo.textContent = 'LER';
+        toolbarEdicao.style.display = 'flex';
       } else {
-        textoModo = 'leitura'; textoEl.contentEditable = 'false'; textoEl.classList.remove('modo-edicao'); btnModo.textContent = 'EDITAR'; tb.style.display = 'none';
+        textoModo = 'leitura';
+        textoEl.contentEditable = 'false';
+        textoEl.classList.remove('modo-edicao');
+        btnModo.textContent = 'EDITAR';
+        toolbarEdicao.style.display = 'none';
       }
     }
 
     // =========================================================
-    // 4C. TELA DE DESENHO (AGORA COM CAMADAS, TRANFORMAÇÃO E ZOOM CORRIGIDO)
+    // 4C. TELA DE DESENHO — LÁPIS P&B COM ZOOM
     // =========================================================
-    let seletorSalvoParaDesenho = null; let desenhoEditandoImg = null;
+    let desenhoState = null;
+    let seletorSalvoParaDesenho = null;
+    let desenhoEditandoImg = null;
+
     const TAMANHOS_PAPEL = {
-      quadrado: { label: 'Quadrado', w: 1500, h: 1500 }, retrato: { label: 'Retrato', w: 1240, h: 1754 }, paisagem: { label: 'Paisagem', w: 1754, h: 1240 },
-      widescreen: { label: 'Wide', w: 1920, h: 1080 }, alongado: { label: 'Alongado', w: 1080, h: 1920 }
+      quadrado:   { label: 'Quadrado (1:1)',        w: 1500, h: 1500 },
+      retrato:    { label: 'Retrato (3:4)',          w: 1240, h: 1754 },
+      paisagem:   { label: 'Paisagem (4:3)',         w: 1754, h: 1240 },
+      widescreen: { label: 'Widescreen (16:9)',      w: 1920, h: 1080 },
+      alongado:   { label: 'Alongado vertical (9:16)', w: 1080, h: 1920 },
     };
 
-    function abrirTelaDesenho() { if (!document.getElementById('layer-desenho')) { desenhoEditandoImg = null; abrirSeletorTamanho(); } }
+    function abrirTelaDesenho() {
+      if (document.getElementById('layer-desenho')) return;
+      desenhoEditandoImg = null;
+      abrirSeletorTamanho();
+    }
+
     function abrirTelaDesenhoParaEditar(imgEl) {
       if (document.getElementById('layer-desenho')) return;
-      const imgRemota = new Image(); imgRemota.crossOrigin = 'anonymous';
-      imgRemota.onload = () => { desenhoEditandoImg = imgEl; abrirTelaDesenhoComTamanho(imgRemota.naturalWidth, imgRemota.naturalHeight, imgRemota); };
-      imgRemota.onerror = () => { abrirSeletorArquivoParaEditar(imgEl); };
+      const imgRemota = new Image();
+      imgRemota.crossOrigin = 'anonymous';
+      imgRemota.onload = () => {
+        desenhoEditandoImg = imgEl;
+        abrirTelaDesenhoComTamanho(imgRemota.naturalWidth, imgRemota.naturalHeight, imgRemota);
+      };
+      imgRemota.onerror = () => {
+        console.warn('Não deu pra carregar a imagem direto (provavelmente falta CORS no Worker). Usando seletor de arquivo manual.');
+        abrirSeletorArquivoParaEditar(imgEl);
+      };
       imgRemota.src = imgEl.src + (imgEl.src.includes('?') ? '&' : '?') + 'cors=' + Date.now();
     }
+
     function abrirSeletorArquivoParaEditar(imgEl) {
-      const input = document.createElement('input'); input.type = 'file'; input.accept = 'image/*';
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
       input.onchange = () => {
-        const arq = input.files && input.files[0]; if (!arq) return;
-        const urlLocal = URL.createObjectURL(arq); const imgTemp = new Image();
-        imgTemp.onload = () => { desenhoEditandoImg = imgEl; abrirTelaDesenhoComTamanho(imgTemp.naturalWidth, imgTemp.naturalHeight, imgTemp); URL.revokeObjectURL(urlLocal); };
-        imgTemp.onerror = () => { alert('Falha'); URL.revokeObjectURL(urlLocal); };
+        const arquivo = input.files && input.files[0];
+        if (!arquivo) return;
+        const urlLocal = URL.createObjectURL(arquivo);
+        const imgTemp = new Image();
+        imgTemp.onload = () => {
+          desenhoEditandoImg = imgEl;
+          abrirTelaDesenhoComTamanho(imgTemp.naturalWidth, imgTemp.naturalHeight, imgTemp);
+          URL.revokeObjectURL(urlLocal);
+        };
+        imgTemp.onerror = () => {
+          alert('Não deu pra abrir esse arquivo como imagem.');
+          URL.revokeObjectURL(urlLocal);
+        };
         imgTemp.src = urlLocal;
-      }; input.click();
+      };
+      input.click();
     }
+
     function abrirSeletorTamanho() {
       if (document.getElementById('layer-tamanho-desenho')) return;
-      const overlay = document.createElement('div'); overlay.id = 'layer-tamanho-desenho';
-      overlay.style.cssText = `position:fixed; inset:0; z-index:20; background:rgba(0,0,0,0.9); display:flex; align-items:center; justify-content:center; flex-direction:column; gap:14px;`;
-      const opcoesHtml = Object.entries(TAMANHOS_PAPEL).map(([k, t]) => `<div class="texto-btn tamanho-opcao" data-tamanho="${k}" style="width:min(80vw,320px); text-align:center;">${t.label}</div>`).join('');
-      overlay.innerHTML = `<span style="color:#00ffe7; font-family:'Press Start 2P',monospace; font-size:11px; margin-bottom:10px;">TAMANHO</span>${opcoesHtml}<div class="texto-btn" id="btn-cancelar-tamanho" style="width:min(80vw,320px); text-align:center; margin-top:10px; opacity:0.7;">CANCELAR</div>`;
+
+      const overlay = document.createElement('div');
+      overlay.id = 'layer-tamanho-desenho';
+      overlay.style.cssText = `
+        position:fixed; inset:0; z-index:20; background:rgba(0,0,0,0.9);
+        display:flex; align-items:center; justify-content:center; flex-direction:column; gap:14px;
+      `;
+
+      const opcoesHtml = Object.entries(TAMANHOS_PAPEL).map(([key, t]) => `
+        <div class="texto-btn tamanho-opcao" data-tamanho="${key}" style="width:min(80vw,320px); text-align:center;">
+          ${t.label}
+        </div>
+      `).join('');
+
+      overlay.innerHTML = `
+        <span style="color:#00ffe7; font-family:'Press Start 2P',monospace; font-size:11px; margin-bottom:10px;">TAMANHO DA TELA</span>
+        ${opcoesHtml}
+        <div class="texto-btn" id="btn-cancelar-tamanho" style="width:min(80vw,320px); text-align:center; margin-top:10px; opacity:0.7;">CANCELAR</div>
+      `;
       document.body.appendChild(overlay);
-      overlay.querySelectorAll('.tamanho-opcao').forEach(el => el.onclick = () => { overlay.remove(); abrirTelaDesenhoComTamanho(TAMANHOS_PAPEL[el.dataset.tamanho].w, TAMANHOS_PAPEL[el.dataset.tamanho].h); });
+
+      overlay.querySelectorAll('.tamanho-opcao').forEach(el => {
+        el.onclick = () => {
+          const key = el.dataset.tamanho;
+          overlay.remove();
+          abrirTelaDesenhoComTamanho(TAMANHOS_PAPEL[key].w, TAMANHOS_PAPEL[key].h);
+        };
+      });
       document.getElementById('btn-cancelar-tamanho').onclick = () => overlay.remove();
     }
 
     function abrirTelaDesenhoComTamanho(LARGURA_PAPEL, ALTURA_PAPEL, imagemBase = null) {
       if (document.getElementById('layer-desenho')) return;
-      const selAtual = window.getSelection(); seletorSalvoParaDesenho = (selAtual && selAtual.rangeCount > 0) ? selAtual.getRangeAt(0).cloneRange() : null;
 
-      const overlay = document.createElement('div'); overlay.id = 'layer-desenho';
+      const selAtual = window.getSelection();
+      seletorSalvoParaDesenho = (selAtual && selAtual.rangeCount > 0) ? selAtual.getRangeAt(0).cloneRange() : null;
+
+      const overlay = document.createElement('div');
+      overlay.id = 'layer-desenho';
       overlay.innerHTML = `
         <div id="desenho-toolbar">
           <div id="btn-desenho-fechar" class="texto-btn">✕ FECHAR</div>
-          <div id="btn-desenho-transformar" class="texto-btn">⤡ TRANSFORMAR</div>
           <div style="flex:1"></div>
           <div id="btn-desenho-desfazer" class="texto-btn">DESFAZER</div>
           <div id="btn-desenho-limpar" class="texto-btn">LIMPAR</div>
@@ -662,279 +985,278 @@
           </div>
           <div style="display:flex; align-items:center; gap:6px;">
             <span id="desenho-espessura-label" style="color:#00ffe7; font-family:'Press Start 2P',monospace; font-size:9px;">LÁPIS</span>
-            <input type="range" id="desenho-espessura" min="1" max="50" value="3" style="width:80px;">
+            <input type="range" id="desenho-espessura" min="1" max="12" value="3" style="width:80px;">
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="color:#00ffe7; font-family:'Press Start 2P',monospace; font-size:9px;">OPACIDADE</span>
+            <input type="range" id="desenho-opacidade" min="10" max="100" value="85" style="width:80px;">
           </div>
           <div id="btn-desenho-usar" class="texto-btn" style="background:#00ffe7;color:#000;">${imagemBase ? 'SALVAR EDIÇÃO' : 'USAR NO TEXTO'}</div>
         </div>
-
-        <div id="camadas-panel" style="position:absolute; right:10px; top:60px; background:rgba(0,0,0,0.85); border:1px solid #00ffe7; padding:10px; z-index:120; width:180px; display:flex; flex-direction:column; gap:8px;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <span style="color:#00ffe7; font-family:'Press Start 2P',monospace; font-size:9px;">CAMADAS</span>
-                <div class="texto-btn" id="btn-nova-camada" style="min-height:24px; padding:4px 8px;">+</div>
-            </div>
-            <div id="camadas-lista" style="display:flex; flex-direction:column; gap:4px; max-height:200px; overflow-y:auto;"></div>
-            <label style="color:#fff; font-size:10px; font-family:monospace; margin-top:8px;">OPACIDADE <input type="range" id="camada-opacidade" min="0" max="100" value="100" style="width:100%;"></label>
-        </div>
-
-        <div id="transform-panel" style="display:none; position:absolute; left:10px; top:60px; background:rgba(0,0,0,0.9); border:1px solid #00ffe7; padding:10px; z-index:120; flex-direction:column; gap:8px;">
-            <span style="color:#00ffe7; font-family:'Press Start 2P',monospace; font-size:9px; margin-bottom:4px;">TRANSFORMAR</span>
-            <label style="color:#fff; font-size:10px; font-family:monospace;">ESCALA <input type="range" id="trans-scale" min="0.1" max="4" step="0.05" value="1"></label>
-            <label style="color:#fff; font-size:10px; font-family:monospace;">ROTAÇÃO <input type="range" id="trans-rot" min="-180" max="180" step="1" value="0"></label>
-            <span style="color:#aaa; font-size:9px; font-family:monospace; text-align:center;">(Arraste a tela para mover)</span>
-            <div class="texto-btn" id="btn-trans-aplicar" style="margin-top:4px;">APLICAR</div>
-        </div>
-
         <div id="desenho-canvas-wrap">
-          <div id="desenho-layers-container"></div>
+          <canvas id="desenho-canvas"></canvas>
         </div>
       `;
       document.body.appendChild(overlay);
 
+      const canvas = document.getElementById('desenho-canvas');
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
       const wrap = document.getElementById('desenho-canvas-wrap');
-      const container = document.getElementById('desenho-layers-container');
-      
-      let layers = []; let activeLayer = null; let layerCounter = 0;
+
+      canvas.width = LARGURA_PAPEL;
+      canvas.height = ALTURA_PAPEL;
+      if (imagemBase) {
+        ctx.drawImage(imagemBase, 0, 0, canvas.width, canvas.height); 
+      } else {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+
       let zoom = Math.min(wrap.clientWidth / LARGURA_PAPEL, wrap.clientHeight / ALTURA_PAPEL) * 0.95;
-      
-      // Feature 1: Função de Adicionar Camada
-      function addLayer(baseImg = null) {
-        const id = ++layerCounter;
-        const canvas = document.createElement('canvas'); canvas.className = 'layer-canvas';
-        canvas.width = LARGURA_PAPEL; canvas.height = ALTURA_PAPEL;
-        container.appendChild(canvas);
-        const ctx = canvas.getContext('2d', { willReadFrequently: true });
-        ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-        if (baseImg) { ctx.drawImage(baseImg, 0, 0, canvas.width, canvas.height); } 
-        else if (id === 1) { ctx.fillStyle = '#ffffff'; ctx.fillRect(0,0,canvas.width, canvas.height); } // Camada inicial branca
-        
-        const layer = { id, canvas, ctx, opacity: 1, tx: 0, ty: 0, scale: 1, rot: 0, nome: 'Camada ' + id, historico: [] };
-        layers.push(layer);
-        setActiveLayer(layer);
-        salvarHistorico(); // salva estado inicial
-        return layer;
-      }
+      let desenhando = false;
+      let modoBorracha = false;
+      let ultimoPonto = null;
+      let pontoMedioAnterior = null;
+      let ultimoTempo = 0;
+      let pointerIdAtivo = null;
+      let historico = [];
+      const espessuraBase = () => parseFloat(document.getElementById('desenho-espessura').value);
+      const opacidadeBase = () => parseFloat(document.getElementById('desenho-opacidade').value) / 100;
 
-      function setActiveLayer(layer) {
-        activeLayer = layer;
-        const lista = document.getElementById('camadas-lista'); lista.innerHTML = '';
-        for (let i = layers.length - 1; i >= 0; i--) {
-            const l = layers[i]; const div = document.createElement('div');
-            div.style.cssText = `display:flex; justify-content:space-between; align-items:center; background:${l===activeLayer?'#333':'#111'}; padding:6px; border:1px solid ${l===activeLayer?'#00ffe7':'#333'}; cursor:pointer; color:#fff; font-family:monospace; font-size:10px;`;
-            div.innerHTML = `<span>${l.nome}</span> <button style="background:none; border:none; color:#ff4444; font-weight:bold; cursor:pointer; font-size:14px; padding:0 4px;">✕</button>`;
-            div.onclick = (e) => {
-                if (e.target.tagName === 'BUTTON') {
-                    if (layers.length <= 1) return alert('Mínimo de 1 camada.');
-                    if (!confirm(`Excluir ${l.nome}?`)) return;
-                    l.canvas.remove(); layers.splice(i, 1);
-                    if (l === activeLayer) setActiveLayer(layers[layers.length - 1]); else setActiveLayer(activeLayer);
-                } else { setActiveLayer(l); }
-            };
-            lista.appendChild(div);
-        }
-        document.getElementById('camada-opacidade').value = activeLayer.opacity * 100;
-      }
-      document.getElementById('btn-nova-camada').onclick = () => addLayer();
-      document.getElementById('camada-opacidade').oninput = (e) => { if(activeLayer) { activeLayer.opacity = e.target.value/100; activeLayer.canvas.style.opacity = activeLayer.opacity; } };
-
-      addLayer(imagemBase); // Inicializa com a primeira camada
-
-      function updateLayerCSS(l) {
-          l.canvas.style.transform = `scale(${l.scale}) rotate(${l.rot}deg)`;
-          l.canvas.style.left = (l.tx * zoom) + 'px';
-          l.canvas.style.top = (l.ty * zoom) + 'px';
-      }
-      
-      // Zoom gerencia o tamanho do container (flexível para scrollbars e interações fluidas)
       function aplicarZoom() {
-        container.style.width = (LARGURA_PAPEL * zoom) + 'px';
-        container.style.height = (ALTURA_PAPEL * zoom) + 'px';
+        canvas.style.width = (LARGURA_PAPEL * zoom) + 'px';
+        canvas.style.height = (ALTURA_PAPEL * zoom) + 'px';
         document.getElementById('desenho-zoom-display').textContent = Math.round(zoom * 100) + '%';
-        layers.forEach(updateLayerCSS);
       }
       aplicarZoom();
 
       function salvarHistorico() {
-        activeLayer.historico.push(activeLayer.ctx.getImageData(0, 0, LARGURA_PAPEL, ALTURA_PAPEL));
-        if (activeLayer.historico.length > 25) activeLayer.historico.shift(); 
+        historico.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+        if (historico.length > 25) historico.shift(); 
       }
+      salvarHistorico();
 
       function pontoCanvas(e) {
-        const rect = container.getBoundingClientRect();
-        return { x: (e.clientX - rect.left) / zoom, y: (e.clientY - rect.top) / zoom };
+        const rect = canvas.getBoundingClientRect();
+        return {
+          x: (e.clientX - rect.left) * (canvas.width / rect.width),
+          y: (e.clientY - rect.top) * (canvas.height / rect.height)
+        };
       }
-      function pontoMedio(a, b) { return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }; }
 
-      // Feature 3: Memória isolada da borracha
-      let espessuraLapis = 3; let espessuraBorracha = 20; let modoBorracha = false;
-      const espessuraInput = document.getElementById('desenho-espessura');
-      espessuraInput.oninput = (e) => {
-          if (modoBorracha) espessuraBorracha = e.target.value; else espessuraLapis = e.target.value;
-      };
-      const espessuraBase = () => parseFloat(modoBorracha ? espessuraBorracha : espessuraLapis);
-
-      function alternarBorracha(forcar) {
-        modoBorracha = typeof forcar === 'boolean' ? forcar : !modoBorracha;
-        const btn = document.getElementById('btn-desenho-borracha'); const label = document.getElementById('desenho-espessura-label');
-        if (modoBorracha) {
-          btn.style.background = '#00ffe7'; btn.style.color = '#000'; btn.textContent = 'LÁPIS'; label.textContent = 'BORRACHA';
-          espessuraInput.value = espessuraBorracha;
-        } else {
-          btn.style.background = ''; btn.style.color = ''; btn.textContent = 'BORRACHA'; label.textContent = 'LÁPIS';
-          espessuraInput.value = espessuraLapis;
-        }
+      function pontoMedio(a, b) {
+        return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
       }
-      document.getElementById('btn-desenho-borracha').onclick = () => alternarBorracha();
 
       function espessuraTraco(p1, p2, dt, e) {
         const base = espessuraBase();
-        if (e.pointerType === 'pen' && e.pressure > 0) return Math.max(0.6, base * (0.3 + e.pressure * 1.4));
-        const vel = dt > 0 ? Math.hypot(p2.x - p1.x, p2.y - p1.y) / dt : 0;
-        return Math.max(0.8, base * Math.max(0.4, Math.min(1.3, 1.1 - vel * 0.04)));
+        if (e.pointerType === 'pen' && e.pressure > 0) {
+          return Math.max(0.6, base * (0.3 + e.pressure * 1.4));
+        }
+        const dist = Math.hypot(p2.x - p1.x, p2.y - p1.y);
+        const vel = dt > 0 ? dist / dt : 0;
+        const fator = Math.max(0.4, Math.min(1.3, 1.1 - vel * 0.04));
+        return Math.max(0.8, base * fator);
       }
 
-      let desenhando = false; let pointerIdAtivo = null; let ultimoPonto = null; let pontoMedioAnterior = null; let ultimoTempo = 0;
-      let modoTransformar = false; let isDraggingTrans = false; let startTransX = 0, startTransY = 0, initialTx = 0, initialTy = 0;
+      function alternarBorracha(forcar) {
+        modoBorracha = typeof forcar === 'boolean' ? forcar : !modoBorracha;
+        const btn = document.getElementById('btn-desenho-borracha');
+        const label = document.getElementById('desenho-espessura-label');
+        if (modoBorracha) {
+          btn.style.background = '#00ffe7';
+          btn.style.color = '#000';
+          btn.textContent = 'LÁPIS';
+          label.textContent = 'BORRACHA';
+        } else {
+          btn.style.background = '';
+          btn.style.color = '';
+          btn.textContent = 'BORRACHA';
+          label.textContent = 'LÁPIS';
+        }
+      }
 
       function iniciarTraco(e) {
-        if (modoTransformar) {
-            isDraggingTrans = true; startTransX = e.clientX; startTransY = e.clientY;
-            initialTx = activeLayer.tx; initialTy = activeLayer.ty; return;
-        }
         if (pointerIdAtivo !== null) return; 
-        pointerIdAtivo = e.pointerId; e.preventDefault(); desenhando = true;
-        ultimoPonto = pontoCanvas(e); pontoMedioAnterior = ultimoPonto; ultimoTempo = performance.now();
+        pointerIdAtivo = e.pointerId;
+        e.preventDefault();
+        desenhando = true;
+        ultimoPonto = pontoCanvas(e);
+        pontoMedioAnterior = ultimoPonto;
+        ultimoTempo = performance.now();
       }
       function continuarTraco(e) {
-        if (modoTransformar && isDraggingTrans) {
-            activeLayer.tx = initialTx + ((e.clientX - startTransX) / zoom);
-            activeLayer.ty = initialTy + ((e.clientY - startTransY) / zoom);
-            updateLayerCSS(activeLayer); return;
-        }
         if (!desenhando || e.pointerId !== pointerIdAtivo) return;
-        e.preventDefault(); const p = pontoCanvas(e); const agora = performance.now(); const dt = agora - ultimoTempo;
-        const ctx = activeLayer.ctx;
+        e.preventDefault();
+        const p = pontoCanvas(e);
+        const agora = performance.now();
+        const dt = agora - ultimoTempo;
+
         ctx.globalCompositeOperation = modoBorracha ? 'destination-out' : 'source-over';
         ctx.strokeStyle = document.getElementById('desenho-cor').value;
-        ctx.lineWidth = modoBorracha ? espessuraBase() : espessuraTraco(ultimoPonto, p, dt, e);
-        ctx.globalAlpha = (!modoBorracha && e.pointerType === 'pen' && e.pressure > 0) ? Math.max(0.3, e.pressure) : 1;
+        ctx.lineWidth = modoBorracha ? espessuraBase() * 3 : espessuraTraco(ultimoPonto, p, dt, e);
+
+        let alpha = modoBorracha ? 1 : opacidadeBase();
+        if (!modoBorracha && e.pointerType === 'pen' && e.pressure > 0) {
+          alpha *= Math.max(0.3, e.pressure);
+        }
+        ctx.globalAlpha = alpha;
 
         const pontoMedioAtual = pontoMedio(ultimoPonto, p);
-        ctx.beginPath(); ctx.moveTo(pontoMedioAnterior.x, pontoMedioAnterior.y);
-        ctx.quadraticCurveTo(ultimoPonto.x, ultimoPonto.y, pontoMedioAtual.x, pontoMedioAtual.y); ctx.stroke();
-        pontoMedioAnterior = pontoMedioAtual; ultimoPonto = p; ultimoTempo = agora;
+        ctx.beginPath();
+        ctx.moveTo(pontoMedioAnterior.x, pontoMedioAnterior.y);
+        ctx.quadraticCurveTo(ultimoPonto.x, ultimoPonto.y, pontoMedioAtual.x, pontoMedioAtual.y);
+        ctx.stroke();
+
+        pontoMedioAnterior = pontoMedioAtual;
+        ultimoPonto = p;
+        ultimoTempo = agora;
       }
       function finalizarTraco(e) {
-        if (modoTransformar) { isDraggingTrans = false; return; }
         if (!desenhando || (e && e.pointerId !== undefined && e.pointerId !== pointerIdAtivo)) return;
-        desenhando = false; pointerIdAtivo = null; activeLayer.ctx.globalCompositeOperation = 'source-over'; salvarHistorico();
+        desenhando = false;
+        pointerIdAtivo = null;
+        ctx.globalCompositeOperation = 'source-over';
+        salvarHistorico();
       }
 
-      container.addEventListener('pointerdown', iniciarTraco); container.addEventListener('pointermove', continuarTraco);
-      window.addEventListener('pointerup', finalizarTraco); window.addEventListener('pointercancel', finalizarTraco);
+      canvas.addEventListener('pointerdown', iniciarTraco);
+      canvas.addEventListener('pointermove', continuarTraco);
+      window.addEventListener('pointerup', finalizarTraco);
+      window.addEventListener('pointercancel', finalizarTraco);
 
-      function mudarZoom(delta) { zoom = Math.max(0.2, Math.min(4, zoom + delta)); aplicarZoom(); }
-      document.getElementById('btn-desenho-zoom-mais').onclick = () => mudarZoom(0.15); document.getElementById('btn-desenho-zoom-menos').onclick = () => mudarZoom(-0.15);
+      document.getElementById('btn-desenho-borracha').onclick = () => alternarBorracha();
+
+      function mudarZoom(delta) {
+        zoom = Math.max(0.2, Math.min(4, zoom + delta));
+        aplicarZoom();
+      }
+      document.getElementById('btn-desenho-zoom-mais').onclick = () => mudarZoom(0.15);
+      document.getElementById('btn-desenho-zoom-menos').onclick = () => mudarZoom(-0.15);
 
       let pinchDist = null;
-      wrap.addEventListener('touchstart', (e) => { if (e.touches.length === 2) pinchDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY); }, { passive: true });
-      wrap.addEventListener('touchmove', (e) => {
-        if (e.touches.length === 2 && pinchDist !== null) {
-          const novaDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
-          mudarZoom((novaDist - pinchDist) * 0.004); pinchDist = novaDist;
+      wrap.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 2) {
+          pinchDist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+          );
         }
       }, { passive: true });
-      wrap.addEventListener('wheel', (e) => { if (e.ctrlKey || e.metaKey) { e.preventDefault(); mudarZoom(-e.deltaY * 0.002); } }, { passive: false });
+      wrap.addEventListener('touchmove', (e) => {
+        if (e.touches.length === 2 && pinchDist !== null) {
+          const novaDist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+          );
+          mudarZoom((novaDist - pinchDist) * 0.004);
+          pinchDist = novaDist;
+        }
+      }, { passive: true });
+      wrap.addEventListener('wheel', (e) => {
+        if (e.ctrlKey || e.metaKey) {
+          e.preventDefault();
+          mudarZoom(-e.deltaY * 0.002);
+        }
+      }, { passive: false });
 
       document.getElementById('btn-desenho-desfazer').onclick = () => {
-        if (activeLayer.historico.length > 1) {
-          activeLayer.historico.pop();
-          activeLayer.ctx.putImageData(activeLayer.historico[activeLayer.historico.length - 1], 0, 0);
+        if (historico.length > 1) {
+          historico.pop();
+          ctx.putImageData(historico[historico.length - 1], 0, 0);
         }
       };
       document.getElementById('btn-desenho-limpar').onclick = () => {
-        if (!confirm('Limpar esta camada?')) return;
-        activeLayer.ctx.clearRect(0, 0, LARGURA_PAPEL, ALTURA_PAPEL); salvarHistorico();
+        if (!confirm('Limpar o sketch inteiro?')) return;
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        salvarHistorico();
       };
-      document.getElementById('btn-desenho-fechar').onclick = () => { const o = document.getElementById('layer-desenho'); if(o) o.remove(); };
-      
-      // Feature 2: Transformação da Camada
-      const panelTransform = document.getElementById('transform-panel');
-      const btnTrans = document.getElementById('btn-desenho-transformar');
-      btnTrans.onclick = () => {
-          modoTransformar = !modoTransformar;
-          if (modoTransformar) {
-              btnTrans.style.background = '#00ffe7'; btnTrans.style.color = '#000';
-              panelTransform.style.display = 'flex';
-              document.getElementById('trans-scale').value = activeLayer.scale;
-              document.getElementById('trans-rot').value = activeLayer.rot;
-          } else bakeTransform(activeLayer);
-      };
-      
-      document.getElementById('trans-scale').oninput = (e) => { activeLayer.scale = parseFloat(e.target.value); updateLayerCSS(activeLayer); };
-      document.getElementById('trans-rot').oninput = (e) => { activeLayer.rot = parseFloat(e.target.value); updateLayerCSS(activeLayer); };
-      document.getElementById('btn-trans-aplicar').onclick = () => {
-          modoTransformar = false; btnTrans.style.background = ''; btnTrans.style.color = ''; panelTransform.style.display = 'none';
-          bakeTransform(activeLayer);
-      };
-
-      function bakeTransform(layer) {
-          if (layer.tx === 0 && layer.ty === 0 && layer.scale === 1 && layer.rot === 0) return;
-          const temp = document.createElement('canvas'); temp.width = LARGURA_PAPEL; temp.height = ALTURA_PAPEL;
-          temp.getContext('2d').drawImage(layer.canvas, 0, 0);
-          layer.ctx.clearRect(0,0, LARGURA_PAPEL, ALTURA_PAPEL);
-          layer.ctx.save();
-          layer.ctx.translate(LARGURA_PAPEL/2 + layer.tx, ALTURA_PAPEL/2 + layer.ty);
-          layer.ctx.rotate(layer.rot * Math.PI/180);
-          layer.ctx.scale(layer.scale, layer.scale);
-          layer.ctx.drawImage(temp, -LARGURA_PAPEL/2, -ALTURA_PAPEL/2);
-          layer.ctx.restore();
-          layer.tx = 0; layer.ty = 0; layer.scale = 1; layer.rot = 0;
-          updateLayerCSS(layer); salvarHistorico();
-      }
-
+      document.getElementById('btn-desenho-fechar').onclick = fecharTelaDesenho;
       document.getElementById('btn-desenho-usar').onclick = () => {
-        if (modoTransformar) document.getElementById('btn-trans-aplicar').click(); // Garante o bake
-        const exportCanvas = document.createElement('canvas'); exportCanvas.width = LARGURA_PAPEL; exportCanvas.height = ALTURA_PAPEL;
-        const eCtx = exportCanvas.getContext('2d');
-        layers.forEach(l => { eCtx.globalAlpha = l.opacity; eCtx.drawImage(l.canvas, 0, 0); });
-        
+        const imgEditando = desenhoEditandoImg;
         let nomeEscolhido = null;
-        if (!desenhoEditandoImg) {
-          const digitado = prompt('Nome do arquivo (sem espaços/acentos).\nDeixe em branco para automático:', '');
+        if (!imgEditando) {
+          const digitado = prompt('Nome do arquivo (sem espaços/acentos) que vai pro Cloudflare.\nDeixe em branco pra gerar um nome automático:', '');
           if (digitado && digitado.trim()) nomeEscolhido = sanitizarNomeArquivo(digitado);
         }
-        exportCanvas.toBlob(async (blob) => {
-          if (!blob) return; const selSalvo = seletorSalvoParaDesenho;
-          document.getElementById('layer-desenho').remove();
-          if (desenhoEditandoImg) await salvarEdicaoImagem(blob, desenhoEditandoImg);
-          else await inserirImagemNoTexto(blob, selSalvo, nomeEscolhido);
+        canvas.toBlob(async (blob) => {
+          if (!blob) return;
+          const seletorSalvo = seletorSalvoParaDesenho;
+          fecharTelaDesenho();
+          if (imgEditando) {
+            await salvarEdicaoImagem(blob, imgEditando);
+          } else {
+            await inserirImagemNoTexto(blob, seletorSalvo, nomeEscolhido);
+          }
         }, 'image/png');
       };
+
+      desenhoState = { overlay };
+    }
+
+    function fecharTelaDesenho() {
+      const overlay = document.getElementById('layer-desenho');
+      if (overlay) overlay.remove();
+      desenhoState = null;
+      desenhoEditandoImg = null;
     }
 
     async function salvarEdicaoImagem(blob, imgEl) {
-      const caminho = imgEl.dataset.caminho; if (!caminho) return alert('Imagem sem caminho salvo (antiga). Crie uma nova.');
-      const srcAntigo = imgEl.src; imgEl.style.opacity = '0.4';
+      const caminho = imgEl.dataset.caminho;
+      if (!caminho) {
+        console.error('Imagem sem data-caminho — foi inserida antes dessa versão do editor, não dá pra sobrescrever.');
+        alert('Essa ilustração não tem um caminho de storage salvo (foi inserida numa versão antiga do editor). Não é possível editá-la no lugar — cole/desenhe uma nova.');
+        return;
+      }
+      const srcAntigo = imgEl.src;
+      imgEl.style.opacity = '0.4';
       try {
         const { url } = await subirImagemParaStorage(blob, mundoAtual, caminho);
-        imgEl.src = url + (url.includes('?') ? '&' : '?') + 'v=' + Date.now(); imgEl.dataset.caminho = caminho; imgEl.style.opacity = '1';
-      } catch (err) { imgEl.src = srcAntigo; imgEl.style.opacity = '1'; alert('Erro ao salvar a edição.'); }
+        imgEl.src = url + (url.includes('?') ? '&' : '?') + 'v=' + Date.now();
+        imgEl.dataset.caminho = caminho;
+        imgEl.style.opacity = '1';
+      } catch (err) {
+        console.error('Erro ao salvar edição da imagem:', err);
+        imgEl.src = srcAntigo;
+        imgEl.style.opacity = '1';
+        alert('Erro ao salvar a edição da ilustração. Tente de novo.');
+      }
     }
 
     // =========================================================
     // 5. BOTÃO VOLTAR E TRANSIÇÕES
     // =========================================================
     $('#btnVoltar').click(() => {
-      try { $('#flipbook-content').empty(); mundoAtual = ''; if(window.stopAllAnimations) window.stopAllAnimations(); delete window.initFlipbook; delete window.initGlobe; } catch(e){}
-      if (allowSound && whooshSound) { try { whooshSound.currentTime = 0.1; whooshSound.volume = 0.6; whooshSound.play().catch(e=>e); } catch (e) {} }
+      try {
+        $('#flipbook-content').empty();
+        mundoAtual = ''; 
+        if(window.stopAllAnimations) window.stopAllAnimations(); 
+        delete window.initFlipbook; delete window.initGlobe;
+      } catch(e){}
+      
+      if (allowSound && whooshSound) {
+        try { whooshSound.currentTime = 0.1; whooshSound.volume = 0.6; whooshSound.play().catch(e=>e); } catch (e) {}
+      }
+      
       showReversePixelTransition(() => {
         $('#flipbook').hide(); $('#btnVoltar').hide(); $('#flipbook-content').empty();
+        
         $('html, body').css('background', '#000'); $('#menu').css('background', '#000'); $('#flipbook').css('background', ''); 
+        
         if (allowSound) {
             memories.volume = 0; memories.play().catch(() => {});
-            let fadeInAudio = setInterval(() => { if (memories.volume < 0.95) memories.volume += 0.05; else { memories.volume = 1; clearInterval(fadeInAudio); } }, 50);
+            let fadeInAudio = setInterval(() => {
+                if (memories.volume < 0.95) memories.volume += 0.05;
+                else { memories.volume = 1; clearInterval(fadeInAudio); }
+            }, 50);
         }
-        createBackgroundPixels(); $('#menu').fadeIn(500); setupWorldClickHandlers();
+        
+        createBackgroundPixels();
+        $('#menu').fadeIn(500);
+        setupWorldClickHandlers();
       });
     });
 
@@ -942,7 +1264,8 @@
       const canvas = document.createElement('canvas'); canvas.style.position = 'fixed'; canvas.style.inset = '0'; canvas.style.zIndex = '99999';
       canvas.width = window.innerWidth; canvas.height = window.innerHeight; document.body.appendChild(canvas);
       const ctx = canvas.getContext('2d'); const pixelSize = 9;
-      const cols = Math.ceil(canvas.width / pixelSize); const rows = Math.ceil(canvas.height / pixelSize); let pixels = [];
+      const cols = Math.ceil(canvas.width / pixelSize); const rows = Math.ceil(canvas.height / pixelSize);
+      let pixels = [];
       for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) pixels.push({x, y});
       for (let i = pixels.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [pixels[i], pixels[j]] = [pixels[j], pixels[i]]; }
       let drawn = 0;
@@ -950,13 +1273,18 @@
         for (let i = 0; i < 80 && drawn < pixels.length; i++, drawn++) {
           const {x, y} = pixels[drawn]; ctx.fillStyle = '#00ffe7'; ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
         }
-        if (drawn < pixels.length) requestAnimationFrame(drawStep); else setTimeout(() => { canvas.remove(); if (callback) callback(); }, 150);
-      } drawStep();
+        if (drawn < pixels.length) requestAnimationFrame(drawStep);
+        else setTimeout(() => { canvas.remove(); if (callback) callback(); }, 150);
+      }
+      drawStep();
     }
+
     function showReversePixelTransition(callback) { showPixelTransition(callback); }
+
     $(document).on('click', '.symbol.locked', function (e) {
       e.preventDefault(); const el = this; el.classList.add('show-lock');
-      if (el._lockTimer) clearTimeout(el._lockTimer); el._lockTimer = setTimeout(() => { el.classList.remove('show-lock'); el._lockTimer = null; }, 1200);
+      if (el._lockTimer) clearTimeout(el._lockTimer);
+      el._lockTimer = setTimeout(() => { el.classList.remove('show-lock'); el._lockTimer = null; }, 1200);
     });
   </script>
 
@@ -973,9 +1301,15 @@
       appId: "1:604756647255:web:4ecd05c34ad62e32483212",
       measurementId: "G-6MZK2WXYJN"
     };
+
     const app = initializeApp(firebaseConfig);
-    window.db = getFirestore(app); window.fsDoc = doc; window.fsGetDoc = getDoc; window.fsSetDoc = setDoc;
-    console.log("🔥 Firebase (Firestore) inicializado!");
+    
+    window.db = getFirestore(app);
+    window.fsDoc = doc;
+    window.fsGetDoc = getDoc;
+    window.fsSetDoc = setDoc;
+
+    console.log("🔥 Firebase (Firestore) inicializado e conectado ao editor unificado!");
   </script>
 </body>
 </html>
