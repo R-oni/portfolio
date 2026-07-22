@@ -636,17 +636,11 @@
 
     // =========================================================
     // 4B. UPLOAD DE IMAGENS PARA O CLOUDFLARE R2 (via Worker)
-    // (o Firestore continua guardando só o link, nunca o base64 pesado)
     // =========================================================
 
-    // >>> COLE AQUI A URL DO SEU WORKER DEPOIS DE PUBLICÁ-LO <<<
-    // Exemplo: "https://omom-upload.SEUUSUARIO.workers.dev"
     const WORKER_UPLOAD_URL = "https://omom-ilustracoes.omomestudios.workers.dev";
-
-    // >>> COLE AQUI A MESMA CHAVE SECRETA QUE VOCÊ CONFIGUROU NO WORKER <<<
     const WORKER_UPLOAD_TOKEN = "omom-7f9a2c8e1b4d6f3a";
 
-    // Comprime/re-codifica qualquer imagem para webp antes de subir, para não pesar o Storage à toa
     function blobParaWebp(blob, qualidade = 0.85, larguraMax = 1600) {
       return new Promise((resolve, reject) => {
         const img = new Image();
@@ -672,9 +666,6 @@
       });
     }
 
-    // Sobe o blob para o Worker, que por sua vez grava no bucket R2 e devolve a URL pública.
-    // Se `caminhoExistente` for passado, sobrescreve exatamente aquele arquivo no R2
-    // (mesma key = mesmo objeto, o worker/R2 simplesmente substitui o conteúdo).
     async function subirImagemParaStorage(blob, mundo, caminhoExistente = null) {
       if (!WORKER_UPLOAD_URL || WORKER_UPLOAD_URL.includes('SEU-WORKER')) {
         throw new Error('Worker do Cloudflare ainda não configurado (veja WORKER_UPLOAD_URL).');
@@ -696,14 +687,26 @@
         throw new Error(`Falha no upload (HTTP ${resp.status}): ${msg}`);
       }
 
-      const data = await resp.json();
-      if (!data.url) throw new Error('Worker não retornou URL da imagem.');
-      return { url: data.url, caminho };
+      // Correção robusta para caso o worker responda com texto puro ou json irregular
+      let responseText = await resp.text();
+      let finalUrl = '';
+      
+      try {
+        const data = JSON.parse(responseText);
+        finalUrl = data.url;
+      } catch (e) {
+        if (responseText.startsWith('http')) {
+          finalUrl = responseText.trim();
+        }
+      }
+
+      if (!finalUrl) {
+        finalUrl = `${WORKER_UPLOAD_URL}/${caminho}`;
+      }
+
+      return { url: finalUrl, caminho };
     }
 
-    // Insere um placeholder no texto, sobe a imagem, e troca o placeholder pelo <img> real com a URL do Storage
-    // Transforma o nome digitado pelo usuário num nome de arquivo seguro pro R2
-    // (sem acento, sem espaço, sem caractere especial).
     function sanitizarNomeArquivo(nome) {
       const limpo = nome
         .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // remove acentos
@@ -724,8 +727,6 @@
       const idTemp = 'img-pendente-' + Date.now();
       const placeholderHtml = `<span id="${idTemp}" style="display:inline-block;padding:8px 12px;border:1px dashed #999;color:#888;font-size:13px;">enviando ilustração…</span>`;
 
-      // Tenta restaurar a seleção salva ANTES de fechar a tela de desenho (se veio uma).
-      // Isso evita depender do foco atual, que pode ter sido perdido ao fechar o overlay.
       const sel = window.getSelection();
       let inseridoComExecCommand = false;
 
@@ -734,12 +735,11 @@
         sel.addRange(seletorSalvo);
       }
 
-      // Garante que o editor está focado e com alguma seleção dentro dele
       if (!sel.rangeCount || !textoEl.contains(sel.getRangeAt(0).commonAncestorContainer)) {
         textoEl.focus();
         const range = document.createRange();
         range.selectNodeContents(textoEl);
-        range.collapse(false); // vai para o final do conteúdo
+        range.collapse(false);
         sel.removeAllRanges();
         sel.addRange(range);
       } else {
@@ -752,8 +752,6 @@
         inseridoComExecCommand = false;
       }
 
-      // Fallback: se por qualquer motivo o execCommand não inseriu nada
-      // (ex: navegador bloqueou, seleção inválida), insere no final manualmente.
       if (!inseridoComExecCommand || !document.getElementById(idTemp)) {
         textoEl.insertAdjacentHTML('beforeend', placeholderHtml);
       }
@@ -776,8 +774,6 @@
       }
     }
 
-    // Intercepta Ctrl+V de imagem no editor: em vez de deixar o navegador
-    // embutir como base64 gigante, sobe pro Storage e insere só o link.
     function configurarPasteDeImagem() {
       const textoEl = document.getElementById('texto-conteudo');
       if (!textoEl) return;
@@ -792,13 +788,10 @@
             return;
           }
         }
-        // se não é imagem, deixa o comportamento padrão de colar texto acontecer
       });
     }
 
-    // Monta o wrapper não-editável de uma ilustração: <img> + botão "EDITAR DESENHO" embaixo.
-    // O wrapper fica com contenteditable="false" pra não virar texto editável nem sumir
-    // quando o usuário digita perto dele, e pro botão sempre responder ao toque/clique.
+    // CORREÇÃO APLICADA AQUI: Remoção do "wrapper.appendChild(link)" que não existia e causava o crash.
     function criarIlustracaoElemento(url, caminho) {
       const wrapper = document.createElement('span');
       wrapper.className = 'omom-ilustracao';
@@ -816,12 +809,10 @@
       wrapper.appendChild(img);
       wrapper.appendChild(document.createElement('br'));
       wrapper.appendChild(btn);
-      wrapper.appendChild(link);
+      
       return wrapper;
     }
 
-    // Pega ilustrações "soltas" (ex: texto salvo antes dessa versão, com <img> sem wrapper)
-    // e envolve elas no mesmo wrapper com botão, pra manter tudo editável igual.
     function hidratarIlustracoes() {
       const textoEl = document.getElementById('texto-conteudo');
       if (!textoEl) return;
@@ -832,7 +823,6 @@
       });
     }
 
-    // Clique no botão "EDITAR DESENHO" de uma ilustração já inserida abre ela na tela de desenho
     function configurarEdicaoDeImagem() {
       const textoEl = document.getElementById('texto-conteudo');
       if (!textoEl) return;
@@ -881,10 +871,9 @@
     // 4C. TELA DE DESENHO — LÁPIS P&B COM ZOOM
     // =========================================================
     let desenhoState = null;
-    let seletorSalvoParaDesenho = null; // guarda onde o cursor estava no texto ao abrir a tela de desenho
-    let desenhoEditandoImg = null; // referência ao <img> do texto sendo editado; null = ilustração nova
+    let seletorSalvoParaDesenho = null;
+    let desenhoEditandoImg = null;
 
-    // Tamanhos disponíveis para a tela de pintura (largura x altura, em px de resolução real)
     const TAMANHOS_PAPEL = {
       quadrado:   { label: 'Quadrado (1:1)',        w: 1500, h: 1500 },
       retrato:    { label: 'Retrato (3:4)',          w: 1240, h: 1754 },
@@ -895,17 +884,10 @@
 
     function abrirTelaDesenho() {
       if (document.getElementById('layer-desenho')) return;
-      desenhoEditandoImg = null; // fluxo de ilustração nova, não é edição
+      desenhoEditandoImg = null;
       abrirSeletorTamanho();
     }
 
-    // Abre a tela de desenho pra editar uma ilustração já existente, carregando ela DIRETO
-    // da URL publicada — sem precisar baixar/reenviar nada manualmente. Pra isso funcionar, o
-    // Worker/bucket precisa responder o GET da imagem com o header:
-    //   Access-Control-Allow-Origin: *
-    // (uma linha na resposta que já existe hoje — não é uma rota nova). Se esse header ainda
-    // não estiver configurado, o navegador bloqueia o carregamento e caímos automaticamente
-    // no seletor de arquivo manual, sem travar o fluxo.
     function abrirTelaDesenhoParaEditar(imgEl) {
       if (document.getElementById('layer-desenho')) return;
       const imgRemota = new Image();
@@ -918,12 +900,9 @@
         console.warn('Não deu pra carregar a imagem direto (provavelmente falta CORS no Worker). Usando seletor de arquivo manual.');
         abrirSeletorArquivoParaEditar(imgEl);
       };
-      // cache-buster: evita que o navegador reuse do cache uma resposta antiga sem o header CORS
       imgRemota.src = imgEl.src + (imgEl.src.includes('?') ? '&' : '?') + 'cors=' + Date.now();
     }
 
-    // Fallback manual: pede pro usuário escolher o arquivo de imagem no próprio dispositivo.
-    // Usado só quando o carregamento direto (CORS) falha.
     function abrirSeletorArquivoParaEditar(imgEl) {
       const input = document.createElement('input');
       input.type = 'file';
@@ -947,7 +926,6 @@
       input.click();
     }
 
-    // Modal simples pra escolher o tamanho da tela antes de começar a desenhar
     function abrirSeletorTamanho() {
       if (document.getElementById('layer-tamanho-desenho')) return;
 
@@ -984,9 +962,6 @@
     function abrirTelaDesenhoComTamanho(LARGURA_PAPEL, ALTURA_PAPEL, imagemBase = null) {
       if (document.getElementById('layer-desenho')) return;
 
-      // Guarda onde o cursor estava no editor de texto ANTES de abrir o overlay,
-      // porque abrir/fechar a tela de desenho tira o foco do editor e o navegador
-      // pode perder a seleção — sem isso, a inserção da ilustração falha silenciosamente.
       const selAtual = window.getSelection();
       seletorSalvoParaDesenho = (selAtual && selAtual.rangeCount > 0) ? selAtual.getRangeAt(0).cloneRange() : null;
 
@@ -1028,11 +1003,10 @@
       const ctx = canvas.getContext('2d', { willReadFrequently: true });
       const wrap = document.getElementById('desenho-canvas-wrap');
 
-      // Resolução interna (papel) definida pelo usuário na tela de tamanho, independente do zoom visual
       canvas.width = LARGURA_PAPEL;
       canvas.height = ALTURA_PAPEL;
       if (imagemBase) {
-        ctx.drawImage(imagemBase, 0, 0, canvas.width, canvas.height); // carrega a ilustração existente como base do raster
+        ctx.drawImage(imagemBase, 0, 0, canvas.width, canvas.height); 
       } else {
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -1046,7 +1020,7 @@
       let ultimoPonto = null;
       let pontoMedioAnterior = null;
       let ultimoTempo = 0;
-      let pointerIdAtivo = null; // ignora outros ponteiros (ex: segundo dedo da pinça) enquanto desenha
+      let pointerIdAtivo = null;
       let historico = [];
       const espessuraBase = () => parseFloat(document.getElementById('desenho-espessura').value);
       const opacidadeBase = () => parseFloat(document.getElementById('desenho-opacidade').value) / 100;
@@ -1060,9 +1034,9 @@
 
       function salvarHistorico() {
         historico.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
-        if (historico.length > 25) historico.shift(); // limite pra não estourar memória
+        if (historico.length > 25) historico.shift(); 
       }
-      salvarHistorico(); // estado em branco como primeiro passo do desfazer
+      salvarHistorico();
 
       function pontoCanvas(e) {
         const rect = canvas.getBoundingClientRect();
@@ -1076,8 +1050,6 @@
         return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
       }
 
-      // Espessura do traço: se o dispositivo reporta pressão real (caneta/stylus), usa ela.
-      // Senão (mouse/dedo), simula pela velocidade do traço: rápido = mais fino, devagar = mais grosso.
       function espessuraTraco(p1, p2, dt, e) {
         const base = espessuraBase();
         if (e.pointerType === 'pen' && e.pressure > 0) {
@@ -1107,7 +1079,7 @@
       }
 
       function iniciarTraco(e) {
-        if (pointerIdAtivo !== null) return; // já tem um traço em andamento (evita conflito com pinça de 2 dedos)
+        if (pointerIdAtivo !== null) return; 
         pointerIdAtivo = e.pointerId;
         e.preventDefault();
         desenhando = true;
@@ -1126,15 +1098,12 @@
         ctx.strokeStyle = document.getElementById('desenho-cor').value;
         ctx.lineWidth = modoBorracha ? espessuraBase() * 3 : espessuraTraco(ultimoPonto, p, dt, e);
 
-        // Com caneta de verdade, pressão fraca também deixa o traço mais claro (efeito lápis real)
         let alpha = modoBorracha ? 1 : opacidadeBase();
         if (!modoBorracha && e.pointerType === 'pen' && e.pressure > 0) {
           alpha *= Math.max(0.3, e.pressure);
         }
         ctx.globalAlpha = alpha;
 
-        // Suaviza o traço desenhando uma curva quadrática entre pontos médios,
-        // em vez de retas segmentadas — elimina os "bicos" nas curvas.
         const pontoMedioAtual = pontoMedio(ultimoPonto, p);
         ctx.beginPath();
         ctx.moveTo(pontoMedioAnterior.x, pontoMedioAnterior.y);
@@ -1160,7 +1129,6 @@
 
       document.getElementById('btn-desenho-borracha').onclick = () => alternarBorracha();
 
-      // Zoom: botões + pinça (touch) + scroll com Ctrl/trackpad
       function mudarZoom(delta) {
         zoom = Math.max(0.2, Math.min(4, zoom + delta));
         aplicarZoom();
@@ -1211,8 +1179,6 @@
         const imgEditando = desenhoEditandoImg;
         let nomeEscolhido = null;
         if (!imgEditando) {
-          // Só pergunta o nome na criação de uma ilustração nova — esse nome vira o arquivo
-          // salvo no Cloudflare, e é ele que permite sobrescrever depois ao editar.
           const digitado = prompt('Nome do arquivo (sem espaços/acentos) que vai pro Cloudflare.\nDeixe em branco pra gerar um nome automático:', '');
           if (digitado && digitado.trim()) nomeEscolhido = sanitizarNomeArquivo(digitado);
         }
@@ -1238,8 +1204,6 @@
       desenhoEditandoImg = null;
     }
 
-    // Sobe a versão editada por cima da imagem existente no MESMO caminho do R2 (sobrescreve o arquivo)
-    // e troca o src no DOM com um cache-buster, já que o nome do arquivo continua idêntico.
     async function salvarEdicaoImagem(blob, imgEl) {
       const caminho = imgEl.dataset.caminho;
       if (!caminho) {
@@ -1251,8 +1215,6 @@
       imgEl.style.opacity = '0.4';
       try {
         const { url } = await subirImagemParaStorage(blob, mundoAtual, caminho);
-        // mesmo nome de arquivo no R2 => o navegador (e CDN) podem servir a versão em cache.
-        // acrescenta um parâmetro só pra forçar buscar a versão nova agora.
         imgEl.src = url + (url.includes('?') ? '&' : '?') + 'v=' + Date.now();
         imgEl.dataset.caminho = caminho;
         imgEl.style.opacity = '1';
@@ -1270,8 +1232,8 @@
     $('#btnVoltar').click(() => {
       try {
         $('#flipbook-content').empty();
-        mundoAtual = ''; // Reseta o editor
-        if(window.stopAllAnimations) window.stopAllAnimations(); // Para os mundos de exceção
+        mundoAtual = ''; 
+        if(window.stopAllAnimations) window.stopAllAnimations(); 
         delete window.initFlipbook; delete window.initGlobe;
       } catch(e){}
       
@@ -1342,14 +1304,10 @@
 
     const app = initializeApp(firebaseConfig);
     
-    // Tornamos as funções do firestore globais para que o script principal as utilize facilmente sem dor de cabeça de módulos
     window.db = getFirestore(app);
     window.fsDoc = doc;
     window.fsGetDoc = getDoc;
     window.fsSetDoc = setDoc;
-
-    // As imagens agora não passam mais pelo Firebase Storage — vão direto
-    // para o Cloudflare R2 através do Worker (ver subirImagemParaStorage()).
 
     console.log("🔥 Firebase (Firestore) inicializado e conectado ao editor unificado!");
   </script>
