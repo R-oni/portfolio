@@ -687,14 +687,49 @@
     }
 
     // Insere um placeholder no texto, sobe a imagem, e troca o placeholder pelo <img> real com a URL do Storage
-    async function inserirImagemNoTexto(blob) {
+    async function inserirImagemNoTexto(blob, seletorSalvo) {
       const textoEl = document.getElementById('texto-conteudo');
-      if (!textoEl || !mundoAtual) return;
+      if (!textoEl || !mundoAtual) {
+        console.error('Não foi possível inserir a ilustração: textoEl ou mundoAtual ausentes.', { textoEl, mundoAtual });
+        return;
+      }
 
       const idTemp = 'img-pendente-' + Date.now();
-      document.execCommand('insertHTML', false,
-        `<span id="${idTemp}" style="display:inline-block;padding:8px 12px;border:1px dashed #999;color:#888;font-size:13px;">enviando ilustração…</span>`
-      );
+      const placeholderHtml = `<span id="${idTemp}" style="display:inline-block;padding:8px 12px;border:1px dashed #999;color:#888;font-size:13px;">enviando ilustração…</span>`;
+
+      // Tenta restaurar a seleção salva ANTES de fechar a tela de desenho (se veio uma).
+      // Isso evita depender do foco atual, que pode ter sido perdido ao fechar o overlay.
+      const sel = window.getSelection();
+      let inseridoComExecCommand = false;
+
+      if (seletorSalvo && textoEl.contains(seletorSalvo.anchorNode)) {
+        sel.removeAllRanges();
+        sel.addRange(seletorSalvo);
+      }
+
+      // Garante que o editor está focado e com alguma seleção dentro dele
+      if (!sel.rangeCount || !textoEl.contains(sel.getRangeAt(0).commonAncestorContainer)) {
+        textoEl.focus();
+        const range = document.createRange();
+        range.selectNodeContents(textoEl);
+        range.collapse(false); // vai para o final do conteúdo
+        sel.removeAllRanges();
+        sel.addRange(range);
+      } else {
+        textoEl.focus();
+      }
+
+      try {
+        inseridoComExecCommand = document.execCommand('insertHTML', false, placeholderHtml);
+      } catch (e) {
+        inseridoComExecCommand = false;
+      }
+
+      // Fallback: se por qualquer motivo o execCommand não inseriu nada
+      // (ex: navegador bloqueou, seleção inválida), insere no final manualmente.
+      if (!inseridoComExecCommand || !document.getElementById(idTemp)) {
+        textoEl.insertAdjacentHTML('beforeend', placeholderHtml);
+      }
 
       try {
         const url = await subirImagemParaStorage(blob, mundoAtual);
@@ -770,9 +805,16 @@
     // 4C. TELA DE DESENHO — LÁPIS P&B COM ZOOM
     // =========================================================
     let desenhoState = null;
+    let seletorSalvoParaDesenho = null; // guarda onde o cursor estava no texto ao abrir a tela de desenho
 
     function abrirTelaDesenho() {
       if (document.getElementById('layer-desenho')) return;
+
+      // Guarda onde o cursor estava no editor de texto ANTES de abrir o overlay,
+      // porque abrir/fechar a tela de desenho tira o foco do editor e o navegador
+      // pode perder a seleção — sem isso, a inserção da ilustração falha silenciosamente.
+      const selAtual = window.getSelection();
+      seletorSalvoParaDesenho = (selAtual && selAtual.rangeCount > 0) ? selAtual.getRangeAt(0).cloneRange() : null;
 
       const overlay = document.createElement('div');
       overlay.id = 'layer-desenho';
@@ -937,8 +979,9 @@
       document.getElementById('btn-desenho-usar').onclick = () => {
         canvas.toBlob(async (blob) => {
           if (!blob) return;
+          const seletorSalvo = seletorSalvoParaDesenho;
           fecharTelaDesenho();
-          await inserirImagemNoTexto(blob);
+          await inserirImagemNoTexto(blob, seletorSalvo);
         }, 'image/png');
       };
 
