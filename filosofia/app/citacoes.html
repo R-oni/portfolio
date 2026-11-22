@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TERMINAL · Citações</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Share+Tech+Mono&display=swap">
+<style>
+  :root{
+    --bg:#031a0f; --panel:#052a18; --line:#0f9d58; --glow:#2bff88;
+    --txt:#8dffbf; --dim:#3fbf7a; --hi:#e6fff0;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%;background:var(--bg);color:var(--txt);
+    font-family:"Share Tech Mono",ui-monospace,Menlo,Consolas,monospace}
+  body{min-height:100vh;display:flex;justify-content:center;padding:20px 14px 40px;
+    background:radial-gradient(ellipse at 50% 0%,#07381f 0%,var(--bg) 70%)}
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;
+    background:repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 1px,transparent 1px 3px);
+    mix-blend-mode:multiply}
+  main{width:100%;max-width:640px}
+  nav{display:flex;gap:22px;letter-spacing:.2em;font-size:18px;
+    color:var(--dim);border-bottom:2px solid var(--line);padding-bottom:14px;
+    text-shadow:0 0 8px rgba(43,255,136,.5)}
+  nav b{color:var(--glow);font-weight:400}
+  .meta{text-align:right;letter-spacing:.2em;color:var(--dim);margin:18px 0 26px;font-size:15px}
+  .card{border:2px solid var(--hi);border-radius:22px;padding:34px 24px;text-align:center;
+    background:linear-gradient(180deg,rgba(43,255,136,.07),rgba(43,255,136,.02));
+    box-shadow:0 0 28px rgba(43,255,136,.18),inset 0 0 40px rgba(43,255,136,.06)}
+  .tag{color:var(--glow);letter-spacing:.22em;font-size:15px;line-height:2;
+    text-shadow:0 0 10px var(--glow)}
+  h1{font-family:"Saira Stencil One",Impact,sans-serif;font-weight:400;
+    font-size:clamp(40px,12vw,68px);line-height:1;margin:22px 0 26px;color:var(--hi);
+    text-shadow:0 0 18px var(--glow),0 0 40px rgba(43,255,136,.5)}
+  #quote{font-size:clamp(17px,4.6vw,22px);line-height:1.7;letter-spacing:.04em;
+    min-height:9em;color:var(--txt);text-shadow:0 0 6px rgba(43,255,136,.45)}
+  #quote.err{color:#ffd37a}
+  .cursor{display:inline-block;width:.6em;height:1em;background:var(--glow);
+    vertical-align:-.15em;margin-left:3px;animation:blink 1s steps(2) infinite}
+  @keyframes blink{50%{opacity:0}}
+  #author{margin-top:26px;color:var(--glow);font-size:19px;letter-spacing:.12em;
+    text-shadow:0 0 10px var(--glow)}
+  #src{margin-top:8px;font-size:14px;color:var(--dim)}
+  #src a{color:var(--dim)}
+  button{margin-top:30px;font:inherit;font-size:17px;letter-spacing:.18em;cursor:pointer;
+    color:var(--bg);background:var(--glow);border:0;border-radius:999px;padding:14px 26px;
+    box-shadow:0 0 18px rgba(43,255,136,.6)}
+  button:hover{background:var(--hi)}
+  button:focus-visible{outline:3px solid var(--hi);outline-offset:3px}
+  button:disabled{opacity:.5;cursor:wait}
+  @media (prefers-reduced-motion:reduce){.cursor{animation:none}}
+</style>
+</head>
+<body>
+<main>
+  <nav><b>HOME</b><span>FILÓSOFOS</span><span>SOCIÓLOGOS</span></nav>
+  <div class="meta" id="date"></div>
+  <section class="card">
+    <div class="tag">★ TRANSMISSÃO ABERTA · WIKIQUOTE ★</div>
+    <h1>Pense.</h1>
+    <p id="quote" aria-live="polite">Conectando...</p>
+    <div id="author"></div>
+    <div id="src"></div>
+    <button id="next">NOVA CITAÇÃO</button>
+  </section>
+</main>
+
+<script>
+const AUTHORS = [
+  // filósofos
+  "Friedrich Nietzsche","Immanuel Kant","Baruch Spinoza","Arthur Schopenhauer","Søren Kierkegaard",
+  "Ludwig Wittgenstein","Jean-Paul Sartre","Albert Camus","Simone de Beauvoir","Hannah Arendt",
+  "Michel Foucault","Gilles Deleuze","Bertrand Russell","Karl Popper","David Hume","Epicurus",
+  "Seneca the Younger","Marcus Aurelius","Heraclitus","Plato","Aristotle","Simone Weil","Byung-Chul Han",
+  // sociólogos / teoria social
+  "Max Weber","Émile Durkheim","Karl Marx","Georg Simmel","Pierre Bourdieu","Zygmunt Bauman",
+  "Erving Goffman","Norbert Elias","Antonio Gramsci","Theodor W. Adorno","Walter Benjamin",
+  "Jürgen Habermas","Alexis de Tocqueville","Auguste Comte","C. Wright Mills","Max Horkheimer"
+];
+
+// Plano B caso a rede falhe
+const FALLBACK = [
+  ["Friedrich Nietzsche","He who has a why to live can bear almost any how."],
+  ["Hannah Arendt","The sad truth is that most evil is done by people who never make up their minds to be good or evil."],
+  ["Max Weber","The fate of our times is characterized by rationalization and intellectualization."],
+  ["Émile Durkheim","The man who is detached from society is a man without a compass."],
+  ["Ludwig Wittgenstein","The limits of my language mean the limits of my world."],
+  ["Pierre Bourdieu","Taste classifies, and it classifies the classifier."]
+];
+
+const $ = id => document.getElementById(id);
+const pick = a => a[Math.floor(Math.random()*a.length)];
+let typing = 0;
+
+$("date").textContent = new Date().toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit",year:"numeric"}).replaceAll("/",".");
+
+function type(text){
+  const id = ++typing, el = $("quote");
+  el.classList.remove("err"); el.textContent = "";
+  const cur = document.createElement("span"); cur.className = "cursor";
+  let i = 0;
+  (function step(){
+    if(id !== typing) return;
+    el.textContent = "“" + text.slice(0,i) + (i>=text.length ? "”" : "");
+    el.appendChild(cur);
+    if(i++ < text.length) setTimeout(step, 14);
+  })();
+}
+
+function clean(li){
+  const c = li.cloneNode(true);
+  c.querySelectorAll("ul,ol,sup,style,.reference").forEach(n => n.remove());
+  return c.textContent.replace(/\s+/g," ").trim();
+}
+
+async function fetchQuote(){
+  const name = pick(AUTHORS);
+  const url = "https://en.wikiquote.org/w/api.php?action=parse&prop=text&section=1&redirects=1&format=json&origin=*&page=" + encodeURIComponent(name);
+  const res = await fetch(url);
+  const data = await res.json();
+  const html = data?.parse?.text?.["*"];
+  if(!html) throw new Error("sem conteúdo");
+  const doc = new DOMParser().parseFromString(html,"text/html");
+  const quotes = [...doc.querySelectorAll(".mw-parser-output > ul > li")]
+    .map(clean).filter(q => q.length >= 40 && q.length <= 320);
+  if(!quotes.length) throw new Error("sem citações");
+  return { author: data.parse.title || name, text: pick(quotes), page: data.parse.title || name };
+}
+
+async function load(){
+  const btn = $("next"); btn.disabled = true;
+  $("author").textContent = ""; $("src").textContent = "";
+  $("quote").textContent = "Buscando transmissão..."; $("quote").classList.remove("err");
+  let q;
+  for(let t=0; t<3 && !q; t++){ try{ q = await fetchQuote(); }catch(e){} }
+  if(q){
+    type(q.text);
+    $("author").textContent = "— " + q.author;
+    const a = document.createElement("a");
+    a.href = "https://en.wikiquote.org/wiki/" + encodeURIComponent(q.page.replaceAll(" ","_"));
+    a.target = "_blank"; a.rel = "noopener"; a.textContent = "fonte: en.wikiquote.org";
+    $("src").replaceChildren(a);
+  }else{
+    const [author,text] = pick(FALLBACK);
+    type(text);
+    $("author").textContent = "— " + author;
+    $("src").textContent = "modo offline · sem conexão com a Wikiquote";
+  }
+  btn.disabled = false;
+}
+
+$("next").addEventListener("click", load);
+load();
+</script>
+</body>
+</html>
